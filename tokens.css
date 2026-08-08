@@ -1,0 +1,38 @@
+:root {
+  --color-void: oklch(13% 0.015 55);
+  --color-paper: oklch(17% 0.018 55);
+  --color-surface: oklch(21% 0.022 55);
+  --color-surface-raised: oklch(26% 0.026 55);
+  --color-ink: oklch(91% 0.018 82);
+  --color-muted: oklch(70% 0.022 72);
+  --color-faint: oklch(51% 0.02 62);
+  --color-accent: oklch(78% 0.145 78);
+  --color-accent-ink: oklch(21% 0.04 65);
+  --color-danger: oklch(67% 0.16 30);
+  --color-bloom-1: oklch(44% 0.11 63 / 0.26);
+  --color-bloom-2: oklch(31% 0.08 30 / 0.2);
+  --font-display: var(--font-geist-sans), "Microsoft YaHei", sans-serif;
+  --font-body: var(--font-geist-sans), "Microsoft YaHei", sans-serif;
+  --font-mono: var(--font-geist-mono), "SFMono-Regular", Consolas, monospace;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --text-xs: 0.72rem;
+  --text-sm: 0.84rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-display: clamp(2.75rem, 11vw, 4.3rem);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.85rem;
+  --radius-lg: 1.2rem;
+  --rule: 1px solid var(--color-faint);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur-normal: 240ms;
+}

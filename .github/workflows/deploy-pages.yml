@@ -33,6 +33,7 @@ jobs:
       - run: pnpm build
         env:
           GITHUB_ACTIONS: "true"
+          CUSTOM_DOMAIN: adv.xcymm3.top
       - uses: actions/configure-pages@v5
         with:
           enablement: true

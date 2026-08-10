@@ -1,10 +1,10 @@
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "qiao" | "shen";
-export type GuAction = "blood" | "armor" | "mind" | "bloodflow";
+export type GuAction = "blood" | "armor" | "mind" | "heal" | "sword" | "bloodflow" | "rest";
 export type Intent = "撕咬" | "毒雾" | "蓄势";
 
-export type Role = { id: RoleId; name: string; title: string; description: string; maxHealth: number; attack: number; insight: number; reputation: number; signatureGu: string };
-export type Effect = { health?: number; essence?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
+export type Role = { id: RoleId; name: string; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
+export type Effect = { health?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
 export type Choice = { id: string; label: string; next: string; note?: string; needs?: { insight?: number; reputation?: number; clue?: string; flag?: string }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
 export type Scene = { id: string; chapter: string; title: string; paragraphs: string[]; choices?: Choice[]; battle?: BattleConfig };
@@ -13,9 +13,9 @@ export type GameState = { roleId: RoleId | null; sceneId: string; health: number
 export type Ending = { id: string; name: string; epitaph: string; text: string };
 
 export const roles: Role[] = [
-  { id: "healer", name: "宁素衣", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, attack: 2, insight: 3, reputation: 1, signatureGu: "回春蛊" },
-  { id: "swordsman", name: "陆照野", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, attack: 4, insight: 1, reputation: 1, signatureGu: "血刃蛊" },
-  { id: "heir", name: "顾微尘", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 11, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
+  { id: "healer", name: "宁素衣", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 10, attack: 2, insight: 3, reputation: 1, signatureGu: "回春蛊" },
+  { id: "swordsman", name: "陆照野", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
+  { id: "heir", name: "顾微尘", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 11, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
 ];
 
 export const scenes: Record<string, Scene> = {
@@ -46,7 +46,7 @@ export const scenes: Record<string, Scene> = {
     id: "well", chapter: "肆 · 引魂蛊井", title: "井里有人说话",
     paragraphs: ["墓道尽头的枯井传来孩童哭声：‘师姐，别丢下我。’沈青萝的师弟沈砚，正是在这座墓里失踪。", "井口结着一层薄霜，哭声每响一次，霜面便裂开一道细缝。沈青萝握剑的手指泛白，却始终没有立刻跳下去。", "贾贵悄悄后退半步，说自己只会保命；赵黎则笑称井底若有宝物，老夫愿先替诸位试毒。"],
     choices: [
-      { id: "save", label: "以真元护住沈青萝，下井查看", next: "shell", effect: { essence: -1, time: 1, trust: { shen: 1 } } },
+      { id: "save", label: "以真元护住沈青萝，下井查看", next: "shell", effect: { time: 1, trust: { shen: 1 } } },
       { id: "break", label: "指出这是引魂蛊，强行离开", next: "bloodTrap", effect: { clue: "引魂蛊" } },
       { id: "zhao-test", label: "顺势请赵黎先探井口", next: "bloodTrap", effect: { trust: { qiao: -1 }, time: 1, flag: "试探赵黎" } },
     ],
@@ -88,7 +88,7 @@ export const scenes: Record<string, Scene> = {
     paragraphs: ["乔无咎立在出口祭台上，操纵残余机关逼迫众人踏入血印。他承认乔家许诺的好处只是饵料，血流蛊复活后，死者都会成为祭阵的一部分。", "祭台上的血线一路延伸到每个人脚下。乔无咎衣袍上没有半点尘土，仿佛他从一开始便不是来探墓，而是来赴一场早已排演好的仪式。", "贾贵仍守在沈青萝身前；赵黎若得手早已不见踪影。你必须决定，是破阵离开，还是用更危险的方式结束这一切。"],
     choices: [
       { id: "leave", label: "踏破残阵，带人离开蛊墓", next: "ending" },
-      { id: "break", label: "以自身真元强断血祭", next: "ending", effect: { essence: -2, health: -2, flag: "强断血祭" } },
+      { id: "break", label: "以自身真元强断血祭", next: "ending", effect: { health: -2, flag: "强断血祭" } },
       { id: "bloodflow", label: "催动血流蛊，杀穿乔家血卫", note: "需要血流蛊", needs: { flag: "血流蛊已得" }, next: "bloodRage" },
     ],
   },
@@ -101,6 +101,11 @@ export const scenes: Record<string, Scene> = {
     id: "bloodExit", chapter: "拾 · 荒原尽头", title: "活着带走五转蛊",
     paragraphs: ["血卫在血河中碎裂，乔无咎的祭台也随之坍塌。你带着血流蛊踏过出口，身后再没有人能拦住你。", "荒原的冷风扑在脸上，你才发现自己的掌心仍残留着别人的温度。墓门在身后一点点沉回冻土，像从未开启过。", "它在心口轻轻蠕动，像在提醒你：五转之力从不是免费的。"],
     choices: [{ id: "leave-blood", label: "踏出蛊墓，任由血流蛊随心跳苏醒", next: "ending" }],
+  },
+  corpseAftermath: {
+    id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "剑鸣一闪",
+    paragraphs: ["剑鸣之声在狭窄墓道里来回震荡，尸灯傀儡的胸甲刚抬起半寸，便自正中裂作两片。惨白灯火骤然熄灭，甲片与断刃散落满地，连那股沉在墓砖间的尸臭都像被剑声一并斩断。\n\n贾贵张着嘴，半晌才把金壳蛊收回袖中；沈青萝的藤蛊停在半空，眸光落在你身上，似乎重新估量起这位同行之人。赵黎捻着并不存在的胡须，笑意却淡了几分。墓道恢复死寂后，众人才继续向更深处走去。"],
+    choices: [{ id: "continue-after-sword", label: "收蛊前行", next: "well" }],
   },
 };
 
@@ -174,7 +179,7 @@ export const endings: Record<string, Ending> = {
   alone: { id: "alone", name: "独活荒原", epitaph: "活下来的人，也要背着秘密。", text: "你踏过最后一道血线，身后是再无声息的蛊墓。乔家的阴谋未能吞掉你，但荒原很大，追问真相的人也不会少。" },
 };
 
-export function initialGame(): GameState { return { roleId: null, sceneId: "entrance", health: 0, maxHealth: 0, essence: 3, time: 0, clues: [], flags: [], trust: { qiao: 0, shen: 0 }, battle: null, endingId: null }; }
+export function initialGame(): GameState { return { roleId: null, sceneId: "entrance", health: 0, maxHealth: 0, essence: 0, time: 0, clues: [], flags: [], trust: { qiao: 0, shen: 0 }, battle: null, endingId: null }; }
 export function getRole(id: RoleId | null) { return roles.find((role) => role.id === id) ?? null; }
 export function chooseRole(id: RoleId): GameState { const role = getRole(id); return role ? { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth } : initialGame(); }
 export function canChoose(state: GameState, choice: Choice) {
@@ -185,33 +190,47 @@ export function canChoose(state: GameState, choice: Choice) {
 function addUnique(items: string[], item?: string) { return item && !items.includes(item) ? [...items, item] : items; }
 export function applyChoice(state: GameState, choice: Choice): GameState {
   const effect = choice.effect;
-  return { ...state, sceneId: choice.next, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), essence: Math.max(0, state.essence + (effect?.essence ?? 0)), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags: addUnique(state.flags, effect?.flag), trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0) } };
+  return { ...state, sceneId: choice.next, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags: addUnique(state.flags, effect?.flag), trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0) } };
 }
 
 const intents: Intent[] = ["撕咬", "毒雾", "蓄势"];
 export function startBattle(state: GameState, scene: Scene): GameState {
-  if (!scene.battle) return state;
-  return { ...state, battle: { ...scene.battle, enemyMaxHealth: scene.battle.enemyHealth, turn: 0, intent: intents[0] } };
+  const role = getRole(state.roleId);
+  if (!scene.battle || !role) return state;
+  return { ...state, essence: role.maxEssence, battle: { ...scene.battle, enemyMaxHealth: scene.battle.enemyHealth, turn: 0, intent: intents[0] } };
 }
-function finishBattle(state: GameState, battle: Battle, won: boolean, health: number) {
+function finishBattle(state: GameState, battle: Battle, won: boolean, health: number, nextScene = won ? battle.victoryNext : battle.defeatNext) {
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
-  return { ...state, sceneId: won ? battle.victoryNext : battle.defeatNext, battle: null, health: won ? Math.max(1, health) : 1, time: won ? state.time : state.time + 1, flags: addUnique(state.flags, flag) };
+  return { ...state, sceneId: nextScene, battle: null, health: won ? Math.max(1, health) : 1, time: won ? state.time : state.time + 1, flags: addUnique(state.flags, flag) };
 }
+const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 0, rest: 0 };
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
   const role = getRole(state.roleId); const battle = state.battle;
   if (!role || !battle) return state;
+  const wrongSignature = (action === "heal" && role.id !== "healer") || (action === "sword" && role.id !== "swordsman") || (action === "mind" && role.id !== "heir") || (action === "bloodflow" && !state.flags.includes("血流蛊已得"));
+  if (wrongSignature) return state;
+  if ((state.essence === 0 && action !== "rest") || (state.essence > 0 && action === "rest") || state.essence < actionCosts[action]) return state;
   let damage = role.attack; let received = battle.intent === "撕咬" ? 3 : battle.intent === "毒雾" ? 2 : 5;
+  let healthBeforeHit = state.health;
   if (action === "blood" && battle.intent === "蓄势") damage += 2;
   if (action === "armor") { damage = 1; received = Math.max(0, received - 3); }
-  if (action === "mind") { damage = battle.intent === "蓄势" ? 1 : 2; received = battle.intent === "蓄势" ? 0 : Math.max(0, received - 1); }
+  if (action === "mind") { damage = role.attack; received = 0; }
+  if (action === "heal") { damage = 0; healthBeforeHit = Math.min(state.maxHealth, state.health + 6); }
+  if (action === "sword") { damage = 10; healthBeforeHit = state.health - 1; }
   if (action === "bloodflow" && state.flags.includes("血流蛊已得")) { damage = 16; received = 0; }
   const actualDamage = Math.min(damage, battle.enemyHealth); const enemyHealth = battle.enemyHealth - actualDamage;
-  const healthAfterHit = state.health - received;
+  const essence = action === "rest" ? Math.min(role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
+  const nextState = { ...state, essence };
+  if (enemyHealth <= 0) {
+    const healthOnKill = action === "bloodflow" ? Math.min(state.maxHealth, Math.max(1, healthBeforeHit) + actualDamage) : healthBeforeHit;
+    const swordOneShot = action === "sword" && battle.enemyName === "尸灯傀儡" && battle.turn === 0;
+    return finishBattle(nextState, battle, true, healthOnKill, swordOneShot ? "corpseAftermath" : battle.victoryNext);
+  }
+  const healthAfterHit = healthBeforeHit - received;
   const health = action === "bloodflow" ? Math.min(state.maxHealth, Math.max(1, healthAfterHit) + actualDamage) : healthAfterHit;
-  if (enemyHealth <= 0) return finishBattle(state, battle, true, health);
-  if (health <= 0) return finishBattle(state, battle, false, health);
+  if (health <= 0) return finishBattle(nextState, battle, false, health);
   const turn = battle.turn + 1;
-  return { ...state, health, battle: { ...battle, enemyHealth, turn, intent: intents[turn % intents.length] } };
+  return { ...nextState, health, battle: { ...battle, enemyHealth, turn, intent: intents[turn % intents.length] } };
 }
 export function resolveEnding(state: GameState) {
   if (state.flags.includes("赵黎夺走血流蛊")) return "death";

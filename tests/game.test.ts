@@ -55,3 +55,35 @@ test("血流蛊在夺蛊成功后能造成高伤并恢复生命", () => {
   assert.equal(result.health, 10);
   assert.equal(result.flags.includes("血卫尽灭"), true);
 });
+
+test("每场蛊斗均以角色的满真元开始", () => {
+  const swordsman = { ...chooseRole("swordsman"), essence: 1 };
+  const battle = startBattle(swordsman, scenes.corpseFight);
+  assert.equal(battle.essence, 15);
+  assert.equal(startBattle(chooseRole("healer"), scenes.corpseFight).essence, 10);
+});
+
+test("真元耗尽后只能调息并恢复三点", () => {
+  const state = { ...chooseRole("healer"), essence: 0 };
+  const battle = startBattle(state, scenes.corpseFight);
+  const exhausted = { ...battle, essence: 0 };
+  assert.equal(resolveBattleTurn(exhausted, "blood"), exhausted);
+  const rested = resolveBattleTurn(exhausted, "rest");
+  assert.equal(rested.essence, 3);
+  assert.equal(rested.health, 7);
+});
+
+test("剑鸣蛊首回合斩杀尸灯傀儡时不会承受反击", () => {
+  const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
+  const result = resolveBattleTurn(battle, "sword");
+  assert.equal(result.sceneId, "corpseAftermath");
+  assert.equal(result.health, 12);
+  assert.equal(result.essence, 12);
+});
+
+test("回春蛊先恢复生命，再承受本回合攻击", () => {
+  const battle = startBattle({ ...chooseRole("healer"), health: 2 }, scenes.corpseFight);
+  const result = resolveBattleTurn(battle, "heal");
+  assert.equal(result.health, 5);
+  assert.equal(result.essence, 7);
+});

@@ -24,9 +24,8 @@ import { chooseInk, createInkStory, readInkKnot, readInkPage, type InkPage } fro
 import type { Story } from "inkjs";
 
 const baseGuActions: { id: GuAction; name: string; description: string }[] = [
-  { id: "blood", name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。" },
-  { id: "armor", name: "甲衣蛊", description: "蛊甲覆身，硬受来势。" },
-  { id: "mind", name: "惑心蛊", description: "扰乱神魂，使其心意不宁。" },
+  { id: "blood", name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。消耗 1 真元。" },
+  { id: "armor", name: "甲衣蛊", description: "蛊甲覆身，硬受来势。消耗 2 真元。" },
 ];
 const inkSceneIds = new Set(["entrance", "bloodDoor", "corpseFight", "well", "shell", "bloodTrap", "bloodHall", "zhaoDuel", "zhaoDeath", "lastGate", "bloodRage", "bloodExit"]);
 const names = new Set(["宁素衣", "陆照野", "顾微尘", "乔无咎", "沈青萝", "赵黎", "贾贵", "沈砚"]);
@@ -162,7 +161,6 @@ export function GuTombGame() {
         <header className="status-bar">
           <div><span>修士</span><strong>{role.name}</strong></div>
           <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
-          <div><span>元</span><strong>{game.essence}</strong></div>
         </header>
         <section className="scene" aria-live="polite">
           <p className="eyebrow">{scene.chapter}</p>
@@ -189,26 +187,41 @@ function RoleSelect({ onSelect }: { onSelect: (id: RoleId) => void }) {
     <p className="opening-copy">五名修士入墓寻宝。墓门合拢后，你只能带着一条魂路离开。</p>
     <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
       <span className="role-title">{candidate.title}</span><strong>{candidate.name}</strong><span>{candidate.description}</span>
-      <small>生命 {candidate.maxHealth} · 攻击 {candidate.attack} · 神识 {candidate.insight} · 声望 {candidate.reputation}</small><em>本命蛊：{candidate.signatureGu}</em>
+      <small>生命 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻击 {candidate.attack} · 神识 {candidate.insight} · 声望 {candidate.reputation}</small><em>本命蛊：{candidate.signatureGu}</em>
     </button>)}</div>
   </section></main>;
 }
 
 function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: GuAction) => void }) {
   const battle = game.battle;
-  if (!battle) return null;
-  const guActions = game.flags.includes("血流蛊已得")
-    ? [...baseGuActions, { id: "bloodflow" as const, name: "五转 · 血流蛊", description: "造成 16 点伤害，并恢复等量生命。" }]
-    : baseGuActions;
+  const role = getRole(game.roleId);
+  const [showHelp, setShowHelp] = useState(false);
+  if (!battle || !role) return null;
+  const signatureAction = role.id === "healer"
+    ? { id: "heal" as const, name: "回春蛊", description: "恢复 6 点生命。消耗 3 真元。" }
+    : role.id === "swordsman"
+      ? { id: "sword" as const, name: "剑鸣蛊", description: "造成 10 点伤害，自身受 1 点伤害。消耗 3 真元。" }
+      : { id: "mind" as const, name: "惑心蛊", description: "打断本回合攻势，并造成等同攻击属性的伤害。消耗 3 真元。" };
+  const guActions = game.essence === 0
+    ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
+    : [...baseGuActions, signatureAction, ...(game.flags.includes("血流蛊已得") ? [{ id: "bloodflow" as const, name: "五转 · 血流蛊", description: "造成 16 点伤害，并恢复等量生命。" }] : [])];
+  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 0, rest: 0 };
   const enemyCue = battle.intent === "撕咬"
     ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`
     : battle.intent === "毒雾"
       ? `一缕潮湿腥气自${battle.enemyName}周身漫开，连尸油灯的火光也跟着摇晃。`
       : `${battle.enemyName}忽然收住脚步，胸腹间传出沉闷的鼓动，四周像骤然安静下来。`;
   return <section className="battle-panel" aria-label="蛊斗">
-    <div className="enemy-row"><span>{battle.enemyName}</span><strong>{battle.enemyHealth}/{battle.enemyMaxHealth}</strong></div>
+    <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>{battle.enemyHealth}/{battle.enemyMaxHealth}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
+    <p className="essence-stat">真元 <strong>{game.essence}/{role.maxEssence}</strong></p>
     <p className="intent-copy">{enemyCue}</p>
-    <div className="gu-list">{guActions.map((action) => <button key={action.id} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>
+    <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>
+    {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
+      <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
+      <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
+      <p>血刃蛊消耗 1 真元，甲衣蛊消耗 2 真元；第三只蛊随修士而变，消耗 3 真元。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
+      <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
+    </section></div> : null}
   </section>;
 }
 

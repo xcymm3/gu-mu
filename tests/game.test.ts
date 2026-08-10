@@ -137,13 +137,37 @@ test("贾贵黑刀与赵黎犹疑会削弱血流邪修", () => {
   assert.equal(battle.battle?.enemyHealth, 16);
 });
 
-test("放逐赵黎会改写为乔无咎本体战与破蛊结局", () => {
-  const exile = scenes.shadowCave.choices?.find((choice) => choice.id === "exile-zhao");
+test("陆照野与赵黎交恶时会在血牌阵中放逐赵黎", () => {
+  const exile = scenes.bloodCardChange.choices?.find((choice) => choice.id === "array-sword");
   assert.ok(exile);
-  const exiled = applyChoice({ ...chooseRole("healer"), clues: ["赵黎藏实力"] }, exile);
+  const exiled = applyChoice(chooseRole("swordsman"), exile);
+  assert.equal(exiled.flags.includes("赵黎已放逐"), true);
   const battle = startBattle(exiled, scenes.lastGate);
   assert.equal(battle.battle?.enemyName, "四转蛊修 · 乔无咎");
   const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 1 } }, "blood");
   assert.equal(result.sceneId, "qiaoCleanExit");
   assert.equal(resolveEnding(result), "cleansed");
+});
+
+test("宁素衣能识破血牌陷阱，顾微尘可走叛徒路线", () => {
+  const insight = scenes.bloodCardChange.choices?.find((choice) => choice.id === "array-insight");
+  const traitor = scenes.bloodCardChange.choices?.find((choice) => choice.id === "traitor-accept");
+  assert.ok(insight && traitor);
+  assert.equal(canChoose(chooseRole("healer"), insight), true);
+  assert.equal(canChoose(chooseRole("swordsman"), insight), false);
+  const betrayal = applyChoice(chooseRole("heir"), traitor);
+  assert.equal(betrayal.sceneId, "traitorEnd");
+  const end = applyChoice(betrayal, scenes.traitorEnd.choices![0]);
+  assert.equal(resolveEnding(end), "traitor");
+});
+
+test("未知之地救赵黎后可合战武意海，所有队友关系高则进入真结局", () => {
+  const saveZhao = scenes.rescueChoice.choices?.find((choice) => choice.id === "save-zhao");
+  assert.ok(saveZhao);
+  const joined = applyChoice(chooseRole("healer"), saveZhao);
+  assert.equal(joined.flags.includes("赵黎援阵"), true);
+  const team = applyChoice({ ...chooseRole("healer"), trust: { qiao: 0, shen: 2, zhao: 2, jia: 2 } }, scenes.teamGather.choices![0]);
+  assert.equal(team.sceneId, "trueEnding");
+  const trueEnd = applyChoice(team, scenes.trueEnding.choices![0]);
+  assert.equal(resolveEnding(trueEnd), "true");
 });

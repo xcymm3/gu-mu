@@ -5,7 +5,7 @@ export type Intent = "撕咬" | "毒雾" | "蓄势";
 
 export type Role = { id: RoleId; name: string; gender: "female" | "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
 export type Effect = { health?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
-export type Choice = { id: string; label: string; next: string; note?: string; needs?: { insight?: number; reputation?: number; clue?: string; flag?: string }; effect?: Effect };
+export type Choice = { id: string; label: string; next: string; note?: string; needs?: { insight?: number; reputation?: number; role?: RoleId; clue?: string; flag?: string }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
 export type Scene = { id: string; chapter: string; title: string; paragraphs: string[]; choices?: Choice[]; battle?: BattleConfig };
 export type Battle = BattleConfig & { enemyMaxHealth: number; turn: number; intent: Intent };
@@ -62,7 +62,7 @@ export const scenes: Record<string, Scene> = {
   bloodTrap: {
     id: "bloodTrap", chapter: "伍 · 血针机关", title: "乔无咎消失了",
     paragraphs: ["你们刚离开枯井，乔无咎便不见了。墓壁翻转，万千血针从缝隙里射出，显然有人熟悉这里的机关。", "第一轮针雨落下时，乔无咎留在地上的半截灯芯仍在燃烧。灯芯没有被风吹灭，反而向着机关深处弯折，像在替主人指路。", "贾贵撑开金壳蛊为众人挡下第一轮，沈青萝的藤蛊截断针雨，赵黎仍藏着手。余下的血针机关只能由你们击破。"],
-    battle: { enemyName: "乔家血针机关", enemyHealth: 13, victoryNext: "needleRest", defeatNext: "needleRest", victoryFlag: "血针机关已毁", defeatFlag: "重伤" },
+    battle: { enemyName: "乔家血针机关", enemyHealth: 13, victoryNext: "needleRest", defeatNext: "needleRest", victoryFlag: "血针机关已毁", defeatFlag: "血针重伤" },
   },
   bloodHall: {
     id: "bloodHall", chapter: "陆 · 五转遗蛊", title: "血流蛊",
@@ -146,11 +146,21 @@ export const scenes: Record<string, Scene> = {
     ],
   },
   needleRest: {
-    id: "needleRest", chapter: "伍 · 血针余烬", title: "针雨之后", paragraphs: ["血针机关终于沉寂，墓道里只余断藤与碎壳。贾贵的金壳蛊裂开一道长缝，他却先摸出一盒止血膏，慢吞吞地说这是自己压箱底的保命物。沈青萝衣袖被针风割破，仍在用藤丝替众人挑出嵌入皮肉的残针。\n\n短暂歇息后便要踏入血色石室。此时肯伸手的人未必可信，但若拒绝一切，也许撑不到下一个转角。"],
+    id: "needleRest", chapter: "伍 · 血针余烬", title: "针雨之后", paragraphs: [""],
     choices: [
-      { id: "take-jia-salve", label: "接下贾贵递来的止血膏", next: "bloodHall", effect: { health: 3, trust: { jia: 1 } } },
-      { id: "shen-tend", label: "让沈青萝替你清理伤口", next: "bloodHall", effect: { health: 2, trust: { shen: 1 } } },
-      { id: "guard-others", label: "留在原地警戒，不再耗费药物", next: "bloodHall", effect: { trust: { zhao: 1 } } },
+      { id: "take-jia-salve", label: "接下贾贵递来的止血膏", next: "bloodCardChange", effect: { health: 3, trust: { jia: 1 } } },
+      { id: "shen-tend", label: "让沈青萝替你清理伤口", next: "bloodCardChange", effect: { health: 2, trust: { shen: 1 } } },
+      { id: "guard-others", label: "留在原地警戒，不再耗费药物", next: "bloodCardChange", effect: { trust: { zhao: 1 } } },
+    ],
+  },
+  bloodCardChange: {
+    id: "bloodCardChange", chapter: "陆 · 血牌之变", title: "失效传送阵", paragraphs: [""],
+    choices: [
+      { id: "array-insight", label: "随沈青萝辨认阵眼，先除陷阱", note: "宁素衣专属", needs: { role: "healer" }, next: "bloodHall", effect: { trust: { shen: 1 }, flag: "血牌无恙" } },
+      { id: "array-sword", label: "以剑意镇住阵心，助她修复传送阵", note: "陆照野专属", needs: { role: "swordsman" }, next: "bloodHall", effect: { trust: { shen: 1 } } },
+      { id: "traitor-accept", label: "答应乔无咎的私下条件", note: "顾微尘专属", needs: { role: "heir" }, next: "traitorEnd", effect: { trust: { qiao: 2 }, flag: "乔家叛徒" } },
+      { id: "traitor-refuse", label: "拒绝乔无咎的传音，继续修阵", note: "顾微尘专属", needs: { role: "heir" }, next: "unknownRoom" },
+      { id: "array-force", label: "不顾阵纹，强行灌注真元", next: "unknownRoom" },
     ],
   },
   shadowCave: {
@@ -158,8 +168,51 @@ export const scenes: Record<string, Scene> = {
     choices: [
       { id: "check-scripts", label: "陪沈青萝核对阵筹", next: "lastGate", effect: { trust: { shen: 1 } } },
       { id: "watch-jia", label: "与贾贵分守洞口", next: "lastGate", effect: { trust: { jia: 1 } } },
-      { id: "exile-zhao", label: "以界裂阵筹反制赵黎", note: "需看破赵黎藏实力", needs: { clue: "赵黎藏实力" }, next: "lastGate", effect: { flag: "赵黎已放逐", trust: { zhao: -2 } } },
+      { id: "let-zhao-lead", label: "请赵黎先行探明侧洞", next: "lastGate", effect: { trust: { zhao: 1 } } },
     ],
+  },
+  traitorEnd: {
+    id: "traitorEnd", chapter: "陆 · 乔家密约", title: "伪造的事故", paragraphs: ["乔无咎将你单独带入血流蛊室，许诺只要你替乔家以世家声望圆下这场“墓中事故”，便能保你日后无忧。血祭发动时，他终于不再掩饰，仰头狂笑，仿佛五转血流蛊已在掌中。\n\n赵黎却在此时自阴影中出手。血刃穿透乔无咎的后心，血瓶倾入玉匣，血流蛊先一步认了邪修的血气。赵黎带着五转蛊回头看你，眼神中只剩戏谑；这场蛊斗从一开始便没有胜算。"],
+    choices: [{ id: "traitor-die", label: "看着赵黎的血河吞没一切", next: "ending", effect: { flag: "叛徒末路" } }],
+  },
+  unknownRoom: {
+    id: "unknownRoom", chapter: "陆 · 不见天日", title: "武意海", paragraphs: ["传送阵没有把你送往血色石室，而是吐进一间封死的暗室。四壁由金刚砂砌成，蛊刃划上去只留下一点白痕；中央坐着一具干枯尸体，衣袍腐朽，眉心却仍压着一道未散的五转蛊印。\n\n绝望将至时，一缕微弱灵识在你脑海中响起。那尸体竟是血流蛊真正的主人武意海。他说自己这些年一直在墓中恢复，乔无咎却把他当成无用枯骨。他远未恢复到能对抗乔无咎的程度，便提出条件：交出血刃蛊，随他走密道，以墓中同伴的血气助他复原。\n\n武意海抬手按向金刚砂墙。没有半点巨响，墙壁却无声裂开一道门，门后正是通往主墓室的阴暗长廊。"],
+    choices: [
+      { id: "wu-alliance", label: "交出血刃蛊，与武意海签下同盟契约", next: "wuAlliance", effect: { flag: "武意海盟约" } },
+      { id: "wu-spare-shen", label: "答应帮他，却请求对沈青萝手下留情", next: "wuBetrayal", effect: { trust: { shen: 1 } } },
+      { id: "wu-deceive", label: "假意顺从，暗中准备救回众人", next: "rescueChoice", effect: { flag: "欺瞒武意海" } },
+    ],
+  },
+  wuAlliance: {
+    id: "wuAlliance", chapter: "柒 · 旧主复苏", title: "同盟如纸", paragraphs: ["武意海以你的血刃蛊补全残缺蛊印，气息迅速攀升。他引你看见密道另一端的厮杀：赵黎、乔无咎与余下修士都成了他恢复修为的血食。待乔无咎倒下、血流蛊重归旧主掌中，武意海便转身向你伸手，要你履行契约。\n\n此刻你才明白，所谓同盟只是一根套在脖颈上的血线。只有足够强横的剑意与刚夺来的五转蛊，才可能撕开这条线。"],
+    choices: [
+      { id: "wu-steal", label: "趁其与乔无咎交手，夺下血流蛊反击", note: "陆照野专属", needs: { role: "swordsman" }, next: "wuDuel", effect: { flag: "血流蛊已得" } },
+      { id: "wu-submit", label: "接受契约，任由他收回血线", next: "wuBetrayal" },
+    ],
+  },
+  wuBetrayal: {
+    id: "wuBetrayal", chapter: "柒 · 旧主反噬", title: "血食", paragraphs: ["武意海的笑声在主墓室里回荡。他从未打算与任何人平分自由；血气一旦足够，盟约与请求都只剩一张无用的纸。赵黎、乔无咎与墓中幸存者的声音先后沉入血河，最后连你眼前的灯火也被染成暗红。\n\n五转蛊修恢复实力的一刻，没有人能从这座墓里走出去。"],
+    choices: [{ id: "wu-die", label: "在血河中失去意识", next: "ending", effect: { flag: "武意海屠尽众人" } }],
+  },
+  rescueChoice: {
+    id: "rescueChoice", chapter: "柒 · 密道囚室", title: "先救谁", paragraphs: ["武意海沿密道吸收血气时，你借尸灯熄灭的间隙找到了三间囚室。沈青萝被藤影与血线困住，贾贵缩在破裂金壳后，赵黎则被数十根血钉锁在石台上。你只有一次先手的机会。\n\n其余两人都不足以正面对抗恢复中的五转蛊修；若不能先放出赵黎，密道尽头等着众人的仍会是一条死路。"],
+    choices: [
+      { id: "save-zhao", label: "先拔去赵黎身上的血钉", next: "wuTeamDuel", effect: { trust: { zhao: 1 }, flag: "赵黎援阵" } },
+      { id: "save-shen", label: "先救沈青萝", next: "wuBetrayal", effect: { trust: { shen: 1 } } },
+      { id: "save-jia", label: "先救贾贵", next: "wuBetrayal", effect: { trust: { jia: 1 } } },
+    ],
+  },
+  wuTeamDuel: {
+    id: "wuTeamDuel", chapter: "捌 · 五转残魂", title: "与赵黎合战", paragraphs: ["赵黎拔出最后一根血钉时，袖中寿蛊终于破茧。他没有说谢，只将一道阴冷血线缠到你腕上，示意自己会替你撕开武意海的护体蛊印。\n\n武意海自密道尽头回首，五转余威令整座墓室震颤。此战若败，所有被救下的人都会重新成为他的血食。"],
+    battle: { enemyName: "五转残魂 · 武意海", enemyHealth: 34, victoryNext: "teamGather", defeatNext: "wuBetrayal", victoryFlag: "武意海已灭", defeatFlag: "武意海屠尽众人" },
+  },
+  teamGather: {
+    id: "teamGather", chapter: "玖 · 重逢之前", title: "各怀心思", paragraphs: [""],
+    choices: [{ id: "gather-team", label: "收起武意海留下的钥匙，继续寻找众人", next: "zhaoDuel" }],
+  },
+  trueEnding: {
+    id: "trueEnding", chapter: "拾贰 · 控制室", title: "全员生还", paragraphs: ["武意海死后，你从他衣内取出两把钥匙。一把打开囚室，另一把却通往墓穴最深处的控制室。你与沈青萝、赵黎、贾贵循着旧图抵达其中，乔无咎尚未来得及重启血祭，便被众人联手困入自己布下的机关。\n\n临死前，乔无咎毁去血流蛊与密室核心，整座蛊墓开始崩塌。众人带着伤与秘密冲出墓门，身后只余荒原风沙。没有人得到五转遗蛊，却没有人被留下；乔家的账，也终于有了活着追讨的人。"],
+    choices: [{ id: "true-leave", label: "与众人一同踏出崩塌的蛊墓", next: "ending", effect: { flag: "全员生还" } }],
   },
 };
 
@@ -229,6 +282,9 @@ export const endings: Record<string, Ending> = {
   trapped: { id: "trapped", name: "困墓之人", epitaph: "尸灯灭时，活人也成了墓的一部分。", text: "你们在机关与迟疑中耗尽时辰。血祭重新闭合，墓门外传来新的脚步声；乔家仍会继续寻找下一批四转蛊修。" },
   bloodflow: { id: "bloodflow", name: "夺蛊成魔", epitaph: "一蛊入心，血流如河。", text: "你夺得五转血流蛊，反杀乔家血卫，带着满身鲜血走出荒原。它替你补回每一滴流失的生命，也在你心里留下永不满足的饥渴。" },
   cleansed: { id: "cleansed", name: "破蛊出墓", epitaph: "血流既尽，荒原尚有天光。", text: "赵黎被界裂阵筹放逐，乔无咎亲自现身仍败在你手中。血流蛊失去血祭供养，终于化作灰烬；你带着尚存的人走出墓门，乔家的旧账留待人间清算。" },
+  traitor: { id: "traitor", name: "叛徒末路", epitaph: "圆谎的人，先成了谎言的一部分。", text: "乔无咎想借你的声望遮掩血祭，赵黎却比他更早取走血流蛊。你被留在两名恶徒之间，再没有资格决定自己的生死。" },
+  wu: { id: "wu", name: "血食", epitaph: "旧主醒来，墓中再无活人。", text: "武意海恢复五转修为后，盟约、请求与谋算都失去意义。所有人的血气成了他回归人间的第一份祭礼。" },
+  true: { id: "true", name: "全员生还", epitaph: "墓门之外，仍有天光。", text: "武意海伏诛，乔无咎死于自己布下的机关。血流蛊与密室同毁，众人带着伤与秘密走出荒原。" },
   together: { id: "together", name: "两人出墓", epitaph: "有些债，活着才能偿。", text: "你与沈青萝凭玉牌拆解引魂血印，贾贵替你们挡住最后一轮机关。石门崩塌前，沈青萝说：‘乔家的账，出去再算。’" },
   death: { id: "death", name: "命丧蛊墓", epitaph: "血流蛊醒来时，第一个被吞掉的是你。", text: "赵黎夺走血流蛊，以你的血气完成它的初醒。墓门在身后合拢，乔家的阴谋、邪修的笑声与未查明的真相，都留在了黑暗里。" },
   alone: { id: "alone", name: "独活荒原", epitaph: "活下来的人，也要背着秘密。", text: "你踏过最后一道血线，身后是再无声息的蛊墓。乔家的阴谋未能吞掉你，但荒原很大，追问真相的人也不会少。" },
@@ -240,12 +296,17 @@ export function chooseRole(id: RoleId): GameState { const role = getRole(id); re
 export function canChoose(state: GameState, choice: Choice) {
   const role = getRole(state.roleId);
   if (!role) return false;
-  return (!choice.needs?.insight || role.insight >= choice.needs.insight) && (!choice.needs?.reputation || role.reputation >= choice.needs.reputation) && (!choice.needs?.clue || state.clues.includes(choice.needs.clue)) && (!choice.needs?.flag || state.flags.includes(choice.needs.flag));
+  return (!choice.needs?.insight || role.insight >= choice.needs.insight) && (!choice.needs?.reputation || role.reputation >= choice.needs.reputation) && (!choice.needs?.role || role.id === choice.needs.role) && (!choice.needs?.clue || state.clues.includes(choice.needs.clue)) && (!choice.needs?.flag || state.flags.includes(choice.needs.flag));
 }
 function addUnique(items: string[], item?: string) { return item && !items.includes(item) ? [...items, item] : items; }
 export function applyChoice(state: GameState, choice: Choice): GameState {
   const effect = choice.effect;
-  return { ...state, sceneId: choice.next, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags: addUnique(state.flags, effect?.flag), trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
+  const role = getRole(state.roleId);
+  let flags = addUnique(state.flags, effect?.flag);
+  let nextScene = choice.next;
+  if (choice.id === "array-sword" && role?.id === "swordsman" && state.trust.zhao < 2) flags = addUnique(flags, "赵黎已放逐");
+  if (choice.id === "gather-team") nextScene = state.trust.shen >= 2 && state.trust.zhao >= 2 && state.trust.jia >= 2 ? "trueEnding" : "zhaoDuel";
+  return { ...state, sceneId: nextScene, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags, trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
 }
 
 const intents: Intent[] = ["撕咬", "毒雾", "蓄势"];
@@ -317,6 +378,7 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   if (action === "heal") { damage = 0; healthBeforeHit = Math.min(state.maxHealth, state.health + 6); }
   if (action === "sword") { damage = 10; healthBeforeHit = state.health - 1; }
   if (action === "bloodflow" && state.flags.includes("血流蛊已得")) { damage = 16; received = 0; }
+  if (battle.enemyName === "五转残魂 · 武意海" && state.flags.includes("赵黎援阵")) damage += 4;
   const actualDamage = Math.min(damage, battle.enemyHealth); const enemyHealth = battle.enemyHealth - actualDamage;
   const essence = action === "rest" ? Math.min(role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
   const nextState = { ...state, essence };
@@ -332,6 +394,9 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   return { ...nextState, health, battle: { ...battle, enemyHealth, turn, intent: intents[turn % intents.length] } };
 }
 export function resolveEnding(state: GameState) {
+  if (state.flags.includes("全员生还")) return "true";
+  if (state.flags.includes("叛徒末路")) return "traitor";
+  if (state.flags.includes("武意海屠尽众人")) return "wu";
   if (state.flags.includes("血流蛊化灰")) return "cleansed";
   if (state.flags.includes("乔无咎杀死你")) return "death";
   if (state.flags.includes("赵黎夺走血流蛊")) return "death";

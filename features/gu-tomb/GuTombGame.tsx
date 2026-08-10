@@ -102,6 +102,31 @@ function climaxText(sceneId: string, game: GameState) {
   return "";
 }
 
+function needleRestText(game: GameState) {
+  const qiaoText = game.flags.includes("血针重伤")
+    ? "乔无咎的声音自墓道上方缓缓传来：“诸位能活过来便好。乔某从未指望这点血针取谁性命，不过是让诸位在进主墓前多耗几分真元。如今看来，目的已经达到。”"
+    : "乔无咎的声音自墓道上方缓缓传来：“诸位竟无人重伤，倒比乔某预想得更能撑。乔某从未指望这点血针取谁性命，只是想看看诸位的底子。”话音落下时，石壁后传来一声极轻的冷哼，像他对这个结果并不满意。";
+  return `血针机关终于沉寂，墓道里只余断藤与碎壳。贾贵的金壳蛊裂开一道长缝，他却先摸出一盒止血膏；沈青萝衣袖被针风割破，仍在用藤丝替众人挑出嵌入皮肉的残针。\n\n${qiaoText}\n\n短暂歇息后便要再往前走。此时肯伸手的人未必可信，但若拒绝一切，也许撑不到下一个转角。`;
+}
+
+function bloodCardText(role: NonNullable<ReturnType<typeof getRole>>, game: GameState) {
+  const roleText = role.id === "healer"
+    ? "宁素衣的神识掠过阵纹，立刻察觉最亮的血牌下压着一道反向禁制；若贸然注入真元，传送终点绝不会是主墓室。"
+    : role.id === "swordsman"
+      ? game.trust.zhao < 2
+        ? "陆照野按剑立在阵边，赵黎却在背后轻笑，袖中血线已悄然绕向阵心。你们之间积下的裂痕，终于到了无法遮掩的时候。"
+        : "陆照野按剑立在阵边，赵黎看了你一眼，罕见地收起戏谑，只以血线替你稳住最躁动的一角阵纹。"
+      : "顾微尘刚俯身查看血牌，乔无咎的传音便在耳畔响起。他许诺只要你替乔家以世家声望圆下这场事故，便可单独送你入主墓；其余人是否能活，全看你一句话。";
+  return `针雨尽头是一条死路。墙上嵌着一座早已失效的传送阵，中央七面血牌暗淡无光。乔无咎忽然启动另一处机关，整座墓穴开始震颤，碎石自穹顶不断坠下。\n\n沈青萝扶住阵台，急声道：“此阵还能修，但需要有人替我稳住阵心！”${roleText}\n\n血牌逐一亮起，又逐一熄灭。留给你们的时间已经不多。`;
+}
+
+function teamGatherText(game: GameState) {
+  const allTrusted = game.trust.shen >= 2 && game.trust.zhao >= 2 && game.trust.jia >= 2;
+  return allTrusted
+    ? "武意海伏诛后，密道里的血雾渐渐散去。沈青萝、赵黎与贾贵都没有离开；你们从武意海身上取到两把钥匙，其中一把正对应墓穴控制室的锁孔。赵黎低声说乔无咎还在等血祭，贾贵却难得没有先提报酬。此刻众人仍愿意把后背交给彼此，或许还能在乔家最后一次落锁前结束一切。"
+    : "武意海伏诛后，赵黎望向血流蛊室的方向，神色重新变得幽深。他没有等你们救完剩下的人，便独自沿密道离去。待你带着幸存者赶到主墓室时，血瓶碎裂的声音已经响起——赵黎显然比任何人都更急着得到血流蛊。";
+}
+
 export function GuTombGame() {
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
@@ -177,13 +202,14 @@ export function GuTombGame() {
   const battle = game.battle;
   const isInkScene = inkSceneIds.has(scene.id) && inkPage !== null;
   const isDynamicClimaxScene = ["lastGate", "bloodRage", "zhaoDuel", "zhaoDeath", "qiaoDuel", "qiaoCleanExit"].includes(scene.id);
-  const sourceText = scene.id === "shenCare" ? shenCareText(role.gender) : isDynamicClimaxScene ? climaxText(scene.id, game) : isInkScene ? inkPage.text : scene.paragraphs[0];
+  const isDynamicNarrativeScene = isDynamicClimaxScene || ["needleRest", "bloodCardChange", "teamGather"].includes(scene.id);
+  const sourceText = scene.id === "shenCare" ? shenCareText(role.gender) : scene.id === "needleRest" ? needleRestText(game) : scene.id === "bloodCardChange" ? bloodCardText(role, game) : scene.id === "teamGather" ? teamGatherText(game) : isDynamicClimaxScene ? climaxText(scene.id, game) : isInkScene ? inkPage.text : scene.paragraphs[0];
   const fittedPages = splitForViewport(sourceText, readingBox);
   const pageCount = fittedPages.length;
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
   const pageIndex = Math.min(narrativePage, pageCount - 1);
   const isLastNarrativePage = pageIndex === pageCount - 1;
-  const narrativeParts: string[] = [fittedPages[pageIndex], !isInkScene && !isDynamicClimaxScene ? scenePageNotes[scene.id]?.[pageIndex] : undefined].filter((part): part is string => Boolean(part));
+  const narrativeParts: string[] = [fittedPages[pageIndex], !isInkScene && !isDynamicNarrativeScene ? scenePageNotes[scene.id]?.[pageIndex] : undefined].filter((part): part is string => Boolean(part));
   const displayChoices: Choice[] = isInkScene
     ? inkPage.choices.map((inkChoice) => inkChoice.id === "continue" ? { id: "continue", label: inkChoice.label, next: scene.id } : scene.choices?.find((choice) => choice.id === inkChoice.id)).filter((choice): choice is Choice => Boolean(choice))
     : scene.choices ?? [];
@@ -263,7 +289,7 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
 function EndingScreen({ game, seenEndings, onReplay, onChangeRole }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void }) {
   const ending = game.endingId ? endings[game.endingId] : null;
   if (!ending) return null;
-  const endingText = ending.id === "cleansed" ? ending.text : readInkKnot(`ending_${ending.id}`) || ending.text;
+  const endingText = ["cleansed", "traitor", "wu", "true"].includes(ending.id) ? ending.text : readInkKnot(`ending_${ending.id}`) || ending.text;
   return <main className="game-shell"><section className="game-frame ending-card" aria-labelledby="ending-title">
     <p className="eyebrow">结局已定</p><p className="ending-number">{String(seenEndings.length).padStart(2, "0")} / {String(Object.keys(endings).length).padStart(2, "0")}</p><h1 id="ending-title">{ending.name}</h1>
     <p className="epitaph">“{ending.epitaph}”</p><p className="ending-text">{endingText}</p>

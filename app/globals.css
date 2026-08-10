@@ -539,6 +539,31 @@ h1 {
   max-width: 31ch;
 }
 
+.menu-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.gu-tomb-mark {
+  flex: 0 0 auto;
+  width: var(--space-10);
+  height: var(--space-10);
+}
+
+.gu-tomb-mark__ring,
+.gu-tomb-mark__gate,
+.gu-tomb-mark__gu {
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.gu-tomb-mark__gate { stroke: var(--color-rule-strong); }
+
+.gu-tomb-mark__core { fill: var(--color-accent); }
+
 .menu-intro h1 {
   margin-top: var(--space-3);
   font-size: var(--text-display);

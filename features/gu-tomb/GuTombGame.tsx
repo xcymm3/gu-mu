@@ -278,12 +278,12 @@ export function GuTombGame() {
 
 function MainMenu({ onArchive, onSettings, onStart, unlockedCount }: { onArchive: () => void; onSettings: () => void; onStart: () => void; unlockedCount: number }) {
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
-    <header className="menu-intro"><p className="eyebrow">乔家荒原 · 五人入墓</p><h1 id="menu-title">蛊墓五修</h1><p>一座蛊墓，五名四转修士。你所见与所信，都会把人带向不同的墓门。</p></header>
-    <nav className="menu-index" aria-label="主界面菜单">
-      <button className="menu-action menu-action-primary" onClick={onStart}><span className="menu-action-number">壹</span><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
-      <button className="menu-action" onClick={onArchive}><span className="menu-action-number">贰</span><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
-      <button className="menu-action" onClick={onSettings}><span className="menu-action-number">叁</span><span><strong>游戏设置</strong><small>阅读与记录</small></span></button>
-    </nav>
+      <header className="menu-intro"><p className="eyebrow">乔家荒原 · 五人入墓</p><h1 id="menu-title">蛊墓五修</h1><p>一座蛊墓，五名四转修士。你所见与所信，都会把人带向不同的墓门。</p></header>
+      <nav className="menu-index" aria-label="主界面菜单">
+        <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
+        <button className="menu-action" onClick={onArchive}><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
+        <button className="menu-action" onClick={onSettings}><span><strong>游戏设置</strong><small>阅读与记录</small></span></button>
+      </nav>
     <p className="menu-note">每一次选择都会留下痕迹。</p>
   </section></main>;
 }

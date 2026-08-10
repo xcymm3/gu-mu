@@ -574,25 +574,10 @@ h1 {
   align-items: center;
   min-height: var(--menu-action-height);
   padding: var(--space-4);
-  gap: var(--space-4);
   text-align: left;
 }
 
-.menu-action-number {
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  width: var(--space-8);
-  height: var(--space-8);
-  border-radius: var(--radius-sm);
-  color: var(--color-accent);
-  background: var(--color-paper-strong);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 750;
-}
-
-.menu-action > span:last-child,
+.menu-action > span,
 .settings-row > span {
   display: grid;
   min-width: 0;
@@ -619,11 +604,6 @@ h1 {
   border-color: var(--color-accent);
   color: var(--color-accent-ink);
   background: var(--color-accent);
-}
-
-.menu-action-primary .menu-action-number {
-  color: var(--color-accent-ink);
-  background: var(--color-paper-soft);
 }
 
 .menu-action-primary small {
@@ -897,11 +877,6 @@ html[data-reduce-motion="true"] *::after {
   .menu-index {
     gap: var(--space-2);
     margin: var(--space-5) 0;
-  }
-
-  .menu-action-number {
-    width: var(--space-6);
-    height: var(--space-6);
   }
 
   .archive-tabs {

@@ -107,10 +107,10 @@ test("血池密室的选择保留蛊虫与隐藏关系后果", () => {
   assert.equal(applyChoice(chooseRole("healer"), ignore).trust.jia, 1);
 });
 
-test("乔无咎取得血甲蛊会强化最终血卫", () => {
+test("乔无咎取得血甲蛊会强化其本体战", () => {
   const state = { ...chooseRole("healer"), flags: ["乔无咎得血甲蛊"] };
-  const battle = startBattle(state, scenes.lastGate);
-  assert.equal(battle.battle?.enemyHealth, 38);
+  assert.equal(startBattle(state, scenes.lastGate).battle?.enemyHealth, 34);
+  assert.equal(startBattle(state, scenes.qiaoDuel).battle?.enemyHealth, 22);
 });
 
 test("沈青萝关系足够时会在血卫战并肩并提升生命", () => {

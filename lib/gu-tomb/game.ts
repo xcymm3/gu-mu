@@ -258,7 +258,7 @@ export function startBattle(state: GameState, scene: Scene): GameState {
   let battleConfig = scene.battle;
   if (scene.id === "lastGate") {
     if (state.flags.includes("赵黎已放逐")) {
-      battleConfig = { ...battleConfig, enemyName: "四转蛊修 · 乔无咎", enemyHealth: state.flags.includes("乔无咎得血甲蛊") ? 28 : 24 };
+      battleConfig = { ...battleConfig, enemyName: "四转蛊修 · 乔无咎", enemyHealth: 24 };
     } else {
       flags = addUnique(flags, "贾贵装死");
       if (state.trust.shen >= 2) {
@@ -272,7 +272,7 @@ export function startBattle(state: GameState, scene: Scene): GameState {
     const weakenedByAllies = (state.flags.includes("贾贵援手") ? 4 : 0) + (state.flags.includes("赵黎犹疑") ? 2 : 0);
     battleConfig = { ...battleConfig, enemyHealth: Math.max(12, battleConfig.enemyHealth - weakenedByAllies) };
   }
-  const enemyHealth = battleConfig.enemyHealth + (battleConfig.enemyName === "乔家血卫" && flags.includes("乔无咎得血甲蛊") ? 4 : 0);
+  const enemyHealth = battleConfig.enemyHealth + (battleConfig.enemyName === "四转蛊修 · 乔无咎" && flags.includes("乔无咎得血甲蛊") ? 4 : 0);
   return { ...state, flags, health, maxHealth, essence: role.maxEssence, battle: { ...battleConfig, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: intents[0] } };
 }
 function finishBattle(state: GameState, battle: Battle, won: boolean, health: number, nextScene = won ? battle.victoryNext : battle.defeatNext) {

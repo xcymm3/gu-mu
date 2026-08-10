@@ -1,9 +1,9 @@
 export type RoleId = "healer" | "swordsman" | "heir";
-export type AllyId = "qiao" | "shen";
+export type AllyId = "qiao" | "shen" | "zhao" | "jia";
 export type GuAction = "blood" | "armor" | "mind" | "heal" | "sword" | "bloodflow" | "rest";
 export type Intent = "撕咬" | "毒雾" | "蓄势";
 
-export type Role = { id: RoleId; name: string; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
+export type Role = { id: RoleId; name: string; gender: "female" | "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
 export type Effect = { health?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
 export type Choice = { id: string; label: string; next: string; note?: string; needs?: { insight?: number; reputation?: number; clue?: string; flag?: string }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
@@ -13,9 +13,9 @@ export type GameState = { roleId: RoleId | null; sceneId: string; health: number
 export type Ending = { id: string; name: string; epitaph: string; text: string };
 
 export const roles: Role[] = [
-  { id: "healer", name: "宁素衣", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 10, attack: 2, insight: 3, reputation: 1, signatureGu: "回春蛊" },
-  { id: "swordsman", name: "陆照野", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
-  { id: "heir", name: "顾微尘", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 11, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
+  { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 10, attack: 2, insight: 3, reputation: 1, signatureGu: "回春蛊" },
+  { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
+  { id: "heir", name: "顾微尘", gender: "male", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 11, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
 ];
 
 export const scenes: Record<string, Scene> = {
@@ -40,43 +40,43 @@ export const scenes: Record<string, Scene> = {
   corpseFight: {
     id: "corpseFight", chapter: "叁 · 尸灯傀儡", title: "四转合战",
     paragraphs: ["沈青萝的青藤蛊缠住尸傀双足，贾贵用金壳蛊顶在最前面，赵黎慢吞吞地说‘老夫只出三分力’。轮到你补上缺口。", "尸灯傀儡的甲片相互摩擦，火星从它胸腔的缝里溅出。它忽然伏低身子，像在积蓄某种比寻常扑杀更沉重的力量。", "这是第一次并肩蛊斗。墓道狭窄，谁先退半步，后面的人就会被尸灯火焰吞没。"],
-    battle: { enemyName: "尸灯傀儡", enemyHealth: 10, victoryNext: "well", defeatNext: "well", victoryFlag: "尸傀已灭", defeatFlag: "重伤" },
+    battle: { enemyName: "尸灯傀儡", enemyHealth: 10, victoryNext: "shenCare", defeatNext: "shenCare", victoryFlag: "尸傀已灭", defeatFlag: "重伤" },
   },
   well: {
     id: "well", chapter: "肆 · 引魂蛊井", title: "井里有人说话",
     paragraphs: ["墓道尽头的枯井传来孩童哭声：‘师姐，别丢下我。’沈青萝的师弟沈砚，正是在这座墓里失踪。", "井口结着一层薄霜，哭声每响一次，霜面便裂开一道细缝。沈青萝握剑的手指泛白，却始终没有立刻跳下去。", "贾贵悄悄后退半步，说自己只会保命；赵黎则笑称井底若有宝物，老夫愿先替诸位试毒。"],
     choices: [
       { id: "save", label: "以真元护住沈青萝，下井查看", next: "shell", effect: { time: 1, trust: { shen: 1 } } },
-      { id: "break", label: "指出这是引魂蛊，强行离开", next: "bloodTrap", effect: { clue: "引魂蛊" } },
-      { id: "zhao-test", label: "顺势请赵黎先探井口", next: "bloodTrap", effect: { trust: { qiao: -1 }, time: 1, flag: "试探赵黎" } },
+      { id: "break", label: "指出这是引魂蛊，强行离开", next: "lampRoom", effect: { clue: "引魂蛊" } },
+      { id: "zhao-test", label: "顺势请赵黎先探井口", next: "lampRoom", effect: { trust: { zhao: -1 }, time: 1, flag: "试探赵黎" } },
     ],
   },
   shell: {
     id: "shell", chapter: "肆 · 引魂蛊井", title: "空壳师弟",
     paragraphs: ["井底没有活人，只有披着沈砚衣物的空壳。它吐出一枚黑牙蛊，随即散成灰。", "空壳散开前，五根手指仍死死扣住井壁，指缝里塞着一片染血的乔家符纸。你听见上方的风声，像有人把井盖悄悄挪开了一寸。", "沈青萝收起衣角里掉出的半枚玉牌。她没有哭，只说乔家若早知这里有引魂蛊，便不该把任何人骗进来。"],
     choices: [
-      { id: "keep", label: "留下玉牌与黑牙蛊作证", next: "bloodTrap", effect: { clue: "沈砚玉牌", flag: "黑牙蛊" } },
-      { id: "burn", label: "焚掉空壳，不让它再骗人", next: "bloodTrap", effect: { health: -1 } },
+      { id: "keep", label: "留下玉牌与黑牙蛊作证", next: "lampRoom", effect: { clue: "沈砚玉牌", flag: "黑牙蛊" } },
+      { id: "burn", label: "焚掉空壳，不让它再骗人", next: "lampRoom", effect: { health: -1 } },
     ],
   },
   bloodTrap: {
     id: "bloodTrap", chapter: "伍 · 血针机关", title: "乔无咎消失了",
     paragraphs: ["你们刚离开枯井，乔无咎便不见了。墓壁翻转，万千血针从缝隙里射出，显然有人熟悉这里的机关。", "第一轮针雨落下时，乔无咎留在地上的半截灯芯仍在燃烧。灯芯没有被风吹灭，反而向着机关深处弯折，像在替主人指路。", "贾贵撑开金壳蛊为众人挡下第一轮，沈青萝的藤蛊截断针雨，赵黎仍藏着手。余下的血针机关只能由你们击破。"],
-    battle: { enemyName: "乔家血针机关", enemyHealth: 13, victoryNext: "bloodHall", defeatNext: "bloodHall", victoryFlag: "血针机关已毁", defeatFlag: "重伤" },
+    battle: { enemyName: "乔家血针机关", enemyHealth: 13, victoryNext: "needleRest", defeatNext: "needleRest", victoryFlag: "血针机关已毁", defeatFlag: "重伤" },
   },
   bloodHall: {
     id: "bloodHall", chapter: "陆 · 五转遗蛊", title: "血流蛊",
     paragraphs: ["机关尽头是一座血色石室。石台上的玉匣里封着一只沉睡的五转蛊——血流蛊。乔家秘卷只记载它能让血气如江河奔涌，具体威能却无人知晓。", "玉匣周围没有锁，只有五道干涸血槽。你的影子落在其中一道里时，匣内的蛊虫忽然轻轻蜷动，仿佛隔着数百年闻到了新鲜血肉。", "石室四壁浮现五人血印。原来乔无咎早已探明七分墓穴：他邀你们并非看中探索本事，而是要用四人的血与自己乔家血脉，复活这只死去的血流蛊。"],
     choices: [
-      { id: "truth", label: "把真相摊开，与沈青萝、贾贵破阵", next: "lastGate", effect: { trust: { shen: 1, qiao: -1 }, flag: "坦白真相" } },
+      { id: "truth", label: "把真相摊开，与沈青萝、贾贵破阵", next: "shadowCave", effect: { trust: { shen: 1, qiao: -1 }, flag: "坦白真相" } },
       { id: "seize", label: "趁乱夺取血流蛊", next: "zhaoDuel", effect: { flag: "夺蛊" } },
-      { id: "chase", label: "放弃玉匣，先追乔无咎", next: "lastGate", effect: { time: 1, flag: "追乔" } },
+      { id: "chase", label: "放弃玉匣，先追乔无咎", next: "shadowCave", effect: { time: 1, flag: "追乔" } },
     ],
   },
   zhaoDuel: {
     id: "zhaoDuel", chapter: "柒 · 邪修显形", title: "赵黎的第四转",
     paragraphs: ["赵黎终于不再装作普通散修。他的寿蛊与血刃蛊同时显现，浑厚气息压得石室裂纹蔓延。所谓四转，他已走到尽头，是在场五人中最强的一位。", "他抬手抹去脸上伪装出的细纹，气息却比先前苍老了数倍。血线顺着他的手腕爬进石台，连沉睡的血流蛊都因此轻轻震动。", "他笑道：‘小辈，这五转蛊给老夫，老夫留你一条命。’你若胜，血流蛊归你；你若败，他会用你的血气唤醒它。"],
-    battle: { enemyName: "四转邪修 · 赵黎", enemyHealth: 12, victoryNext: "lastGate", defeatNext: "zhaoDeath", victoryFlag: "血流蛊已得", defeatFlag: "赵黎夺走血流蛊" },
+    battle: { enemyName: "四转邪修 · 赵黎", enemyHealth: 12, victoryNext: "zhaoAftermath", defeatNext: "zhaoDeath", victoryFlag: "血流蛊已得", defeatFlag: "赵黎夺走血流蛊" },
   },
   zhaoDeath: {
     id: "zhaoDeath", chapter: "柒 · 邪修显形", title: "血流归于赵黎",
@@ -105,7 +105,62 @@ export const scenes: Record<string, Scene> = {
   corpseAftermath: {
     id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "剑鸣一闪",
     paragraphs: ["剑鸣之声在狭窄墓道里来回震荡，尸灯傀儡的胸甲刚抬起半寸，便自正中裂作两片。惨白灯火骤然熄灭，甲片与断刃散落满地，连那股沉在墓砖间的尸臭都像被剑声一并斩断。\n\n贾贵张着嘴，半晌才把金壳蛊收回袖中；沈青萝的藤蛊停在半空，眸光落在你身上，似乎重新估量起这位同行之人。赵黎捻着并不存在的胡须，笑意却淡了几分。墓道恢复死寂后，众人才继续向更深处走去。"],
-    choices: [{ id: "continue-after-sword", label: "收蛊前行", next: "well" }],
+    choices: [{ id: "continue-after-sword", label: "收蛊前行", next: "shenCare" }],
+  },
+  shenCare: {
+    id: "shenCare", chapter: "叁 · 尸灯傀儡", title: "青萝的关心", paragraphs: [""],
+    choices: [
+      { id: "brace", label: "压下伤势，称自己无碍", next: "bloodPool" },
+      { id: "confess", label: "坦言伤势，接下她递来的丹药", next: "bloodPool", effect: { health: 99, trust: { shen: 1 } } },
+    ],
+  },
+  bloodPool: {
+    id: "bloodPool", chapter: "叁 · 偏室暗门", title: "空血池", paragraphs: ["尸灯熄灭后，贾贵掌中那只寻宝蛊忽然钻出药箱，在一面石壁前焦躁地打转。石壁后竟藏着一间半塌的偏室，中央血池早已干涸，池底古棺也空无一物。乔无咎盯着空池看了很久，神色一瞬间变得极不自然，随即又垂下眼，像是在盘算什么。\n\n你退到棺侧时，恰看见贾贵用肥厚手指从棺缝中夹出两只四转血甲蛊。他动作极快，仍没逃过你的眼睛。此蛊能替防御蛊虫分担重击，乔无咎若得一只，祭台上的血卫必会更难对付；若你分得一只，日后的护身把握也更多。"],
+    choices: [
+      { id: "report-jia", label: "当众告发贾贵的小动作", next: "shellCorridor", effect: { flag: "乔无咎得血甲蛊", trust: { qiao: 1, jia: -1 } } },
+      { id: "blackmail-jia", label: "压低声音，要挟他分你一只", next: "shellCorridor", effect: { flag: "血甲蛊已得", trust: { jia: -1 } } },
+      { id: "ignore-jia", label: "移开目光，只当什么也没看见", next: "shellCorridor", effect: { trust: { jia: 1 } } },
+    ],
+  },
+  shellCorridor: {
+    id: "shellCorridor", chapter: "叁 · 蛊蜕走廊", title: "蜕壳余香", paragraphs: ["偏室后的走廊两侧嵌着成排石罐，罐中尽是干枯蛊壳。每逢众人经过，壳内便飘出一丝青白药香，沁入伤口时带着细微刺痛。赵黎说此地多半留有养蛊药渣，语气淡淡，袖口却比先前收得更紧；贾贵则盯着石罐，像在估算哪一只尚有余用。\n\n走廊尽头有三只未碎的药囊，药性都不算猛烈，却足够撑过下一段墓道。你可以独取一份，也可以把这点微薄好处分给身边的人。"],
+    choices: [
+      { id: "share-zhao", label: "分一囊药散给赵黎", next: "well", effect: { health: 2, trust: { zhao: 1 } } },
+      { id: "take-draught", label: "取一囊青露，自行调息", next: "well", effect: { health: 2 } },
+      { id: "cover-jia", label: "替贾贵挡住散出的药尘", next: "well", effect: { trust: { jia: 1 } } },
+    ],
+  },
+  lampRoom: {
+    id: "lampRoom", chapter: "肆 · 井后药室", title: "灯冢药房", paragraphs: ["离开枯井后，墓道旁一间旧药房还亮着半盏尸油灯。药架大半腐朽，唯有一只铜炉中余温未散。沈青萝认出炉底沉着的止血散，贾贵则从碎瓷片下翻出几张封口完好的护心膏。赵黎没有靠近，只站在门外看着灯焰，像在等谁先替他试药。\n\n前方就是血针机关，带伤硬闯绝非明智。药材不多，如何分配，足以让每个人记住你此刻的选择。"],
+    choices: [
+      { id: "shen-medicine", label: "让沈青萝炼开止血散", next: "bloodTrap", effect: { health: 3, trust: { shen: 1 } } },
+      { id: "jia-ointment", label: "与贾贵分用护心膏", next: "bloodTrap", effect: { health: 2, trust: { jia: 1 } } },
+      { id: "leave-medicine", label: "不碰药房里的任何东西", next: "bloodTrap", effect: { trust: { zhao: 1 } } },
+    ],
+  },
+  needleRest: {
+    id: "needleRest", chapter: "伍 · 血针余烬", title: "针雨之后", paragraphs: ["血针机关终于沉寂，墓道里只余断藤与碎壳。贾贵的金壳蛊裂开一道长缝，他却先摸出一盒止血膏，慢吞吞地说这是自己压箱底的保命物。沈青萝衣袖被针风割破，仍在用藤丝替众人挑出嵌入皮肉的残针。\n\n短暂歇息后便要踏入血色石室。此时肯伸手的人未必可信，但若拒绝一切，也许撑不到下一个转角。"],
+    choices: [
+      { id: "take-jia-salve", label: "接下贾贵递来的止血膏", next: "bloodHall", effect: { health: 3, trust: { jia: 1 } } },
+      { id: "shen-tend", label: "让沈青萝替你清理伤口", next: "bloodHall", effect: { health: 2, trust: { shen: 1 } } },
+      { id: "guard-others", label: "留在原地警戒，不再耗费药物", next: "bloodHall", effect: { trust: { zhao: 1 } } },
+    ],
+  },
+  shadowCave: {
+    id: "shadowCave", chapter: "陆 · 石室侧洞", title: "伏尸暗格", paragraphs: ["血色石室旁有一道不起眼的侧洞，洞壁嵌着几具早已风化的乔家尸骸。尸骸指骨间还夹着残破阵筹，恰与祭台血槽的纹路相合。乔无咎的声音仍在墓里回荡，催促众人尽快入阵；越是如此，这处被他略过的暗格越显得可疑。\n\n沈青萝想查看阵筹，贾贵却更关心尸骸腰间的储物囊。赵黎站在洞口，脸上又挂回那副若无其事的笑。你们很快仍要去祭台，只是此刻该信谁、该防谁，各人心中已有不同答案。"],
+    choices: [
+      { id: "check-scripts", label: "陪沈青萝核对阵筹", next: "lastGate", effect: { trust: { shen: 1 } } },
+      { id: "watch-jia", label: "与贾贵分守洞口", next: "lastGate", effect: { trust: { jia: 1 } } },
+      { id: "let-zhao-lead", label: "请赵黎先行探明侧洞", next: "lastGate", effect: { trust: { zhao: 1 } } },
+    ],
+  },
+  zhaoAftermath: {
+    id: "zhaoAftermath", chapter: "柒 · 邪修遗囊", title: "血刃余温", paragraphs: ["赵黎倒下后，石室里一时只剩血线回缩的细响。他留下的储物囊裂在地上，滚出数只空血瓶和一枚暗红药丸。沈青萝握剑站在不远处，没有催你去取；贾贵却难得没有立刻伸手，只说邪修的东西向来不能白拿。\n\n你心口的血流蛊尚未完全安静，先前蛊斗留下的伤势却在提醒你，祭台上还有乔无咎在等。那枚药丸气息驳杂，未必干净，却可能是最后一次从容疗伤的机会。"],
+    choices: [
+      { id: "take-blood-pill", label: "服下血髓丹，强压伤势", next: "lastGate", effect: { health: 4 } },
+      { id: "ask-jia-check", label: "让贾贵验看药性后分服", next: "lastGate", effect: { health: 2, trust: { jia: 1 } } },
+      { id: "give-shen", label: "把药丸交给沈青萝保管", next: "lastGate", effect: { trust: { shen: 1 } } },
+    ],
   },
 };
 
@@ -179,7 +234,7 @@ export const endings: Record<string, Ending> = {
   alone: { id: "alone", name: "独活荒原", epitaph: "活下来的人，也要背着秘密。", text: "你踏过最后一道血线，身后是再无声息的蛊墓。乔家的阴谋未能吞掉你，但荒原很大，追问真相的人也不会少。" },
 };
 
-export function initialGame(): GameState { return { roleId: null, sceneId: "entrance", health: 0, maxHealth: 0, essence: 0, time: 0, clues: [], flags: [], trust: { qiao: 0, shen: 0 }, battle: null, endingId: null }; }
+export function initialGame(): GameState { return { roleId: null, sceneId: "entrance", health: 0, maxHealth: 0, essence: 0, time: 0, clues: [], flags: [], trust: { qiao: 0, shen: 0, zhao: 0, jia: 0 }, battle: null, endingId: null }; }
 export function getRole(id: RoleId | null) { return roles.find((role) => role.id === id) ?? null; }
 export function chooseRole(id: RoleId): GameState { const role = getRole(id); return role ? { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth } : initialGame(); }
 export function canChoose(state: GameState, choice: Choice) {
@@ -190,14 +245,15 @@ export function canChoose(state: GameState, choice: Choice) {
 function addUnique(items: string[], item?: string) { return item && !items.includes(item) ? [...items, item] : items; }
 export function applyChoice(state: GameState, choice: Choice): GameState {
   const effect = choice.effect;
-  return { ...state, sceneId: choice.next, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags: addUnique(state.flags, effect?.flag), trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0) } };
+  return { ...state, sceneId: choice.next, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags: addUnique(state.flags, effect?.flag), trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
 }
 
 const intents: Intent[] = ["撕咬", "毒雾", "蓄势"];
 export function startBattle(state: GameState, scene: Scene): GameState {
   const role = getRole(state.roleId);
   if (!scene.battle || !role) return state;
-  return { ...state, essence: role.maxEssence, battle: { ...scene.battle, enemyMaxHealth: scene.battle.enemyHealth, turn: 0, intent: intents[0] } };
+  const enemyHealth = scene.battle.enemyHealth + (scene.id === "bloodRage" && state.flags.includes("乔无咎得血甲蛊") ? 4 : 0);
+  return { ...state, essence: role.maxEssence, battle: { ...scene.battle, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: intents[0] } };
 }
 function finishBattle(state: GameState, battle: Battle, won: boolean, health: number, nextScene = won ? battle.victoryNext : battle.defeatNext) {
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
@@ -213,7 +269,7 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   let damage = role.attack; let received = battle.intent === "撕咬" ? 3 : battle.intent === "毒雾" ? 2 : 5;
   let healthBeforeHit = state.health;
   if (action === "blood" && battle.intent === "蓄势") damage += 2;
-  if (action === "armor") { damage = 1; received = Math.max(0, received - 3); }
+  if (action === "armor") { damage = 1; received = Math.max(0, received - (state.flags.includes("血甲蛊已得") ? 4 : 3)); }
   if (action === "mind") { damage = role.attack; received = 0; }
   if (action === "heal") { damage = 0; healthBeforeHit = Math.min(state.maxHealth, state.health + 6); }
   if (action === "sword") { damage = 10; healthBeforeHit = state.health - 1; }

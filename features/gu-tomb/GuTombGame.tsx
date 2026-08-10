@@ -25,7 +25,6 @@ import type { Story } from "inkjs";
 
 const baseGuActions: { id: GuAction; name: string; description: string }[] = [
   { id: "blood", name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。消耗 1 真元。" },
-  { id: "armor", name: "甲衣蛊", description: "蛊甲覆身，硬受来势。消耗 2 真元。" },
 ];
 const inkSceneIds = new Set(["entrance", "bloodDoor", "corpseFight", "well", "shell", "bloodTrap", "bloodHall", "zhaoDuel", "zhaoDeath", "lastGate", "bloodRage", "bloodExit"]);
 const names = new Set(["宁素衣", "陆照野", "顾微尘", "乔无咎", "沈青萝", "赵黎", "贾贵", "沈砚"]);
@@ -69,6 +68,12 @@ function NarrativePage({ text }: { text: string }) {
     const pieces = paragraph.split(/(宁素衣|陆照野|顾微尘|乔无咎|沈青萝|赵黎|贾贵|沈砚|血流蛊|五转|血祭|血针|尸灯傀儡|命丧蛊墓)/g);
     return <p key={paragraphIndex}>{pieces.map((piece, pieceIndex) => names.has(piece) ? <strong className="story-name" key={pieceIndex}>{piece}</strong> : criticalTerms.has(piece) ? <span className="story-critical" key={pieceIndex}>{piece}</span> : piece)}</p>;
   })}</>;
+}
+
+function shenCareText(gender: "female" | "male") {
+  return gender === "female"
+    ? "尸灯傀儡倒下后，墓道里安静得只余你压抑的呼吸。沈青萝收回藤蛊，目光在你染血的衣袖上停了片刻。她没有像贾贵那样急着翻找碎甲，也没有去看赵黎藏在阴影里的手，只从随身药囊中取出一只白玉瓶。\n\n“方才那一下，不必强撑。”她把玉瓶递来，声音仍冷，却放得很轻，“你我同为女修，最知道这荒原里旁人不会因你受伤便手下留情。丹药不多，留给需要的人。”\n\n墓道尽头的风带着潮气吹来。她没有催促，只等你自己决定，是否接下这份并不张扬的善意。"
+    : "尸灯傀儡倒下后，墓道里安静得只余你压抑的呼吸。沈青萝收回藤蛊，目光在你染血的衣袖上停了片刻。她没有像贾贵那样急着翻找碎甲，也没有去看赵黎藏在阴影里的手，只从随身药囊中取出一只白玉瓶。\n\n“方才那一下，不必强撑。”她把玉瓶递来，语气清冷，“你若倒在下一道机关前，余下的人只会少一个帮手，不会多半分怜悯。这枚回元丹能稳住伤势，拿着。”\n\n墓道尽头的风带着潮气吹来。她没有催促，只等你自己决定，是否接下这份并不张扬的善意。";
 }
 
 export function GuTombGame() {
@@ -145,7 +150,7 @@ export function GuTombGame() {
 
   const battle = game.battle;
   const isInkScene = inkSceneIds.has(scene.id) && inkPage !== null;
-  const sourceText = isInkScene ? inkPage.text : scene.paragraphs[0];
+  const sourceText = scene.id === "shenCare" ? shenCareText(role.gender) : isInkScene ? inkPage.text : scene.paragraphs[0];
   const fittedPages = splitForViewport(sourceText, readingBox);
   const pageCount = fittedPages.length;
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
@@ -202,9 +207,12 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
     : role.id === "swordsman"
       ? { id: "sword" as const, name: "剑鸣蛊", description: "造成 10 点伤害，自身受 1 点伤害。消耗 3 真元。" }
       : { id: "mind" as const, name: "惑心蛊", description: "打断本回合攻势，并造成等同攻击属性的伤害。消耗 3 真元。" };
+  const defenseAction = game.flags.includes("血甲蛊已得")
+    ? { id: "armor" as const, name: "四转 · 血甲蛊", description: "血甲覆身，能分担更重的来势。消耗 2 真元。" }
+    : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，硬受来势。消耗 2 真元。" };
   const guActions = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
-    : [...baseGuActions, signatureAction, ...(game.flags.includes("血流蛊已得") ? [{ id: "bloodflow" as const, name: "五转 · 血流蛊", description: "造成 16 点伤害，并恢复等量生命。" }] : [])];
+    : [...baseGuActions, defenseAction, signatureAction, ...(game.flags.includes("血流蛊已得") ? [{ id: "bloodflow" as const, name: "五转 · 血流蛊", description: "造成 16 点伤害，并恢复等量生命。" }] : [])];
   const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 0, rest: 0 };
   const enemyCue = battle.intent === "撕咬"
     ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`

@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
@@ -30,14 +30,14 @@ test("蛊斗战败转为重伤与时间代价", () => {
   const initial = { ...chooseRole("healer"), health: 2 };
   const battle = startBattle(initial, scenes.corpseFight);
   const result = resolveBattleTurn(battle, "blood");
-  assert.equal(result.sceneId, "well");
+  assert.equal(result.sceneId, "shenCare");
   assert.equal(result.health, 1);
   assert.equal(result.time, 1);
   assert.equal(result.flags.includes("重伤"), true);
 });
 
 test("关键线索与信任能触发两人出墓", () => {
-  const state = { ...chooseRole("healer"), clues: ["五人血印"], trust: { qiao: 0, shen: 2 } };
+  const state = { ...chooseRole("healer"), clues: ["五人血印"], trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } };
   assert.equal(resolveEnding(state), "together");
   assert.equal(resolveEnding({ ...state, time: 4 }), "trapped");
 });
@@ -86,4 +86,29 @@ test("回春蛊先恢复生命，再承受本回合攻击", () => {
   const result = resolveBattleTurn(battle, "heal");
   assert.equal(result.health, 5);
   assert.equal(result.essence, 7);
+});
+
+test("尸灯傀儡战后先进入青萝关心的疗伤节点", () => {
+  const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
+  const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 1 } }, "blood");
+  assert.equal(result.sceneId, "shenCare");
+  const medicine = scenes.shenCare.choices?.find((choice) => choice.id === "confess");
+  assert.ok(medicine);
+  assert.equal(applyChoice({ ...result, health: 2 }, medicine).health, 13);
+});
+
+test("血池密室的选择保留蛊虫与隐藏关系后果", () => {
+  const report = scenes.bloodPool.choices?.find((choice) => choice.id === "report-jia");
+  const blackmail = scenes.bloodPool.choices?.find((choice) => choice.id === "blackmail-jia");
+  const ignore = scenes.bloodPool.choices?.find((choice) => choice.id === "ignore-jia");
+  assert.ok(report && blackmail && ignore);
+  assert.equal(applyChoice(chooseRole("healer"), report).flags.includes("乔无咎得血甲蛊"), true);
+  assert.equal(applyChoice(chooseRole("healer"), blackmail).flags.includes("血甲蛊已得"), true);
+  assert.equal(applyChoice(chooseRole("healer"), ignore).trust.jia, 1);
+});
+
+test("乔无咎取得血甲蛊会强化最终血卫", () => {
+  const state = { ...chooseRole("healer"), flags: ["乔无咎得血甲蛊"] };
+  const battle = startBattle(state, scenes.bloodRage);
+  assert.equal(battle.battle?.enemyHealth, 20);
 });

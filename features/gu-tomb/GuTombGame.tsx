@@ -32,12 +32,14 @@ const names = new Set(["宁素衣", "陆照野", "顾微尘", "乔无咎", "沈�
 const criticalTerms = new Set(["血流蛊", "五转", "血祭", "血针", "尸灯傀儡", "命丧蛊墓"]);
 const endingStorageKey = "gu-tomb-unlocked-endings";
 const motionStorageKey = "gu-tomb-reduce-motion";
+const themeStorageKey = "gu-tomb-theme";
 const endingRoleAccess: Record<RoleId, string[]> = {
   healer: ["trapped", "bloodflow", "wu", "true", "together", "death", "alone"],
   swordsman: ["trapped", "bloodflow", "cleansed", "wu", "true", "together", "death", "alone"],
   heir: ["trapped", "bloodflow", "traitor", "wu", "true", "together", "death", "alone"],
 };
 type HomeView = "menu" | "roles" | "archive" | "settings";
+type ThemePreference = "system" | "light" | "dark";
 
 function splitParagraphs(text: string) {
   const blocks = text.split(/\n{2,}/).flatMap((block) => {
@@ -142,6 +144,7 @@ export function GuTombGame() {
   const [homeView, setHomeView] = useState<HomeView>("menu");
   const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("healer");
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [themePreference, setThemePreference] = useState<ThemePreference>("system");
   const [narrative, setNarrative] = useState({ sceneId: "entrance", page: 0 });
   const [inkPage, setInkPage] = useState<InkPage | null>(null);
   const [readingBox, setReadingBox] = useState({ width: 340, height: 280 });
@@ -157,6 +160,8 @@ export function GuTombGame() {
         const storedEndings = JSON.parse(window.localStorage.getItem(endingStorageKey) ?? "[]") as unknown;
         if (Array.isArray(storedEndings)) setSeenEndings(storedEndings.filter((id): id is string => typeof id === "string" && id in endings));
         setReduceMotion(window.localStorage.getItem(motionStorageKey) === "true");
+        const storedTheme = window.localStorage.getItem(themeStorageKey);
+        if (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system") setThemePreference(storedTheme);
       } finally {
         storageLoadedRef.current = true;
       }
@@ -168,8 +173,10 @@ export function GuTombGame() {
     if (!storageLoadedRef.current) return;
     window.localStorage.setItem(endingStorageKey, JSON.stringify(seenEndings));
     window.localStorage.setItem(motionStorageKey, String(reduceMotion));
+    window.localStorage.setItem(themeStorageKey, themePreference);
     document.documentElement.dataset.reduceMotion = String(reduceMotion);
-  }, [reduceMotion, seenEndings]);
+    document.documentElement.dataset.theme = themePreference;
+  }, [reduceMotion, seenEndings, themePreference]);
 
   useEffect(() => {
     const element = copyRef.current;
@@ -230,7 +237,7 @@ export function GuTombGame() {
 
   if (!role) {
     if (homeView === "archive") return <EndingArchive archiveRoleId={archiveRoleId} onBack={() => setHomeView("menu")} onSelectRole={setArchiveRoleId} seenEndings={seenEndings} />;
-    if (homeView === "settings") return <GameSettings onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onToggleReduceMotion={() => setReduceMotion((current) => !current)} />;
+    if (homeView === "settings") return <GameSettings onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
     if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} unlockedCount={seenEndings.length} />;
     return <RoleSelect onBack={() => setHomeView("menu")} onSelect={selectRole} />;
   }
@@ -304,7 +311,7 @@ function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { a
   </section></main>;
 }
 
-function GameSettings({ onBack, onClearEndings, onToggleReduceMotion, reduceMotion }: { onBack: () => void; onClearEndings: () => void; onToggleReduceMotion: () => void; reduceMotion: boolean }) {
+function GameSettings({ onBack, onClearEndings, onThemeChange, onToggleReduceMotion, reduceMotion, themePreference }: { onBack: () => void; onClearEndings: () => void; onThemeChange: (theme: ThemePreference) => void; onToggleReduceMotion: () => void; reduceMotion: boolean; themePreference: ThemePreference }) {
   const [confirmClear, setConfirmClear] = useState(false);
   function clearEndings() {
     if (!confirmClear) { setConfirmClear(true); return; }
@@ -313,7 +320,8 @@ function GameSettings({ onBack, onClearEndings, onToggleReduceMotion, reduceMoti
   }
   return <main className="game-shell settings-shell"><section className="game-frame settings-card" aria-labelledby="settings-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">行囊与灯火</p><h1 id="settings-title">游戏设置</h1></div></header>
-    <div className="settings-list"><button aria-pressed={reduceMotion} className="settings-row" onClick={onToggleReduceMotion}><span><strong>减少动态</strong><small>剧情与按钮以更静止的方式呈现</small></span><em>{reduceMotion ? "已开启" : "跟随系统"}</em></button>
+    <div className="settings-list"><div className="settings-note theme-setting"><strong>界面主题</strong><p>选择蛊墓在此设备上的明暗样式。</p><div aria-label="选择界面主题" className="theme-options" role="group">{(["system", "light", "dark"] as ThemePreference[]).map((theme) => <button aria-pressed={themePreference === theme} className="theme-option" key={theme} onClick={() => onThemeChange(theme)}>{theme === "system" ? "跟随系统" : theme === "light" ? "亮色" : "暗色"}</button>)}</div></div>
+      <button aria-pressed={reduceMotion} className="settings-row" onClick={onToggleReduceMotion}><span><strong>减少动态</strong><small>剧情与按钮以更静止的方式呈现</small></span><em>{reduceMotion ? "已开启" : "跟随系统"}</em></button>
       <div className="settings-note"><strong>图鉴记录</strong><p>已解锁结局会保存在当前设备中。</p></div>
       <button className={`settings-row settings-danger${confirmClear ? " is-confirming" : ""}`} onClick={clearEndings}><span><strong>{confirmClear ? "再次点击，确认清除" : "清除结局记录"}</strong><small>{confirmClear ? "此操作无法撤回" : "只清除本设备上的图鉴进度"}</small></span><em>{confirmClear ? "确认" : "清除"}</em></button>
     </div>

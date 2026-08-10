@@ -69,3 +69,62 @@
   --dur-normal: 240ms;
   --dur-short: 220ms;
 }
+
+html[data-theme="dark"] {
+  --color-canvas: oklch(18.5% 0.02 165);
+  --color-paper: oklch(23% 0.024 165);
+  --color-paper-soft: oklch(27% 0.03 165);
+  --color-paper-strong: oklch(31% 0.032 165);
+  --color-surface: var(--color-paper);
+  --color-surface-raised: oklch(25.5% 0.028 165);
+  --color-void: oklch(15% 0.018 165);
+  --color-rule: oklch(40% 0.035 165);
+  --color-rule-strong: oklch(54% 0.052 165);
+  --color-ink: oklch(94% 0.016 165);
+  --color-muted: oklch(79% 0.028 165);
+  --color-faint: oklch(65% 0.032 165);
+  --color-accent: oklch(72% 0.092 165);
+  --color-accent-hover: oklch(79% 0.096 165);
+  --color-accent-ink: oklch(18% 0.024 165);
+  --color-focus: oklch(77% 0.13 165);
+  --color-danger: oklch(71% 0.13 25);
+  --color-danger-soft: oklch(28% 0.055 25);
+  --color-success-soft: oklch(28% 0.046 165);
+  --color-health: oklch(72% 0.14 25);
+  --color-overlay: oklch(10% 0.018 165 / 0.64);
+  --color-bloom-1: var(--color-canvas);
+  --color-bloom-2: var(--color-canvas);
+  --shadow-card: 0 0.75rem 2.25rem oklch(8% 0.022 165 / 0.38);
+  --shadow-whisper: 0 0.25rem 0.9rem oklch(8% 0.022 165 / 0.26);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]),
+  html[data-theme="system"] {
+    --color-canvas: oklch(18.5% 0.02 165);
+    --color-paper: oklch(23% 0.024 165);
+    --color-paper-soft: oklch(27% 0.03 165);
+    --color-paper-strong: oklch(31% 0.032 165);
+    --color-surface: var(--color-paper);
+    --color-surface-raised: oklch(25.5% 0.028 165);
+    --color-void: oklch(15% 0.018 165);
+    --color-rule: oklch(40% 0.035 165);
+    --color-rule-strong: oklch(54% 0.052 165);
+    --color-ink: oklch(94% 0.016 165);
+    --color-muted: oklch(79% 0.028 165);
+    --color-faint: oklch(65% 0.032 165);
+    --color-accent: oklch(72% 0.092 165);
+    --color-accent-hover: oklch(79% 0.096 165);
+    --color-accent-ink: oklch(18% 0.024 165);
+    --color-focus: oklch(77% 0.13 165);
+    --color-danger: oklch(71% 0.13 25);
+    --color-danger-soft: oklch(28% 0.055 25);
+    --color-success-soft: oklch(28% 0.046 165);
+    --color-health: oklch(72% 0.14 25);
+    --color-overlay: oklch(10% 0.018 165 / 0.64);
+    --color-bloom-1: var(--color-canvas);
+    --color-bloom-2: var(--color-canvas);
+    --shadow-card: 0 0.75rem 2.25rem oklch(8% 0.022 165 / 0.38);
+    --shadow-whisper: 0 0.25rem 0.9rem oklch(8% 0.022 165 / 0.26);
+  }
+}

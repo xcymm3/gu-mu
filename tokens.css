@@ -1,19 +1,36 @@
+/* Hallmark · macrostructure: Narrative Workflow · tone: quiet mint utility · anchor hue: forest-teal
+ * theme: studied-DNA (source: image) · paper oklch(97.2% 0.014 165) · accent oklch(42% 0.08 165)
+ * display: Geist Sans · body: Geist Sans with Chinese sans fallbacks · studied: yes · DNA-source: user reference
+ */
+
 :root {
-  --color-void: oklch(13% 0.015 55);
-  --color-paper: oklch(17% 0.018 55);
-  --color-surface: oklch(21% 0.022 55);
-  --color-surface-raised: oklch(26% 0.026 55);
-  --color-ink: oklch(91% 0.018 82);
-  --color-muted: oklch(70% 0.022 72);
-  --color-faint: oklch(51% 0.02 62);
-  --color-accent: oklch(78% 0.145 78);
-  --color-accent-ink: oklch(21% 0.04 65);
-  --color-danger: oklch(67% 0.16 30);
-  --color-bloom-1: oklch(44% 0.11 63 / 0.26);
-  --color-bloom-2: oklch(31% 0.08 30 / 0.2);
-  --font-display: var(--font-geist-sans), "Microsoft YaHei", sans-serif;
-  --font-body: var(--font-geist-sans), "Microsoft YaHei", sans-serif;
-  --font-mono: var(--font-geist-mono), "SFMono-Regular", Consolas, monospace;
+  --color-canvas: oklch(96.6% 0.014 165);
+  --color-paper: oklch(99.1% 0.006 165);
+  --color-paper-soft: oklch(97.2% 0.014 165);
+  --color-paper-strong: oklch(93.4% 0.022 165);
+  --color-surface: var(--color-paper);
+  --color-surface-raised: oklch(98.1% 0.012 165);
+  --color-void: var(--color-canvas);
+  --color-rule: oklch(84.8% 0.024 165);
+  --color-rule-strong: oklch(72% 0.046 165);
+  --color-ink: oklch(25% 0.036 165);
+  --color-muted: oklch(41% 0.042 165);
+  --color-faint: oklch(55% 0.036 165);
+  --color-accent: oklch(42% 0.08 165);
+  --color-accent-hover: oklch(35% 0.07 165);
+  --color-accent-ink: oklch(98.6% 0.008 165);
+  --color-focus: oklch(48% 0.12 165);
+  --color-danger: oklch(52% 0.16 25);
+  --color-danger-soft: oklch(94.5% 0.03 25);
+  --color-health: oklch(58% 0.15 25);
+  --color-overlay: oklch(22% 0.04 165 / 0.42);
+  --color-bloom-1: oklch(96.6% 0.014 165);
+  --color-bloom-2: oklch(96.6% 0.014 165);
+
+  --font-display: var(--font-geist-sans), "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body: var(--font-geist-sans), "Microsoft YaHei", "PingFang SC", sans-serif;
+  --font-mono: var(--font-body);
+
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -22,17 +39,31 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-10: 2.5rem;
+
   --text-xs: 0.72rem;
   --text-sm: 0.84rem;
   --text-base: 1rem;
   --text-lg: 1.25rem;
   --text-xl: 1.75rem;
-  --text-display: clamp(2.75rem, 11vw, 4.3rem);
+  --text-display: clamp(2.55rem, 10vw, 4rem);
+
   --radius-sm: 0.5rem;
   --radius-md: 0.85rem;
   --radius-lg: 1.2rem;
-  --rule: 1px solid var(--color-faint);
+  --rule: 1px solid var(--color-rule);
+  --shadow-card: 0 0.75rem 2.25rem oklch(30% 0.03 165 / 0.08);
+  --shadow-whisper: 0 0.25rem 0.9rem oklch(30% 0.03 165 / 0.06);
+  --control-height: 3.25rem;
+  --choice-height: 3.5rem;
+  --help-control-size: 2.5rem;
+  --z-base: 1;
+  --z-raised: 10;
+  --z-modal: 400;
+
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-fast: 150ms;
   --dur-normal: 240ms;
+  --dur-short: 220ms;
 }

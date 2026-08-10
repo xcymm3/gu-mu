@@ -29,6 +29,14 @@ const baseGuActions: { id: GuAction; name: string; description: string }[] = [
 const inkSceneIds = new Set(["entrance", "bloodDoor", "corpseFight", "well", "shell", "bloodTrap", "bloodHall"]);
 const names = new Set(["宁素衣", "陆照野", "顾微尘", "乔无咎", "沈青萝", "赵黎", "贾贵", "沈砚"]);
 const criticalTerms = new Set(["血流蛊", "五转", "血祭", "血针", "尸灯傀儡", "命丧蛊墓"]);
+const endingStorageKey = "gu-tomb-unlocked-endings";
+const motionStorageKey = "gu-tomb-reduce-motion";
+const endingRoleAccess: Record<RoleId, string[]> = {
+  healer: ["trapped", "bloodflow", "wu", "true", "together", "death", "alone"],
+  swordsman: ["trapped", "bloodflow", "cleansed", "wu", "true", "together", "death", "alone"],
+  heir: ["trapped", "bloodflow", "traitor", "wu", "true", "together", "death", "alone"],
+};
+type HomeView = "menu" | "roles" | "archive" | "settings";
 
 function splitParagraphs(text: string) {
   const blocks = text.split(/\n{2,}/).flatMap((block) => {
@@ -130,13 +138,37 @@ function teamGatherText(game: GameState) {
 export function GuTombGame() {
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
+  const [homeView, setHomeView] = useState<HomeView>("menu");
+  const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("healer");
+  const [reduceMotion, setReduceMotion] = useState(false);
   const [narrative, setNarrative] = useState({ sceneId: "entrance", page: 0 });
   const [inkPage, setInkPage] = useState<InkPage | null>(null);
   const [readingBox, setReadingBox] = useState({ width: 340, height: 280 });
   const inkStory = useRef<Story | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
+  const storageLoadedRef = useRef(false);
   const role = getRole(game.roleId);
   const scene = scenes[game.sceneId];
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      try {
+        const storedEndings = JSON.parse(window.localStorage.getItem(endingStorageKey) ?? "[]") as unknown;
+        if (Array.isArray(storedEndings)) setSeenEndings(storedEndings.filter((id): id is string => typeof id === "string" && id in endings));
+        setReduceMotion(window.localStorage.getItem(motionStorageKey) === "true");
+      } finally {
+        storageLoadedRef.current = true;
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (!storageLoadedRef.current) return;
+    window.localStorage.setItem(endingStorageKey, JSON.stringify(seenEndings));
+    window.localStorage.setItem(motionStorageKey, String(reduceMotion));
+    document.documentElement.dataset.reduceMotion = String(reduceMotion);
+  }, [reduceMotion, seenEndings]);
 
   useEffect(() => {
     const element = copyRef.current;
@@ -195,8 +227,13 @@ export function GuTombGame() {
     selectChoice(choice);
   }
 
-  if (!role) return <RoleSelect onSelect={selectRole} />;
-  if (game.endingId) return <EndingScreen game={game} seenEndings={seenEndings} onReplay={() => selectRole(role.id)} onChangeRole={() => setGame(initialGame())} />;
+  if (!role) {
+    if (homeView === "archive") return <EndingArchive archiveRoleId={archiveRoleId} onBack={() => setHomeView("menu")} onSelectRole={setArchiveRoleId} seenEndings={seenEndings} />;
+    if (homeView === "settings") return <GameSettings onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onToggleReduceMotion={() => setReduceMotion((current) => !current)} />;
+    if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} unlockedCount={seenEndings.length} />;
+    return <RoleSelect onBack={() => setHomeView("menu")} onSelect={selectRole} />;
+  }
+  if (game.endingId) return <EndingScreen game={game} seenEndings={seenEndings} onReplay={() => selectRole(role.id)} onChangeRole={() => { setGame(initialGame()); setHomeView("roles"); }} onMenu={() => { setGame(initialGame()); setHomeView("menu"); }} />;
   if (!scene) return null;
 
   const battle = game.battle;
@@ -239,8 +276,52 @@ export function GuTombGame() {
   );
 }
 
-function RoleSelect({ onSelect }: { onSelect: (id: RoleId) => void }) {
+function MainMenu({ onArchive, onSettings, onStart, unlockedCount }: { onArchive: () => void; onSettings: () => void; onStart: () => void; unlockedCount: number }) {
+  return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
+    <header className="menu-intro"><p className="eyebrow">乔家荒原 · 五人入墓</p><h1 id="menu-title">蛊墓五修</h1><p>一座蛊墓，五名四转修士。你所见与所信，都会把人带向不同的墓门。</p></header>
+    <nav className="menu-index" aria-label="主界面菜单">
+      <button className="menu-action menu-action-primary" onClick={onStart}><span className="menu-action-number">壹</span><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
+      <button className="menu-action" onClick={onArchive}><span className="menu-action-number">贰</span><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
+      <button className="menu-action" onClick={onSettings}><span className="menu-action-number">叁</span><span><strong>游戏设置</strong><small>阅读与记录</small></span></button>
+    </nav>
+    <p className="menu-note">每一次选择都会留下痕迹。</p>
+  </section></main>;
+}
+
+function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { archiveRoleId: RoleId; onBack: () => void; onSelectRole: (id: RoleId) => void; seenEndings: string[] }) {
+  const availableEndingIds = endingRoleAccess[archiveRoleId];
+  const unlockedForRole = availableEndingIds.filter((id) => seenEndings.includes(id)).length;
+  return <main className="game-shell archive-shell"><section className="game-frame archive-card" aria-labelledby="archive-title">
+    <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">命数卷宗</p><h1 id="archive-title">结局一览</h1></div></header>
+    <div className="archive-tabs" role="tablist" aria-label="选择修士">{roles.map((candidate) => <button aria-selected={candidate.id === archiveRoleId} className="archive-tab" key={candidate.id} onClick={() => onSelectRole(candidate.id)} role="tab">{candidate.name}</button>)}</div>
+    <p className="archive-summary"><strong>{unlockedForRole} / {availableEndingIds.length}</strong><span>{roles.find((candidate) => candidate.id === archiveRoleId)?.name}可触及的命数</span></p>
+    <ul className="ending-list">{Object.values(endings).map((ending) => {
+      const reachable = availableEndingIds.includes(ending.id);
+      const unlocked = seenEndings.includes(ending.id);
+      return <li className={`ending-entry${unlocked ? " is-unlocked" : ""}${reachable ? "" : " is-unavailable"}`} key={ending.id}><div><strong>{ending.name}</strong><span>{unlocked ? "已解锁" : reachable ? "尚未解锁" : "此身份无法抵达"}</span></div><p>{unlocked ? ending.epitaph : reachable ? "此命数仍藏在蛊墓深处。" : "换一位修士，才可能走到这里。"}</p></li>;
+    })}</ul>
+  </section></main>;
+}
+
+function GameSettings({ onBack, onClearEndings, onToggleReduceMotion, reduceMotion }: { onBack: () => void; onClearEndings: () => void; onToggleReduceMotion: () => void; reduceMotion: boolean }) {
+  const [confirmClear, setConfirmClear] = useState(false);
+  function clearEndings() {
+    if (!confirmClear) { setConfirmClear(true); return; }
+    onClearEndings();
+    setConfirmClear(false);
+  }
+  return <main className="game-shell settings-shell"><section className="game-frame settings-card" aria-labelledby="settings-title">
+    <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">行囊与灯火</p><h1 id="settings-title">游戏设置</h1></div></header>
+    <div className="settings-list"><button aria-pressed={reduceMotion} className="settings-row" onClick={onToggleReduceMotion}><span><strong>减少动态</strong><small>剧情与按钮以更静止的方式呈现</small></span><em>{reduceMotion ? "已开启" : "跟随系统"}</em></button>
+      <div className="settings-note"><strong>图鉴记录</strong><p>已解锁结局会保存在当前设备中。</p></div>
+      <button className={`settings-row settings-danger${confirmClear ? " is-confirming" : ""}`} onClick={clearEndings}><span><strong>{confirmClear ? "再次点击，确认清除" : "清除结局记录"}</strong><small>{confirmClear ? "此操作无法撤回" : "只清除本设备上的图鉴进度"}</small></span><em>{confirmClear ? "确认" : "清除"}</em></button>
+    </div>
+  </section></main>;
+}
+
+function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: RoleId) => void }) {
   return <main className="game-shell role-select"><section className="game-frame opening-card" aria-labelledby="game-title">
+    <button className="back-button role-back" onClick={onBack}>返回主界面</button>
     <p className="eyebrow">固定剧本 · 多结局 · 蛊斗</p><h1 id="game-title">蛊墓五修</h1>
     <p className="opening-copy">五名修士入墓寻宝。墓门合拢后，你只能带着一条魂路离开。</p>
     <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
@@ -286,14 +367,14 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
   </section>;
 }
 
-function EndingScreen({ game, seenEndings, onReplay, onChangeRole }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void }) {
+function EndingScreen({ game, seenEndings, onReplay, onChangeRole, onMenu }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void; onMenu: () => void }) {
   const ending = game.endingId ? endings[game.endingId] : null;
   if (!ending) return null;
   const endingText = ["cleansed", "traitor", "wu", "true"].includes(ending.id) ? ending.text : readInkKnot(`ending_${ending.id}`) || ending.text;
   return <main className="game-shell"><section className="game-frame ending-card" aria-labelledby="ending-title">
     <p className="eyebrow">结局已定</p><p className="ending-number">{String(seenEndings.length).padStart(2, "0")} / {String(Object.keys(endings).length).padStart(2, "0")}</p><h1 id="ending-title">{ending.name}</h1>
     <p className="epitaph">“{ending.epitaph}”</p><p className="ending-text">{endingText}</p>
-    <button className="primary-button" onClick={onReplay}>以此身份重入蛊墓</button><button className="quiet-button" onClick={onChangeRole}>更换修士</button>
+    <button className="primary-button" onClick={onReplay}>以此身份重入蛊墓</button><button className="quiet-button" onClick={onChangeRole}>更换修士</button><button className="quiet-button" onClick={onMenu}>返回主界面</button>
     <p className="gallery">本次会话已见：{seenEndings.map((id) => endings[id].name).join("、") || "无"}</p>
   </section></main>;
 }

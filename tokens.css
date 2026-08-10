@@ -22,6 +22,7 @@
   --color-focus: oklch(48% 0.12 165);
   --color-danger: oklch(52% 0.16 25);
   --color-danger-soft: oklch(94.5% 0.03 25);
+  --color-success-soft: oklch(92.8% 0.034 165);
   --color-health: oklch(58% 0.15 25);
   --color-overlay: oklch(22% 0.04 165 / 0.42);
   --color-bloom-1: oklch(96.6% 0.014 165);
@@ -56,6 +57,7 @@
   --control-height: 3.25rem;
   --choice-height: 3.5rem;
   --help-control-size: 2.5rem;
+  --menu-action-height: 4.6rem;
   --z-base: 1;
   --z-raised: 10;
   --z-modal: 400;

@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-08-10",
+    "macrostructure": "Index-First",
+    "theme": "studied-DNA",
+    "enrichment": "none",
+    "brief": "Add a visual-novel main menu, role-specific ending archive, and local game settings."
+  },
+  {
+    "date": "2026-08-10",
     "macrostructure": "Narrative Workflow",
     "theme": "studied-DNA",
     "enrichment": "none",

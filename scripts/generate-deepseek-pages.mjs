@@ -27,7 +27,7 @@ function textFromResponse(raw) {
 }
 
 function paginate(text, limit) {
-  if (text.length < 250 || text.length > limit * 500) throw new Error("正文长度 " + text.length + "，超出允许总量");
+  if (text.length < 1000 || text.length > 2000 || text.length > limit * 500) throw new Error("正文长度 " + text.length + "，不在 1000–2000 字符范围内");
   const count = Math.ceil(text.length / 500);
   if (count > limit) throw new Error("分页后超过最大页数");
   const pages = [];
@@ -46,13 +46,13 @@ function paginate(text, limit) {
   return pages;
 }
 
-async function requestScene(key, brief, maxChars, priorError) {
+async function requestScene(key, brief, priorError) {
   const prompt = [
     "你是固定剧本仙侠游戏《蛊墓五修》的中文主笔。",
     '只输出完整合法 JSON：{"text":"正文"}。除 JSON 外禁止输出任何字符。',
     "禁止思考过程、分析、Markdown、标题、选项、属性和规则提示。",
     "正文必须原创、阴冷、克制，不模仿任何具体作者。",
-    "请写一个完整、可衔接分支的场景，长度为 2000 到 " + maxChars + " 个中文字符。",
+    "请写一个完整、可衔接分支的场景，长度严格为 1000 到 2000 个中文字符。",
     "剧情简述：" + brief,
     "上次校验失败原因：" + priorError + "。请严格修正。",
   ].join("\n");
@@ -71,7 +71,7 @@ const brief = await readFile(resolve(briefFile), "utf8");
 let lastError = "首次生成";
 let pages;
 for (let attempt = 1; attempt <= 4; attempt += 1) {
-  try { pages = paginate(await requestScene(key, brief, maxPages * 1000, lastError), maxPages); break; }
+  try { pages = paginate(await requestScene(key, brief, lastError), maxPages); break; }
   catch (error) { lastError = error instanceof Error ? error.message : "未知错误"; }
 }
 if (!pages) throw new Error("完整场景连续 4 次未通过校验：" + lastError);

@@ -24,9 +24,9 @@ import { chooseInk, createInkStory, readInkKnot, readInkPage, type InkPage } fro
 import type { Story } from "inkjs";
 
 const baseGuActions: { id: GuAction; name: string; description: string }[] = [
-  { id: "blood", name: "血刃蛊", description: "稳定伤害；蓄势时重创。" },
-  { id: "armor", name: "甲衣蛊", description: "大幅减伤，微弱反震。" },
-  { id: "mind", name: "惑心蛊", description: "削弱敌招，可打断蓄势。" },
+  { id: "blood", name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。" },
+  { id: "armor", name: "甲衣蛊", description: "蛊甲覆身，硬受来势。" },
+  { id: "mind", name: "惑心蛊", description: "扰乱神魂，使其心意不宁。" },
 ];
 const inkSceneIds = new Set(["entrance", "bloodDoor", "corpseFight", "well", "shell", "bloodTrap", "bloodHall", "zhaoDuel", "zhaoDeath", "lastGate", "bloodRage", "bloodExit"]);
 const names = new Set(["宁素衣", "陆照野", "顾微尘", "乔无咎", "沈青萝", "赵黎", "贾贵", "沈砚"]);
@@ -200,9 +200,14 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
   const guActions = game.flags.includes("血流蛊已得")
     ? [...baseGuActions, { id: "bloodflow" as const, name: "五转 · 血流蛊", description: "造成 16 点伤害，并恢复等量生命。" }]
     : baseGuActions;
+  const enemyCue = battle.intent === "撕咬"
+    ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`
+    : battle.intent === "毒雾"
+      ? `一缕潮湿腥气自${battle.enemyName}周身漫开，连尸油灯的火光也跟着摇晃。`
+      : `${battle.enemyName}忽然收住脚步，胸腹间传出沉闷的鼓动，四周像骤然安静下来。`;
   return <section className="battle-panel" aria-label="蛊斗">
-    <div className="enemy-row"><span>{battle.enemyName} · {battle.intent}</span><strong>{battle.enemyHealth}/{battle.enemyMaxHealth}</strong></div>
-    <p className="intent-copy">敌方预告：{battle.intent}{battle.intent === "蓄势" ? "，此时可被惑心蛊打断。" : "。"}</p>
+    <div className="enemy-row"><span>{battle.enemyName}</span><strong>{battle.enemyHealth}/{battle.enemyMaxHealth}</strong></div>
+    <p className="intent-copy">{enemyCue}</p>
     <div className="gu-list">{guActions.map((action) => <button key={action.id} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>
   </section>;
 }

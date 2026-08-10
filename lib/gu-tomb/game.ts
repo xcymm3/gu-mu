@@ -69,38 +69,45 @@ export const scenes: Record<string, Scene> = {
     paragraphs: ["机关尽头是一座血色石室。石台上的玉匣里封着一只沉睡的五转蛊——血流蛊。乔家秘卷只记载它能让血气如江河奔涌，具体威能却无人知晓。", "玉匣周围没有锁，只有五道干涸血槽。你的影子落在其中一道里时，匣内的蛊虫忽然轻轻蜷动，仿佛隔着数百年闻到了新鲜血肉。", "石室四壁浮现五人血印。原来乔无咎早已探明七分墓穴：他邀你们并非看中探索本事，而是要用四人的血与自己乔家血脉，复活这只死去的血流蛊。"],
     choices: [
       { id: "truth", label: "把真相摊开，与沈青萝、贾贵破阵", next: "shadowCave", effect: { trust: { shen: 1, qiao: -1 }, flag: "坦白真相" } },
-      { id: "seize", label: "趁乱夺取血流蛊", next: "zhaoDuel", effect: { flag: "夺蛊" } },
+      { id: "seize", label: "趁乱夺取血流蛊", next: "shadowCave", effect: { flag: "夺蛊" } },
       { id: "chase", label: "放弃玉匣，先追乔无咎", next: "shadowCave", effect: { time: 1, flag: "追乔" } },
     ],
   },
   zhaoDuel: {
-    id: "zhaoDuel", chapter: "柒 · 邪修显形", title: "赵黎的第四转",
-    paragraphs: ["赵黎终于不再装作普通散修。他的寿蛊与血刃蛊同时显现，浑厚气息压得石室裂纹蔓延。所谓四转，他已走到尽头，是在场五人中最强的一位。", "他抬手抹去脸上伪装出的细纹，气息却比先前苍老了数倍。血线顺着他的手腕爬进石台，连沉睡的血流蛊都因此轻轻震动。", "他笑道：‘小辈，这五转蛊给老夫，老夫留你一条命。’你若胜，血流蛊归你；你若败，他会用你的血气唤醒它。"],
-    battle: { enemyName: "四转邪修 · 赵黎", enemyHealth: 12, victoryNext: "zhaoAftermath", defeatNext: "zhaoDeath", victoryFlag: "血流蛊已得", defeatFlag: "赵黎夺走血流蛊" },
+    id: "zhaoDuel", chapter: "玖 · 邪修夺蛊", title: "血流邪修 · 赵黎",
+    paragraphs: [""],
+    battle: { enemyName: "血流邪修 · 赵黎", enemyHealth: 22, victoryNext: "qiaoDuel", defeatNext: "zhaoDeath", victoryFlag: "赵黎已败", defeatFlag: "赵黎夺走血流蛊" },
   },
   zhaoDeath: {
-    id: "zhaoDeath", chapter: "柒 · 邪修显形", title: "血流归于赵黎",
-    paragraphs: ["赵黎的血刃蛊刺穿你的护体真元。你倒下时，只看见他接住玉匣，像接住一件本就属于他的旧物。", "‘老夫说过留你一命，’他笑着俯身，‘可血流蛊不喜欢听。’五转蛊醒来的第一口，便吞没了你的血气。"],
+    id: "zhaoDeath", chapter: "玖 · 血流初醒", title: "命丧蛊墓",
+    paragraphs: [""],
     choices: [{ id: "die", label: "在蛊墓中失去最后一丝意识", next: "ending" }],
   },
   lastGate: {
     id: "lastGate", chapter: "捌 · 祭阵出口", title: "乔家的血祭",
-    paragraphs: ["乔无咎立在出口祭台上，操纵残余机关逼迫众人踏入血印。他承认乔家许诺的好处只是饵料，血流蛊复活后，死者都会成为祭阵的一部分。", "祭台上的血线一路延伸到每个人脚下。乔无咎衣袍上没有半点尘土，仿佛他从一开始便不是来探墓，而是来赴一场早已排演好的仪式。", "贾贵仍守在沈青萝身前；赵黎若得手早已不见踪影。你必须决定，是破阵离开，还是用更危险的方式结束这一切。"],
-    choices: [
-      { id: "leave", label: "踏破残阵，带人离开蛊墓", next: "ending" },
-      { id: "break", label: "以自身真元强断血祭", next: "ending", effect: { health: -2, flag: "强断血祭" } },
-      { id: "bloodflow", label: "催动血流蛊，杀穿乔家血卫", note: "需要血流蛊", needs: { flag: "血流蛊已得" }, next: "bloodRage" },
-    ],
+    paragraphs: [""],
+    battle: { enemyName: "乔家血卫", enemyHealth: 34, victoryNext: "bloodRage", defeatNext: "bloodRage", victoryFlag: "血卫独破", defeatFlag: "血卫压境" },
   },
   bloodRage: {
-    id: "bloodRage", chapter: "玖 · 血流成河", title: "五转爽局",
-    paragraphs: ["血流蛊入体，石室内每一滴血都像被你听见。乔无咎唤出最后的血卫阻路，却不知他亲手复活的东西已换了主人。", "血卫拔刀时，刀锋上的暗红色并未滴落，而是倒流向你的掌心。那股力量不问你愿不愿意，只催促你再向前一步。", "此战中，血流蛊会取代原有攻击蛊。它能带来惊人的伤害与生机，也会让每一次心跳都变得更饥饿。"],
-    battle: { enemyName: "乔家血卫", enemyHealth: 16, victoryNext: "bloodExit", defeatNext: "bloodExit", victoryFlag: "血卫尽灭", defeatFlag: "血祭反噬" },
+    id: "bloodRage", chapter: "玖 · 血流初醒", title: "赵黎的血祭",
+    paragraphs: [""],
+    choices: [
+      { id: "fight-zhao", label: "趁血流蛊未稳，合力阻止赵黎", note: "需要援手或未重伤", needs: { flag: "赵黎可战" }, next: "zhaoDuel" },
+      { id: "yield-zhao", label: "无力阻止，只能看他完成秘法", next: "zhaoDeath", effect: { flag: "赵黎夺走血流蛊" } },
+    ],
   },
   bloodExit: {
-    id: "bloodExit", chapter: "拾 · 荒原尽头", title: "活着带走五转蛊",
-    paragraphs: ["血卫在血河中碎裂，乔无咎的祭台也随之坍塌。你带着血流蛊踏过出口，身后再没有人能拦住你。", "荒原的冷风扑在脸上，你才发现自己的掌心仍残留着别人的温度。墓门在身后一点点沉回冻土，像从未开启过。", "它在心口轻轻蠕动，像在提醒你：五转之力从不是免费的。"],
+    id: "bloodExit", chapter: "拾壹 · 血河出墓", title: "夺蛊成魔",
+    paragraphs: ["乔无咎倒下时，血流蛊已经听不见别的声音。它沿着你掌中的血脉涌入四肢，替你撕开祭台，也替你撕开最后一点迟疑。贾贵的惊呼、沈青萝的喝止、赵黎留下的血腥，都被那条无形血河卷得越来越远。\n\n荒原的风吹到墓门外时，你才发觉四下已经没有活人。血流蛊伏在心口，安静得像一枚从未醒过的蛹；而你掌上尚未干涸的血，却仍在替它记住所有人的名字。"],
     choices: [{ id: "leave-blood", label: "踏出蛊墓，任由血流蛊随心跳苏醒", next: "ending" }],
+  },
+  qiaoDuel: {
+    id: "qiaoDuel", chapter: "拾 · 家主现身", title: "乔无咎的末路", paragraphs: [""],
+    battle: { enemyName: "四转蛊修 · 乔无咎", enemyHealth: 18, victoryNext: "bloodExit", defeatNext: "zhaoDeath", victoryFlag: "乔无咎已诛", defeatFlag: "血流反噬" },
+  },
+  qiaoCleanExit: {
+    id: "qiaoCleanExit", chapter: "拾 · 破蛊出墓", title: "血流成灰", paragraphs: [""],
+    choices: [{ id: "leave-clean", label: "看着血流蛊化为灰烬，踏出蛊墓", next: "ending" }],
   },
   corpseAftermath: {
     id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "剑鸣一闪",
@@ -151,15 +158,7 @@ export const scenes: Record<string, Scene> = {
     choices: [
       { id: "check-scripts", label: "陪沈青萝核对阵筹", next: "lastGate", effect: { trust: { shen: 1 } } },
       { id: "watch-jia", label: "与贾贵分守洞口", next: "lastGate", effect: { trust: { jia: 1 } } },
-      { id: "let-zhao-lead", label: "请赵黎先行探明侧洞", next: "lastGate", effect: { trust: { zhao: 1 } } },
-    ],
-  },
-  zhaoAftermath: {
-    id: "zhaoAftermath", chapter: "柒 · 邪修遗囊", title: "血刃余温", paragraphs: ["赵黎倒下后，石室里一时只剩血线回缩的细响。他留下的储物囊裂在地上，滚出数只空血瓶和一枚暗红药丸。沈青萝握剑站在不远处，没有催你去取；贾贵却难得没有立刻伸手，只说邪修的东西向来不能白拿。\n\n你心口的血流蛊尚未完全安静，先前蛊斗留下的伤势却在提醒你，祭台上还有乔无咎在等。那枚药丸气息驳杂，未必干净，却可能是最后一次从容疗伤的机会。"],
-    choices: [
-      { id: "take-blood-pill", label: "服下血髓丹，强压伤势", next: "lastGate", effect: { health: 4 } },
-      { id: "ask-jia-check", label: "让贾贵验看药性后分服", next: "lastGate", effect: { health: 2, trust: { jia: 1 } } },
-      { id: "give-shen", label: "把药丸交给沈青萝保管", next: "lastGate", effect: { trust: { shen: 1 } } },
+      { id: "exile-zhao", label: "以界裂阵筹反制赵黎", note: "需看破赵黎藏实力", needs: { clue: "赵黎藏实力" }, next: "lastGate", effect: { flag: "赵黎已放逐", trust: { zhao: -2 } } },
     ],
   },
 };
@@ -229,6 +228,7 @@ export const scenePageNotes: Record<string, string[]> = {
 export const endings: Record<string, Ending> = {
   trapped: { id: "trapped", name: "困墓之人", epitaph: "尸灯灭时，活人也成了墓的一部分。", text: "你们在机关与迟疑中耗尽时辰。血祭重新闭合，墓门外传来新的脚步声；乔家仍会继续寻找下一批四转蛊修。" },
   bloodflow: { id: "bloodflow", name: "夺蛊成魔", epitaph: "一蛊入心，血流如河。", text: "你夺得五转血流蛊，反杀乔家血卫，带着满身鲜血走出荒原。它替你补回每一滴流失的生命，也在你心里留下永不满足的饥渴。" },
+  cleansed: { id: "cleansed", name: "破蛊出墓", epitaph: "血流既尽，荒原尚有天光。", text: "赵黎被界裂阵筹放逐，乔无咎亲自现身仍败在你手中。血流蛊失去血祭供养，终于化作灰烬；你带着尚存的人走出墓门，乔家的旧账留待人间清算。" },
   together: { id: "together", name: "两人出墓", epitaph: "有些债，活着才能偿。", text: "你与沈青萝凭玉牌拆解引魂血印，贾贵替你们挡住最后一轮机关。石门崩塌前，沈青萝说：‘乔家的账，出去再算。’" },
   death: { id: "death", name: "命丧蛊墓", epitaph: "血流蛊醒来时，第一个被吞掉的是你。", text: "赵黎夺走血流蛊，以你的血气完成它的初醒。墓门在身后合拢，乔家的阴谋、邪修的笑声与未查明的真相，都留在了黑暗里。" },
   alone: { id: "alone", name: "独活荒原", epitaph: "活下来的人，也要背着秘密。", text: "你踏过最后一道血线，身后是再无声息的蛊墓。乔家的阴谋未能吞掉你，但荒原很大，追问真相的人也不会少。" },
@@ -252,12 +252,55 @@ const intents: Intent[] = ["撕咬", "毒雾", "蓄势"];
 export function startBattle(state: GameState, scene: Scene): GameState {
   const role = getRole(state.roleId);
   if (!scene.battle || !role) return state;
-  const enemyHealth = scene.battle.enemyHealth + (scene.id === "bloodRage" && state.flags.includes("乔无咎得血甲蛊") ? 4 : 0);
-  return { ...state, essence: role.maxEssence, battle: { ...scene.battle, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: intents[0] } };
+  let flags = state.flags;
+  let health = state.health;
+  let maxHealth = state.maxHealth;
+  let battleConfig = scene.battle;
+  if (scene.id === "lastGate") {
+    if (state.flags.includes("赵黎已放逐")) {
+      battleConfig = { ...battleConfig, enemyName: "四转蛊修 · 乔无咎", enemyHealth: state.flags.includes("乔无咎得血甲蛊") ? 28 : 24 };
+    } else {
+      flags = addUnique(flags, "贾贵装死");
+      if (state.trust.shen >= 2) {
+        flags = addUnique(flags, "青萝并肩");
+        maxHealth += 3;
+        health = Math.min(maxHealth, health + 3);
+      } else flags = addUnique(flags, "青萝已殁");
+    }
+  }
+  if (scene.id === "zhaoDuel") {
+    const weakenedByAllies = (state.flags.includes("贾贵援手") ? 4 : 0) + (state.flags.includes("赵黎犹疑") ? 2 : 0);
+    battleConfig = { ...battleConfig, enemyHealth: Math.max(12, battleConfig.enemyHealth - weakenedByAllies) };
+  }
+  const enemyHealth = battleConfig.enemyHealth + (battleConfig.enemyName === "乔家血卫" && flags.includes("乔无咎得血甲蛊") ? 4 : 0);
+  return { ...state, flags, health, maxHealth, essence: role.maxEssence, battle: { ...battleConfig, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: intents[0] } };
 }
 function finishBattle(state: GameState, battle: Battle, won: boolean, health: number, nextScene = won ? battle.victoryNext : battle.defeatNext) {
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
-  return { ...state, sceneId: nextScene, battle: null, health: won ? Math.max(1, health) : 1, time: won ? state.time : state.time + 1, flags: addUnique(state.flags, flag) };
+  let flags = addUnique(state.flags, flag);
+  let sceneId = nextScene;
+  if (battle.enemyName === "乔家血卫") {
+    if (state.trust.jia >= 2) flags = addUnique(flags, "贾贵援手");
+    if (state.trust.zhao >= 2) flags = addUnique(flags, "赵黎犹疑");
+    const canFightZhao = (won && health >= 4) || state.trust.zhao >= 2 || state.trust.shen >= 2 || state.trust.jia >= 2;
+    if (canFightZhao) flags = addUnique(flags, "赵黎可战");
+  }
+  if (battle.enemyName === "血流邪修 · 赵黎" && won) {
+    flags = addUnique(flags, "血流蛊已得");
+    flags = addUnique(flags, state.trust.zhao >= 2 ? "赵黎遁走" : "赵黎伏诛");
+  }
+  if (battle.enemyName === "四转蛊修 · 乔无咎") {
+    if (won && state.flags.includes("赵黎已放逐")) {
+      sceneId = "qiaoCleanExit";
+      flags = addUnique(flags, "血流蛊化灰");
+    }
+    if (!won) {
+      sceneId = "zhaoDeath";
+      flags = addUnique(flags, "乔无咎杀死你");
+    }
+  }
+  const endingHealth = won ? Math.max(1, health) : battle.enemyName === "乔家血卫" && state.trust.shen >= 2 ? Math.min(state.maxHealth, 5) : 1;
+  return { ...state, sceneId, battle: null, health: endingHealth, time: won ? state.time : state.time + 1, flags };
 }
 const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 0, rest: 0 };
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
@@ -289,9 +332,11 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   return { ...nextState, health, battle: { ...battle, enemyHealth, turn, intent: intents[turn % intents.length] } };
 }
 export function resolveEnding(state: GameState) {
+  if (state.flags.includes("血流蛊化灰")) return "cleansed";
+  if (state.flags.includes("乔无咎杀死你")) return "death";
   if (state.flags.includes("赵黎夺走血流蛊")) return "death";
   if (state.time >= 4) return "trapped";
   if (state.flags.includes("血流蛊已得")) return "bloodflow";
-  if (state.trust.shen >= 2 && (state.clues.includes("五人血印") || state.clues.includes("沈砚玉牌"))) return "together";
+  if (!state.flags.includes("青萝已殁") && state.trust.shen >= 2 && (state.clues.includes("五人血印") || state.clues.includes("沈砚玉牌"))) return "together";
   return "alone";
 }

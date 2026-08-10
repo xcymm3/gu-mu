@@ -26,7 +26,7 @@ import type { Story } from "inkjs";
 const baseGuActions: { id: GuAction; name: string; description: string }[] = [
   { id: "blood", name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。消耗 1 真元。" },
 ];
-const inkSceneIds = new Set(["entrance", "bloodDoor", "corpseFight", "well", "shell", "bloodTrap", "bloodHall", "zhaoDuel", "zhaoDeath", "lastGate", "bloodRage", "bloodExit"]);
+const inkSceneIds = new Set(["entrance", "bloodDoor", "corpseFight", "well", "shell", "bloodTrap", "bloodHall"]);
 const names = new Set(["宁素衣", "陆照野", "顾微尘", "乔无咎", "沈青萝", "赵黎", "贾贵", "沈砚"]);
 const criticalTerms = new Set(["血流蛊", "五转", "血祭", "血针", "尸灯傀儡", "命丧蛊墓"]);
 
@@ -74,6 +74,32 @@ function shenCareText(gender: "female" | "male") {
   return gender === "female"
     ? "尸灯傀儡倒下后，墓道里安静得只余你压抑的呼吸。沈青萝收回藤蛊，目光在你染血的衣袖上停了片刻。她没有像贾贵那样急着翻找碎甲，也没有去看赵黎藏在阴影里的手，只从随身药囊中取出一只白玉瓶。\n\n“方才那一下，不必强撑。”她把玉瓶递来，声音仍冷，却放得很轻，“你我同为女修，最知道这荒原里旁人不会因你受伤便手下留情。丹药不多，留给需要的人。”\n\n墓道尽头的风带着潮气吹来。她没有催促，只等你自己决定，是否接下这份并不张扬的善意。"
     : "尸灯傀儡倒下后，墓道里安静得只余你压抑的呼吸。沈青萝收回藤蛊，目光在你染血的衣袖上停了片刻。她没有像贾贵那样急着翻找碎甲，也没有去看赵黎藏在阴影里的手，只从随身药囊中取出一只白玉瓶。\n\n“方才那一下，不必强撑。”她把玉瓶递来，语气清冷，“你若倒在下一道机关前，余下的人只会少一个帮手，不会多半分怜悯。这枚回元丹能稳住伤势，拿着。”\n\n墓道尽头的风带着潮气吹来。她没有催促，只等你自己决定，是否接下这份并不张扬的善意。";
+}
+
+function climaxText(sceneId: string, game: GameState) {
+  if (sceneId === "lastGate") {
+    if (game.flags.includes("赵黎已放逐")) return "伏尸暗格的界裂阵筹已经裂开，赵黎连同那股阴冷血气被卷入其中，连一声咒骂也未留下。乔无咎望着塌陷的侧洞，脸上的从容终于消失；他原想借邪修之手收尾，如今却只能亲自踏下祭台。\n\n血槽里的血气仍向石室中央汇去。没有赵黎的血瓶与秘法，沉睡的血流蛊迟迟不能真正苏醒。乔无咎抬手放出本命蛊，冷声说只要杀了你，乔家的血脉仍足够完成最后一步。此战之后，便只剩他与你。";
+    const shenText = game.trust.shen >= 2
+      ? "血卫的刀锋落下时，你替沈青萝挡住了机关最狠的一击。她没有退，青藤蛊反而缠上你的手腕，一缕温润生机灌入经脉。她与你并肩而立，你的命息也因此比先前更盛。"
+      : "血卫的刀锋落下时，乔无咎暗藏的机关先一步穿过沈青萝的护身藤影。她倒在碎石间，只来得及看你一眼；余下的青藤随即被血火吞没。";
+    return `祭台入口刚刚合拢，乔无咎便抬手唤出一具披血重甲的血卫。贾贵惨叫一声，被血卫一掌拍进石壁，金壳碎裂，半点气息也不再露出。${shenText}\n\n乔无咎站在高台上笑道：“诸位替乔某走到这里，已是大功。余下的血，便由血卫来取。”血卫甲缝间的血光如潮起伏，远非先前机关可比；无论你愿不愿意，都只能先活过这一关。`;
+  }
+  if (sceneId === "bloodRage") {
+    const guardText = game.flags.includes("血卫独破") ? "你竟在血卫倒下前站稳了脚跟，连赵黎也微微眯起眼，像第一次真正看清你的底细。" : "你被血卫逼得跪倒在地，血从指缝间落进祭槽，连呼吸都像在替阵法续火。";
+    const shenText = game.flags.includes("青萝并肩") ? "沈青萝将最后一枚灵丹弹入你口中，替你压住几近断裂的气血。" : "石阶上只余散落的藤叶，再无人替你挡住血气。";
+    const jiaText = game.flags.includes("贾贵援手") ? "忽然，原本气绝的贾贵从碎甲下翻身而起；装死蛊脱壳成灰，他趁赵黎结印时一记黑刀刺入其肩背。" : "石壁边的贾贵仍一动不动，像是真的死在第一击下。";
+    const zhaoText = game.flags.includes("赵黎犹疑") ? "赵黎看向你的目光有一瞬迟疑，手中血瓶并未立刻倾下。" : "赵黎根本没有看任何人，只把一只血瓶咬开，暗红液体尽数浇在玉匣上。";
+    return `${guardText}\n\n赵黎终于从阴影里走出，仰头大笑：“哈哈哈，没想到真的是血流蛊！”他抬手便将残破血卫撕成两截，乔无咎在高台上怒喝，他却置若罔闻，径直以邪修秘法催动血瓶。${shenText}${jiaText}${zhaoText}\n\n血流蛊在匣中睁开无形的眼。若再无人阻止，祭台上的每一道血气都会成为赵黎的养料。`;
+  }
+  if (sceneId === "zhaoDuel") return "血瓶尽碎，赵黎周身血线与血流蛊相连。他不再伪装苍老散修，四转巅峰的威压压得石室不断崩裂。你身边若还有愿意出手的人，此刻就是最后的机会；一旦让他将血流蛊彻底炼入血脉，所有活人都会沦为祭料。";
+  if (sceneId === "zhaoDeath") return game.flags.includes("乔无咎杀死你")
+    ? "乔无咎的蛊刃穿过护体真元。你倒下时，血流蛊在未醒的玉匣中发出极轻的嘶鸣，随后被乔家血火重新吞没。墓门合拢，荒原再无人知道你曾到过这里。"
+    : "赵黎的血线绕开护体蛊虫，先刺穿了最虚弱的经脉。他接住震颤的玉匣，笑道：“老夫原想留你一命，可血流蛊不喜欢旁人替它做主。”五转蛊初醒的第一口，吞掉了墓中最后的生机。";
+  if (sceneId === "qiaoDuel") return game.flags.includes("赵黎遁走")
+    ? "赵黎借血流蛊反噬遁入墓道深处，乔无咎却堵在出口之前。血流蛊已落入你手，他终于不再伪装家主的从容，亲自放出本命蛊。此人已无退路，你也没有。"
+    : "赵黎倒在血流蛊反噬的血河里，乔无咎终于现身。他看着被你夺走的五转蛊，怒意几乎压碎祭台：“乔家等了数十年，岂能为几个祭品作嫁衣？”他亲自出手，誓要把血流蛊重新夺回。";
+  if (sceneId === "qiaoCleanExit") return "乔无咎的本命蛊在石阶上裂成灰。没有赵黎的邪修秘法，血流蛊终究无法吞下足够血气；它在玉匣中挣扎片刻，背甲上的血纹一寸寸黯淡，最终化作一捧温热灰烬。\n\n墓门外的天光照进来时，你才意识到自己仍能听见风声。乔家的血祭断在这里，荒原上留下的只有一座空墓和一笔尚待清算的旧账。";
+  return "";
 }
 
 export function GuTombGame() {
@@ -150,13 +176,14 @@ export function GuTombGame() {
 
   const battle = game.battle;
   const isInkScene = inkSceneIds.has(scene.id) && inkPage !== null;
-  const sourceText = scene.id === "shenCare" ? shenCareText(role.gender) : isInkScene ? inkPage.text : scene.paragraphs[0];
+  const isDynamicClimaxScene = ["lastGate", "bloodRage", "zhaoDuel", "zhaoDeath", "qiaoDuel", "qiaoCleanExit"].includes(scene.id);
+  const sourceText = scene.id === "shenCare" ? shenCareText(role.gender) : isDynamicClimaxScene ? climaxText(scene.id, game) : isInkScene ? inkPage.text : scene.paragraphs[0];
   const fittedPages = splitForViewport(sourceText, readingBox);
   const pageCount = fittedPages.length;
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
   const pageIndex = Math.min(narrativePage, pageCount - 1);
   const isLastNarrativePage = pageIndex === pageCount - 1;
-  const narrativeParts: string[] = [fittedPages[pageIndex], !isInkScene ? scenePageNotes[scene.id]?.[pageIndex] : undefined].filter((part): part is string => Boolean(part));
+  const narrativeParts: string[] = [fittedPages[pageIndex], !isInkScene && !isDynamicClimaxScene ? scenePageNotes[scene.id]?.[pageIndex] : undefined].filter((part): part is string => Boolean(part));
   const displayChoices: Choice[] = isInkScene
     ? inkPage.choices.map((inkChoice) => inkChoice.id === "continue" ? { id: "continue", label: inkChoice.label, next: scene.id } : scene.choices?.find((choice) => choice.id === inkChoice.id)).filter((choice): choice is Choice => Boolean(choice))
     : scene.choices ?? [];
@@ -236,7 +263,7 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
 function EndingScreen({ game, seenEndings, onReplay, onChangeRole }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void }) {
   const ending = game.endingId ? endings[game.endingId] : null;
   if (!ending) return null;
-  const endingText = readInkKnot(`ending_${ending.id}`) || ending.text;
+  const endingText = ending.id === "cleansed" ? ending.text : readInkKnot(`ending_${ending.id}`) || ending.text;
   return <main className="game-shell"><section className="game-frame ending-card" aria-labelledby="ending-title">
     <p className="eyebrow">结局已定</p><p className="ending-number">{String(seenEndings.length).padStart(2, "0")} / {String(Object.keys(endings).length).padStart(2, "0")}</p><h1 id="ending-title">{ending.name}</h1>
     <p className="epitaph">“{ending.epitaph}”</p><p className="ending-text">{endingText}</p>

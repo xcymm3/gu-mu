@@ -49,11 +49,11 @@ test("赵黎夺走血流蛊时，玩家命丧蛊墓", () => {
 
 test("血流蛊在夺蛊成功后能造成高伤并恢复生命", () => {
   const state = { ...chooseRole("healer"), health: 2, flags: ["血流蛊已得"] };
-  const battle = startBattle(state, scenes.bloodRage);
-  const result = resolveBattleTurn(battle, "bloodflow");
+  const battle = startBattle(state, scenes.qiaoDuel);
+  const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 16 } }, "bloodflow");
   assert.equal(result.sceneId, "bloodExit");
   assert.equal(result.health, 10);
-  assert.equal(result.flags.includes("血卫尽灭"), true);
+  assert.equal(result.flags.includes("乔无咎已诛"), true);
 });
 
 test("每场蛊斗均以角色的满真元开始", () => {
@@ -109,6 +109,41 @@ test("血池密室的选择保留蛊虫与隐藏关系后果", () => {
 
 test("乔无咎取得血甲蛊会强化最终血卫", () => {
   const state = { ...chooseRole("healer"), flags: ["乔无咎得血甲蛊"] };
-  const battle = startBattle(state, scenes.bloodRage);
-  assert.equal(battle.battle?.enemyHealth, 20);
+  const battle = startBattle(state, scenes.lastGate);
+  assert.equal(battle.battle?.enemyHealth, 38);
+});
+
+test("沈青萝关系足够时会在血卫战并肩并提升生命", () => {
+  const state = { ...chooseRole("healer"), health: 6, trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } };
+  const battle = startBattle(state, scenes.lastGate);
+  assert.equal(battle.maxHealth, 13);
+  assert.equal(battle.health, 9);
+  assert.equal(battle.flags.includes("青萝并肩"), true);
+});
+
+test("援手条件足够时，血卫战败后仍可挑战赵黎", () => {
+  const state = { ...chooseRole("healer"), trust: { qiao: 0, shen: 2, zhao: 2, jia: 2 } };
+  const battle = startBattle(state, scenes.lastGate);
+  const result = resolveBattleTurn({ ...battle, health: 2 }, "blood");
+  assert.equal(result.sceneId, "bloodRage");
+  assert.equal(result.flags.includes("赵黎可战"), true);
+  assert.equal(result.flags.includes("贾贵援手"), true);
+  assert.equal(result.health, 5);
+});
+
+test("贾贵黑刀与赵黎犹疑会削弱血流邪修", () => {
+  const state = { ...chooseRole("healer"), flags: ["贾贵援手", "赵黎犹疑"] };
+  const battle = startBattle(state, scenes.zhaoDuel);
+  assert.equal(battle.battle?.enemyHealth, 16);
+});
+
+test("放逐赵黎会改写为乔无咎本体战与破蛊结局", () => {
+  const exile = scenes.shadowCave.choices?.find((choice) => choice.id === "exile-zhao");
+  assert.ok(exile);
+  const exiled = applyChoice({ ...chooseRole("healer"), clues: ["赵黎藏实力"] }, exile);
+  const battle = startBattle(exiled, scenes.lastGate);
+  assert.equal(battle.battle?.enemyName, "四转蛊修 · 乔无咎");
+  const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 1 } }, "blood");
+  assert.equal(result.sceneId, "qiaoCleanExit");
+  assert.equal(resolveEnding(result), "cleansed");
 });

@@ -116,8 +116,8 @@ export const scenes: Record<string, Scene> = {
     choices: [{ id: "leave-clean", label: "看着血流蛊化为灰烬，踏出蛊墓", next: "ending" }],
   },
   corpseAftermath: {
-    id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "剑鸣余响",
-    paragraphs: ["尸灯傀儡倒下后，墓道里只余灯芯碎裂的轻响。陆照野收剑立在原地，剑鞘边缘有一缕极淡的锐气迟迟不散，仿佛藏在其中的蛊虫尚未完全安静。\n\n赵黎捻了捻指尖，忽然笑道：\"陆道友的剑鸣蛊，名声倒比人先到。\"贾贵收起金壳蛊，没敢接话；沈青萝的藤蛊停在半空，眸光从残甲移到你身上，像是重新估量起这位同行之人。墓道恢复死寂后，众人才继续向更深处走去。"],
+    id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "强敌之后",
+    paragraphs: ["尸灯傀儡倒下后，墓道里只余灯芯碎裂的轻响。陆照野收剑立在原地，衣袖上沾着尘与血，神色却没有半分松动，仿佛方才那场凶险只让他多看清了几分墓道深处。\n\n赵黎捻了捻指尖，笑意淡了些：\"陆道友的本事，倒比老夫先前想的更深。\"贾贵收起金壳蛊，没敢接话；沈青萝的藤蛊停在半空，眸光从残甲移到你身上，像是重新估量起这位同行之人。墓道恢复死寂后，众人才继续向更深处走去。"],
     choices: [{ id: "continue-after-sword", label: "收蛊前行", next: "shenCare" }],
   },
   shenCare: {
@@ -169,6 +169,14 @@ export const scenes: Record<string, Scene> = {
       { id: "array-force", label: "不顾阵纹，强行灌注真元", next: "unknownRoom" },
     ],
   },
+  swordArrayForce: {
+    id: "swordArrayForce", chapter: "陆 · 血牌之变", title: "裂阵余波", paragraphs: ["赵黎的血线在阵心炸开，失控的传送光将他连同半片石台卷入裂隙，转眼便不见踪影。余下阵纹被震得寸寸崩裂，沈青萝按住渗血的掌心，仍想强行将它补回。\n\n你看见她腕上的青藤一根根断开，便按住她的手，只道：‘我来。’剑意压住残阵时，碎裂血牌同时亮起，荒原与墓室的影子尽数被一道白光吞没。"],
+    choices: [{ id: "sword-force-unknown", label: "强行稳住裂阵，踏入白光", next: "unknownRoom" }],
+  },
+  swordArrayRepair: {
+    id: "swordArrayRepair", chapter: "陆 · 血牌之变", title: "残阵复明", paragraphs: ["赵黎的血线在阵心炸开，失控的传送光将他连同半片石台卷入裂隙，转眼便不见踪影。余下阵纹已被震得残缺，沈青萝却没有退；她以藤丝穿过裂缝，将一面面血牌重新拽回原位。\n\n石台在她掌下缓缓平静。她抬眼看向你，声音很轻：‘阵还能走，只是这一次，别再让它乱了。’传送光重新照亮石室，尽头隐约现出一片不该属于墓道的血色。"],
+    choices: [{ id: "shen-repair-bloodhall", label: "随沈青萝踏入修复后的传送阵", next: "bloodHall" }],
+  },
   shadowCave: {
     id: "shadowCave", chapter: "陆 · 石室侧洞", title: "伏尸暗格", paragraphs: ["血色石室旁有一道不起眼的侧洞，洞壁嵌着几具早已风化的乔家尸骸。尸骸指骨间还夹着残破阵筹，恰与祭台血槽的纹路相合。乔无咎的声音仍在墓里回荡，催促众人尽快入阵；越是如此，这处被他略过的暗格越显得可疑。\n\n沈青萝想查看阵筹，贾贵却更关心尸骸腰间的储物囊。赵黎站在洞口，脸上又挂回那副若无其事的笑。你们很快仍要去祭台，只是此刻该信谁、该防谁，各人心中已有不同答案。"],
     choices: [
@@ -195,6 +203,10 @@ export const scenes: Record<string, Scene> = {
       { id: "wu-steal", label: "趁其与乔无咎交手，夺下血流蛊反击", note: "陆照野专属", needs: { role: "swordsman" }, next: "wuDuel", effect: { flag: "血流蛊已得" } },
       { id: "wu-submit", label: "接受契约，任由他收回血线", next: "wuBetrayal" },
     ],
+  },
+  wuDuel: {
+    id: "wuDuel", chapter: "捌 · 旧主反噬", title: "血流反戈", paragraphs: ["武意海与乔无咎交手的刹那，你夺下血流蛊。血线断开时，盟约反噬沿手腕一路攀来；武意海回身看见空下来的玉匣，眼中最后一点从容终于沉了下去。\n\n他没有追问，只抬手将整座石室的血雾压向你。血流蛊在掌中不断震颤，像要挣开，又像催促你先一步作出选择。"],
+    battle: { enemyName: "五转蛊修 · 武意海", enemyHealth: 24, victoryNext: "bloodExit", defeatNext: "wuBetrayal", victoryFlag: "武意海已灭", defeatFlag: "武意海屠尽众人" },
   },
   wuBetrayal: {
     id: "wuBetrayal", chapter: "柒 · 旧主反噬", title: "血食", paragraphs: ["武意海的笑声在主墓室里回荡。他从未打算与任何人平分自由；血气一旦足够，盟约与请求都只剩一张无用的纸。赵黎、乔无咎与墓中幸存者的声音先后沉入血河，最后连你眼前的灯火也被染成暗红。\n\n五转蛊修恢复实力的一刻，没有人能从这座墓里走出去。"],
@@ -310,7 +322,10 @@ export function applyChoice(state: GameState, choice: Choice): GameState {
   const role = getRole(state.roleId);
   let flags = addUnique(state.flags, effect?.flag);
   let nextScene = choice.next;
-  if (choice.id === "array-sword" && role?.id === "swordsman" && state.trust.zhao < 2) flags = addUnique(flags, "赵黎已放逐");
+  if (choice.id === "array-sword" && role?.id === "swordsman" && state.trust.zhao < 2) {
+    flags = addUnique(flags, "赵黎已放逐");
+    nextScene = state.trust.shen >= 2 ? "swordArrayForce" : "swordArrayRepair";
+  }
   if (choice.id === "gather-team") nextScene = state.trust.shen >= 2 && state.trust.zhao >= 2 && state.trust.jia >= 2 ? "trueEnding" : "zhaoDuel";
   return { ...state, sceneId: nextScene, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags, trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
 }

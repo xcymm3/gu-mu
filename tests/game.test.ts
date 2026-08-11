@@ -81,7 +81,7 @@ test("真元耗尽后只能调息并恢复三点", () => {
   assert.equal(rested.health, 7);
 });
 
-test("陆照野击败尸灯傀儡时必定进入剑鸣蛊特殊余波，且不会承受击杀反击", () => {
+test("陆照野击败尸灯傀儡时必定进入实力惊异的特殊余波，且不会承受击杀反击", () => {
   const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
   const result = resolveBattleTurn(battle, "sword");
   assert.equal(result.sceneId, "corpseAftermath");
@@ -154,16 +154,29 @@ test("贾贵黑刀与赵黎犹疑会削弱血流邪修", () => {
   assert.equal(battle.battle?.enemyHealth, 16);
 });
 
-test("陆照野与赵黎交恶时会在血牌阵中放逐赵黎", () => {
+test("陆照野与赵黎交恶后会因沈青萝关系进入不同裂阵路线", () => {
   const exile = scenes.bloodCardChange.choices?.find((choice) => choice.id === "array-sword");
   assert.ok(exile);
-  const exiled = applyChoice(chooseRole("swordsman"), exile);
-  assert.equal(exiled.flags.includes("赵黎已放逐"), true);
-  const battle = startBattle(exiled, scenes.lastGate);
+  const repaired = applyChoice(chooseRole("swordsman"), exile);
+  assert.equal(repaired.flags.includes("赵黎已放逐"), true);
+  assert.equal(repaired.sceneId, "swordArrayRepair");
+  assert.equal(applyChoice(repaired, scenes.swordArrayRepair.choices![0]).sceneId, "bloodHall");
+  const forced = applyChoice({ ...chooseRole("swordsman"), trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } }, exile);
+  assert.equal(forced.sceneId, "swordArrayForce");
+  assert.equal(applyChoice(forced, scenes.swordArrayForce.choices![0]).sceneId, "unknownRoom");
+  const battle = startBattle(repaired, scenes.lastGate);
   assert.equal(battle.battle?.enemyName, "四转蛊修 · 乔无咎");
   const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 1 } }, "blood");
   assert.equal(result.sceneId, "qiaoCleanExit");
   assert.equal(resolveEnding(result), "cleansed");
+});
+
+test("陆照野在武意海盟约线可进入完整的血流反戈战", () => {
+  const steal = scenes.wuAlliance.choices?.find((choice) => choice.id === "wu-steal");
+  assert.ok(steal);
+  const duel = applyChoice(chooseRole("swordsman"), steal);
+  assert.equal(duel.sceneId, "wuDuel");
+  assert.equal(startBattle(duel, scenes.wuDuel).battle?.enemyName, "五转蛊修 · 武意海");
 });
 
 test("宁素衣能识破血牌陷阱，顾微尘可走叛徒路线", () => {

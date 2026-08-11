@@ -2,9 +2,10 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, resolve } from "node:path";
 
-const [sceneId, pagesArg, briefFile] = process.argv.slice(2);
+const [sceneId, pagesArg, briefFile, modeArg] = process.argv.slice(2);
+const shortMode = modeArg === "--short";
 const maxPages = Number(pagesArg);
-if (!sceneId || !Number.isInteger(maxPages) || maxPages < 1 || maxPages > 8 || !briefFile) throw new Error("用法：pnpm generate:story <场景id> <最大页数1-8> <剧情简述文件>");
+if (!sceneId || !Number.isInteger(maxPages) || maxPages < 1 || maxPages > 8 || !briefFile) throw new Error("用法：pnpm generate:story <场景id> <最大页数1-8> <剧情简述文件> [--short]");
 
 async function getKey() {
   if (process.env.DEEPSEEK_API_KEY) return process.env.DEEPSEEK_API_KEY;
@@ -26,8 +27,10 @@ function textFromResponse(raw) {
   return text;
 }
 
-function paginate(text, limit) {
-  if (text.length < 1000 || text.length > 2000 || text.length > limit * 500) throw new Error("正文长度 " + text.length + "，不在 1000–2000 字符范围内");
+function paginate(text, limit, short) {
+  const minLen = short ? 300 : 1000;
+  const maxLen = short ? 800 : 2000;
+  if (text.length < minLen || text.length > maxLen || text.length > limit * 500) throw new Error("正文长度 " + text.length + "，不在 " + minLen + "–" + maxLen + " 字符范围内");
   const count = Math.ceil(text.length / 500);
   if (count > limit) throw new Error("分页后超过最大页数");
   const pages = [];
@@ -46,13 +49,13 @@ function paginate(text, limit) {
   return pages;
 }
 
-async function requestScene(key, guide, brief, priorError) {
+async function requestScene(key, guide, brief, priorError, short) {
   const prompt = [
     "你是固定剧本仙侠游戏《蛊墓五修》的中文主笔。",
     '只输出完整合法 JSON：{"text":"正文"}。除 JSON 外禁止输出任何字符。',
     "禁止思考过程、分析、Markdown、标题、选项、属性和规则提示。",
     "正文必须原创、阴冷、克制，不模仿任何具体作者。",
-    "请写一个完整、可衔接分支的场景，长度严格为 1000 到 2000 个中文字符。",
+    (short ? "请写一个完整的角色专属片段，长度严格为 300 到 800 个中文字符。" : "请写一个完整、可衔接分支的场景，长度严格为 1000 到 2000 个中文字符。"),
     "统一生成提示词：\n" + guide,
     "\n本场景剧情节拍与状态：\n" + brief,
     "上次校验失败原因：" + priorError + "。请严格修正。",
@@ -75,7 +78,7 @@ const [guide, brief] = await Promise.all([
 let lastError = "首次生成";
 let pages;
 for (let attempt = 1; attempt <= 4; attempt += 1) {
-  try { pages = paginate(await requestScene(key, guide, brief, lastError), maxPages); break; }
+  try { pages = paginate(await requestScene(key, guide, brief, lastError, shortMode), maxPages, shortMode); break; }
   catch (error) { lastError = error instanceof Error ? error.message : "未知错误"; }
 }
 if (!pages) throw new Error("完整场景连续 4 次未通过校验：" + lastError);

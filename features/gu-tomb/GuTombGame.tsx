@@ -343,6 +343,7 @@ export function GuTombGame() {
   const displayChoices: Choice[] = isInkScene
     ? inkPage.choices.map((inkChoice) => inkChoice.id === "continue" ? { id: "continue", label: inkChoice.label, next: scene.id } : scene.choices?.find((choice) => choice.id === inkChoice.id)).filter((choice): choice is Choice => Boolean(choice))
     : scene.choices ?? [];
+  const visibleChoices = displayChoices.filter((choice) => choice.id === "continue" || canChoose(game, choice));
   return (
     <main className="game-shell">
       <section className={`game-frame story-frame${battle ? " is-battling" : ""}`} aria-label="蛊墓五修游戏界面">
@@ -361,9 +362,9 @@ export function GuTombGame() {
         {isLastNarrativePage && battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} /> : null}
         {isLastNarrativePage && scene.choices && !battle ? (
           <nav className="choice-panel" aria-label="剧情选项">
-            {displayChoices.map((choice) => choice.id === "continue"
+            {visibleChoices.map((choice) => choice.id === "continue"
               ? <button className="primary-button" key={choice.id} onClick={() => selectInkChoice(choice.id)}>继续</button>
-              : <button className="choice-button" disabled={!canChoose(game, choice)} key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span>{choice.note ? <small>{choice.note}</small> : null}</button>)}
+              : <button className="choice-button" key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span></button>)}
           </nav>
         ) : null}
       </section>

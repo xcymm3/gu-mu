@@ -5,11 +5,18 @@ import {
   applyChoice,
   canChoose,
   chooseRole,
+  getEnemyCondition,
   resolveBattleTurn,
   resolveEnding,
   scenes,
   startBattle,
 } from "../lib/gu-tomb/game.ts";
+
+test("敌方血量以隐性伤势状态呈现", () => {
+  assert.equal(getEnemyCondition(10, 10), "健康");
+  assert.equal(getEnemyCondition(8, 10), "受伤");
+  assert.equal(getEnemyCondition(3, 10), "重伤");
+});
 
 test("角色属性决定剧情选项是否可用", () => {
   const inspectDoor = scenes.entrance.choices?.[0];

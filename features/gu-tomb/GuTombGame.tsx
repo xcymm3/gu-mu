@@ -8,6 +8,7 @@ import {
   canChoose,
   chooseRole,
   endings,
+  getEnemyCondition,
   getRole,
   initialGame,
   resolveBattleTurn,
@@ -40,6 +41,7 @@ const endingRoleAccess: Record<RoleId, string[]> = {
 };
 type HomeView = "menu" | "roles" | "archive" | "settings";
 type ThemePreference = "system" | "light" | "dark";
+type BattleFeedback = { text: string; enemyCondition: string; hasEnded: boolean };
 
 function splitParagraphs(text: string) {
   const blocks = text.split(/\n{2,}/).flatMap((block) => {
@@ -138,6 +140,43 @@ function teamGatherText(game: GameState) {
     : "武意海伏诛后，赵黎望向血流蛊室的方向，神色重新变得幽深。他没有等你们救完剩下的人，便独自沿密道离去。待你带着幸存者赶到主墓室时，血瓶碎裂的声音已经响起——赵黎显然比任何人都更急着得到血流蛊。";
 }
 
+function describeBattleTurn(before: GameState, after: GameState, action: GuAction): BattleFeedback {
+  const battle = before.battle;
+  if (!battle) return { text: "蛊息渐歇，墓道里只余摇晃的灯火。", enemyCondition: "不明", hasEnded: false };
+  const enemyName = battle.enemyName;
+  const actionText: Record<GuAction, string> = {
+    blood: `你催动血刃蛊，血煞在掌前凝成一线锋芒，斩向${enemyName}。`,
+    bloodflow: `血流蛊自掌心游出，${enemyName}身上的血气被它牵出一缕，反灌回你的经脉。`,
+    armor: before.flags.includes("血甲蛊已得")
+      ? "血甲蛊覆上周身，薄如一层血雾，却将来势尽数隔在体外。"
+      : "甲衣蛊贴身而起，细密甲纹沿经脉铺开，迎向逼近的阴影。",
+    heal: "回春蛊化作温和药气游走经脉，原本滞涩的气血重新有了暖意。",
+    sword: `剑鸣蛊破空长啸，锐响在墓道里折返，直刺${enemyName}胸前。`,
+    mind: `${enemyName}眼中的幽火忽明忽灭，惑心蛊已经先一步扰乱了它凝聚的杀意。`,
+    rest: "你收束纷乱真元，强行压下翻涌的气血，趁片刻空隙调息回气。",
+  };
+  const nextBattle = after.battle;
+  if (!nextBattle || after.sceneId !== before.sceneId) return {
+    text: `${actionText[action]}${enemyName}的躯壳猛地一滞，随后在昏暗灯火中崩裂倒下，再没有余力还击。`,
+    enemyCondition: "已伏诛",
+    hasEnded: true,
+  };
+  const sufferedHit = after.health < before.health;
+  const recovery = after.health > before.health;
+  const enemyResponse = sufferedHit
+    ? `${enemyName}仍未倒下，反扑的劲风扫过身侧，震得你气血一滞。`
+    : action === "armor" || action === "mind"
+      ? `${enemyName}的攻势落空，只在墓砖上拖出刺耳的裂响。`
+      : recovery
+        ? `${enemyName}逼近时，你体内尚存的生机替你稳住了伤势。`
+        : `${enemyName}在灯影里踉跄半步，幽火却仍未熄灭。`;
+  return {
+    text: `${actionText[action]}${enemyResponse}`,
+    enemyCondition: getEnemyCondition(nextBattle.enemyHealth, nextBattle.enemyMaxHealth),
+    hasEnded: false,
+  };
+}
+
 export function GuTombGame() {
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
@@ -148,6 +187,8 @@ export function GuTombGame() {
   const [narrative, setNarrative] = useState({ sceneId: "entrance", page: 0 });
   const [inkPage, setInkPage] = useState<InkPage | null>(null);
   const [readingBox, setReadingBox] = useState({ width: 340, height: 280 });
+  const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
+  const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
   const inkStory = useRef<Story | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
@@ -202,6 +243,8 @@ export function GuTombGame() {
 
   function selectRole(id: RoleId) {
     loadInkScene("entrance");
+    setPendingBattleState(null);
+    setBattleFeedback(null);
     setGame(chooseRole(id));
   }
   function selectChoice(choice: Choice) {
@@ -217,9 +260,19 @@ export function GuTombGame() {
   }
 
   function handleBattle(action: GuAction) {
+    if (pendingBattleState) return;
     const next = resolveBattleTurn(game, action);
-    if (next.sceneId !== game.sceneId) loadInkScene(next.sceneId);
-    setGame(next);
+    if (next === game) return;
+    setBattleFeedback(describeBattleTurn(game, next, action));
+    setPendingBattleState(next);
+  }
+
+  function continueBattle() {
+    if (!pendingBattleState) return;
+    if (pendingBattleState.sceneId !== game.sceneId) loadInkScene(pendingBattleState.sceneId);
+    setGame(pendingBattleState);
+    setPendingBattleState(null);
+    setBattleFeedback(null);
   }
 
   function selectInkChoice(id: string) {
@@ -260,7 +313,7 @@ export function GuTombGame() {
     : scene.choices ?? [];
   return (
     <main className="game-shell">
-      <section className="game-frame story-frame" aria-label="蛊墓五修游戏界面">
+      <section className={`game-frame story-frame${battle ? " is-battling" : ""}`} aria-label="蛊墓五修游戏界面">
         <header className="status-bar">
           <div><span>修士</span><strong>{role.name}</strong></div>
           <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
@@ -273,7 +326,7 @@ export function GuTombGame() {
         </section>
         {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}
         {isLastNarrativePage && scene.battle && !battle ? <div className="choice-panel"><button className="primary-button" onClick={() => setGame((current) => startBattle(current, scene))}>放出本命蛊</button></div> : null}
-        {isLastNarrativePage && battle ? <BattlePanel game={game} onAction={handleBattle} /> : null}
+        {isLastNarrativePage && battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} /> : null}
         {isLastNarrativePage && scene.choices && !battle ? (
           <nav className="choice-panel" aria-label="剧情选项">
             {displayChoices.map((choice) => <button className="choice-button" disabled={!canChoose(game, choice)} key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span>{choice.note ? <small>{choice.note}</small> : null}</button>)}
@@ -340,7 +393,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
   </section></main>;
 }
 
-function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: GuAction) => void }) {
+function BattlePanel({ battleFeedback, game, onAction, onContinue }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onContinue: () => void }) {
   const battle = game.battle;
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
@@ -365,11 +418,11 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
     : battle.intent === "毒雾"
       ? `一缕潮湿腥气自${battle.enemyName}周身漫开，连尸油灯的火光也跟着摇晃。`
       : `${battle.enemyName}忽然收住脚步，胸腹间传出沉闷的鼓动，四周像骤然安静下来。`;
+  const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">
-    <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>{battle.enemyHealth}/{battle.enemyMaxHealth}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
+    <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>状态：{enemyCondition}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
     <p className="essence-stat">真元 <strong>{game.essence}/{role.maxEssence}</strong></p>
-    <p className="intent-copy">{enemyCue}</p>
-    <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>
+    {battleFeedback ? <div className="battle-feedback" aria-live="polite"><p>{battleFeedback.text}</p><button className="primary-button" onClick={onContinue}>{battleFeedback.hasEnded ? "收蛊，继续" : "收势，继续"}</button></div> : <><p className="intent-copy">{enemyCue}</p><div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div></>}
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>

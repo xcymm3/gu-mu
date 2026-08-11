@@ -515,6 +515,80 @@ h1 {
   }
 }
 
+/* Battle mode keeps a deliberate reading slice above a compact, independent action area. */
+.story-frame.is-battling .scene {
+  flex: 0 0 9.5rem;
+  min-height: 0;
+  padding: var(--space-4) 0 var(--space-2);
+}
+
+.story-frame.is-battling .scene-copy {
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.story-frame.is-battling .scene-copy p {
+  font-size: var(--text-sm);
+  line-height: 1.62;
+}
+
+.story-frame.is-battling .narrative-progress {
+  margin-top: var(--space-2);
+}
+
+.story-frame.is-battling .battle-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--space-4);
+  overflow: hidden;
+}
+
+.story-frame.is-battling .intent-copy {
+  margin: var(--space-2) 0;
+  padding: var(--space-2) var(--space-3);
+  line-height: 1.45;
+}
+
+.story-frame.is-battling .gu-list button {
+  gap: 0;
+  padding: var(--space-2) var(--space-3);
+}
+
+.story-frame.is-battling .gu-list span {
+  font-size: var(--text-xs);
+  line-height: 1.35;
+}
+
+.battle-feedback {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.battle-feedback p {
+  margin: 0;
+  padding: var(--space-3);
+  border-inline-start: 1px solid var(--color-rule-strong);
+  background: var(--color-paper);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+}
+
+.battle-feedback .primary-button {
+  width: 100%;
+}
+
+@media (max-height: 42rem) {
+  .story-frame.is-battling .scene {
+    flex-basis: 8.75rem;
+  }
+
+  .story-frame.is-battling .battle-panel {
+    padding: var(--space-3);
+  }
+}
+
 /* Hallmark · visual-novel menu, archive, and settings surfaces */
 .menu-shell,
 .archive-shell,

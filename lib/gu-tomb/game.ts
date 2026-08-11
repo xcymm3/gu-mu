@@ -12,6 +12,12 @@ export type Battle = BattleConfig & { enemyMaxHealth: number; turn: number; inte
 export type GameState = { roleId: RoleId | null; sceneId: string; health: number; maxHealth: number; essence: number; time: number; clues: string[]; flags: string[]; trust: Record<AllyId, number>; battle: Battle | null; endingId: string | null };
 export type Ending = { id: string; name: string; epitaph: string; text: string };
 
+export function getEnemyCondition(enemyHealth: number, enemyMaxHealth: number) {
+  if (enemyHealth >= enemyMaxHealth) return "健康";
+  if (enemyHealth <= enemyMaxHealth * 0.3) return "重伤";
+  return "受伤";
+}
+
 export const roles: Role[] = [
   { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 12, attack: 3, insight: 3, reputation: 1, signatureGu: "回春蛊" },
   { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },

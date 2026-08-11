@@ -725,7 +725,8 @@ h1 {
 .story-frame.is-battling .intent-copy.is-danger { border-inline-start-color: var(--color-danger); background: var(--color-danger-soft); }
 .story-frame.is-battling .intent-copy.is-success { border-inline-start-color: var(--color-accent); background: var(--color-success-soft); }
 .story-frame.is-battling .intent-copy p { margin: 0; }
-.battle-report-label { color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 750; letter-spacing: 0.06em; }
+.battle-report-label { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 750; letter-spacing: 0.06em; }
+.battle-report-label strong { padding: 0.18rem var(--space-2); border-radius: 999px; color: var(--color-danger); background: var(--color-danger-soft); font-size: 0.68rem; letter-spacing: 0; white-space: nowrap; }
 .intent-copy.is-danger .battle-report-label { color: var(--color-danger); }
 
 .story-frame.is-battling .gu-list { margin-top: auto; }

@@ -116,8 +116,8 @@ export const scenes: Record<string, Scene> = {
     choices: [{ id: "leave-clean", label: "看着血流蛊化为灰烬，踏出蛊墓", next: "ending" }],
   },
   corpseAftermath: {
-    id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "剑鸣一闪",
-    paragraphs: ["剑鸣之声在狭窄墓道里来回震荡，尸灯傀儡的胸甲刚抬起半寸，便自正中裂作两片。惨白灯火骤然熄灭，甲片与断刃散落满地，连那股沉在墓砖间的尸臭都像被剑声一并斩断。\n\n贾贵张着嘴，半晌才把金壳蛊收回袖中；沈青萝的藤蛊停在半空，眸光落在你身上，似乎重新估量起这位同行之人。赵黎捻着并不存在的胡须，笑意却淡了几分。墓道恢复死寂后，众人才继续向更深处走去。"],
+    id: "corpseAftermath", chapter: "叁 · 尸灯傀儡", title: "剑鸣余响",
+    paragraphs: ["尸灯傀儡倒下后，墓道里只余灯芯碎裂的轻响。陆照野收剑立在原地，剑鞘边缘有一缕极淡的锐气迟迟不散，仿佛藏在其中的蛊虫尚未完全安静。\n\n赵黎捻了捻指尖，忽然笑道：\"陆道友的剑鸣蛊，名声倒比人先到。\"贾贵收起金壳蛊，没敢接话；沈青萝的藤蛊停在半空，眸光从残甲移到你身上，像是重新估量起这位同行之人。墓道恢复死寂后，众人才继续向更深处走去。"],
     choices: [{ id: "continue-after-sword", label: "收蛊前行", next: "shenCare" }],
   },
   shenCare: {
@@ -390,8 +390,8 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   const nextState = { ...state, essence };
   if (enemyHealth <= 0) {
     const healthOnKill = healthBeforeHit;
-    const swordOneShot = action === "sword" && battle.enemyName === "尸灯傀儡" && battle.turn === 0;
-    return finishBattle(nextState, battle, true, healthOnKill, swordOneShot ? "corpseAftermath" : battle.victoryNext);
+    const swordsmanCorpseVictory = state.roleId === "swordsman" && battle.enemyName === "尸灯傀儡";
+    return finishBattle(nextState, battle, true, healthOnKill, swordsmanCorpseVictory ? "corpseAftermath" : battle.victoryNext);
   }
   const healthAfterHit = healthBeforeHit - received;
   const health = healthAfterHit;

@@ -81,12 +81,14 @@ test("真元耗尽后只能调息并恢复三点", () => {
   assert.equal(rested.health, 7);
 });
 
-test("剑鸣蛊首回合斩杀尸灯傀儡时不会承受反击", () => {
+test("陆照野击败尸灯傀儡时必定进入剑鸣蛊特殊余波，且不会承受击杀反击", () => {
   const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
   const result = resolveBattleTurn(battle, "sword");
   assert.equal(result.sceneId, "corpseAftermath");
   assert.equal(result.health, 12);
   assert.equal(result.essence, 12);
+  const ordinaryKill = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 4 } }, "blood");
+  assert.equal(ordinaryKill.sceneId, "corpseAftermath");
 });
 
 test("回春蛊先恢复七点生命，再承受本回合攻击", () => {
@@ -104,12 +106,12 @@ test("血甲蛊在本回合完全免疫敌方伤害", () => {
 });
 
 test("尸灯傀儡战后先进入青萝关心的疗伤节点", () => {
-  const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
+  const battle = startBattle(chooseRole("healer"), scenes.corpseFight);
   const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 1 } }, "blood");
   assert.equal(result.sceneId, "shenCare");
   const medicine = scenes.shenCare.choices?.find((choice) => choice.id === "confess");
   assert.ok(medicine);
-  assert.equal(applyChoice({ ...result, health: 2 }, medicine).health, 13);
+  assert.equal(applyChoice({ ...result, health: 2 }, medicine).health, 10);
 });
 
 test("血池密室的选择保留蛊虫与隐藏关系后果", () => {

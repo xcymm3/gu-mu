@@ -34,6 +34,8 @@ const criticalTerms = new Set(["血流蛊", "五转", "血祭", "血针", "尸�
 const endingStorageKey = "gu-tomb-unlocked-endings";
 const motionStorageKey = "gu-tomb-reduce-motion";
 const themeStorageKey = "gu-tomb-theme";
+const saveStorageKey = "gu-tomb-save-slots-v1";
+const saveSlotCount = 6;
 const endingRoleAccess: Record<RoleId, string[]> = {
   healer: ["trapped", "bloodflow", "wu", "true", "together", "death", "alone"],
   swordsman: ["trapped", "bloodflow", "cleansed", "wu", "true", "together", "death", "alone"],
@@ -42,6 +44,35 @@ const endingRoleAccess: Record<RoleId, string[]> = {
 type HomeView = "menu" | "roles" | "archive" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { text: string; enemyCondition: string; hasEnded: boolean };
+type SaveSlot = { version: 1; savedAt: string; game: GameState; narrative: { sceneId: string; page: number }; inkPage?: InkPage; inkState?: string };
+type SaveSlots = Array<SaveSlot | null>;
+
+function emptySaveSlots(): SaveSlots { return Array.from({ length: saveSlotCount }, () => null); }
+
+function isSaveSlot(value: unknown): value is SaveSlot {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Partial<SaveSlot>;
+  return candidate.version === 1 && typeof candidate.savedAt === "string" && Boolean(candidate.game && typeof candidate.game === "object") && Boolean(candidate.narrative && typeof candidate.narrative === "object");
+}
+
+function readSaveSlots(): SaveSlots {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(saveStorageKey) ?? "[]") as unknown;
+    if (!Array.isArray(parsed)) return emptySaveSlots();
+    return Array.from({ length: saveSlotCount }, (_, index) => isSaveSlot(parsed[index]) ? parsed[index] : null);
+  } catch { return emptySaveSlots(); }
+}
+
+function saveSlotLabel(slot: SaveSlot) {
+  const role = getRole(slot.game.roleId);
+  const scene = scenes[slot.game.sceneId];
+  return { role: role?.name ?? "无名修士", scene: scene ? `${scene.chapter} · ${scene.title}` : "墓道深处" };
+}
+
+function formatSaveTime(savedAt: string) {
+  const time = new Date(savedAt);
+  return Number.isNaN(time.valueOf()) ? "时间不明" : time.toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+}
 
 function splitParagraphs(text: string) {
   const blocks = text.split(/\n{2,}/).flatMap((block) => {
@@ -212,6 +243,7 @@ function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
 export function GuTombGame() {
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
+  const [saveSlots, setSaveSlots] = useState<SaveSlots>(emptySaveSlots);
   const [homeView, setHomeView] = useState<HomeView>("menu");
   const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("healer");
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -221,6 +253,7 @@ export function GuTombGame() {
   const [readingBox, setReadingBox] = useState({ width: 340, height: 280 });
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
+  const [showGameMenu, setShowGameMenu] = useState(false);
   const inkStory = useRef<Story | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
@@ -232,6 +265,7 @@ export function GuTombGame() {
       try {
         const storedEndings = JSON.parse(window.localStorage.getItem(endingStorageKey) ?? "[]") as unknown;
         if (Array.isArray(storedEndings)) setSeenEndings(storedEndings.filter((id): id is string => typeof id === "string" && id in endings));
+        setSaveSlots(readSaveSlots());
         setReduceMotion(window.localStorage.getItem(motionStorageKey) === "true");
         const storedTheme = window.localStorage.getItem(themeStorageKey);
         if (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system") setThemePreference(storedTheme);
@@ -277,7 +311,58 @@ export function GuTombGame() {
     loadInkScene("entrance");
     setPendingBattleState(null);
     setBattleFeedback(null);
+    setShowGameMenu(false);
     setGame(chooseRole(id));
+  }
+
+  function persistSaveSlots(nextSlots: SaveSlots) {
+    setSaveSlots(nextSlots);
+    window.localStorage.setItem(saveStorageKey, JSON.stringify(nextSlots));
+  }
+
+  function saveToSlot(index: number) {
+    const stateToSave = pendingBattleState ?? game;
+    const canKeepInkState = stateToSave.sceneId === game.sceneId && inkSceneIds.has(stateToSave.sceneId);
+    const nextSlots = [...saveSlots];
+    nextSlots[index] = {
+      version: 1,
+      savedAt: new Date().toISOString(),
+      game: stateToSave,
+      narrative: stateToSave.sceneId === game.sceneId ? narrative : { sceneId: stateToSave.sceneId, page: 0 },
+      inkPage: canKeepInkState ? inkPage ?? undefined : undefined,
+      inkState: canKeepInkState ? inkStory.current?.state.ToJson() : undefined,
+    };
+    persistSaveSlots(nextSlots);
+  }
+
+  function loadFromSlot(slot: SaveSlot) {
+    const restored = { ...slot.game, battle: slot.game.battle ?? null, endingId: null };
+    setPendingBattleState(null);
+    setBattleFeedback(null);
+    setShowGameMenu(false);
+    setGame(restored);
+    setNarrative(slot.narrative.sceneId === restored.sceneId ? slot.narrative : { sceneId: restored.sceneId, page: 0 });
+    if (!inkSceneIds.has(restored.sceneId)) {
+      inkStory.current = null;
+      setInkPage(null);
+      return;
+    }
+    try {
+      const story = createInkStory(restored.sceneId);
+      if (slot.inkState) story.state.LoadJson(slot.inkState);
+      inkStory.current = story;
+      setInkPage(slot.inkPage ?? readInkPage(story));
+    } catch {
+      loadInkScene(restored.sceneId);
+    }
+  }
+
+  function returnToMainMenu() {
+    setPendingBattleState(null);
+    setBattleFeedback(null);
+    setShowGameMenu(false);
+    setGame(initialGame());
+    setHomeView("menu");
   }
   function selectChoice(choice: Choice) {
     const next = applyChoice(game, choice);
@@ -328,7 +413,7 @@ export function GuTombGame() {
   if (!role) {
     if (homeView === "archive") return <EndingArchive archiveRoleId={archiveRoleId} onBack={() => setHomeView("menu")} onSelectRole={setArchiveRoleId} seenEndings={seenEndings} />;
     if (homeView === "settings") return <GameSettings onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
-    if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} unlockedCount={seenEndings.length} />;
+    if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onLoad={loadFromSlot} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} saveSlots={saveSlots} unlockedCount={seenEndings.length} />;
     return <RoleSelect onBack={() => setHomeView("menu")} onSelect={selectRole} />;
   }
   if (game.endingId) return <EndingScreen game={game} seenEndings={seenEndings} onReplay={() => selectRole(role.id)} onChangeRole={() => { setGame(initialGame()); setHomeView("roles"); }} onMenu={() => { setGame(initialGame()); setHomeView("menu"); }} />;
@@ -355,6 +440,7 @@ export function GuTombGame() {
         <header className="status-bar">
           <div><span>修士</span><strong>{role.name}</strong></div>
           <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
+          <button className="game-menu-trigger" type="button" aria-expanded={showGameMenu} aria-label="打开游戏菜单" onClick={() => setShowGameMenu(true)}>菜单</button>
         </header>
         <section className="scene" aria-live="polite">
           <p className="eyebrow">{scene.chapter}</p>
@@ -372,12 +458,14 @@ export function GuTombGame() {
               : <button className="choice-button" key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span></button>)}
           </nav>
         ) : null}
+        {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
       </section>
     </main>
   );
 }
 
-function MainMenu({ onArchive, onSettings, onStart, unlockedCount }: { onArchive: () => void; onSettings: () => void; onStart: () => void; unlockedCount: number }) {
+function MainMenu({ onArchive, onLoad, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onLoad: (slot: SaveSlot) => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
+  const occupiedSlots = saveSlots.map((slot, index) => ({ slot, index })).filter((item): item is { slot: SaveSlot; index: number } => Boolean(item.slot));
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
       <header className="menu-intro"><div className="menu-title-row"><GuTombMark className="gu-tomb-mark" /><div><p className="eyebrow">乔家荒原 · 五人入墓</p><h1 id="menu-title">蛊墓五修</h1></div></div><p>一座蛊墓，五名四转修士。你所见与所信，都会把人带向不同的墓门。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
@@ -385,8 +473,21 @@ function MainMenu({ onArchive, onSettings, onStart, unlockedCount }: { onArchive
         <button className="menu-action" onClick={onArchive}><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
         <button className="menu-action" onClick={onSettings}><span><strong>游戏设置</strong><small>阅读与记录</small></span></button>
       </nav>
+      {occupiedSlots.length ? <section className="menu-save-bank" aria-label="快速读取存档"><header><strong>继续存档</strong><span>{occupiedSlots.length} / {saveSlotCount}</span></header><div>{occupiedSlots.map(({ slot, index }) => { const label = saveSlotLabel(slot); return <button key={index} onClick={() => onLoad(slot)}><span>存档 {index + 1}</span><strong>{label.role}</strong><small>{label.scene} · {formatSaveTime(slot.savedAt)}</small></button>; })}</div></section> : null}
     <p className="menu-note">每一次选择都会留下痕迹。</p>
   </section></main>;
+}
+
+function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () => void; onLoad: (slot: SaveSlot) => void; onMenu: () => void; onSave: (index: number) => void; saveSlots: SaveSlots }) {
+  return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" role="dialog" aria-modal="true" aria-label="游戏菜单" onClick={(event) => event.stopPropagation()}>
+    <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
+    <p className="game-menu-copy">存档仅保存在此浏览器与此设备中。读取存档会放弃当前未保存的进度。</p>
+    <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => {
+      const label = slot ? saveSlotLabel(slot) : null;
+      return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><nav><button className="slot-save-button" type="button" onClick={() => onSave(index)}>存入</button>{slot ? <button className="slot-load-button" type="button" onClick={() => onLoad(slot)}>读取</button> : null}</nav></article>;
+    })}</div>
+    <button className="game-menu-home" type="button" onClick={onMenu}>返回主菜单</button>
+  </section></div>;
 }
 
 function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { archiveRoleId: RoleId; onBack: () => void; onSelectRole: (id: RoleId) => void; seenEndings: string[] }) {

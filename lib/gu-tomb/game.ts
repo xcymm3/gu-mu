@@ -29,10 +29,14 @@ export const scenes: Record<string, Scene> = {
     id: "entrance", chapter: "壹 · 乔家之邀", title: "五名四转蛊修",
     paragraphs: ["测试文本。"],
     choices: [
-      { id: "read", label: "先察看墓门上的蛊纹", note: "神识 ≥ 2", needs: { insight: 2 }, next: "bloodDoor", effect: { clue: "五人血印" } },
+      { id: "read", label: "先察看墓门上的蛊纹", note: "神识 ≥ 2", needs: { insight: 2 }, next: "sealInsight" },
       { id: "qiao", label: "相信乔家承诺，随乔无咎开门", next: "bloodDoor", effect: { trust: { qiao: 1 } } },
       { id: "alone", label: "不理会众人，独自先行勘探", next: "bloodDoor", effect: { time: 1, flag: "独行" } },
     ],
+  },
+  sealInsight: {
+    id: "sealInsight", chapter: "壹 · 乔家之邀", title: "失效的封印", paragraphs: ["你将神识探入墓门蛊纹，原本应当严丝合缝的封印却早已松动。几处锁眼边缘留着新旧不一的刮痕，残存的灵力也被反复冲散又重新压回，绝非乔无咎口中那一次试探所能留下。\n\n这座墓门并不是刚被人找到。有人曾多次进出，又小心地将痕迹掩在旧封印下。你收回神识时，乔无咎仍在向众人解释血锁的难处，神情从容得看不出半点破绽。"],
+    choices: [{ id: "leave-seal", label: "收回神识，随众人开门", next: "bloodDoor" }],
   },
   bloodDoor: {
     id: "bloodDoor", chapter: "贰 · 五人开门", title: "血锁墓门",
@@ -423,6 +427,6 @@ export function resolveEnding(state: GameState) {
   if (state.flags.includes("赵黎夺走血流蛊")) return "death";
   if (state.time >= 4) return "trapped";
   if (state.flags.includes("血流蛊已得")) return "bloodflow";
-  if (!state.flags.includes("青萝已殁") && state.trust.shen >= 2 && (state.clues.includes("五人血印") || state.clues.includes("沈砚玉牌"))) return "together";
+  if (!state.flags.includes("青萝已殁") && state.trust.shen >= 2 && state.clues.includes("沈砚玉牌")) return "together";
   return "alone";
 }

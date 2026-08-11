@@ -43,10 +43,20 @@ test("蛊斗战败转为重伤与时间代价", () => {
   assert.equal(result.flags.includes("重伤"), true);
 });
 
-test("关键线索与信任能触发两人出墓", () => {
-  const state = { ...chooseRole("healer"), clues: ["五人血印"], trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } };
+test("沈砚玉牌与信任能触发两人出墓，五人血印不再参与判定", () => {
+  const state = { ...chooseRole("healer"), clues: ["沈砚玉牌"], trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } };
   assert.equal(resolveEnding(state), "together");
   assert.equal(resolveEnding({ ...state, time: 4 }), "trapped");
+  assert.equal(resolveEnding({ ...state, clues: ["五人血印"] }), "alone");
+});
+
+test("察看墓门蛊纹只揭示乔无咎曾多次出入，不改变后续主线", () => {
+  const inspectDoor = scenes.entrance.choices?.find((choice) => choice.id === "read");
+  assert.ok(inspectDoor);
+  const inspected = applyChoice(chooseRole("healer"), inspectDoor);
+  assert.equal(inspected.sceneId, "sealInsight");
+  assert.deepEqual(inspected.clues, []);
+  assert.equal(applyChoice(inspected, scenes.sealInsight.choices![0]).sceneId, "bloodDoor");
 });
 
 test("赵黎夺走血流蛊时，玩家命丧蛊墓", () => {

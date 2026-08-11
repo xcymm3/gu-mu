@@ -161,20 +161,45 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
     enemyCondition: "已伏诛",
     hasEnded: true,
   };
-  const sufferedHit = after.health < before.health;
-  const recovery = after.health > before.health;
-  const enemyResponse = sufferedHit
-    ? `${enemyName}仍未倒下，反扑的劲风扫过身侧，震得你气血一滞。`
-    : action === "armor" || action === "mind"
-      ? `${enemyName}的攻势落空，只在墓砖上拖出刺耳的裂响。`
-      : recovery
-        ? `${enemyName}逼近时，你体内尚存的生机替你稳住了伤势。`
-        : `${enemyName}在灯影里踉跄半步，幽火却仍未熄灭。`;
+  const immune = action === "mind" || (action === "armor" && before.flags.includes("血甲蛊已得"));
+  const defended = action === "armor" || action === "mind";
+  const corpseResponse = battle.intent === "撕咬"
+    ? immune
+      ? `${enemyName}俯身扑来的铁爪在半途失了准头，只抓碎了脚边的墓砖。`
+      : defended
+        ? `${enemyName}的铁爪撞上蛊甲，甲片与利爪相击，震得墓道里火星四散。`
+        : `${enemyName}拖着铁靴骤然扑近，带锈的铁爪擦过身侧，留下火辣的一阵疼。`
+    : battle.intent === "毒雾"
+      ? immune
+        ? `${enemyName}口中涌出的尸雾尚未散开，便在错乱的蛊息中塌回了胸腔。`
+        : defended
+          ? `灰绿尸雾漫到近前，却被护体蛊息挡在外侧，只余一层冷意贴着皮肤游走。`
+          : `${enemyName}张口吐出一片灰绿尸雾，腥腐之气钻入鼻腔，连呼吸都变得沉滞。`
+      : immune
+        ? `${enemyName}胸腹间的尖啸刚要炸开，便被紊乱的蛊息生生压回，灯火也随之一暗。`
+        : action === "armor" && !before.flags.includes("血甲蛊已得")
+          ? `你凝神催动甲衣蛊，谁知${enemyName}猛然炸开一圈尖啸音波，声浪灌耳，震得你胸中翻涌，身不由己地连退几步。`
+          : `${enemyName}胸腹骤然鼓起，一圈尖啸音波在墓道中炸开，声浪灌耳，震得人胸中气血翻涌。`;
+  const otherResponse = immune
+    ? `${enemyName}的攻势被扰乱，刚凝成的杀意无声散去。`
+    : defended
+      ? `${enemyName}的攻势撞上护体蛊息，余劲只在石室中荡开一阵回响。`
+      : `${enemyName}趁蛊息未散逼近，来势震得你气血一滞。`;
+  const enemyResponse = enemyName === "尸灯傀儡" ? corpseResponse : otherResponse;
+  const nextCue = enemyCueFor(nextBattle);
   return {
-    text: `${actionText[action]}${enemyResponse}`,
+    text: `${actionText[action]}${enemyResponse}\n\n${nextCue}`,
     enemyCondition: getEnemyCondition(nextBattle.enemyHealth, nextBattle.enemyMaxHealth),
     hasEnded: false,
   };
+}
+
+function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
+  return battle.intent === "撕咬"
+    ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`
+    : battle.intent === "毒雾"
+      ? `一缕潮湿腥气自${battle.enemyName}周身漫开，连尸油灯的火光也跟着摇晃。`
+      : `${battle.enemyName}忽然收住脚步，胸腹间传出沉闷的鼓动，四周像骤然安静下来。`;
 }
 
 export function GuTombGame() {
@@ -263,8 +288,13 @@ export function GuTombGame() {
     if (pendingBattleState) return;
     const next = resolveBattleTurn(game, action);
     if (next === game) return;
-    setBattleFeedback(describeBattleTurn(game, next, action));
-    setPendingBattleState(next);
+    const feedback = describeBattleTurn(game, next, action);
+    setBattleFeedback(feedback);
+    if (feedback.hasEnded) {
+      setPendingBattleState(next);
+      return;
+    }
+    setGame(next);
   }
 
   function continueBattle() {
@@ -329,7 +359,9 @@ export function GuTombGame() {
         {isLastNarrativePage && battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} /> : null}
         {isLastNarrativePage && scene.choices && !battle ? (
           <nav className="choice-panel" aria-label="剧情选项">
-            {displayChoices.map((choice) => <button className="choice-button" disabled={!canChoose(game, choice)} key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span>{choice.note ? <small>{choice.note}</small> : null}</button>)}
+            {displayChoices.map((choice) => choice.id === "continue"
+              ? <button className="primary-button" key={choice.id} onClick={() => selectInkChoice(choice.id)}>继续</button>
+              : <button className="choice-button" disabled={!canChoose(game, choice)} key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span>{choice.note ? <small>{choice.note}</small> : null}</button>)}
           </nav>
         ) : null}
       </section>
@@ -413,16 +445,13 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue }: { battleFee
     ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
     : [...attackAction, defenseAction, signatureAction];
   const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 1, rest: 0 };
-  const enemyCue = battle.intent === "撕咬"
-    ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`
-    : battle.intent === "毒雾"
-      ? `一缕潮湿腥气自${battle.enemyName}周身漫开，连尸油灯的火光也跟着摇晃。`
-      : `${battle.enemyName}忽然收住脚步，胸腹间传出沉闷的鼓动，四周像骤然安静下来。`;
+  const enemyCue = enemyCueFor(battle);
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">
-    <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>状态：{enemyCondition}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
+    <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>敌方状态：{enemyCondition}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
     <p className="essence-stat">真元 <strong>{game.essence}/{role.maxEssence}</strong></p>
-    {battleFeedback ? <div className="battle-feedback" aria-live="polite"><p>{battleFeedback.text}</p><button className="primary-button" onClick={onContinue}>{battleFeedback.hasEnded ? "收蛊，继续" : "收势，继续"}</button></div> : <><p className="intent-copy">{enemyCue}</p><div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div></>}
+    <div className="intent-copy" aria-live="polite">{(battleFeedback?.text ?? enemyCue).split("\n\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+    {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>}
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>

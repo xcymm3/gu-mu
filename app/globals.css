@@ -549,6 +549,14 @@ h1 {
   line-height: 1.45;
 }
 
+.story-frame.is-battling .intent-copy p {
+  margin: 0;
+}
+
+.story-frame.is-battling .intent-copy p + p {
+  margin-top: var(--space-2);
+}
+
 .story-frame.is-battling .gu-list button {
   gap: 0;
   padding: var(--space-2) var(--space-3);

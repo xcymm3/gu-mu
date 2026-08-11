@@ -20,7 +20,7 @@ export function getEnemyCondition(enemyHealth: number, enemyMaxHealth: number) {
 
 export const roles: Role[] = [
   { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 14, maxEssence: 12, attack: 3, insight: 3, reputation: 1, signatureGu: "回春蛊" },
-  { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 15, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
+  { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 15, maxEssence: 10, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
   { id: "heir", name: "顾微尘", gender: "male", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 12, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
 ];
 

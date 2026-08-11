@@ -43,7 +43,7 @@ const endingRoleAccess: Record<RoleId, string[]> = {
 };
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
-type BattleFeedback = { text: string; enemyCondition: string; hasEnded: boolean };
+type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
 type SaveSlot = { version: 1; savedAt: string; game: GameState; narrative: { sceneId: string; page: number }; inkPage?: InkPage; inkState?: string };
 type SaveSlots = Array<SaveSlot | null>;
 
@@ -175,7 +175,7 @@ function teamGatherText(game: GameState) {
 
 function describeBattleTurn(before: GameState, after: GameState, action: GuAction): BattleFeedback {
   const battle = before.battle;
-  if (!battle) return { text: "蛊息渐歇，墓道里只余摇晃的灯火。", enemyCondition: "不明", hasEnded: false };
+  if (!battle) return { result: "蛊息渐歇，墓道里只余摇晃的灯火。", enemyCondition: "不明", hasEnded: false };
   const enemyName = battle.enemyName;
   const actionText: Record<GuAction, string> = {
     blood: `你催动血刃蛊，血煞在掌前凝成一线锋芒，斩向${enemyName}。`,
@@ -190,9 +190,14 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   };
   const nextBattle = after.battle;
   if (!nextBattle || after.sceneId !== before.sceneId) return {
-    text: `${actionText[action]}${enemyName}的躯壳猛地一滞，随后在昏暗灯火中崩裂倒下，再没有余力还击。`,
-    enemyCondition: "已伏诛",
+    result: after.sceneId === battle.defeatNext
+      ? battle.intent.reflect && action !== "armor" && action !== "mind"
+        ? `${actionText[action]}血幕却将你的蛊力原样倒卷而回。你胸口如受重锤，分明是被自己的攻势反弹所伤，眼前顿时一黑。`
+        : `${actionText[action]}${enemyName}的攻势随后压下。你再也压不住翻涌的气血，只能在墓室中踉跄倒下。`
+      : `${actionText[action]}${enemyName}的躯壳猛地一滞，随后在昏暗灯火中崩裂倒下，再没有余力还击。`,
+    enemyCondition: after.sceneId === battle.defeatNext ? "你已落败" : "已伏诛",
     hasEnded: true,
+    emphasis: after.sceneId === battle.defeatNext ? "danger" : "success",
   };
   const immune = action === "mind" || (action === "armor" && before.flags.includes("血甲蛊已得"));
   const defended = action === "armor" || action === "mind";
@@ -230,7 +235,8 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
             : `${enemyName}趁蛊息未散逼近，来势震得你气血一滞。`;
   const nextCue = enemyCueFor(nextBattle);
   return {
-    text: `${actionText[action]}${enemyResponse}\n\n${nextCue}`,
+    result: `${actionText[action]}${enemyResponse}`,
+    nextCue,
     enemyCondition: getEnemyCondition(nextBattle.enemyHealth, nextBattle.enemyMaxHealth),
     hasEnded: false,
   };
@@ -438,27 +444,28 @@ export function GuTombGame() {
   return (
     <main className="game-shell">
       <section className={`game-frame story-frame${battle ? " is-battling" : ""}`} aria-label="蛊墓五修游戏界面">
-        <header className="status-bar">
-          <div><span>修士</span><strong>{role.name}</strong></div>
-          <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
-          <button className="game-menu-trigger" type="button" aria-expanded={showGameMenu} aria-label="打开游戏菜单" onClick={() => setShowGameMenu(true)}>菜单</button>
-        </header>
-        <section className="scene" aria-live="polite">
-          <p className="eyebrow">{scene.chapter}</p>
-          <h1>{scene.title}</h1>
-          <div className="scene-copy" ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
-          <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
-        </section>
-        {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}
-        {isLastNarrativePage && scene.battle && !battle ? <div className="choice-panel"><button className="primary-button" onClick={() => setGame((current) => startBattle(current, scene))}>放出本命蛊</button></div> : null}
-        {isLastNarrativePage && battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} /> : null}
-        {isLastNarrativePage && scene.choices && !battle ? (
+        {battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
+          <header className="status-bar">
+            <div><span>修士</span><strong>{role.name}</strong></div>
+            <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
+            <button className="game-menu-trigger" type="button" aria-expanded={showGameMenu} aria-label="打开游戏菜单" onClick={() => setShowGameMenu(true)}>菜单</button>
+          </header>
+          <section className="scene" aria-live="polite">
+            <p className="eyebrow">{scene.chapter}</p>
+            <h1>{scene.title}</h1>
+            <div className="scene-copy" ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
+            <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
+          </section>
+          {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}
+          {isLastNarrativePage && scene.battle ? <div className="choice-panel"><button className="primary-button" onClick={() => setGame((current) => startBattle(current, scene))}>放出本命蛊</button></div> : null}
+          {isLastNarrativePage && scene.choices ? (
           <nav className="choice-panel" aria-label="剧情选项">
             {visibleChoices.map((choice) => choice.id === "continue"
               ? <button className="primary-button" key={choice.id} onClick={() => selectInkChoice(choice.id)}>继续</button>
               : <button className="choice-button" key={choice.id} onClick={() => isInkScene ? selectInkChoice(choice.id) : selectChoice(choice)}><span>{isInkScene ? inkPage.choices.find((item) => item.id === choice.id)?.label ?? choice.label : choice.label}</span></button>)}
           </nav>
-        ) : null}
+          ) : null}
+        </>}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
       </section>
     </main>
@@ -541,12 +548,12 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
     <p className="opening-copy">五名修士入墓寻宝。墓门合拢后，你只能带着一条魂路离开。</p>
     <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
       <span className="role-title">{candidate.title}</span><strong>{candidate.name}</strong><span>{candidate.description}</span>
-      <small>生命 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻击 {candidate.attack} · 神识 {candidate.insight} · 声望 {candidate.reputation}</small><em>本命蛊：{candidate.signatureGu}</em>
+      <small>命数 {candidate.maxHealth} · {candidate.id === "healer" ? "善察幽微，能护住同伴" : candidate.id === "swordsman" ? "一往无前，最擅正面破局" : "熟悉人情，善借各方余势"}</small><em>擅用：{candidate.signatureGu}</em>
     </button>)}</div>
   </section></main>;
 }
 
-function BattlePanel({ battleFeedback, game, onAction, onContinue }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onContinue: () => void }) {
+function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onContinue: () => void; onOpenMenu: () => void }) {
   const battle = game.battle;
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
@@ -569,9 +576,12 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue }: { battleFee
   const enemyCue = enemyCueFor(battle);
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">
+    <header className="battle-player-bar"><div><span>修士</span><strong>{role.name}</strong></div><div className="battle-health"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" onClick={onOpenMenu}>菜单</button></header>
     <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>敌方状态：{enemyCondition}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
     <p className="essence-stat">真元 <strong>{game.essence}/{game.maxEssence}</strong></p>
-    <div className="intent-copy" aria-live="polite">{(battleFeedback?.text ?? enemyCue).split("\n\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+    <div className={`intent-copy${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
+      {battleFeedback ? <><span className="battle-report-label">本回合结果</span><p>{battleFeedback.result}</p>{battleFeedback.nextCue ? <><span className="battle-report-label">敌方异动</span><p>{battleFeedback.nextCue}</p></> : null}</> : <><span className="battle-report-label">敌方异动</span><p>{enemyCue}</p></>}
+    </div>
     {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>}
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>

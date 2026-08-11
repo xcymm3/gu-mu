@@ -112,7 +112,7 @@ test("血流蛊替换血刃蛊后造成六点伤害并恢复六点生命", () =>
 test("每场蛊斗均以角色的满真元开始", () => {
   const swordsman = { ...chooseRole("swordsman"), essence: 1 };
   const battle = startBattle(swordsman, scenes.corpseFight);
-  assert.equal(battle.essence, 15);
+  assert.equal(battle.essence, 10);
   assert.equal(startBattle(chooseRole("healer"), scenes.corpseFight).essence, 12);
 });
 
@@ -131,7 +131,7 @@ test("陆照野击败尸灯傀儡时必定进入实力惊异的特殊余波，�
   const result = resolveBattleTurn(battle, "sword");
   assert.equal(result.sceneId, "corpseAftermath");
   assert.equal(result.health, 15);
-  assert.equal(result.essence, 11);
+  assert.equal(result.essence, 6);
   const ordinaryKill = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 4 } }, "blood");
   assert.equal(ordinaryKill.sceneId, "corpseAftermath");
 });

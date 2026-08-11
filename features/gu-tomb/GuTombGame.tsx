@@ -346,17 +346,20 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
   const [showHelp, setShowHelp] = useState(false);
   if (!battle || !role) return null;
   const signatureAction = role.id === "healer"
-    ? { id: "heal" as const, name: "回春蛊", description: "恢复 6 点生命。消耗 3 真元。" }
+    ? { id: "heal" as const, name: "回春蛊", description: "恢复 7 点生命。消耗 3 真元。" }
     : role.id === "swordsman"
       ? { id: "sword" as const, name: "剑鸣蛊", description: "造成 10 点伤害，自身受 1 点伤害。消耗 3 真元。" }
       : { id: "mind" as const, name: "惑心蛊", description: "打断本回合攻势，并造成等同攻击属性的伤害。消耗 3 真元。" };
   const defenseAction = game.flags.includes("血甲蛊已得")
-    ? { id: "armor" as const, name: "四转 · 血甲蛊", description: "血甲覆身，能分担更重的来势。消耗 2 真元。" }
+    ? { id: "armor" as const, name: "血甲蛊", description: "血甲覆身，本回合完全免疫伤害。消耗 2 真元。" }
     : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，硬受来势。消耗 2 真元。" };
+  const attackAction = game.flags.includes("血流蛊已得")
+    ? [{ id: "bloodflow" as const, name: "血流蛊", description: "造成 6 点伤害，并恢复 6 点生命。消耗 1 真元。" }]
+    : baseGuActions;
   const guActions = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
-    : [...baseGuActions, defenseAction, signatureAction, ...(game.flags.includes("血流蛊已得") ? [{ id: "bloodflow" as const, name: "五转 · 血流蛊", description: "造成 16 点伤害，并恢复等量生命。" }] : [])];
-  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 0, rest: 0 };
+    : [...attackAction, defenseAction, signatureAction];
+  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 1, rest: 0 };
   const enemyCue = battle.intent === "撕咬"
     ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`
     : battle.intent === "毒雾"
@@ -370,7 +373,7 @@ function BattlePanel({ game, onAction }: { game: GameState; onAction: (action: G
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
-      <p>血刃蛊消耗 1 真元，甲衣蛊消耗 2 真元；第三只蛊随修士而变，消耗 3 真元。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
+      <p>攻击蛊消耗 1 真元，甲衣蛊消耗 2 真元；第三只蛊随修士而变，消耗 3 真元。血流蛊会替换血刃蛊，血甲蛊会替换甲衣蛊。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
       <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
     </section></div> : null}
   </section>;

@@ -47,12 +47,13 @@ test("赵黎夺走血流蛊时，玩家命丧蛊墓", () => {
   assert.equal(resolveEnding(state), "death");
 });
 
-test("血流蛊在夺蛊成功后能造成高伤并恢复生命", () => {
+test("血流蛊替换血刃蛊后造成六点伤害并恢复六点生命", () => {
   const state = { ...chooseRole("healer"), health: 2, flags: ["血流蛊已得"] };
   const battle = startBattle(state, scenes.qiaoDuel);
-  const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 16 } }, "bloodflow");
+  const result = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 6 } }, "bloodflow");
   assert.equal(result.sceneId, "bloodExit");
-  assert.equal(result.health, 10);
+  assert.equal(result.health, 8);
+  assert.equal(result.essence, 11);
   assert.equal(result.flags.includes("乔无咎已诛"), true);
 });
 
@@ -60,7 +61,7 @@ test("每场蛊斗均以角色的满真元开始", () => {
   const swordsman = { ...chooseRole("swordsman"), essence: 1 };
   const battle = startBattle(swordsman, scenes.corpseFight);
   assert.equal(battle.essence, 15);
-  assert.equal(startBattle(chooseRole("healer"), scenes.corpseFight).essence, 10);
+  assert.equal(startBattle(chooseRole("healer"), scenes.corpseFight).essence, 12);
 });
 
 test("真元耗尽后只能调息并恢复三点", () => {
@@ -81,11 +82,18 @@ test("剑鸣蛊首回合斩杀尸灯傀儡时不会承受反击", () => {
   assert.equal(result.essence, 12);
 });
 
-test("回春蛊先恢复生命，再承受本回合攻击", () => {
+test("回春蛊先恢复七点生命，再承受本回合攻击", () => {
   const battle = startBattle({ ...chooseRole("healer"), health: 2 }, scenes.corpseFight);
   const result = resolveBattleTurn(battle, "heal");
-  assert.equal(result.health, 5);
-  assert.equal(result.essence, 7);
+  assert.equal(result.health, 6);
+  assert.equal(result.essence, 9);
+});
+
+test("血甲蛊在本回合完全免疫敌方伤害", () => {
+  const battle = startBattle({ ...chooseRole("healer"), flags: ["血甲蛊已得"] }, scenes.corpseFight);
+  const result = resolveBattleTurn(battle, "armor");
+  assert.equal(result.health, 10);
+  assert.equal(result.essence, 10);
 });
 
 test("尸灯傀儡战后先进入青萝关心的疗伤节点", () => {

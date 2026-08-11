@@ -13,7 +13,7 @@ export type GameState = { roleId: RoleId | null; sceneId: string; health: number
 export type Ending = { id: string; name: string; epitaph: string; text: string };
 
 export const roles: Role[] = [
-  { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 10, attack: 2, insight: 3, reputation: 1, signatureGu: "回春蛊" },
+  { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 12, attack: 3, insight: 3, reputation: 1, signatureGu: "回春蛊" },
   { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
   { id: "heir", name: "顾微尘", gender: "male", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 11, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
 ];
@@ -363,7 +363,7 @@ function finishBattle(state: GameState, battle: Battle, won: boolean, health: nu
   const endingHealth = won ? Math.max(1, health) : battle.enemyName === "乔家血卫" && state.trust.shen >= 2 ? Math.min(state.maxHealth, 5) : 1;
   return { ...state, sceneId, battle: null, health: endingHealth, time: won ? state.time : state.time + 1, flags };
 }
-const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 0, rest: 0 };
+const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 1, rest: 0 };
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
   const role = getRole(state.roleId); const battle = state.battle;
   if (!role || !battle) return state;
@@ -373,22 +373,22 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   let damage = role.attack; let received = battle.intent === "撕咬" ? 3 : battle.intent === "毒雾" ? 2 : 5;
   let healthBeforeHit = state.health;
   if (action === "blood" && battle.intent === "蓄势") damage += 2;
-  if (action === "armor") { damage = 1; received = Math.max(0, received - (state.flags.includes("血甲蛊已得") ? 4 : 3)); }
+  if (action === "armor") { damage = 1; received = state.flags.includes("血甲蛊已得") ? 0 : Math.max(0, received - 3); }
   if (action === "mind") { damage = role.attack; received = 0; }
-  if (action === "heal") { damage = 0; healthBeforeHit = Math.min(state.maxHealth, state.health + 6); }
+  if (action === "heal") { damage = 0; healthBeforeHit = Math.min(state.maxHealth, state.health + 7); }
   if (action === "sword") { damage = 10; healthBeforeHit = state.health - 1; }
-  if (action === "bloodflow" && state.flags.includes("血流蛊已得")) { damage = 16; received = 0; }
+  if (action === "bloodflow" && state.flags.includes("血流蛊已得")) { damage = 6; healthBeforeHit = Math.min(state.maxHealth, state.health + 6); }
   if (battle.enemyName === "五转残魂 · 武意海" && state.flags.includes("赵黎援阵")) damage += 4;
   const actualDamage = Math.min(damage, battle.enemyHealth); const enemyHealth = battle.enemyHealth - actualDamage;
   const essence = action === "rest" ? Math.min(role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
   const nextState = { ...state, essence };
   if (enemyHealth <= 0) {
-    const healthOnKill = action === "bloodflow" ? Math.min(state.maxHealth, Math.max(1, healthBeforeHit) + actualDamage) : healthBeforeHit;
+    const healthOnKill = healthBeforeHit;
     const swordOneShot = action === "sword" && battle.enemyName === "尸灯傀儡" && battle.turn === 0;
     return finishBattle(nextState, battle, true, healthOnKill, swordOneShot ? "corpseAftermath" : battle.victoryNext);
   }
   const healthAfterHit = healthBeforeHit - received;
-  const health = action === "bloodflow" ? Math.min(state.maxHealth, Math.max(1, healthAfterHit) + actualDamage) : healthAfterHit;
+  const health = healthAfterHit;
   if (health <= 0) return finishBattle(nextState, battle, false, health);
   const turn = battle.turn + 1;
   return { ...nextState, health, battle: { ...battle, enemyHealth, turn, intent: intents[turn % intents.length] } };

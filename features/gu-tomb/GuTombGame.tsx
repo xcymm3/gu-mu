@@ -41,7 +41,7 @@ const endingRoleAccess: Record<RoleId, string[]> = {
   swordsman: ["trapped", "bloodflow", "cleansed", "wu", "true", "together", "death", "alone"],
   heir: ["trapped", "bloodflow", "traitor", "wu", "true", "together", "death", "alone"],
 };
-type HomeView = "menu" | "roles" | "archive" | "settings";
+type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { text: string; enemyCondition: string; hasEnded: boolean };
 type SaveSlot = { version: 1; savedAt: string; game: GameState; narrative: { sceneId: string; page: number }; inkPage?: InkPage; inkState?: string };
@@ -412,8 +412,9 @@ export function GuTombGame() {
 
   if (!role) {
     if (homeView === "archive") return <EndingArchive archiveRoleId={archiveRoleId} onBack={() => setHomeView("menu")} onSelectRole={setArchiveRoleId} seenEndings={seenEndings} />;
+    if (homeView === "saves") return <SaveArchive onBack={() => setHomeView("menu")} onLoad={loadFromSlot} saveSlots={saveSlots} />;
     if (homeView === "settings") return <GameSettings onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
-    if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onLoad={loadFromSlot} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} saveSlots={saveSlots} unlockedCount={seenEndings.length} />;
+    if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSaves={() => setHomeView("saves")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} saveSlots={saveSlots} unlockedCount={seenEndings.length} />;
     return <RoleSelect onBack={() => setHomeView("menu")} onSelect={selectRole} />;
   }
   if (game.endingId) return <EndingScreen game={game} seenEndings={seenEndings} onReplay={() => selectRole(role.id)} onChangeRole={() => { setGame(initialGame()); setHomeView("roles"); }} onMenu={() => { setGame(initialGame()); setHomeView("menu"); }} />;
@@ -464,17 +465,28 @@ export function GuTombGame() {
   );
 }
 
-function MainMenu({ onArchive, onLoad, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onLoad: (slot: SaveSlot) => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
-  const occupiedSlots = saveSlots.map((slot, index) => ({ slot, index })).filter((item): item is { slot: SaveSlot; index: number } => Boolean(item.slot));
+function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
+  const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
       <header className="menu-intro"><div className="menu-title-row"><GuTombMark className="gu-tomb-mark" /><div><p className="eyebrow">乔家荒原 · 五人入墓</p><h1 id="menu-title">蛊墓五修</h1></div></div><p>一座蛊墓，五名四转修士。你所见与所信，都会把人带向不同的墓门。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
+        <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {saveSlotCount} 卷行迹</small></span></button>
         <button className="menu-action" onClick={onArchive}><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
         <button className="menu-action" onClick={onSettings}><span><strong>游戏设置</strong><small>阅读与记录</small></span></button>
       </nav>
-      {occupiedSlots.length ? <section className="menu-save-bank" aria-label="快速读取存档"><header><strong>继续存档</strong><span>{occupiedSlots.length} / {saveSlotCount}</span></header><div>{occupiedSlots.map(({ slot, index }) => { const label = saveSlotLabel(slot); return <button key={index} onClick={() => onLoad(slot)}><span>存档 {index + 1}</span><strong>{label.role}</strong><small>{label.scene} · {formatSaveTime(slot.savedAt)}</small></button>; })}</div></section> : null}
     <p className="menu-note">每一次选择都会留下痕迹。</p>
+  </section></main>;
+}
+
+function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad: (slot: SaveSlot) => void; saveSlots: SaveSlots }) {
+  return <main className="game-shell archive-shell"><section className="game-frame archive-card save-archive" aria-labelledby="save-title">
+    <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">六卷行迹</p><h1 id="save-title">读取存档</h1></div></header>
+    <p className="save-archive-copy">存档只保存于当前浏览器。读取任意一卷，将从该处继续行走。</p>
+    <div className="save-archive-list">{saveSlots.map((slot, index) => {
+      const label = slot ? saveSlotLabel(slot) : null;
+      return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><button className="slot-load-button" type="button" disabled={!slot} onClick={() => slot && onLoad(slot)}>读取</button></article>;
+    })}</div>
   </section></main>;
 }
 

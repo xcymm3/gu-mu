@@ -1,7 +1,7 @@
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "qiao" | "shen" | "zhao" | "jia";
 export type GuAction = "blood" | "armor" | "mind" | "heal" | "sword" | "bloodflow" | "rest";
-export type EnemyAction = { id: string; damage: number; cue: string; threat: string; essenceLoss?: number; heal?: number; invulnerable?: boolean; reflect?: boolean };
+export type EnemyAction = { id: string; damage: number; cue: string; essenceLoss?: number; heal?: number; invulnerable?: boolean; reflect?: boolean };
 
 export type Role = { id: RoleId; name: string; gender: "female" | "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
 export type Effect = { health?: number; maxEssence?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
@@ -341,41 +341,41 @@ export function applyChoice(state: GameState, choice: Choice): GameState {
 
 const enemyPatterns: Record<string, EnemyAction[]> = {
   "尸灯傀儡": [
-    { id: "corpse-claw", damage: 3, threat: "明显", cue: "尸灯傀儡微微伏低身子，铁爪在砖面上刮出令人牙酸的细响。" },
-    { id: "corpse-mist", damage: 2, threat: "轻微", cue: "一缕潮湿腥气自尸灯傀儡甲缝间漫开，连尸油灯的火光也跟着摇晃。" },
-    { id: "corpse-scream", damage: 5, threat: "凶险", cue: "尸灯傀儡忽然收住脚步，胸腹间传出沉闷鼓动，四周像骤然安静下来。" },
+    { id: "corpse-claw", damage: 3, cue: "尸灯傀儡微微伏低身子，铁爪在砖面上刮出令人牙酸的细响。" },
+    { id: "corpse-mist", damage: 2, cue: "一缕潮湿腥气自尸灯傀儡甲缝间漫开，连尸油灯的火光也跟着摇晃。" },
+    { id: "corpse-scream", damage: 5, cue: "尸灯傀儡忽然收住脚步，胸腹间传出沉闷鼓动，似乎要发动重击。" },
   ],
   "乔家血针机关": [
-    { id: "needle-probe", damage: 1, threat: "轻微", cue: "石壁深处传来一声极轻的机簧咬合，几处孔眼泛起针尖大的寒光；机关像仍在试探。" },
-    { id: "needle-volley", damage: 3, threat: "明显", cue: "墓道两侧的暗缝同时张开，细密冷光在石壁间一闪而没，针孔比先前多出数倍。" },
-    { id: "needle-rain", damage: 6, threat: "极度凶险", cue: "穹顶灰尘簌簌而落，头顶深处传来连绵不绝的金铁摩擦声，整片机关都已被彻底唤醒。" },
+    { id: "needle-probe", damage: 1, cue: "石壁深处传来一声极轻的机簧咬合，几处孔眼泛起针尖大的寒光，像是机关在试探来人。" },
+    { id: "needle-volley", damage: 3, cue: "墓道两侧的暗缝同时张开，细密冷光在石壁间一闪而没，针孔比先前多出数倍。" },
+    { id: "needle-rain", damage: 6, cue: "穹顶灰尘簌簌而落，头顶深处传来连绵不绝的金铁摩擦声，整片机关似乎都已被彻底唤醒。" },
   ],
   "血流邪修 · 赵黎": [
-    { id: "zhao-thread", damage: 2, threat: "轻微", cue: "赵黎指尖垂下一缕血丝，细得几乎要融入石室阴影。" },
-    { id: "zhao-palm", damage: 8, threat: "极度凶险", cue: "赵黎袖袍无风自鼓，笑意收敛时，掌前的血气已压得灯火偏向一侧。" },
-    { id: "zhao-mirror", damage: 0, invulnerable: true, reflect: true, threat: "反震", cue: "赵黎身前浮起一层薄薄血幕，幕中倒映出你的身影，连呼吸都比平日清晰。" },
-    { id: "zhao-vial", damage: 0, heal: 8, threat: "回气", cue: "赵黎取出一只暗红小瓶，瓶塞尚未拔开，血腥味已在墓室里压得人胸口发闷。" },
+    { id: "zhao-thread", damage: 2, cue: "赵黎指尖垂下一缕血丝，细得几乎要融入石室阴影。" },
+    { id: "zhao-palm", damage: 8, cue: "赵黎袖袍无风自鼓，笑意收敛时，掌前的血气已压得灯火偏向一侧，显然正在蓄一记狠手。" },
+    { id: "zhao-mirror", damage: 0, invulnerable: true, reflect: true, cue: "赵黎身前浮起一层薄薄血幕，幕中倒映出你的身影，连呼吸都比平日清晰，血幕深处似有暗流反向涌动。" },
+    { id: "zhao-vial", damage: 0, heal: 8, cue: "赵黎取出一只暗红小瓶，瓶塞尚未拔开，血腥味已在墓室里压得人胸口发闷；他显然不想错过这个喘息之机。" },
   ],
   "乔家血卫": [
-    { id: "guard-cleave", damage: 5, threat: "凶险", cue: "血卫拖着重甲向前一步，甲片碰撞声在祭台下沉沉回荡。" },
-    { id: "guard-chain", damage: 5, threat: "凶险", cue: "血卫腕间垂下的锁链无声绷直，链节上的暗红锈迹一点点亮起。" },
-    { id: "guard-altar", damage: 10, threat: "致命", cue: "祭台血槽忽然灌满红光，血卫抬首时，整座石室都像被一股巨力按住。" },
+    { id: "guard-cleave", damage: 5, cue: "血卫拖着重甲向前一步，甲片碰撞声在祭台下沉沉回荡。" },
+    { id: "guard-chain", damage: 5, cue: "血卫腕间垂下的锁链无声绷直，链节上的暗红锈迹一点点亮起。" },
+    { id: "guard-altar", damage: 10, cue: "祭台血槽忽然灌满红光，血卫抬首时，整座石室都像被一股巨力按住，下一击绝非寻常蛊术可挡。" },
   ],
   "四转蛊修 · 乔无咎": [
-    { id: "qiao-mechanism", damage: 4, threat: "明显", cue: "乔无咎抬手轻叩石壁，几处原本死寂的暗槽随之缓缓开启。" },
-    { id: "qiao-blade", damage: 6, threat: "凶险", cue: "乔无咎衣袍下的血纹一寸寸亮起，仿佛有无形利刃正从袖中探出。" },
-    { id: "qiao-sacrifice", damage: 8, threat: "极度凶险", cue: "乔无咎双手结印，祭台下的血气开始逆流，四壁传来低沉而整齐的回应。" },
+    { id: "qiao-mechanism", damage: 4, cue: "乔无咎抬手轻叩石壁，几处原本死寂的暗槽随之缓缓开启。" },
+    { id: "qiao-blade", damage: 6, cue: "乔无咎衣袍下的血纹一寸寸亮起，仿佛有无形利刃正从袖中探出。" },
+    { id: "qiao-sacrifice", damage: 8, cue: "乔无咎双手结印，祭台下的血气开始逆流，四壁传来低沉而整齐的回应，显然在催动一式压箱底的杀招。" },
   ],
   "五转残魂 · 武意海": [
-    { id: "wu-remnant-pressure", damage: 2, essenceLoss: 1, threat: "轻微 · 损真元", cue: "武意海残躯未动，一缕阴冷灵识却已擦过识海，真元随之一滞。" },
-    { id: "wu-remnant-sweep", damage: 4, essenceLoss: 1, threat: "明显 · 损真元", cue: "枯骨般的手掌缓缓抬起，墓道里的血雾被牵成一道横贯石室的暗线。" },
-    { id: "wu-remnant-burst", damage: 6, essenceLoss: 2, threat: "凶险 · 重损真元", cue: "他眉心的五转蛊印骤然明灭，沉睡的尸灯齐齐缩成一点幽火。" },
+    { id: "wu-remnant-pressure", damage: 2, essenceLoss: 1, cue: "武意海残躯未动，一缕阴冷灵识却已擦过识海，真元随之一滞。" },
+    { id: "wu-remnant-sweep", damage: 4, essenceLoss: 1, cue: "枯骨般的手掌缓缓抬起，墓道里的血雾被牵成一道横贯石室的暗线，似要连你的真元一并卷走。" },
+    { id: "wu-remnant-burst", damage: 6, essenceLoss: 2, cue: "他眉心的五转蛊印骤然明灭，沉睡的尸灯齐齐缩成一点幽火，识海深处传来沉重的压迫感。" },
   ],
   "五转蛊修 · 武意海": [
-    { id: "wu-pressure", damage: 2, essenceLoss: 1, threat: "轻微 · 损真元", cue: "武意海目光落下时，识海像被冷水浸透，运转中的真元微微一滞。" },
-    { id: "wu-bloodriver", damage: 4, essenceLoss: 1, threat: "明显 · 损真元", cue: "血雾在武意海掌前缓缓卷动，犹如一条尚未决堤的暗河。" },
-    { id: "wu-seal", damage: 6, essenceLoss: 2, threat: "凶险 · 重损真元", cue: "五转蛊印自石壁上逐一浮现，丝丝寒意顺着经脉向丹田逼近。" },
-    { id: "wu-overwhelm", damage: 8, essenceLoss: 3, threat: "致命 · 真元枯竭", cue: "整座墓室忽然一沉，连血流蛊的气息都被那股威压压得几乎断绝。" },
+    { id: "wu-pressure", damage: 2, essenceLoss: 1, cue: "武意海目光落下时，识海像被冷水浸透，运转中的真元微微一滞。" },
+    { id: "wu-bloodriver", damage: 4, essenceLoss: 1, cue: "血雾在武意海掌前缓缓卷动，犹如一条尚未决堤的暗河，气机正顺着你的经脉摸来。" },
+    { id: "wu-seal", damage: 6, essenceLoss: 2, cue: "五转蛊印自石壁上逐一浮现，丝丝寒意顺着经脉向丹田逼近，显然会令真元运转大受阻滞。" },
+    { id: "wu-overwhelm", damage: 8, essenceLoss: 3, cue: "整座墓室忽然一沉，连血流蛊的气息都被那股威压压得几乎断绝；若硬接此击，丹田恐怕都要受创。" },
   ],
 };
 

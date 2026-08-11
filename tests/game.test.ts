@@ -18,6 +18,41 @@ test("敌方血量以隐性伤势状态呈现", () => {
   assert.equal(getEnemyCondition(3, 10), "重伤");
 });
 
+test("角色的初始生命与回春蛊数值符合当前战斗设定", () => {
+  assert.equal(chooseRole("healer").maxHealth, 14);
+  assert.equal(chooseRole("swordsman").maxHealth, 15);
+  assert.equal(chooseRole("heir").maxHealth, 12);
+});
+
+test("血针机关按一、三、六点伤害循环", () => {
+  const battle = startBattle(chooseRole("healer"), scenes.bloodTrap);
+  assert.equal(battle.battle?.intent.damage, 1);
+  const second = resolveBattleTurn(battle, "blood");
+  assert.equal(second.battle?.intent.damage, 3);
+  const third = resolveBattleTurn(second, "blood");
+  assert.equal(third.battle?.intent.damage, 6);
+  const looped = resolveBattleTurn(third, "blood");
+  assert.equal(looped.battle?.intent.damage, 1);
+});
+
+test("赵黎的血幕免疫伤害并反弹来袭蛊术", () => {
+  const first = startBattle(chooseRole("healer"), scenes.zhaoDuel);
+  const second = resolveBattleTurn(first, "blood");
+  const mirror = resolveBattleTurn(second, "blood");
+  assert.equal(mirror.battle?.intent.reflect, true);
+  const reflected = resolveBattleTurn(mirror, "blood");
+  assert.equal(reflected.battle?.enemyHealth, mirror.battle?.enemyHealth);
+  assert.equal(reflected.health, mirror.health - 3);
+});
+
+test("武意海的蛊印会同时压低生命与真元", () => {
+  const battle = startBattle(chooseRole("healer"), scenes.wuTeamDuel);
+  const result = resolveBattleTurn(battle, "blood");
+  assert.equal(result.health, 12);
+  assert.equal(result.essence, 10);
+  assert.equal(result.battle?.intent.damage, 4);
+});
+
 test("角色属性决定剧情选项是否可用", () => {
   const inspectDoor = scenes.entrance.choices?.[0];
   assert.ok(inspectDoor);
@@ -88,14 +123,14 @@ test("真元耗尽后只能调息并恢复三点", () => {
   assert.equal(resolveBattleTurn(exhausted, "blood"), exhausted);
   const rested = resolveBattleTurn(exhausted, "rest");
   assert.equal(rested.essence, 3);
-  assert.equal(rested.health, 7);
+  assert.equal(rested.health, 11);
 });
 
 test("陆照野击败尸灯傀儡时必定进入实力惊异的特殊余波，且不会承受击杀反击", () => {
   const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
   const result = resolveBattleTurn(battle, "sword");
   assert.equal(result.sceneId, "corpseAftermath");
-  assert.equal(result.health, 12);
+  assert.equal(result.health, 14);
   assert.equal(result.essence, 12);
   const ordinaryKill = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 4 } }, "blood");
   assert.equal(ordinaryKill.sceneId, "corpseAftermath");
@@ -111,7 +146,7 @@ test("回春蛊先恢复七点生命，再承受本回合攻击", () => {
 test("血甲蛊在本回合完全免疫敌方伤害", () => {
   const battle = startBattle({ ...chooseRole("healer"), flags: ["血甲蛊已得"] }, scenes.corpseFight);
   const result = resolveBattleTurn(battle, "armor");
-  assert.equal(result.health, 10);
+  assert.equal(result.health, 14);
   assert.equal(result.essence, 10);
 });
 
@@ -121,7 +156,7 @@ test("尸灯傀儡战后先进入青萝关心的疗伤节点", () => {
   assert.equal(result.sceneId, "shenCare");
   const medicine = scenes.shenCare.choices?.find((choice) => choice.id === "confess");
   assert.ok(medicine);
-  assert.equal(applyChoice({ ...result, health: 2 }, medicine).health, 10);
+  assert.equal(applyChoice({ ...result, health: 2 }, medicine).health, 14);
 });
 
 test("血池密室的选择保留蛊虫与隐藏关系后果", () => {
@@ -136,14 +171,14 @@ test("血池密室的选择保留蛊虫与隐藏关系后果", () => {
 
 test("乔无咎取得血甲蛊会强化其本体战", () => {
   const state = { ...chooseRole("healer"), flags: ["乔无咎得血甲蛊"] };
-  assert.equal(startBattle(state, scenes.lastGate).battle?.enemyHealth, 34);
+  assert.equal(startBattle(state, scenes.lastGate).battle?.enemyHealth, 20);
   assert.equal(startBattle(state, scenes.qiaoDuel).battle?.enemyHealth, 22);
 });
 
 test("沈青萝关系足够时会在血卫战并肩并提升生命", () => {
   const state = { ...chooseRole("healer"), health: 6, trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } };
   const battle = startBattle(state, scenes.lastGate);
-  assert.equal(battle.maxHealth, 13);
+  assert.equal(battle.maxHealth, 17);
   assert.equal(battle.health, 9);
   assert.equal(battle.flags.includes("青萝并肩"), true);
 });

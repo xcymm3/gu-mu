@@ -165,13 +165,13 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   };
   const immune = action === "mind" || (action === "armor" && before.flags.includes("血甲蛊已得"));
   const defended = action === "armor" || action === "mind";
-  const corpseResponse = battle.intent === "撕咬"
+  const corpseResponse = battle.intent.id === "corpse-claw"
     ? immune
       ? `${enemyName}俯身扑来的铁爪在半途失了准头，只抓碎了脚边的墓砖。`
       : defended
         ? `${enemyName}的铁爪撞上蛊甲，甲片与利爪相击，震得墓道里火星四散。`
         : `${enemyName}拖着铁靴骤然扑近，带锈的铁爪擦过身侧，留下火辣的一阵疼。`
-    : battle.intent === "毒雾"
+    : battle.intent.id === "corpse-mist"
       ? immune
         ? `${enemyName}口中涌出的尸雾尚未散开，便在错乱的蛊息中塌回了胸腔。`
         : defended
@@ -182,12 +182,21 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
         : action === "armor" && !before.flags.includes("血甲蛊已得")
           ? `你凝神催动甲衣蛊，谁知${enemyName}猛然炸开一圈尖啸音波，声浪灌耳，震得你胸中翻涌，身不由己地连退几步。`
           : `${enemyName}胸腹骤然鼓起，一圈尖啸音波在墓道中炸开，声浪灌耳，震得人胸中气血翻涌。`;
-  const otherResponse = immune
-    ? `${enemyName}的攻势被扰乱，刚凝成的杀意无声散去。`
-    : defended
-      ? `${enemyName}的攻势撞上护体蛊息，余劲只在石室中荡开一阵回响。`
-      : `${enemyName}趁蛊息未散逼近，来势震得你气血一滞。`;
-  const enemyResponse = enemyName === "尸灯傀儡" ? corpseResponse : otherResponse;
+  const enemyResponse = battle.intent.reflect
+    ? action === "mind"
+      ? `${enemyName}身前的血幕被惑心蛊搅得一阵扭曲，尚未来得及反噬便自行散开。`
+      : action === "armor"
+        ? `你的一击撞入血幕，反卷而回的血光被甲衣蛊尽数挡在身外。`
+        : `你催出的蛊息刚触及血幕，便沿原路倒卷回来，震得气血翻涌。`
+    : battle.intent.heal
+      ? `${enemyName}仰头饮下血瓶中的赤液，原本萎靡的血气肉眼可见地重新凝实。`
+      : immune
+        ? `${enemyName}的攻势被扰乱，刚凝成的杀意无声散去。`
+        : defended
+          ? `${enemyName}的攻势撞上护体蛊息，余劲只在石室中荡开一阵回响。`
+          : enemyName === "尸灯傀儡"
+            ? corpseResponse
+            : `${enemyName}趁蛊息未散逼近，来势震得你气血一滞。`;
   const nextCue = enemyCueFor(nextBattle);
   return {
     text: `${actionText[action]}${enemyResponse}\n\n${nextCue}`,
@@ -197,11 +206,7 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
 }
 
 function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
-  return battle.intent === "撕咬"
-    ? `${battle.enemyName}的身形微微前压，脚下碎石被碾出一串轻响。`
-    : battle.intent === "毒雾"
-      ? `一缕潮湿腥气自${battle.enemyName}周身漫开，连尸油灯的火光也跟着摇晃。`
-      : `${battle.enemyName}忽然收住脚步，胸腹间传出沉闷的鼓动，四周像骤然安静下来。`;
+  return battle.intent.cue;
 }
 
 export function GuTombGame() {

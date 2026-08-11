@@ -1,14 +1,14 @@
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "qiao" | "shen" | "zhao" | "jia";
 export type GuAction = "blood" | "armor" | "mind" | "heal" | "sword" | "bloodflow" | "rest";
-export type Intent = "撕咬" | "毒雾" | "蓄势";
+export type EnemyAction = { id: string; damage: number; cue: string; essenceLoss?: number; heal?: number; invulnerable?: boolean; reflect?: boolean };
 
 export type Role = { id: RoleId; name: string; gender: "female" | "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
 export type Effect = { health?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
 export type Choice = { id: string; label: string; next: string; note?: string; needs?: { insight?: number; reputation?: number; role?: RoleId; clue?: string; flag?: string }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
 export type Scene = { id: string; chapter: string; title: string; paragraphs: string[]; choices?: Choice[]; battle?: BattleConfig };
-export type Battle = BattleConfig & { enemyMaxHealth: number; turn: number; intent: Intent };
+export type Battle = BattleConfig & { enemyMaxHealth: number; turn: number; intent: EnemyAction };
 export type GameState = { roleId: RoleId | null; sceneId: string; health: number; maxHealth: number; essence: number; time: number; clues: string[]; flags: string[]; trust: Record<AllyId, number>; battle: Battle | null; endingId: string | null };
 export type Ending = { id: string; name: string; epitaph: string; text: string };
 
@@ -19,9 +19,9 @@ export function getEnemyCondition(enemyHealth: number, enemyMaxHealth: number) {
 }
 
 export const roles: Role[] = [
-  { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 10, maxEssence: 12, attack: 3, insight: 3, reputation: 1, signatureGu: "回春蛊" },
-  { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 13, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
-  { id: "heir", name: "顾微尘", gender: "male", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 11, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
+  { id: "healer", name: "宁素衣", gender: "female", title: "四转 · 游方蛊医", description: "神识敏锐，能从蛊毒与尸身中辨出真相。", maxHealth: 14, maxEssence: 12, attack: 3, insight: 3, reputation: 1, signatureGu: "回春蛊" },
+  { id: "swordsman", name: "陆照野", gender: "male", title: "四转 · 散修剑客", description: "蛊斗强横，却不擅长把话说圆。", maxHealth: 15, maxEssence: 15, attack: 4, insight: 1, reputation: 1, signatureGu: "剑鸣蛊" },
+  { id: "heir", name: "顾微尘", gender: "male", title: "四转 · 世家旁支", description: "熟知墓制与人心，容易获得信任也容易被针对。", maxHealth: 12, maxEssence: 10, attack: 3, insight: 2, reputation: 3, signatureGu: "惑心蛊" },
 ];
 
 export const scenes: Record<string, Scene> = {
@@ -96,7 +96,7 @@ export const scenes: Record<string, Scene> = {
   lastGate: {
     id: "lastGate", chapter: "捌 · 祭阵出口", title: "乔家的血祭",
     paragraphs: [""],
-    battle: { enemyName: "乔家血卫", enemyHealth: 34, victoryNext: "bloodRage", defeatNext: "bloodRage", victoryFlag: "血卫独破", defeatFlag: "血卫压境" },
+    battle: { enemyName: "乔家血卫", enemyHealth: 20, victoryNext: "bloodRage", defeatNext: "bloodRage", victoryFlag: "血卫独破", defeatFlag: "血卫压境" },
   },
   bloodRage: {
     id: "bloodRage", chapter: "玖 · 血流初醒", title: "赵黎的血祭",
@@ -210,7 +210,7 @@ export const scenes: Record<string, Scene> = {
   },
   wuDuel: {
     id: "wuDuel", chapter: "捌 · 旧主反噬", title: "血流反戈", paragraphs: ["武意海与乔无咎交手的刹那，你夺下血流蛊。血线断开时，盟约反噬沿手腕一路攀来；武意海回身看见空下来的玉匣，眼中最后一点从容终于沉了下去。\n\n他没有追问，只抬手将整座石室的血雾压向你。血流蛊在掌中不断震颤，像要挣开，又像催促你先一步作出选择。"],
-    battle: { enemyName: "五转蛊修 · 武意海", enemyHealth: 24, victoryNext: "bloodExit", defeatNext: "wuBetrayal", victoryFlag: "武意海已灭", defeatFlag: "武意海屠尽众人" },
+    battle: { enemyName: "五转蛊修 · 武意海", enemyHealth: 34, victoryNext: "bloodExit", defeatNext: "wuBetrayal", victoryFlag: "武意海已灭", defeatFlag: "武意海屠尽众人" },
   },
   wuBetrayal: {
     id: "wuBetrayal", chapter: "柒 · 旧主反噬", title: "血食", paragraphs: ["武意海的笑声在主墓室里回荡。他从未打算与任何人平分自由；血气一旦足够，盟约与请求都只剩一张无用的纸。赵黎、乔无咎与墓中幸存者的声音先后沉入血河，最后连你眼前的灯火也被染成暗红。\n\n五转蛊修恢复实力的一刻，没有人能从这座墓里走出去。"],
@@ -226,7 +226,7 @@ export const scenes: Record<string, Scene> = {
   },
   wuTeamDuel: {
     id: "wuTeamDuel", chapter: "捌 · 五转残魂", title: "与赵黎合战", paragraphs: ["赵黎拔出最后一根血钉时，袖中寿蛊终于破茧。他没有说谢，只将一道阴冷血线缠到你腕上，示意自己会替你撕开武意海的护体蛊印。\n\n武意海自密道尽头回首，五转余威令整座墓室震颤。此战若败，所有被救下的人都会重新成为他的血食。"],
-    battle: { enemyName: "五转残魂 · 武意海", enemyHealth: 34, victoryNext: "teamGather", defeatNext: "wuBetrayal", victoryFlag: "武意海已灭", defeatFlag: "武意海屠尽众人" },
+    battle: { enemyName: "五转残魂 · 武意海", enemyHealth: 18, victoryNext: "teamGather", defeatNext: "wuBetrayal", victoryFlag: "武意海已灭", defeatFlag: "武意海屠尽众人" },
   },
   teamGather: {
     id: "teamGather", chapter: "玖 · 重逢之前", title: "各怀心思", paragraphs: [""],
@@ -334,7 +334,50 @@ export function applyChoice(state: GameState, choice: Choice): GameState {
   return { ...state, sceneId: nextScene, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags, trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
 }
 
-const intents: Intent[] = ["撕咬", "毒雾", "蓄势"];
+const enemyPatterns: Record<string, EnemyAction[]> = {
+  "尸灯傀儡": [
+    { id: "corpse-claw", damage: 3, cue: "尸灯傀儡微微伏低身子，铁爪在砖面上刮出令人牙酸的细响。" },
+    { id: "corpse-mist", damage: 2, cue: "一缕潮湿腥气自尸灯傀儡甲缝间漫开，连尸油灯的火光也跟着摇晃。" },
+    { id: "corpse-scream", damage: 5, cue: "尸灯傀儡忽然收住脚步，胸腹间传出沉闷鼓动，四周像骤然安静下来。" },
+  ],
+  "乔家血针机关": [
+    { id: "needle-probe", damage: 1, cue: "石壁深处传来一声极轻的机簧咬合，几处孔眼泛起针尖大的寒光。" },
+    { id: "needle-volley", damage: 3, cue: "墓道两侧的暗缝同时张开，细密冷光在石壁间一闪而没。" },
+    { id: "needle-rain", damage: 6, cue: "穹顶灰尘簌簌而落，头顶深处传来连绵不绝的金铁摩擦声。" },
+  ],
+  "血流邪修 · 赵黎": [
+    { id: "zhao-thread", damage: 2, cue: "赵黎指尖垂下一缕血丝，细得几乎要融入石室阴影。" },
+    { id: "zhao-palm", damage: 8, cue: "赵黎袖袍无风自鼓，笑意收敛时，掌前的血气已压得灯火偏向一侧。" },
+    { id: "zhao-mirror", damage: 0, invulnerable: true, reflect: true, cue: "赵黎身前浮起一层薄薄血幕，幕中倒映出你的身影，连呼吸都比平日清晰。" },
+    { id: "zhao-vial", damage: 0, heal: 8, cue: "赵黎取出一只暗红小瓶，瓶塞尚未拔开，血腥味已在墓室里压得人胸口发闷。" },
+  ],
+  "乔家血卫": [
+    { id: "guard-cleave", damage: 5, cue: "血卫拖着重甲向前一步，甲片碰撞声在祭台下沉沉回荡。" },
+    { id: "guard-chain", damage: 5, cue: "血卫腕间垂下的锁链无声绷直，链节上的暗红锈迹一点点亮起。" },
+    { id: "guard-altar", damage: 10, cue: "祭台血槽忽然灌满红光，血卫抬首时，整座石室都像被一股巨力按住。" },
+  ],
+  "四转蛊修 · 乔无咎": [
+    { id: "qiao-mechanism", damage: 4, cue: "乔无咎抬手轻叩石壁，几处原本死寂的暗槽随之缓缓开启。" },
+    { id: "qiao-blade", damage: 6, cue: "乔无咎衣袍下的血纹一寸寸亮起，仿佛有无形利刃正从袖中探出。" },
+    { id: "qiao-sacrifice", damage: 8, cue: "乔无咎双手结印，祭台下的血气开始逆流，四壁传来低沉而整齐的回应。" },
+  ],
+  "五转残魂 · 武意海": [
+    { id: "wu-remnant-pressure", damage: 2, essenceLoss: 1, cue: "武意海残躯未动，一缕阴冷灵识却已擦过识海，真元随之一滞。" },
+    { id: "wu-remnant-sweep", damage: 4, essenceLoss: 1, cue: "枯骨般的手掌缓缓抬起，墓道里的血雾被牵成一道横贯石室的暗线。" },
+    { id: "wu-remnant-burst", damage: 6, essenceLoss: 2, cue: "他眉心的五转蛊印骤然明灭，沉睡的尸灯齐齐缩成一点幽火。" },
+  ],
+  "五转蛊修 · 武意海": [
+    { id: "wu-pressure", damage: 2, essenceLoss: 1, cue: "武意海目光落下时，识海像被冷水浸透，运转中的真元微微一滞。" },
+    { id: "wu-bloodriver", damage: 4, essenceLoss: 1, cue: "血雾在武意海掌前缓缓卷动，犹如一条尚未决堤的暗河。" },
+    { id: "wu-seal", damage: 6, essenceLoss: 2, cue: "五转蛊印自石壁上逐一浮现，丝丝寒意顺着经脉向丹田逼近。" },
+    { id: "wu-overwhelm", damage: 8, essenceLoss: 3, cue: "整座墓室忽然一沉，连血流蛊的气息都被那股威压压得几乎断绝。" },
+  ],
+};
+
+function patternFor(enemyName: string) {
+  return enemyPatterns[enemyName] ?? enemyPatterns["尸灯傀儡"];
+}
+
 export function startBattle(state: GameState, scene: Scene): GameState {
   const role = getRole(state.roleId);
   if (!scene.battle || !role) return state;
@@ -359,7 +402,7 @@ export function startBattle(state: GameState, scene: Scene): GameState {
     battleConfig = { ...battleConfig, enemyHealth: Math.max(12, battleConfig.enemyHealth - weakenedByAllies) };
   }
   const enemyHealth = battleConfig.enemyHealth + (battleConfig.enemyName === "四转蛊修 · 乔无咎" && flags.includes("乔无咎得血甲蛊") ? 4 : 0);
-  return { ...state, flags, health, maxHealth, essence: role.maxEssence, battle: { ...battleConfig, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: intents[0] } };
+  return { ...state, flags, health, maxHealth, essence: role.maxEssence, battle: { ...battleConfig, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: patternFor(battleConfig.enemyName)[0] } };
 }
 function finishBattle(state: GameState, battle: Battle, won: boolean, health: number, nextScene = won ? battle.victoryNext : battle.defeatNext) {
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
@@ -395,17 +438,26 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   const wrongSignature = (action === "heal" && role.id !== "healer") || (action === "sword" && role.id !== "swordsman") || (action === "mind" && role.id !== "heir") || (action === "bloodflow" && !state.flags.includes("血流蛊已得"));
   if (wrongSignature) return state;
   if ((state.essence === 0 && action !== "rest") || (state.essence > 0 && action === "rest") || state.essence < actionCosts[action]) return state;
-  let damage = role.attack; let received = battle.intent === "撕咬" ? 3 : battle.intent === "毒雾" ? 2 : 5;
+  let damage = role.attack; let received = battle.intent.damage;
   let healthBeforeHit = state.health;
-  if (action === "blood" && battle.intent === "蓄势") damage += 2;
+  if (action === "blood" && battle.intent.damage >= 5) damage += 2;
   if (action === "armor") { damage = 1; received = state.flags.includes("血甲蛊已得") ? 0 : Math.max(0, received - 3); }
   if (action === "mind") { damage = role.attack; received = 0; }
   if (action === "heal") { damage = 0; healthBeforeHit = Math.min(state.maxHealth, state.health + 7); }
   if (action === "sword") { damage = 10; healthBeforeHit = state.health - 1; }
   if (action === "bloodflow" && state.flags.includes("血流蛊已得")) { damage = 6; healthBeforeHit = Math.min(state.maxHealth, state.health + 6); }
   if (battle.enemyName === "五转残魂 · 武意海" && state.flags.includes("赵黎援阵")) damage += 4;
+  const reflectedDamage = battle.intent.reflect ? damage : 0;
+  if (battle.intent.invulnerable) damage = 0;
+  if (reflectedDamage > 0) {
+    received += reflectedDamage;
+    if (action === "armor") received = state.flags.includes("血甲蛊已得") ? 0 : Math.max(0, received - 3);
+    if (action === "mind") received = 0;
+  }
   const actualDamage = Math.min(damage, battle.enemyHealth); const enemyHealth = battle.enemyHealth - actualDamage;
-  const essence = action === "rest" ? Math.min(role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
+  const essenceAfterAction = action === "rest" ? Math.min(role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
+  const essence = Math.max(0, essenceAfterAction - (action === "mind" ? 0 : battle.intent.essenceLoss ?? 0));
+  const healedEnemyHealth = Math.min(battle.enemyMaxHealth, enemyHealth + (battle.intent.heal ?? 0));
   const nextState = { ...state, essence };
   if (enemyHealth <= 0) {
     const healthOnKill = healthBeforeHit;
@@ -416,7 +468,8 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   const health = healthAfterHit;
   if (health <= 0) return finishBattle(nextState, battle, false, health);
   const turn = battle.turn + 1;
-  return { ...nextState, health, battle: { ...battle, enemyHealth, turn, intent: intents[turn % intents.length] } };
+  const pattern = patternFor(battle.enemyName);
+  return { ...nextState, health, battle: { ...battle, enemyHealth: healedEnemyHealth, turn, intent: pattern[turn % pattern.length] } };
 }
 export function resolveEnding(state: GameState) {
   if (state.flags.includes("全员生还")) return "true";

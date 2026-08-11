@@ -130,8 +130,8 @@ test("陆照野击败尸灯傀儡时必定进入实力惊异的特殊余波，�
   const battle = startBattle(chooseRole("swordsman"), scenes.corpseFight);
   const result = resolveBattleTurn(battle, "sword");
   assert.equal(result.sceneId, "corpseAftermath");
-  assert.equal(result.health, 14);
-  assert.equal(result.essence, 12);
+  assert.equal(result.health, 15);
+  assert.equal(result.essence, 11);
   const ordinaryKill = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 4 } }, "blood");
   assert.equal(ordinaryKill.sceneId, "corpseAftermath");
 });
@@ -140,14 +140,14 @@ test("回春蛊先恢复七点生命，再承受本回合攻击", () => {
   const battle = startBattle({ ...chooseRole("healer"), health: 2 }, scenes.corpseFight);
   const result = resolveBattleTurn(battle, "heal");
   assert.equal(result.health, 6);
-  assert.equal(result.essence, 9);
+  assert.equal(result.essence, 10);
 });
 
 test("血甲蛊在本回合完全免疫敌方伤害", () => {
   const battle = startBattle({ ...chooseRole("healer"), flags: ["血甲蛊已得"] }, scenes.corpseFight);
   const result = resolveBattleTurn(battle, "armor");
   assert.equal(result.health, 14);
-  assert.equal(result.essence, 10);
+  assert.equal(result.essence, 11);
 });
 
 test("尸灯傀儡战后先进入青萝关心的疗伤节点", () => {
@@ -169,18 +169,42 @@ test("血池密室的选择保留蛊虫与隐藏关系后果", () => {
   assert.equal(applyChoice(chooseRole("healer"), ignore).trust.jia, 1);
 });
 
+test("药物回复事件恢复十点生命，贾贵补给会提高真元上限", () => {
+  const selfMedicine = scenes.shellCorridor.choices?.find((choice) => choice.id === "take-draught");
+  const jiaMedicine = scenes.lampRoom.choices?.find((choice) => choice.id === "jia-ointment");
+  const jiaRest = scenes.needleRest.choices?.find((choice) => choice.id === "take-jia-salve");
+  assert.ok(selfMedicine && jiaMedicine && jiaRest);
+  assert.equal(applyChoice({ ...chooseRole("healer"), health: 1 }, selfMedicine).health, 11);
+  assert.equal(applyChoice(chooseRole("healer"), jiaMedicine).maxEssence, 15);
+  assert.equal(applyChoice(chooseRole("healer"), jiaRest).maxEssence, 15);
+  assert.equal(startBattle(applyChoice(chooseRole("healer"), jiaMedicine), scenes.bloodTrap).essence, 15);
+});
+
+test("非首领战胜利后回复两点，重伤战败后保留一滴生命", () => {
+  const battle = startBattle({ ...chooseRole("healer"), health: 5 }, scenes.corpseFight);
+  const victory = resolveBattleTurn({ ...battle, battle: { ...battle.battle!, enemyHealth: 1 } }, "blood");
+  assert.equal(victory.health, 7);
+  const defeat = resolveBattleTurn({ ...startBattle({ ...chooseRole("healer"), health: 1 }, scenes.corpseFight) }, "blood");
+  assert.equal(defeat.health, 1);
+});
+
 test("乔无咎取得血甲蛊会强化其本体战", () => {
   const state = { ...chooseRole("healer"), flags: ["乔无咎得血甲蛊"] };
   assert.equal(startBattle(state, scenes.lastGate).battle?.enemyHealth, 20);
   assert.equal(startBattle(state, scenes.qiaoDuel).battle?.enemyHealth, 22);
+  assert.equal(scenes.bloodPool.paragraphs[0].includes("血卫必会更难对付"), false);
 });
 
-test("沈青萝关系足够时会在血卫战并肩并提升生命", () => {
+test("沈青萝关系足够时会在赵黎或乔无咎战开场并肩", () => {
   const state = { ...chooseRole("healer"), health: 6, trust: { qiao: 0, shen: 2, zhao: 0, jia: 0 } };
-  const battle = startBattle(state, scenes.lastGate);
-  assert.equal(battle.maxHealth, 17);
-  assert.equal(battle.health, 9);
-  assert.equal(battle.flags.includes("青萝并肩"), true);
+  const guard = startBattle(state, scenes.lastGate);
+  assert.equal(guard.maxHealth, 14);
+  assert.equal(guard.health, 6);
+  assert.equal(guard.flags.includes("青萝并肩"), true);
+  const zhao = startBattle(guard, scenes.zhaoDuel);
+  assert.equal(zhao.maxHealth, 17);
+  assert.equal(zhao.health, 17);
+  assert.equal(startBattle(zhao, scenes.qiaoDuel).maxHealth, 17);
 });
 
 test("援手条件足够时，血卫战败后仍可挑战赵黎", () => {

@@ -4,12 +4,12 @@ export type GuAction = "blood" | "armor" | "mind" | "heal" | "sword" | "bloodflo
 export type EnemyAction = { id: string; damage: number; cue: string; essenceLoss?: number; heal?: number; invulnerable?: boolean; reflect?: boolean };
 
 export type Role = { id: RoleId; name: string; gender: "female" | "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; insight: number; reputation: number; signatureGu: string };
-export type Effect = { health?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
+export type Effect = { health?: number; maxEssence?: number; time?: number; clue?: string; flag?: string; trust?: Partial<Record<AllyId, number>> };
 export type Choice = { id: string; label: string; next: string; note?: string; needs?: { insight?: number; reputation?: number; role?: RoleId; clue?: string; flag?: string }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
 export type Scene = { id: string; chapter: string; title: string; paragraphs: string[]; choices?: Choice[]; battle?: BattleConfig };
 export type Battle = BattleConfig & { enemyMaxHealth: number; turn: number; intent: EnemyAction };
-export type GameState = { roleId: RoleId | null; sceneId: string; health: number; maxHealth: number; essence: number; time: number; clues: string[]; flags: string[]; trust: Record<AllyId, number>; battle: Battle | null; endingId: string | null };
+export type GameState = { roleId: RoleId | null; sceneId: string; health: number; maxHealth: number; essence: number; maxEssence: number; time: number; clues: string[]; flags: string[]; trust: Record<AllyId, number>; battle: Battle | null; endingId: string | null };
 export type Ending = { id: string; name: string; epitaph: string; text: string };
 
 export function getEnemyCondition(enemyHealth: number, enemyMaxHealth: number) {
@@ -142,24 +142,24 @@ export const scenes: Record<string, Scene> = {
   shellCorridor: {
     id: "shellCorridor", chapter: "叁 · 蛊蜕走廊", title: "蜕壳余香", paragraphs: ["偏室后的走廊两侧嵌着成排石罐，罐中尽是干枯蛊壳。每逢众人经过，壳内便飘出一丝青白药香，沁入伤口时带着细微刺痛。赵黎说此地多半留有养蛊药渣，语气淡淡，袖口却比先前收得更紧；贾贵则盯着石罐，像在估算哪一只尚有余用。\n\n走廊尽头有三只未碎的药囊，药性都不算猛烈，却足够撑过下一段墓道。你可以独取一份，也可以把这点微薄好处分给身边的人。"],
     choices: [
-      { id: "share-zhao", label: "分一囊药散给赵黎", next: "well", effect: { health: 2, trust: { zhao: 1 } } },
-      { id: "take-draught", label: "取一囊青露，自行调息", next: "well", effect: { health: 2 } },
+      { id: "share-zhao", label: "分一囊药散给赵黎", next: "well", effect: { health: 10, trust: { zhao: 1 } } },
+      { id: "take-draught", label: "取一囊青露，自行调息", next: "well", effect: { health: 10 } },
       { id: "cover-jia", label: "替贾贵挡住散出的药尘", next: "well", effect: { trust: { jia: 1 } } },
     ],
   },
   lampRoom: {
     id: "lampRoom", chapter: "肆 · 井后药室", title: "灯冢药房", paragraphs: ["离开枯井后，墓道旁一间旧药房还亮着半盏尸油灯。药架大半腐朽，唯有一只铜炉中余温未散。沈青萝认出炉底沉着的止血散，贾贵则从碎瓷片下翻出几张封口完好的护心膏。赵黎没有靠近，只站在门外看着灯焰，像在等谁先替他试药。\n\n前方就是血针机关，带伤硬闯绝非明智。药材不多，如何分配，足以让每个人记住你此刻的选择。"],
     choices: [
-      { id: "shen-medicine", label: "让沈青萝炼开止血散", next: "bloodTrap", effect: { health: 3, trust: { shen: 1 } } },
-      { id: "jia-ointment", label: "与贾贵分用护心膏", next: "bloodTrap", effect: { health: 2, trust: { jia: 1 } } },
+      { id: "shen-medicine", label: "让沈青萝炼开止血散", next: "bloodTrap", effect: { health: 10, trust: { shen: 1 } } },
+      { id: "jia-ointment", label: "与贾贵分用护心膏", next: "bloodTrap", effect: { maxEssence: 3, trust: { jia: 1 } } },
       { id: "leave-medicine", label: "不碰药房里的任何东西", next: "bloodTrap", effect: { trust: { zhao: 1 } } },
     ],
   },
   needleRest: {
     id: "needleRest", chapter: "伍 · 血针余烬", title: "针雨之后", paragraphs: [""],
     choices: [
-      { id: "take-jia-salve", label: "接下贾贵递来的止血膏", next: "bloodCardChange", effect: { health: 3, trust: { jia: 1 } } },
-      { id: "shen-tend", label: "让沈青萝替你清理伤口", next: "bloodCardChange", effect: { health: 2, trust: { shen: 1 } } },
+      { id: "take-jia-salve", label: "接下贾贵递来的补元散", next: "bloodCardChange", effect: { maxEssence: 3, trust: { jia: 1 } } },
+      { id: "shen-tend", label: "让沈青萝替你清理伤口", next: "bloodCardChange", effect: { health: 10, trust: { shen: 1 } } },
       { id: "guard-others", label: "留在原地警戒，不再耗费药物", next: "bloodCardChange", effect: { trust: { zhao: 1 } } },
     ],
   },
@@ -300,6 +300,11 @@ export const scenePageNotes: Record<string, string[]> = {
   ],
 };
 
+scenes.bloodPool.paragraphs = scenes.bloodPool.paragraphs.map((paragraph) => paragraph.replace(
+  "乔无咎若得一只，祭台上的血卫必会更难对付",
+  "乔无咎若得一只，便会留作自身护身之用，日后与他正面相对时必更棘手",
+));
+
 export const endings: Record<string, Ending> = {
   trapped: { id: "trapped", name: "困墓之人", epitaph: "尸灯灭时，活人也成了墓的一部分。", text: "你们在机关与迟疑中耗尽时辰。血祭重新闭合，墓门外传来新的脚步声；乔家仍会继续寻找下一批四转蛊修。" },
   bloodflow: { id: "bloodflow", name: "夺蛊成魔", epitaph: "一蛊入心，血流如河。", text: "你夺得五转血流蛊，反杀乔家血卫，带着满身鲜血走出荒原。它替你补回每一滴流失的生命，也在你心里留下永不满足的饥渴。" },
@@ -312,9 +317,9 @@ export const endings: Record<string, Ending> = {
   alone: { id: "alone", name: "独活荒原", epitaph: "活下来的人，也要背着秘密。", text: "你踏过最后一道血线，身后是再无声息的蛊墓。乔家的阴谋未能吞掉你，但荒原很大，追问真相的人也不会少。" },
 };
 
-export function initialGame(): GameState { return { roleId: null, sceneId: "entrance", health: 0, maxHealth: 0, essence: 0, time: 0, clues: [], flags: [], trust: { qiao: 0, shen: 0, zhao: 0, jia: 0 }, battle: null, endingId: null }; }
+export function initialGame(): GameState { return { roleId: null, sceneId: "entrance", health: 0, maxHealth: 0, essence: 0, maxEssence: 0, time: 0, clues: [], flags: [], trust: { qiao: 0, shen: 0, zhao: 0, jia: 0 }, battle: null, endingId: null }; }
 export function getRole(id: RoleId | null) { return roles.find((role) => role.id === id) ?? null; }
-export function chooseRole(id: RoleId): GameState { const role = getRole(id); return role ? { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth } : initialGame(); }
+export function chooseRole(id: RoleId): GameState { const role = getRole(id); return role ? { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth, maxEssence: role.maxEssence } : initialGame(); }
 export function canChoose(state: GameState, choice: Choice) {
   const role = getRole(state.roleId);
   if (!role) return false;
@@ -331,7 +336,7 @@ export function applyChoice(state: GameState, choice: Choice): GameState {
     nextScene = state.trust.shen >= 2 ? "swordArrayForce" : "swordArrayRepair";
   }
   if (choice.id === "gather-team") nextScene = state.trust.shen >= 2 && state.trust.zhao >= 2 && state.trust.jia >= 2 ? "trueEnding" : "zhaoDuel";
-  return { ...state, sceneId: nextScene, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags, trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
+  return { ...state, sceneId: nextScene, health: Math.max(1, Math.min(state.maxHealth, state.health + (effect?.health ?? 0))), maxEssence: state.maxEssence + (effect?.maxEssence ?? 0), time: state.time + (effect?.time ?? 0), clues: addUnique(state.clues, effect?.clue), flags, trust: { qiao: state.trust.qiao + (effect?.trust?.qiao ?? 0), shen: state.trust.shen + (effect?.trust?.shen ?? 0), zhao: state.trust.zhao + (effect?.trust?.zhao ?? 0), jia: state.trust.jia + (effect?.trust?.jia ?? 0) } };
 }
 
 const enemyPatterns: Record<string, EnemyAction[]> = {
@@ -392,8 +397,6 @@ export function startBattle(state: GameState, scene: Scene): GameState {
       flags = addUnique(flags, "贾贵装死");
       if (state.trust.shen >= 2) {
         flags = addUnique(flags, "青萝并肩");
-        maxHealth += 3;
-        health = Math.min(maxHealth, health + 3);
       } else flags = addUnique(flags, "青萝已殁");
     }
   }
@@ -401,8 +404,13 @@ export function startBattle(state: GameState, scene: Scene): GameState {
     const weakenedByAllies = (state.flags.includes("贾贵援手") ? 4 : 0) + (state.flags.includes("赵黎犹疑") ? 2 : 0);
     battleConfig = { ...battleConfig, enemyHealth: Math.max(12, battleConfig.enemyHealth - weakenedByAllies) };
   }
+  if (flags.includes("青萝并肩") && !flags.includes("青萝并肩已发") && (scene.id === "zhaoDuel" || scene.id === "qiaoDuel")) {
+    flags = addUnique(flags, "青萝并肩已发");
+    maxHealth += 3;
+    health = maxHealth;
+  }
   const enemyHealth = battleConfig.enemyHealth + (battleConfig.enemyName === "四转蛊修 · 乔无咎" && flags.includes("乔无咎得血甲蛊") ? 4 : 0);
-  return { ...state, flags, health, maxHealth, essence: role.maxEssence, battle: { ...battleConfig, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: patternFor(battleConfig.enemyName)[0] } };
+  return { ...state, flags, health, maxHealth, essence: state.maxEssence || role.maxEssence, battle: { ...battleConfig, enemyHealth, enemyMaxHealth: enemyHealth, turn: 0, intent: patternFor(battleConfig.enemyName)[0] } };
 }
 function finishBattle(state: GameState, battle: Battle, won: boolean, health: number, nextScene = won ? battle.victoryNext : battle.defeatNext) {
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
@@ -428,10 +436,13 @@ function finishBattle(state: GameState, battle: Battle, won: boolean, health: nu
       flags = addUnique(flags, "乔无咎杀死你");
     }
   }
-  const endingHealth = won ? Math.max(1, health) : battle.enemyName === "乔家血卫" && state.trust.shen >= 2 ? Math.min(state.maxHealth, 5) : 1;
+  const isBossBattle = ["乔家血卫", "血流邪修 · 赵黎", "四转蛊修 · 乔无咎", "五转残魂 · 武意海", "五转蛊修 · 武意海"].includes(battle.enemyName);
+  const endingHealth = won
+    ? Math.min(state.maxHealth, Math.max(1, health) + (isBossBattle ? 0 : 2))
+    : battle.enemyName === "乔家血卫" && state.trust.shen >= 2 ? Math.min(state.maxHealth, 5) : 1;
   return { ...state, sceneId, battle: null, health: endingHealth, time: won ? state.time : state.time + 1, flags };
 }
-const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 1, rest: 0 };
+const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, mind: 2, heal: 2, sword: 4, bloodflow: 1, rest: 0 };
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
   const role = getRole(state.roleId); const battle = state.battle;
   if (!role || !battle) return state;
@@ -455,7 +466,7 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
     if (action === "mind") received = 0;
   }
   const actualDamage = Math.min(damage, battle.enemyHealth); const enemyHealth = battle.enemyHealth - actualDamage;
-  const essenceAfterAction = action === "rest" ? Math.min(role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
+  const essenceAfterAction = action === "rest" ? Math.min(state.maxEssence || role.maxEssence, state.essence + 3) : state.essence - actionCosts[action];
   const essence = Math.max(0, essenceAfterAction - (action === "mind" ? 0 : battle.intent.essenceLoss ?? 0));
   const healedEnemyHealth = Math.min(battle.enemyMaxHealth, enemyHealth + (battle.intent.heal ?? 0));
   const nextState = { ...state, essence };

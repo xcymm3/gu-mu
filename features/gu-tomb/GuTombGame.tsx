@@ -439,31 +439,31 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue }: { battleFee
   const [showHelp, setShowHelp] = useState(false);
   if (!battle || !role) return null;
   const signatureAction = role.id === "healer"
-    ? { id: "heal" as const, name: "回春蛊", description: "恢复 7 点生命。消耗 3 真元。" }
+    ? { id: "heal" as const, name: "回春蛊", description: "恢复 7 点生命。消耗 2 真元。" }
     : role.id === "swordsman"
-      ? { id: "sword" as const, name: "剑鸣蛊", description: "造成 10 点伤害，自身受 1 点伤害。消耗 3 真元。" }
-      : { id: "mind" as const, name: "惑心蛊", description: "打断本回合攻势，并造成等同攻击属性的伤害。消耗 3 真元。" };
+      ? { id: "sword" as const, name: "剑鸣蛊", description: "造成 10 点伤害，自身受 1 点伤害。消耗 4 真元。" }
+      : { id: "mind" as const, name: "惑心蛊", description: "打断本回合攻势，并造成等同攻击属性的伤害。消耗 2 真元。" };
   const defenseAction = game.flags.includes("血甲蛊已得")
-    ? { id: "armor" as const, name: "血甲蛊", description: "血甲覆身，本回合完全免疫伤害。消耗 2 真元。" }
-    : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，硬受来势。消耗 2 真元。" };
+    ? { id: "armor" as const, name: "血甲蛊", description: "血甲覆身，本回合完全免疫伤害。消耗 1 真元。" }
+    : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，硬受来势。消耗 1 真元。" };
   const attackAction = game.flags.includes("血流蛊已得")
     ? [{ id: "bloodflow" as const, name: "血流蛊", description: "造成 6 点伤害，并恢复 6 点生命。消耗 1 真元。" }]
     : baseGuActions;
   const guActions = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
     : [...attackAction, defenseAction, signatureAction];
-  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 2, mind: 3, heal: 3, sword: 3, bloodflow: 1, rest: 0 };
+  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, mind: 2, heal: 2, sword: 4, bloodflow: 1, rest: 0 };
   const enemyCue = enemyCueFor(battle);
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">
     <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>敌方状态：{enemyCondition}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
-    <p className="essence-stat">真元 <strong>{game.essence}/{role.maxEssence}</strong></p>
+    <p className="essence-stat">真元 <strong>{game.essence}/{game.maxEssence}</strong></p>
     <div className="intent-copy" aria-live="polite">{(battleFeedback?.text ?? enemyCue).split("\n\n").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
     {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>}
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
-      <p>攻击蛊消耗 1 真元，甲衣蛊消耗 2 真元；第三只蛊随修士而变，消耗 3 真元。血流蛊会替换血刃蛊，血甲蛊会替换甲衣蛊。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
+      <p>攻击蛊与甲衣蛊各消耗 1 真元；回春蛊、惑心蛊各消耗 2 真元，剑鸣蛊消耗 4 真元。血流蛊会替换血刃蛊，血甲蛊会替换甲衣蛊。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
       <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
     </section></div> : null}
   </section>;

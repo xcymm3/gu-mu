@@ -8,6 +8,6 @@
 
     pnpm generate:story entrance 6 .\stories\briefs\entrance.txt
 
-无需再手工把统一设定复制进每个 brief；修改 `00-generation-guide.txt` 后，下一次生成会自动使用新内容。旧的 `00-world-bible.txt` 保留为历史参考，不参与 API 请求。
+无需再手工把统一设定复制进每个 brief；修改 `00-generation-guide.txt` 后，下一次生成会自动使用新内容。
 
 脚本优先使用环境变量 DEEPSEEK_API_KEY；只有未设置时才读取桌面工作计划.txt。密钥不会写入输出或日志。

@@ -104,7 +104,7 @@ function splitForViewport(text: string, readingBox: { width: number; height: num
 
 function NarrativePage({ text }: { text: string }) {
   return <>{splitParagraphs(text).map((paragraph, paragraphIndex) => {
-    const pieces = paragraph.split(/(赵黎|纪寒衣|薛逢|苏莹|乔无咎|血流蛊|五转|血祭|祖传旧玉|墓主)/g);
+    const pieces = paragraph.split(/(赵黎|纪清寒|薛逢|苏莹|乔无咎|血流蛊|五转|血祭|祖传旧玉|苏衍)/g);
     return <p key={paragraphIndex}>{pieces.map((piece, pieceIndex) => names.has(piece) ? <strong className="story-name" key={pieceIndex}>{piece}</strong> : criticalTerms.has(piece) ? <span className="story-critical" key={pieceIndex}>{piece}</span> : piece)}</p>;
   })}</>;
 }

@@ -51,7 +51,7 @@ test("赵黎线的冰寒蛊简会开启节点三的决战变体", () => {
 test("真结局路线的墓主战可正常开启，敌方血量仍隐性显示", () => {
   const state = { ...chooseRole(), route: "su" as const, flags: ["苏莹存活"] };
   const battle = startBattle(state, scenes.masterBattle);
-  assert.equal(battle.battle?.enemyName, "五转墓主");
+  assert.equal(battle.battle?.enemyName, "苏衍");
   assert.equal(getEnemyCondition(28, 28), "健康");
   assert.equal(getEnemyCondition(8, 28), "重伤");
 });

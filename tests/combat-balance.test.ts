@@ -50,10 +50,25 @@ const roles: RoleDef[] = [
 // ── 回合级模拟 ──
 
 type SimState = { hp: number; essence: number; enemyHp: number; turn: number };
-type SimAction = "blood" | "armor" | "rest";
+type SimAction = "blood" | "armor" | "rest" | "heal" | "sword" | "charm";
 
-function validActions(essence: number): SimAction[] {
-  return essence > 0 ? ["blood", "armor"] : ["rest"];
+function actionCost(action: SimAction): number {
+  if (action === "heal") return 2;
+  if (action === "sword") return 4;
+  if (action === "charm") return 3;
+  if (action === "rest") return 0;
+  return 1; // blood, armor, bloodflow
+}
+
+function validActions(essence: number, roleId: string): SimAction[] {
+  if (essence === 0) return ["rest"];
+  const base: SimAction[] = ["blood", "armor"];
+  switch (roleId) {
+    case "healer": return [...base, "heal"];
+    case "swordsman": return [...base, "sword"];
+    case "heir": return [...base, "charm"];
+    default: return base;
+  }
 }
 
 /** 模拟单回合，返回新状态或 null（无效行动/已结束则 null） */
@@ -64,14 +79,46 @@ function simulateTurn(
   boss: BossDef,
 ): { state: SimState; won: boolean } | null {
   const intent = boss.pattern[state.turn % boss.pattern.length];
+  const cost = actionCost(action);
 
-  // 验证行动合法性
-  if (state.essence === 0 && action !== "rest") return null;
-  if (state.essence > 0 && action === "rest") return null;
+  // 真元验证
+  if (state.essence < cost) return null;
 
   let damage = role.atk;
   let received = intent.damage;
+  let hp = state.hp;
+  const essence = action === "rest"
+    ? Math.min(role.essence, state.essence + 3)
+    : state.essence - cost;
 
+  // ── 剑鸣蛊：先自伤 2，再造成 10 伤害 ──
+  if (action === "sword") {
+    hp -= 2;
+    if (hp <= 0) {
+      return { state: { hp, essence, enemyHp: state.enemyHp, turn: state.turn + 1 }, won: false };
+    }
+    damage = 10;
+  }
+
+  // ── 回春蛊：恢复 7 生命，不造成伤害 ──
+  if (action === "heal") {
+    damage = 0;
+    hp = Math.min(role.hp, hp + 7);
+  }
+
+  // ── 惑心蛊：造成 ATK 伤害，敌人行动完全无效 ──
+  if (action === "charm") {
+    const enemyHp = state.enemyHp - Math.min(damage, state.enemyHp);
+    if (enemyHp <= 0) {
+      return { state: { hp, essence, enemyHp: 0, turn: state.turn + 1 }, won: true };
+    }
+    return {
+      state: { hp, essence, enemyHp, turn: state.turn + 1 },
+      won: false,
+    };
+  }
+
+  // ── 通用动作 ──
   if (action === "armor") {
     damage = 1;
     received = Math.max(0, received - 3);
@@ -86,19 +133,15 @@ function simulateTurn(
   received += reflected;
 
   const enemyHp = state.enemyHp - Math.min(damage, state.enemyHp);
-  const essence =
-    action === "rest"
-      ? Math.min(role.essence, state.essence + 3)
-      : state.essence - 1;
 
   // 击杀判定
   if (enemyHp <= 0) {
-    return { state: { ...state, essence, enemyHp: 0, turn: state.turn + 1 }, won: true };
+    return { state: { hp, essence, enemyHp: 0, turn: state.turn + 1 }, won: true };
   }
 
-  let hp = state.hp - received;
+  hp -= received;
   if (hp <= 0) {
-    return { state: { ...state, hp, essence, enemyHp, turn: state.turn + 1 }, won: false };
+    return { state: { hp, essence, enemyHp, turn: state.turn + 1 }, won: false };
   }
 
   // 敌人恢复（在回合结束时）
@@ -142,7 +185,7 @@ function canWin(role: RoleDef, boss: BossDef): SearchResult {
 
     let bestWin: SearchResult | null = null;
 
-    for (const action of validActions(state.essence)) {
+    for (const action of validActions(state.essence, role.id)) {
       const result = simulateTurn(state, action, role, boss);
       if (!result) continue;
 
@@ -240,16 +283,30 @@ test("铜皮傀儡对所有角色均可胜", () => {
   }
 });
 
-test("确认：当前所有角色均无法击败赵黎和苏衍（需要后续强化）", () => {
+test("输出专属蛊生效后的路线通行情况", () => {
+  const passed: string[] = [];
+  const blocked: string[] = [];
+
   for (const role of roles) {
     for (const bossKey of ["赵黎", "苏衍"]) {
       const result = canWin(role, bosses[bossKey]);
-      assert.equal(
-        result.kind,
-        "lose",
-        `${role.name} 当前应无法击败 ${bossKey}（可通过强化来突破）`,
-      );
+      const label = `${role.name} vs ${bossKey}`;
+      if (result.kind === "win") {
+        passed.push(`${label} ✅ (${result.turns}回合, 余${result.finalHp}HP)`);
+      } else {
+        blocked.push(`${label} ❌`);
+      }
     }
+  }
+
+  console.log("\n── 赵黎 & 苏衍 通关情况 ──");
+  for (const line of passed) console.log(`  ${line}`);
+  for (const line of blocked) console.log(`  ${line}`);
+  console.log(`\n  当前可通: ${passed.length}/6, 需强化: ${blocked.length}/6\n`);
+
+  // 验证铜皮傀儡仍全胜
+  for (const role of roles) {
+    assert.equal(canWin(role, bosses["铜皮傀儡"]).kind, "win");
   }
 });
 

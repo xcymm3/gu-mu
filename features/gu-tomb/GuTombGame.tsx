@@ -25,9 +25,14 @@ import {
   type RoleId,
 } from "@/lib/gu-tomb/game";
 
-const baseGuActions: { id: GuAction; name: string; description: string }[] = [
-  { id: "blood", name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。消耗 1 真元。" },
-];
+function roleGuActions(roleId: RoleId): { id: GuAction; name: string; description: string }[] {
+  const blood = { id: "blood" as const, name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。消耗 1 真元。" };
+  switch (roleId) {
+    case "healer": return [blood, { id: "heal" as const, name: "回春蛊", description: "运蛊疗愈，恢复 7 点生命。消耗 2 真元。" }];
+    case "swordsman": return [blood, { id: "sword" as const, name: "剑鸣蛊", description: "先伤己 2 点，再以蛊御剑重创敌人 10 点。消耗 4 真元。" }];
+    case "heir": return [blood, { id: "charm" as const, name: "惑心蛊", description: "造成攻击伤害并使敌人本回合行动无效。消耗 3 真元。" }];
+  }
+}
 const names = new Set(storyPresentation.names);
 const criticalTerms = new Set(storyPresentation.criticalTerms);
 const endingStorageKey = "xue-gu-yin-unlocked-endings-v1";
@@ -118,6 +123,9 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
     bloodflow: `血流蛊自掌心游出，${enemyName}身上的血气被它牵出一缕，反灌回你的经脉。`,
     armor: "甲衣蛊贴身而起，细密甲纹沿经脉铺开，迎向逼近的阴影。",
     rest: "你收束纷乱真元，强行压下翻涌的气血，趁片刻空隙调息回气。",
+    heal: `你催动回春蛊，温润的蛊息沿经脉浸润伤处，七分痛楚化作三分热意。`,
+    sword: `你咬破舌尖逼出剑鸣蛊，胸前先绽开一道血口——剑蛊借血气长鸣，化作一线寒光直贯${enemyName}。`,
+    charm: `惑心蛊如烟渗出，${enemyName}瞳孔一滞，挥到半途的攻势僵在半空。`,
   };
   const nextBattle = after.battle;
   if (!nextBattle || after.sceneId !== before.sceneId) return {
@@ -453,11 +461,11 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
   const defenseAction = { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，减轻本回合伤害。消耗 1 真元。" };
   const attackAction = game.flags.includes("血流蛊已得")
     ? [{ id: "bloodflow" as const, name: "血流蛊", description: "造成 6 点伤害，并恢复 6 点生命。消耗 1 真元。" }]
-    : baseGuActions;
+    : roleGuActions(game.roleId!);
   const guActions: { id: GuAction; name: string; description: string }[] = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
     : [...attackAction, defenseAction];
-  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, bloodflow: 1, rest: 0 };
+  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, bloodflow: 1, rest: 0, heal: 2, sword: 4, charm: 3 };
   const enemyCue = enemyCueFor(battle);
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">

@@ -1,7 +1,7 @@
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "zhao" | "ji" | "xue" | "su" | "qiao";
 export type RouteId = "zhao" | "ji" | "xue" | "su";
-export type GuAction = "blood" | "armor" | "bloodflow" | "rest";
+export type GuAction = "blood" | "armor" | "bloodflow" | "rest" | "heal" | "sword" | "charm";
 export type EnemyAction = { id: string; damage: number; cue: string; heal?: number; invulnerable?: boolean; reflect?: boolean };
 
 export type Role = { id: RoleId; name: string; gender: "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; signatureGu: string };
@@ -231,18 +231,51 @@ function finishBattle(state: GameState, battle: Battle, won: boolean, health: nu
 }
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
   const battle = state.battle; const role = getRole(state.roleId); if (!battle || !role) return state;
-  if ((state.essence === 0 && action !== "rest") || (state.essence > 0 && action === "rest")) return state;
+
+  // 角色专属蛊验证
+  if (action === "heal" && role.id !== "healer") return state;
+  if (action === "sword" && role.id !== "swordsman") return state;
+  if (action === "charm" && role.id !== "heir") return state;
+
+  // 真元验证
+  const cost = action === "rest" ? 0 : action === "heal" ? 2 : action === "sword" ? 4 : action === "charm" ? 3 : 1;
+  if (state.essence < cost) return state;
+  if (state.essence === 0 && action !== "rest") return state;
+  if (state.essence > 0 && action === "rest") return state;
+
   let damage = role.attack; let received = battle.intent.damage; let health = state.health;
+  const essence = action === "rest" ? Math.min(state.maxEssence, state.essence + 3) : state.essence - cost;
+
+  // ── 剑鸣蛊：先自伤 2，再造成 10 伤害 ──
+  if (action === "sword") {
+    health -= 2;
+    if (health <= 0) return finishBattle({ ...state, essence }, battle, false, health);
+    damage = 10;
+  }
+
+  // ── 回春蛊：恢复 7 生命，不造成伤害 ──
+  if (action === "heal") {
+    damage = 0;
+    health = Math.min(state.maxHealth, health + 7);
+  }
+
+  // ── 惑心蛊：造成 ATK 伤害，敌人行动完全无效 ──
+  if (action === "charm") {
+    const enemyHealth = battle.enemyHealth - Math.min(damage, battle.enemyHealth);
+    if (enemyHealth <= 0) return finishBattle({ ...state, essence }, battle, true, health);
+    const turn = battle.turn + 1; const pattern = patternFor(battle.enemyName);
+    return { ...state, health, essence, battle: { ...battle, enemyHealth, turn, intent: pattern[turn % pattern.length] } };
+  }
+
+  // ── 通用动作（blood / armor / bloodflow / rest）──
   if (action === "armor") { damage = 1; received = Math.max(0, received - 3); }
   if (action === "bloodflow" && state.flags.includes("血流蛊已得")) { damage = 6; health = Math.min(state.maxHealth, health + 6); }
   if (action === "rest") damage = 0;
-  const cost = action === "rest" ? 0 : 1;
-  if (state.essence < cost) return state;
+
   const reflected = battle.intent.reflect ? damage : 0;
   if (battle.intent.invulnerable) damage = 0;
   received += reflected;
   const enemyHealth = battle.enemyHealth - Math.min(damage, battle.enemyHealth);
-  const essence = action === "rest" ? Math.min(state.maxEssence, state.essence + 3) : state.essence - cost;
   if (enemyHealth <= 0) return finishBattle({ ...state, essence }, battle, true, health);
   health -= received;
   if (health <= 0) return finishBattle({ ...state, essence }, battle, false, health);

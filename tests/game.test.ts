@@ -3,6 +3,15 @@ import test from "node:test";
 
 import { applyChoice, canChoose, chooseRole, getEnemyCondition, resolveEnding, scenes, startBattle, storyMeta } from "../lib/gu-tomb/game.ts";
 
+test("三种无姓名男性身份沿用原有属性", () => {
+  const medic = chooseRole("healer");
+  const swordsman = chooseRole("swordsman");
+  const heir = chooseRole("heir");
+  assert.deepEqual([medic.maxHealth, medic.maxEssence], [14, 12]);
+  assert.deepEqual([swordsman.maxHealth, swordsman.maxEssence], [15, 10]);
+  assert.deepEqual([heir.maxHealth, heir.maxEssence], [12, 10]);
+});
+
 test("五幕节点合同固定为一、六、四、三与可变结局", () => {
   assert.deepEqual(storyMeta.acts.map((act) => act.nodes), [1, 6, 4, 3, "可变"]);
   const counts = [1, 2, 3, 4].map((act) => [...new Set(Object.values(scenes).filter((scene) => scene.act === act).map((scene) => scene.node))]);

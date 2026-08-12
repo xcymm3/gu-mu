@@ -1,10 +1,10 @@
-export type RoleId = "protagonist";
+export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "zhao" | "ji" | "xue" | "su" | "qiao";
 export type RouteId = "zhao" | "ji" | "xue" | "su";
 export type GuAction = "blood" | "armor" | "bloodflow" | "rest";
 export type EnemyAction = { id: string; damage: number; cue: string; heal?: number; invulnerable?: boolean; reflect?: boolean };
 
-export type Role = { id: RoleId; name: string; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; signatureGu: string };
+export type Role = { id: RoleId; name: string; gender: "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; signatureGu: string };
 export type Effect = { health?: number; essence?: number; time?: number; flag?: string; ending?: string; trust?: Partial<Record<AllyId, number>>; route?: RouteId };
 export type Choice = { id: string; label: string; next: string; requires?: { route?: RouteId; flags?: string[] }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
@@ -30,7 +30,11 @@ export const storyPresentation = {
   criticalTerms: ["血流蛊", "五转", "血祭", "祖传旧玉", "墓主"],
 };
 
-export const roles: Role[] = [{ id: "protagonist", name: "你", title: "四转巅峰 · 散修", description: "出身平凡，腰间一枚祖传旧玉却在蛊墓中不断发烫。", maxHealth: 14, maxEssence: 10, attack: 4, signatureGu: "血刃蛊" }];
+export const roles: Role[] = [
+  { id: "healer", name: "游方蛊医", gender: "male", title: "四转巅峰 · 游方蛊医", description: "走遍荒野药市，擅辨蛊毒与伤势。祖传旧玉是他唯一不肯示人的来历。", maxHealth: 14, maxEssence: 12, attack: 3, signatureGu: "回春蛊" },
+  { id: "swordsman", name: "流浪剑修", gender: "male", title: "四转巅峰 · 流浪剑修", description: "以蛊御剑，斗法狠厉直接；他不善圆话，只信手中一剑能劈开生路。", maxHealth: 15, maxEssence: 10, attack: 4, signatureGu: "剑鸣蛊" },
+  { id: "heir", name: "落魄世家子", gender: "male", title: "四转巅峰 · 落魄世家子", description: "熟悉墓制与人心，能从一句承诺里听出价码；旧玉是家道败落后仅余的遗物。", maxHealth: 12, maxEssence: 10, attack: 3, signatureGu: "惑心蛊" },
+];
 
 const routeName: Record<RouteId, string> = { zhao: "赵黎", ji: "纪寒衣", xue: "薛逢", su: "苏莹" };
 function routeText(state: GameState, content: Record<RouteId, string>) { return state.route ? content[state.route] : "墓道在身后轰然断裂。你尚未看清同行之人的面孔，只能循着血腥气继续向前。"; }
@@ -191,10 +195,10 @@ export const endings: Record<string, Ending> = {
   lone: { id: "lone", name: "独活荒原", epitaph: "活下来的人，也背着一座墓。", text: "你从崩塌墓道中逃出，身后是未解的旧玉、未偿的血债与再无人能作证的夜雨。" },
 };
 
-export const endingAccess: Record<RoleId, string[]> = { protagonist: Object.keys(endings) };
+export const endingAccess: Record<RoleId, string[]> = { healer: Object.keys(endings), swordsman: Object.keys(endings), heir: Object.keys(endings) };
 export function initialGame(): GameState { return { roleId: null, sceneId: "gate", route: null, health: 0, maxHealth: 0, essence: 0, maxEssence: 0, time: 0, flags: [], trust: { zhao: 0, ji: 0, xue: 0, su: 0, qiao: 0 }, battle: null, endingId: null }; }
 export function getRole(id: RoleId | null) { return roles.find((role) => role.id === id) ?? null; }
-export function chooseRole(id: RoleId = "protagonist") { const role = getRole(id)!; return { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth, essence: role.maxEssence, maxEssence: role.maxEssence, flags: ["旧玉发烫"] }; }
+export function chooseRole(id: RoleId = "healer") { const role = getRole(id)!; return { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth, essence: role.maxEssence, maxEssence: role.maxEssence, flags: ["旧玉发烫"] }; }
 export function canChoose(state: GameState, choice: Choice) { return (!choice.requires?.route || state.route === choice.requires.route) && (choice.requires?.flags ?? []).every((flag) => state.flags.includes(flag)); }
 function unique(items: string[], item?: string) { return item && !items.includes(item) ? [...items, item] : items; }
 export function applyChoice(state: GameState, choice: Choice): GameState {

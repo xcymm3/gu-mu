@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "蛊墓五修",
+  title: "血蛊引",
   description: "固定剧本、多结局的修仙蛊斗文字 RPG",
 };
 

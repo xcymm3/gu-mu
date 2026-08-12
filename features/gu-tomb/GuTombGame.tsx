@@ -30,12 +30,12 @@ const baseGuActions: { id: GuAction; name: string; description: string }[] = [
 ];
 const names = new Set(storyPresentation.names);
 const criticalTerms = new Set(storyPresentation.criticalTerms);
-const endingStorageKey = "blood-gu-awakens-unlocked-endings-v1";
+const endingStorageKey = "xue-gu-yin-unlocked-endings-v1";
 const motionStorageKey = "gu-tomb-reduce-motion";
 const themeStorageKey = "gu-tomb-theme";
-const saveStorageKey = "blood-gu-awakens-save-slots-v2";
+const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const saveSlotCount = 6;
-const endingRoleAccess: Record<RoleId, string[]> = { protagonist: Object.keys(endings) };
+const endingRoleAccess: Record<RoleId, string[]> = { healer: Object.keys(endings), swordsman: Object.keys(endings), heir: Object.keys(endings) };
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
@@ -180,7 +180,7 @@ export function GuTombGame() {
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
   const [saveSlots, setSaveSlots] = useState<SaveSlots>(emptySaveSlots);
   const [homeView, setHomeView] = useState<HomeView>("menu");
-  const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("protagonist");
+  const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("healer");
   const [reduceMotion, setReduceMotion] = useState(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>("system");
   const [narrative, setNarrative] = useState({ sceneId: "gate", page: 0 });
@@ -335,7 +335,7 @@ export function GuTombGame() {
   const visibleChoices = (scene.choices ?? []).filter((choice) => canChoose(game, choice));
   return (
     <main className="game-shell">
-      <section className={`game-frame story-frame${battle ? " is-battling" : ""}`} aria-label="蛊墓五修游戏界面">
+      <section className={`game-frame story-frame${battle ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
         {battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
           <header className="status-bar">
             <div><span>修士</span><strong>{role.name}</strong></div>
@@ -440,7 +440,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
     <p className="opening-copy">夜雨入墓，五人同行。大雾落下时，你只能抓住一只手。</p>
     <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
       <span className="role-title">{candidate.title}</span><strong>{candidate.name}</strong><span>{candidate.description}</span>
-      <small>命数 {candidate.maxHealth} · 旧玉在墓中发烫，路由你自己来选。</small><em>擅用：{candidate.signatureGu}</em>
+      <small>命数 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻势 {candidate.attack}</small><em>擅用：{candidate.signatureGu}</em>
     </button>)}</div>
   </section></main>;
 }

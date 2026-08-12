@@ -142,7 +142,7 @@
 
 新增或删除剧情、战斗或结局时，同时更新：
 
-1. `stories/gu-tomb.ink` 或 `lib/gu-tomb/game.ts`：文本、选择与跳转；
+1. `lib/gu-tomb/gu-tomb.ink.generated.ts` 或 `lib/gu-tomb/game.ts`：文本、选择与跳转；
 2. `lib/gu-tomb/game.ts`：选择后果、战斗配置、行动预告与结局判定；
 3. 本图：节点、数值、条件与结局连线；
 4. `tests/game.test.ts`：至少覆盖新增分支的关键状态。

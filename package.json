@@ -5,9 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "compile:ink": "node scripts/compile-ink.mjs",
-    "generate:story": "node scripts/generate-deepseek-pages.mjs",
-    "prebuild": "pnpm compile:ink",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

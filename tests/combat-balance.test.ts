@@ -6,7 +6,7 @@ import test from "node:test";
 type BossDef = {
   name: string;
   hp: number;
-  pattern: Array<{ damage: number; heal?: number; invulnerable?: boolean; reflect?: boolean }>;
+  pattern: Array<{ damage: number; heal?: number; invulnerable?: boolean; reflect?: boolean; essenceDrain?: number }>;
 };
 
 const bosses: Record<string, BossDef> = {
@@ -58,9 +58,9 @@ const bosses: Record<string, BossDef> = {
     name: "乔无咎",
     hp: 24,
     pattern: [
-      { damage: 3 },
-      { damage: 6 },
-      { damage: 9 },
+      { damage: 3, essenceDrain: 1 },
+      { damage: 6, essenceDrain: 1 },
+      { damage: 9, essenceDrain: 2 },
     ],
   },
 };
@@ -182,11 +182,14 @@ function simulateTurn(
     return { state: { hp, essence, enemyHp, turn: state.turn + 1 }, won: false };
   }
 
+  // 抽真元
+  const drainedEssence = Math.max(0, essence - (intent.essenceDrain ?? 0));
+
   // 敌人恢复（在回合结束时）
   const finalEnemyHp = Math.min(boss.hp, enemyHp + (intent.heal ?? 0));
 
   return {
-    state: { hp, essence, enemyHp: finalEnemyHp, turn: state.turn + 1 },
+    state: { hp, essence: drainedEssence, enemyHp: finalEnemyHp, turn: state.turn + 1 },
     won: false,
   };
 }
@@ -564,3 +567,30 @@ test("赵黎战：各角色在不同强化组合下的通关情况", () => {
   }
   console.log();
 });
+
+test("乔无咎战：不使用血魔蛊时的通关情况", () => {
+  console.log("\n═══ 乔无咎战（HP24，循环 3→6→9）═══\n");
+  const boss = bosses["乔无咎"];
+
+  console.log("  ── 无强化（无蛊/无真元4）──");
+  for (const role of roles) {
+    const r = canWin(role, boss);
+    console.log(`    ${role.name}: ${r.kind === "win" ? "✅" : "❌"}`);
+  }
+
+  console.log("\n  ── 血刃蛊/血甲蛊 + 真元4（不用血魔蛊）──");
+  for (const role of roles) {
+    const blade = canWin({ ...role, essence: role.essence + 4, flags: ["血刃蛊"] }, boss);
+    const armor = canWin({ ...role, essence: role.essence + 4, flags: ["血甲蛊"] }, boss);
+    console.log(`    ${role.name}: 血刃蛊=${blade.kind === "win" ? "✅" : "❌"} 血甲蛊=${armor.kind === "win" ? "✅" : "❌"}`);
+  }
+
+  console.log("\n  ── 血刃蛊/血甲蛊 + 真元4 + 血魔蛊 ──");
+  for (const role of roles) {
+    const blade = canWin({ ...role, essence: role.essence + 4, flags: ["血刃蛊", "血魔蛊"] }, boss);
+    const armor = canWin({ ...role, essence: role.essence + 4, flags: ["血甲蛊", "血魔蛊"] }, boss);
+    console.log(`    ${role.name}: 血刃蛊=${blade.kind === "win" ? "✅" : "❌"} 血甲蛊=${armor.kind === "win" ? "✅" : "❌"}`);
+  }
+  console.log();
+});
+

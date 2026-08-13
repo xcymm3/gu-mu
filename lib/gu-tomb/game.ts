@@ -6,7 +6,7 @@ export type EnemyAction = { id: string; damage: number; cue: string; heal?: numb
 
 export type Role = { id: RoleId; name: string; gender: "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; signatureGu: string; sense: "high" | "normal" };
 export type Effect = { health?: number; maxHealth?: number; essence?: number; maxEssence?: number; time?: number; flag?: string; ending?: string; trust?: Partial<Record<AllyId, number>>; route?: RouteId };
-export type Choice = { id: string; label: string; next: string; requires?: { route?: RouteId; flags?: string[]; allyTopTwo?: AllyId }; effect?: Effect };
+export type Choice = { id: string; label: string; next: string; result?: string; requires?: { route?: RouteId; flags?: string[]; allyTopTwo?: AllyId }; effect?: Effect };
 export type BattleConfig = { enemyName: string; enemyHealth: number; victoryNext: string; defeatNext: string; victoryFlag?: string; defeatFlag?: string };
 export type GameState = { roleId: RoleId | null; sceneId: string; route: RouteId | null; health: number; maxHealth: number; essence: number; maxEssence: number; time: number; flags: string[]; trust: Record<AllyId, number>; battle: Battle | null; endingId: string | null };
 export type Battle = BattleConfig & { enemyMaxHealth: number; turn: number; intent: EnemyAction };
@@ -44,47 +44,47 @@ export const scenes: Record<string, Scene> = {
     id: "gate", act: 1, node: 1, chapter: "第一幕 · 聚 · 节点 1 / 1", title: "夜雨墓门",
     text: "蛊市夜雨未歇。乔无咎在荒原墓门前展开半张墓图，许诺五转蛊修坐化墓中的遗物见者有份。赵黎倚石把玩血纹蛊虫，明明面白如少年，开口却自称老夫；纪清寒抱剑立在雨中，不与任何人说话；薛逢见谁都笑，嘴里已先说了三遍散修互照应；苏莹垂头描摹墓门蛊纹，像在背诵一句不该被人听见的话。\n\n你按住腰间祖传旧玉。玉在掌下微微发烫。赵黎隔着雨幕看了你一眼，嘴角那点笑意并未散去。乔无咎一拱手，率先踏进墓门。",
     choices: [
-      { id: "jade", label: "旧玉烫得厉害，你不动声色地把它攥进掌心，只当没察觉", next: "swarm", effect: { flag: "旧玉发烫" } },
-      { id: "observe-su", label: "你落后半步，恰好听清苏莹对着墓门念出的最后几个音节", next: "swarm", effect: { flag: "苏莹低语" } },
-      { id: "enter", label: "你垂下眼，随着乔无咎的背影第一个跨进墓门", next: "swarm" },
-      { id: "insight", label: "你扫过五人散乱的站位，心里忽然浮起一念——这墓门的生门，似不止一个", next: "swarm", requires: { flags: ["高神识"] }, effect: { flag: "识破棋局" } },
+      { id: "jade", label: "旧玉烫得厉害，你不动声色地把它攥进掌心，只当没察觉", next: "swarm", result: "旧玉在掌中烫得愈发厉害，像在回应墓门深处的某样东西。你没有声张，只把这份异样暗暗记下。", effect: { flag: "旧玉发烫" } },
+      { id: "observe-su", label: "你落后半步，恰好听清苏莹对着墓门念出的最后几个音节", next: "swarm", result: "你放慢脚步，听清了苏莹念出的最后几个音节。她的声音压得极低，像怕惊动门后蛰伏的什么。", effect: { flag: "苏莹低语" } },
+      { id: "enter", label: "你垂下眼，随着乔无咎的背影第一个跨进墓门", next: "swarm", result: "你垂下眼，随乔无咎的背影跨进墓门。身后的夜雨声，在门合上的那一刻戛然而止。" },
+      { id: "insight", label: "你扫过五人散乱的站位，心里忽然浮起一念——这墓门的生门，似不止一个", next: "swarm", result: "你扫过五人散乱的站位，心头忽地清明——这墓门的生门不止一个，像一张早已布好的棋盘。", requires: { flags: ["高神识"] }, effect: { flag: "识破棋局" } },
     ],
   },
   swarm: {
     id: "swarm", act: 2, node: 1, chapter: "第二幕 · 入 · 节点 1 / 6", title: "甬道蛊潮",
     text: "入墓不过百步，石壁缝隙便涌出万千噬魂蛊，如黑潮压满甬道。乔无咎举火折子照了照，声音不紧不慢：“噬魂蛊闻血而动，诸位若不想当饵，就别把血洒出来。”说完自己退到队尾，负手站着，像在看戏。\n\n赵黎袖中血纹蛊虫振翅，近身蛊虫无声自焚，像被更暴烈的蛊力从内里撕碎；你与纪清寒被黑潮挤到侧壁，一条毒藤缠你脚踝，她引剑蛊掠过，藤断而裤脚只裂一线，蛊蝎同时扑向她后颈，你反手催动月光蛊，一线月白将那蝎子钉死在砖缝里；薛逢在队尾被撵得乱窜，嘴里连声“退路退路”。\n\n混乱里，乔无咎始终站在最亮处，火光把他半张脸照得忽明忽暗。",
     choices: [
-      { id: "shout-xue", label: "回身朝薛逢喝道：“别退，贴壁走！”", next: "shadow", effect: { trust: { xue: 1, zhao: -1 } } },
-      { id: "shift-ji", label: "与纪清寒错身换位，替她守住后颈方向", next: "shadow", effect: { trust: { ji: 1, xue: -1 } } },
-      { id: "observe-all", label: "按住旧玉，任蛊潮从身侧绕开，静静观察众人", next: "shadow", effect: { trust: { zhao: 1, su: -1 } } },
+      { id: "shout-xue", label: "回身朝薛逢喝道：“别退，贴壁走！”", next: "shadow", result: "你朝薛逢喝了一声，他踉跄着贴壁站稳，朝你挤出一个感激的笑；赵黎却皱了皱眉，似嫌你扰了他观蛊。", effect: { trust: { xue: 1, zhao: -1 } } },
+      { id: "shift-ji", label: "与纪清寒错身换位，替她守住后颈方向", next: "shadow", result: "你与纪清寒错身换位，替她守住了后颈。她只看了你一眼，什么也没说，却把剑柄朝你的方向倾了倾。", effect: { trust: { ji: 1, xue: -1 } } },
+      { id: "observe-all", label: "按住旧玉，任蛊潮从身侧绕开，静静观察众人", next: "shadow", result: "你按住旧玉，任蛊潮从身侧绕开，静静观察众人。赵黎似有所觉，隔空瞥来一眼；苏莹垂下头，像被什么刺了一下。", effect: { trust: { zhao: 1, su: -1 } } },
     ],
   },
   shadow: {
     id: "shadow", act: 2, node: 2, chapter: "第二幕 · 入 · 节点 2 / 6", title: "血影示警",
     text: "蛊潮退去后，石壁深处却有血影随火折子慢慢移动。你腰间旧玉骤然发烫，灼得皮肤生疼。赵黎停下脚步，隔着众人望来：“那块玉，借老夫瞧瞧？”\n\n你没有应声。他也不逼，只笑道：“一会儿你若死了，玉归老夫，提前说好。”纪清寒恰好并肩，声音极低：“这墓的机关有生门，不像防人进，倒像在等什么人。”",
     choices: [
-      { id: "refuse-zhao", label: "对赵黎摇了摇头，把旧玉收回袖中", next: "chamber", effect: { trust: { zhao: -1, ji: 1 } } },
-      { id: "ask-ji", label: "侧耳听完纪清寒的低语，轻声追问：“等谁？”", next: "chamber", effect: { trust: { ji: 1, su: 1 }, flag: "生门低语" } },
-      { id: "ask-su", label: "转向苏莹，问她墓主究竟在等什么人", next: "chamber", effect: { trust: { su: 1, zhao: 1, ji: -1 }, flag: "活符低语" } },
+      { id: "refuse-zhao", label: "对赵黎摇了摇头，把旧玉收回袖中", next: "chamber", result: "你对赵黎摇了摇头，把旧玉收回袖中。他挑了下眉，笑意淡了；纪清寒却多看了你一眼。", effect: { trust: { zhao: -1, ji: 1 } } },
+      { id: "ask-ji", label: "侧耳听完纪清寒的低语，轻声追问：“等谁？”", next: "chamber", result: "你侧耳听完纪清寒的低语，轻声追问。她顿了顿，只回了你三个字，你却在心里记下了那扇“生门”。", effect: { trust: { ji: 1, su: 1 }, flag: "生门低语" } },
+      { id: "ask-su", label: "转向苏莹，问她墓主究竟在等什么人", next: "chamber", result: "你转向苏莹，问她墓主究竟在等什么人。她脸色一白，半晌才说出几个字，你从她的神色里读懂了一层别的意思。", effect: { trust: { su: 1, zhao: 1, ji: -1 }, flag: "活符低语" } },
     ],
   },
   chamber: {
     id: "chamber", act: 2, node: 3, chapter: "第二幕 · 入 · 节点 3 / 6", title: "机关暗室",
     text: "石板塌陷，众人坠入刻满血色蛊纹的暗室。正中石鼎积着干涸血垢，苏莹盯着墙上符文，面色发白：“这些符……是活的，血还在动。”\n\n墙角石龛里封着五只蛊卵，冰玉裹身，各色蛊息吞吐。是你先发现的。乔无咎扫了一眼，淡淡道：“见者有份，谁找到的，谁先挑。”五只蛊里，唯有一只甲纹森森、一只血芒吞吐，其余三只对你毫无反应——仿佛生来就与你无缘。",
     choices: [
-      { id: "take-armor", label: "取那枚甲纹森森的蛊卵，收入蛊囊", next: "illusion", effect: { flag: "血甲蛊" } },
-      { id: "take-blade", label: "取那枚血芒吞吐的蛊卵，收入蛊囊", next: "illusion", effect: { flag: "血刃蛊" } },
-      { id: "yield-su", label: "让出先手，示意苏莹先挑她认得的", next: "illusion", effect: { trust: { su: 1 }, flag: "活符低语" } },
+      { id: "take-armor", label: "取那枚甲纹森森的蛊卵，收入蛊囊", next: "illusion", result: "甲纹蛊卵入手冰凉，纹路如甲片般细密。你将它收进蛊囊，原本的甲衣蛊似有所感，微微震颤。", effect: { flag: "血甲蛊" } },
+      { id: "take-blade", label: "取那枚血芒吞吐的蛊卵，收入蛊囊", next: "illusion", result: "血芒蛊卵入手微温，内里似有温热的心跳。你将它收进蛊囊，月光蛊的光晕黯淡了一瞬。", effect: { flag: "血刃蛊" } },
+      { id: "yield-su", label: "让出先手，示意苏莹先挑她认得的", next: "illusion", result: "你让出先手。苏莹怔了怔，轻声道了句谢，指尖在那些蛊卵上逐一拂过，像在与什么旧识相认。", effect: { trust: { su: 1 }, flag: "活符低语" } },
     ],
   },
   illusion: {
     id: "illusion", act: 2, node: 4, chapter: "第二幕 · 入 · 节点 4 / 6", title: "迷魂阵",
     text: "石殿弥漫着甜腥蛊香。你只觉眼前一花，甬道、火光、同行之人尽数消失——你回到了记忆里的那片旧宅，檐下站着那个总唤你小名的青梅竹马。她朝你笑，你朝她走，越走越近，近得能看清她眼角一颗小痣。\n\n然后幻境碎了。\n\n你回过神来，眼前不是旧宅，是石殿；你牵住的不是青梅竹马，是纪清寒的手。她同样僵着，耳根烧得通红。是乔无咎破的阵——他不知何时退到阵眼，一枚暗红蛊印按在石壁，幻象应声而碎。他先朝你与纪清寒这边抬了抬下巴：“两位，回神了。”\n\n趁他转身去破其余几处阵眼，你才看清旁人被幻境困住的模样：赵黎僵立原地，掌中血纹蛊虫乱了轨迹，像在替主人压住什么；薛逢对着空处伸手抓了又抓，抓的全是抓不到的蛊晶；苏莹对着石壁喃喃念咒，念半句没人教全的旧咒，眼角有泪。",
     choices: [
-      { id: "hold-ji", label: "抬手按住纪清寒的剑柄，对薛逢摇了摇头", next: "puppets", effect: { trust: { ji: 1, xue: -1 } } },
-      { id: "ask-su", label: "若无其事地岔开话，问苏莹有无被阵法伤到", next: "puppets", effect: { trust: { su: 1, ji: -1 } } },
-      { id: "fix-ji", label: "沉默着替纪清寒把歪斜的剑穗扶正", next: "puppets", effect: { trust: { ji: 1, su: 1, zhao: -1 } } },
-      { id: "follow-qiao", label: "破阵后，你见乔无咎独自拐进一条暗得反常的岔道，脚步极轻，像在避人。你跟了上去。", next: "shadowQiao", requires: { flags: ["识破棋局"] } },
+      { id: "hold-ji", label: "抬手按住纪清寒的剑柄，对薛逢摇了摇头", next: "puppets", result: "你抬手按住纪清寒的剑柄，对薛逢摇了摇头。她僵了僵，缓缓松开剑鞘；薛逢讪讪退了半步。", effect: { trust: { ji: 1, xue: -1 } } },
+      { id: "ask-su", label: "若无其事地岔开话，问苏莹有无被阵法伤到", next: "puppets", result: "你若无其事地岔开话，问苏莹有无被阵法伤到。她回神般抬眼看你；纪清寒却偏过头，眼神冷了下来。", effect: { trust: { su: 1, ji: -1 } } },
+      { id: "fix-ji", label: "沉默着替纪清寒把歪斜的剑穗扶正", next: "puppets", result: "你沉默着替纪清寒把歪斜的剑穗扶正。她没看你，耳根却慢慢红了；赵黎在暗处冷哼了一声。", effect: { trust: { ji: 1, su: 1, zhao: -1 } } },
+      { id: "follow-qiao", label: "破阵后，你见乔无咎独自拐进一条暗得反常的岔道，脚步极轻，像在避人。你跟了上去。", next: "shadowQiao", result: "你屏息跟上乔无咎，隐进暗影。他脚步极轻，像早在这墓里走过千百遍。", requires: { flags: ["识破棋局"] } },
     ],
   },
   puppets: {
@@ -96,10 +96,10 @@ export const scenes: Record<string, Scene> = {
     id: "fog", act: 2, node: 6, chapter: "第二幕 · 入 · 节点 6 / 6", title: "大雾迷踪",
     text: "石坪尽头的窄道涌出蛊雾，灵识被压到不足三尺。乔无咎的声音从雾中飘来，说要绕后封住追兵，随即消失；紧接着，十二具更沉重的傀儡从四面逼近。地面裂开，所有人被陷道吞没。\n\n混乱里，你只来得及抓住一只手——那只手，属于这一路与你走得最近的人。",
     choices: [
-      { id: "take-zhao", label: "抓住赵黎的手", next: "routeTrial", requires: { allyTopTwo: "zhao" }, effect: { route: "zhao", trust: { zhao: 1 } } },
-      { id: "take-ji", label: "抓住纪清寒的手", next: "routeTrial", requires: { allyTopTwo: "ji" }, effect: { route: "ji", trust: { ji: 1 } } },
-      { id: "take-xue", label: "抓住薛逢的手", next: "routeTrial", requires: { allyTopTwo: "xue" }, effect: { route: "xue", trust: { xue: 1 } } },
-      { id: "take-su", label: "抓住苏莹的手", next: "routeTrial", requires: { allyTopTwo: "su" }, effect: { route: "su", trust: { su: 1 } } },
+      { id: "take-zhao", label: "抓住赵黎的手", next: "routeTrial", result: "你抓住了赵黎的手。那只手冰凉而稳，像早有准备。", requires: { allyTopTwo: "zhao" }, effect: { route: "zhao", trust: { zhao: 1 } } },
+      { id: "take-ji", label: "抓住纪清寒的手", next: "routeTrial", result: "你抓住了纪清寒的手。她的手心沁着一层薄汗，却反手攥紧了你。", requires: { allyTopTwo: "ji" }, effect: { route: "ji", trust: { ji: 1 } } },
+      { id: "take-xue", label: "抓住薛逢的手", next: "routeTrial", result: "你抓住了薛逢的手。他抖得厉害，被你攥住后却长舒了一口气。", requires: { allyTopTwo: "xue" }, effect: { route: "xue", trust: { xue: 1 } } },
+      { id: "take-su", label: "抓住苏莹的手", next: "routeTrial", result: "你抓住了苏莹的手。她的手很小，冷得几乎没有温度。", requires: { allyTopTwo: "su" }, effect: { route: "su", trust: { su: 1 } } },
     ],
   },
   routeTrial: {
@@ -123,10 +123,10 @@ export const scenes: Record<string, Scene> = {
       return base;
     },
     choices: [
-      { id: "zhao-cold", label: "收起冰寒蛊简，将秘术暗记于心", next: "routeTruth", requires: { route: "zhao" }, effect: { flag: "冰寒蛊简" } },
-      { id: "ji-shield", label: "替纪清寒挡下那一记重拳", next: "routeTruth", requires: { route: "ji" }, effect: { health: 4, maxHealth: 4 } },
-      { id: "xue-line", label: "记下薛逢藏起的活蛊线印记", next: "routeTruth", requires: { route: "xue" }, effect: { flag: "活蛊线印记" } },
-      { id: "su-continue", label: "背着她穿过傀儡群，继续前行", next: "routeTruth", requires: { route: "su" } },
+      { id: "zhao-cold", label: "收起冰寒蛊简，将秘术暗记于心", next: "routeTruth", result: "你收起冰寒蛊简，将秘术暗记于心。血魔蛊畏寒——这或许是压制它的关键。", requires: { route: "zhao" }, effect: { flag: "冰寒蛊简" } },
+      { id: "ji-shield", label: "替纪清寒挡下那一记重拳", next: "routeTruth", result: "你替纪清寒挡下那一记重拳，虎口一麻，却只觉气血翻涌间更凝实了几分。", requires: { route: "ji" }, effect: { health: 4, maxHealth: 4 } },
+      { id: "xue-line", label: "记下薛逢藏起的活蛊线印记", next: "routeTruth", result: "你记下了薛逢藏起的活蛊线印记。那线连着操控，也连着执棋之人。", requires: { route: "xue" }, effect: { flag: "活蛊线印记" } },
+      { id: "su-continue", label: "背着她穿过傀儡群，继续前行", next: "routeTruth", result: "你背起苏莹穿过傀儡群。她伏在你背上，呼吸很轻，像怕惊扰你。", requires: { route: "su" } },
     ],
   },
   routeTruth: {
@@ -138,11 +138,11 @@ export const scenes: Record<string, Scene> = {
       su: "苏莹在你背上断断续续说，师父找了一辈子墓主的后人。她看向你的旧玉时神色愈发笃定。傀儡忽从阴影刺来；若旧玉、纪清寒的生门低语与苏莹识活符的线索都已留下，旧玉会先一步爆出血光，否则这一击将贯穿她。",
     }),
     choices: [
-      { id: "keep-cold", label: "收起冰寒蛊简，继续前行", next: "routeCost", requires: { route: "zhao" }, effect: { flag: "冰寒蛊简" } },
-      { id: "hold-ji", label: "扶住纪清寒，替她稳住气血", next: "routeCost", requires: { route: "ji" }, effect: { trust: { ji: 1 } } },
-      { id: "mark-line", label: "记下薛逢藏起的活蛊线印记", next: "routeCost", requires: { route: "xue" }, effect: { flag: "活蛊线印记" } },
-      { id: "shield-su", label: "让旧玉回应苏莹的血脉", next: "routeCost", requires: { route: "su", flags: ["旧玉发烫", "生门低语", "活符低语"] }, effect: { flag: "苏莹存活" } },
-      { id: "fail-su", label: "扑向苏莹，却只抓住她留下的血字", next: "routeCost", requires: { route: "su" }, effect: { flag: "苏莹已殁" } },
+      { id: "keep-cold", label: "收起冰寒蛊简，继续前行", next: "routeCost", result: "你把冰寒蛊简收得更深了些。赵黎没有追问，只是笑。", requires: { route: "zhao" }, effect: { flag: "冰寒蛊简" } },
+      { id: "hold-ji", label: "扶住纪清寒，替她稳住气血", next: "routeCost", result: "你扶住纪清寒，替她稳住气血。她靠着你，没有道谢。", requires: { route: "ji" }, effect: { trust: { ji: 1 } } },
+      { id: "mark-line", label: "记下薛逢藏起的活蛊线印记", next: "routeCost", result: "你记下了那枚活蛊线印记，逆向的线索在识海中逐渐清晰。", requires: { route: "xue" }, effect: { flag: "活蛊线印记" } },
+      { id: "shield-su", label: "让旧玉回应苏莹的血脉", next: "routeCost", result: "旧玉爆出一团血光，将刺来的傀儡震碎。苏莹仍站在你身侧，望着你的玉，眼里有光。", requires: { route: "su", flags: ["旧玉发烫", "生门低语", "活符低语"] }, effect: { flag: "苏莹存活" } },
+      { id: "fail-su", label: "扑向苏莹，却只抓住她留下的血字", next: "routeCost", result: "你扑向苏莹，却只抓住她留下的血字。那半句话，像针一样扎进心里。", requires: { route: "su" }, effect: { flag: "苏莹已殁" } },
     ],
   },
   routeCost: {
@@ -153,12 +153,12 @@ export const scenes: Record<string, Scene> = {
       xue: "薛逢终于承认活蛊线能追到控制室，却说要等最值钱的时候才用。你没有拆穿他，只悄悄以聚灵蛊留下逆向追踪印记。若他还想拿乔无咎的机关做买卖，这条线也能把你带到执棋者面前。",
       su: state.flags.includes("苏莹存活") ? "旧玉的血光震碎傀儡，苏莹仍站在你身侧。她望着玉佩，终于明白师父寻找的人或许就是你。她割破指尖，让一滴血留在石门暗纹上；门后似有另一道更深的锁在回应。" : "苏莹在你怀里咽气前，用尽力气抓住你的手，把血蹭在你指尖。“我的血……能开门。”她望着你的旧玉，声音轻得几乎听不见，“你……是那个人。”那双眼睛直到最后也没合上，像还在等一个回答。你替她阖上眼，指间那抹血却怎么都擦不掉。",
     }),
-    choices: [{ id: "approach-door", label: "推开血色石门", next: "bloodGate" }],
+    choices: [{ id: "approach-door", label: "推开血色石门", next: "bloodGate", result: "你推开血色石门。门后没有尘土味，只有新鲜的血气。" }],
   },
   bloodGate: {
     id: "bloodGate", act: 3, node: 4, chapter: "第三幕 · 离 · 节点 4 / 4", title: "血纹石门",
     text: (state) => `石门上五道血纹依次亮起。与你同行的是${state.route ? routeName[state.route] : "不明之人"}，其余人的生死已被墓道切碎在身后。乔无咎的声音第一次不再掩饰：“前面便是主墓室。各凭本事吧，诸位。”\n\n门缝里吹出的风没有尘土味，只有新鲜血气。你握住旧玉，推门而入。`,
-    choices: [{ id: "enter-hall", label: "踏入血魔蛊室", next: "bloodGuard" }],
+    choices: [{ id: "enter-hall", label: "踏入血魔蛊室", next: "bloodGuard", result: "你踏入血魔蛊室。身后石门轰然合拢，把来路封死。" }],
   },
   bloodGuard: {
     id: "bloodGuard", act: 4, node: 1, chapter: "第四幕 · 血魔蛊室 · 节点 1 / 3", title: "守门血傀儡",
@@ -168,7 +168,7 @@ export const scenes: Record<string, Scene> = {
   bloodRoom: {
     id: "bloodRoom", act: 4, node: 1, chapter: "第四幕 · 血魔蛊室 · 节点 1 / 3", title: "五转蛊卵",
     text: (state) => `石门合拢，四壁血纹齐亮，数道血线汇向中央血池。池中蛊卵缓缓裂开，**五转血魔蛊**的威压灌满石室。乔无咎不现身，只通过活蛊线从石壁中说：“四人的血，一个人的命，正好。”\n\n${state.route === "ji" ? "纪清寒以残剑拄地，血线正自她体内流向血池。" : state.route === "su" && state.flags.includes("苏莹存活") ? "苏莹站在你身侧，指尖那滴血仍在石面暗纹中发亮。" : state.route === "xue" ? "薛逢已开始盘算向谁跪下最值钱。" : "赵黎站在你身侧，却像一头终于等到猎物围成一圈的狼。"}`,
-    choices: [{ id: "resist", label: "压住蛊种，寻找血祭阵眼", next: "awakening" }, { id: "answer-qiao", label: "拖住乔无咎，逼他多说一句", next: "awakening", effect: { trust: { qiao: -1 } } }],
+    choices: [{ id: "resist", label: "压住蛊种，寻找血祭阵眼", next: "awakening", result: "你压住翻涌的蛊种，在漫天血纹中寻找阵眼。" }, { id: "answer-qiao", label: "拖住乔无咎，逼他多说一句", next: "awakening", result: "你扬声拖住乔无咎，逼他多说了半句。他的声音里，第一次透出不耐。", effect: { trust: { qiao: -1 } } }],
   },
   awakening: {
     id: "awakening", act: 4, node: 2, chapter: "第四幕 · 血魔蛊室 · 节点 2 / 3", title: "血流将醒",
@@ -178,7 +178,7 @@ export const scenes: Record<string, Scene> = {
       xue: "薛逢抢先跪下，向乔无咎说依约把你带来。乔无咎却淡淡答祭品名单上也有他。你藏在聚灵蛊中的追踪印记顺着活蛊线逆行，控制室的位置终于在识海中亮起。",
       su: state.flags.includes("苏莹存活") ? "苏莹的血滴入石面，暗门在血池下缓缓升起。黑石棺椁破水而出，苏衍并未坐化，而是以血魔蛊为饵等待祭品。乔无咎惊怒未尽，已被反向活蛊线拖向血池。" : "苏莹的尸身仍在门边。你看着她未写完的血字，明白再等下去，血祭会吞掉所有人。你割开手腕，决定以自己的血替换祭品。",
     }),
-    choices: [{ id: "face-final", label: "在蛊卵彻底裂开前作出选择", next: "finale" }],
+    choices: [{ id: "face-final", label: "在蛊卵彻底裂开前作出选择", next: "finale", result: "你在蛊卵彻底裂开前，做出了选择。" }],
   },
   finale: {
     id: "finale", act: 4, node: 3, chapter: "第四幕 · 血魔蛊室 · 节点 3 / 3", title: "人吃蛊，还是蛊吃人",
@@ -189,11 +189,11 @@ export const scenes: Record<string, Scene> = {
       su: state.flags.includes("苏莹存活") ? "苏衍从黑石棺中复苏，五转威压压得血池翻涌。赵黎、纪清寒、薛逢与苏莹都还活着；这是唯一能让五人联手的时刻。" : "你纵身跃入血池，准备以全部血液与血魔蛊共生。苏莹未能回来，但你能决定这只蛊醒来后是吞人，还是被人驾驭。",
     }),
     choices: [
-      { id: "duel-zhao", label: "以冰寒秘术压蛊，与赵黎决战", next: "zhaoBattle", requires: { route: "zhao", flags: ["冰寒蛊简"] } },
-      { id: "break-array", label: "与纪清寒一同炸毁祭阵", next: "ending", requires: { route: "ji" }, effect: { ending: "severed" } },
-      { id: "take-control", label: "借活蛊线反制乔无咎，夺取残缺血魔蛊", next: "ending", requires: { route: "xue", flags: ["活蛊线印记"] }, effect: { ending: "tyrant" } },
-      { id: "feed-blood", label: "以身入池，与血魔蛊共生", next: "ending", requires: { route: "su" }, effect: { ending: "sacrifice" } },
-      { id: "fight-master", label: "唤众人联手，先斩复苏苏衍", next: "masterBattle", requires: { route: "su", flags: ["苏莹存活"] } },
+      { id: "duel-zhao", label: "以冰寒秘术压蛊，与赵黎决战", next: "zhaoBattle", result: "你以冰寒秘术压住血魔蛊，旧玉血光与赵黎的血线撞在一处。", requires: { route: "zhao", flags: ["冰寒蛊简"] } },
+      { id: "break-array", label: "与纪清寒一同炸毁祭阵", next: "ending", result: "你与纪清寒一同引爆祭阵。血魔蛊在将醒未醒之间，化成了灰。", requires: { route: "ji" }, effect: { ending: "severed" } },
+      { id: "take-control", label: "借活蛊线反制乔无咎，夺取残缺血魔蛊", next: "ending", result: "你借活蛊线反制控制室，乔无咎的操控被截断了一瞬。", requires: { route: "xue", flags: ["活蛊线印记"] }, effect: { ending: "tyrant" } },
+      { id: "feed-blood", label: "以身入池，与血魔蛊共生", next: "ending", result: "你纵身跃入血池，准备以全部血液与血魔蛊共生。", requires: { route: "su" }, effect: { ending: "sacrifice" } },
+      { id: "fight-master", label: "唤众人联手，先斩复苏苏衍", next: "masterBattle", result: "你唤众人联手。五人第一次，真正站在了同一边。", requires: { route: "su", flags: ["苏莹存活"] } },
     ],
   },
   masterBattle: {
@@ -210,7 +210,7 @@ export const scenes: Record<string, Scene> = {
     id: "qiaoReveal", act: 4, node: 3, chapter: "第四幕 · 血魔蛊室 · 节点 3 / 3", title: "执棋者现身",
     text: "赵黎的身躯在你掌下崩裂倒下。血魔蛊自他的残躯中挣脱，猩红一线没入你的掌心——温热的蛊力顺着经脉游走，像在认主，又像在蛊惑。\n\n“精彩。”乔无咎的声音从石壁后传来。他缓缓步出阴影，抚掌而笑：“我布局十年，等的就是有人替我把这只蛊喂熟。现在，该取回来了。”",
     choices: [
-      { id: "fight-qiao", label: "迎上去，与乔无咎做个了断", next: "qiaoBattle" },
+      { id: "fight-qiao", label: "迎上去，与乔无咎做个了断", next: "qiaoBattle", result: "你迎上去，攥紧掌心那抹猩红，与乔无咎做个了断。" },
     ],
   },
   qiaoBattle: {
@@ -222,31 +222,31 @@ export const scenes: Record<string, Scene> = {
     id: "shadowQiao", act: 3, node: 1, chapter: "第三幕 · 暗线 · 节点 1 / 3", title: "尾行",
     text: "你借着迷魂阵残存的蛊香与暗影，远远缀在乔无咎身后。他一路走得极熟，避开了所有生门，像在这墓里走过千百遍。你在一条石缝后看见他推开一道伪墙，墙后是一间嵌满活蛊线的暗室——无数细线从石壁深处牵出，末端悬着一枚枚傀儡蛊核。\n\n你终于看清了半盘棋：那些傀儡不是墓主设的，是乔无咎的手笔。",
     choices: [
-      { id: "approach", label: "再靠近些，看他在捣鼓什么", next: "shadowTruth" },
-      { id: "retreat", label: "记下路线，退回大队", next: "puppets", effect: { flag: "曾尾行乔无咎" } },
+      { id: "approach", label: "再靠近些，看他在捣鼓什么", next: "shadowTruth", result: "你又靠近了些，屏息看他究竟在捣鼓什么。" },
+      { id: "retreat", label: "记下路线，退回大队", next: "puppets", result: "你记下路线，悄然后退，退回大队。", effect: { flag: "曾尾行乔无咎" } },
     ],
   },
   shadowTruth: {
     id: "shadowTruth", act: 3, node: 2, chapter: "第三幕 · 暗线 · 节点 2 / 3", title: "血祭的账本",
     text: "你在暗室角落看见一册用血写就的账本，记的是祭品名单。你的名字，和苏莹的名字，并排写在最后一页。乔无咎忽然停下，头也不回地开口：“跟了一路，不累么？”",
     choices: [
-      { id: "confront", label: "现身摊牌，用话周旋", next: "shadowBargain" },
-      { id: "flee", label: "立刻退走，把所见带出墓去", next: "puppets", effect: { flag: "曾尾行乔无咎" } },
+      { id: "confront", label: "现身摊牌，用话周旋", next: "shadowBargain", result: "你从暗处现身，与乔无咎摊牌。" },
+      { id: "flee", label: "立刻退走，把所见带出墓去", next: "puppets", result: "你立刻退走，把所见带出墓去。", effect: { flag: "曾尾行乔无咎" } },
     ],
   },
   shadowBargain: {
     id: "shadowBargain", act: 3, node: 3, chapter: "第三幕 · 暗线 · 节点 3 / 3", title: "执棋者的重利",
     text: "你现身。乔无咎不惊反笑，说早等着一个“看得懂棋”的人。他许下重利——五转血魔蛊的祭引、半座蛊市的暗庄、以及活着走出这座墓的名额。\n\n“入我的局，做我暗室里的第二双眼睛；或者，死在这里。”",
     choices: [
-      { id: "accept", label: "接受邀请，入他的局", next: "shadowBetrayal" },
-      { id: "refuse", label: "拒绝。你已看穿这盘棋，不愿做他的棋子", next: "ending", effect: { ending: "seer" } },
+      { id: "accept", label: "接受邀请，入他的局", next: "shadowBetrayal", result: "你接下了乔无咎的重利，成了他暗室里的第二双眼睛。" },
+      { id: "refuse", label: "拒绝。你已看穿这盘棋，不愿做他的棋子", next: "ending", result: "你拒绝了乔无咎。他叹了口气，像早就料到。", effect: { ending: "seer" } },
     ],
   },
   shadowBetrayal: {
     id: "shadowBetrayal", act: 3, node: 4, chapter: "第三幕 · 暗线 · 节点 4 / 4", title: "你如何帮乔无咎杀死队友",
     text: "你成了乔无咎暗室里的第二双眼睛。在他的授意下，你一步步把同行之人引入死局——你以“探路”为名，把纪清寒引到一段你没有提醒的机关前，蛊矢破空时，她本能地先护住你，剑断、血落；祭阵发动，苏莹认得是你引的路，却没有逃，只轻声说“我知道你会这样选”。\n\n乱局中，薛逢不再演了——他主动亮出暗线身份，与你并肩。可乔无咎隔空捏碎了他的心脉，冷冷一句“废物，本就该第一个死”。\n\n然而，怎么也找不到赵黎。他早就识破了幻阵，独自夺蛊，化身为血魔。你死在他手中，死前最后一眼，是他站在血池边回头望你的样子。",
     choices: [
-      { id: "meet-zhao", label: "迎向化魔的赵黎", next: "ending", effect: { ending: "traitor" } },
+      { id: "meet-zhao", label: "迎向化魔的赵黎", next: "ending", result: "你迎向化魔的赵黎。他回头望你，眼里的猩红比火光更亮。", effect: { ending: "traitor" } },
     ],
   },
 };

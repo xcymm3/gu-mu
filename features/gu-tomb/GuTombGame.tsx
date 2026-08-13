@@ -201,6 +201,7 @@ export function GuTombGame() {
   const [readingBox, setReadingBox] = useState({ width: 340, height: 280 });
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
+  const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
   const [showGameMenu, setShowGameMenu] = useState(false);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
@@ -249,6 +250,7 @@ export function GuTombGame() {
     loadScene("gate");
     setPendingBattleState(null);
     setBattleFeedback(null);
+    setPendingChoice(null);
     setShowGameMenu(false);
     setGame(chooseRole(id));
   }
@@ -274,6 +276,7 @@ export function GuTombGame() {
     const restored = { ...slot.game, battle: slot.game.battle ?? null, endingId: null };
     setPendingBattleState(null);
     setBattleFeedback(null);
+    setPendingChoice(null);
     setShowGameMenu(false);
     setGame(restored);
     setNarrative(slot.narrative.sceneId === restored.sceneId ? slot.narrative : { sceneId: restored.sceneId, page: 0 });
@@ -282,11 +285,12 @@ export function GuTombGame() {
   function returnToMainMenu() {
     setPendingBattleState(null);
     setBattleFeedback(null);
+    setPendingChoice(null);
     setShowGameMenu(false);
     setGame(initialGame());
     setHomeView("menu");
   }
-  function selectChoice(choice: Choice) {
+  function applyAndAdvance(choice: Choice) {
     const next = applyChoice(game, choice);
     if (next.sceneId !== "ending") {
       loadScene(next.sceneId);
@@ -296,6 +300,19 @@ export function GuTombGame() {
     const endingId = resolveEnding(next);
     setSeenEndings((seen) => seen.includes(endingId) ? seen : [...seen, endingId]);
     setGame({ ...next, endingId });
+  }
+  function selectChoice(choice: Choice) {
+    if (choice.result) {
+      setPendingChoice(choice);
+      return;
+    }
+    applyAndAdvance(choice);
+  }
+  function confirmChoice() {
+    if (!pendingChoice) return;
+    const choice = pendingChoice;
+    setPendingChoice(null);
+    applyAndAdvance(choice);
   }
 
   function handleBattle(action: GuAction) {
@@ -356,6 +373,13 @@ export function GuTombGame() {
             <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
             <button className="game-menu-trigger" type="button" aria-expanded={showGameMenu} aria-label="打开游戏菜单" onClick={() => setShowGameMenu(true)}>菜单</button>
           </header>
+          {pendingChoice ? <>
+          <section className="scene" aria-live="polite">
+            <p className="eyebrow">抉择已定</p>
+            <div className="scene-copy" ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
+          </section>
+          <div className="choice-panel"><button className="primary-button" onClick={confirmChoice}>继续</button></div>
+          </> : <>
           <section className="scene" aria-live="polite">
             <p className="eyebrow">{scene.chapter}</p>
             <h1>{scene.title}</h1>
@@ -371,6 +395,7 @@ export function GuTombGame() {
               : <button className="choice-button" key={choice.id} onClick={() => selectChoice(choice)}><span>{choice.label}</span></button>)}
           </nav>
           ) : null}
+          </>}
         </>}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
       </section>

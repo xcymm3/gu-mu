@@ -19,12 +19,27 @@ const bosses: Record<string, BossDef> = {
       { damage: 2 },
     ],
   },
-  赵黎: {
-    name: "赵黎",
+  血傀儡: {
+    name: "血傀儡",
     hp: 20,
     pattern: [
-      { damage: 3 },
+      { damage: 4 },
+      { damage: 6 },
+      { damage: 8 },
+    ],
+  },
+  赵黎: {
+    name: "赵黎",
+    hp: 22,
+    pattern: [
+      { damage: 4 },
+      { damage: 6 },
+      { damage: 0, invulnerable: true, reflect: true },
+      { damage: 4 },
       { damage: 7 },
+      { damage: 0, invulnerable: true, reflect: true },
+      { damage: 4 },
+      { damage: 8 },
       { damage: 0, invulnerable: true, reflect: true },
     ],
   },
@@ -39,6 +54,15 @@ const bosses: Record<string, BossDef> = {
       { damage: 6, heal: 6 },
     ],
   },
+  乔无咎: {
+    name: "乔无咎",
+    hp: 24,
+    pattern: [
+      { damage: 3 },
+      { damage: 6 },
+      { damage: 9 },
+    ],
+  },
 };
 
 type RoleDef = { id: string; name: string; hp: number; essence: number; atk: number; flags?: string[] };
@@ -51,25 +75,29 @@ const roles: RoleDef[] = [
 // ── 回合级模拟 ──
 
 type SimState = { hp: number; essence: number; enemyHp: number; turn: number };
-type SimAction = "blood" | "armor" | "rest" | "heal" | "sword" | "charm";
+type SimAction = "blood" | "armor" | "rest" | "heal" | "sword" | "charm" | "blooddemon";
 
 function actionCost(action: SimAction): number {
   if (action === "heal") return 2;
   if (action === "sword") return 4;
   if (action === "charm") return 3;
+  if (action === "blooddemon") return 2;
   if (action === "rest") return 0;
-  return 1; // blood, armor, bloodflow
+  return 1; // blood, armor
 }
 
-function validActions(essence: number, roleId: string): SimAction[] {
+function validActions(essence: number, roleId: string, flags: string[]): SimAction[] {
   if (essence === 0) return ["rest"];
   const base: SimAction[] = ["blood", "armor"];
-  switch (roleId) {
-    case "healer": return [...base, "heal"];
-    case "swordsman": return [...base, "sword"];
-    case "heir": return [...base, "charm"];
-    default: return base;
-  }
+  const roleActions: SimAction[] = (() => {
+    switch (roleId) {
+      case "healer": return [...base, "heal"];
+      case "swordsman": return [...base, "sword"];
+      case "heir": return [...base, "charm"];
+      default: return base;
+    }
+  })();
+  return flags.includes("血魔蛊") ? [...roleActions, "blooddemon"] : roleActions;
 }
 
 /** 模拟单回合，返回新状态或 null（无效行动/已结束则 null） */
@@ -94,6 +122,12 @@ function simulateTurn(
 
   // ── 月光蛊 / 血刃蛊（强化后攻击×2）──
   if (action === "blood" && role.flags?.includes("血刃蛊")) damage = role.atk * 2;
+
+  // ── 血魔蛊：6 伤害 + 恢复 6 生命 ──
+  if (action === "blooddemon") {
+    damage = 6;
+    hp = Math.min(role.hp, hp + 6);
+  }
 
   // ── 剑鸣蛊：先自伤 2，再造成 10 伤害 ──
   if (action === "sword") {
@@ -189,7 +223,7 @@ function canWin(role: RoleDef, boss: BossDef): SearchResult {
 
     let bestWin: SearchResult | null = null;
 
-    for (const action of validActions(state.essence, role.id)) {
+    for (const action of validActions(state.essence, role.id, role.flags ?? [])) {
       const result = simulateTurn(state, action, role, boss);
       if (!result) continue;
 
@@ -425,3 +459,110 @@ test("验证血刃蛊/血甲蛊强化后能否突破苏衍", () => {
   const heirBlade = canWin({ ...roles.find((r) => r.id === "heir")!, flags: ["血刃蛊"] }, bosses["苏衍"]);
   assert.ok(heirBlade.kind === "win" || heirBlade.kind === "lose"); // 仅确保不抛异常
 });
+
+// ── 拿满强化后的全路线可通性 ──
+// 强化来源：血刃蛊/血甲蛊（chamber 二选一）+ 真元+4（铜皮傀儡胜）
+// 乔无咎战额外有血魔蛊（赵黎胜后获得，第四选项）
+
+function fullyBoosted(role: RoleDef, bossKey: string): Array<{ label: string; role: RoleDef }> {
+  const boosted = { ...role, essence: role.essence + 4 }; // 真元+4
+  const demon = bossKey === "乔无咎" ? ["血魔蛊"] : [];
+  return [
+    { label: "血刃蛊", role: { ...boosted, flags: [...demon, "血刃蛊"] } },
+    { label: "血甲蛊", role: { ...boosted, flags: [...demon, "血甲蛊"] } },
+  ];
+}
+
+test("每个角色拿满强化后（血刃蛊或血甲蛊）所有Boss均可通", () => {
+  console.log("\n═══ 拿满强化后全路线可通性 ═══");
+  console.log("（每角色：血刃蛊/血甲蛊二选一 + 真元+4；乔无咎战另加血魔蛊）\n");
+
+  const bossList = ["铜皮傀儡", "赵黎", "苏衍", "乔无咎"];
+  let allPass = true;
+
+  for (const baseRole of roles) {
+    const row: string[] = [`  ${baseRole.name}`];
+    for (const bossKey of bossList) {
+      const variants = fullyBoosted(baseRole, bossKey);
+      const wins = variants.map((v) => ({ label: v.label, win: canWin(v.role, bosses[bossKey]).kind === "win" }));
+      const pass = wins.some((w) => w.win);
+      const detail = wins.map((w) => `${w.label}:${w.win ? "✅" : "❌"}`).join(" ");
+      row.push(`${bossKey}[${pass ? "✅" : "❌"} ${detail}]`);
+      if (!pass) allPass = false;
+    }
+    console.log(row.join("\n      "));
+    console.log();
+  }
+
+  // 断言：每个角色在拿对强化（血刃蛊或血甲蛊任一）的情况下，所有 Boss 均可通
+  for (const baseRole of roles) {
+    for (const bossKey of bossList) {
+      const variants = fullyBoosted(baseRole, bossKey);
+      const anyWin = variants.some((v) => canWin(v.role, bosses[bossKey]).kind === "win");
+      assert.ok(
+        anyWin,
+        `${baseRole.name} 拿满强化后应能击败 ${bossKey}（血刃蛊或血甲蛊至少其一可通）`,
+      );
+    }
+  }
+
+  console.log(allPass ? "  ✅ 全部路线可通" : "  ❌ 存在不可通路线");
+});
+
+test("血傀儡战：各角色拿对/拿错强化的通关差异", () => {
+  console.log("\n═══ 血傀儡战（HP20，循环 4→6→8）═══");
+  console.log("强化前提：真元+4（铜皮傀儡胜）已拿；蛊强化二选一\n");
+
+  const bossKey = "血傀儡";
+  const boss = bosses[bossKey];
+
+  // 无蛊强化（只真元+4）
+  console.log("  ── 无蛊强化（仅真元+4）──");
+  for (const role of roles) {
+    const r = { ...role, essence: role.essence + 4 };
+    const result = canWin(r, boss);
+    console.log(`    ${role.name}: ${result.kind === "win" ? "✅" : "❌"}`);
+  }
+
+  // 拿对/拿错对比
+  console.log("\n  ── 二选一强化对比 ──");
+  for (const role of roles) {
+    const variants = fullyBoosted(role, bossKey);
+    const parts = variants.map((v) => `${v.label}:${canWin(v.role, boss).kind === "win" ? "✅" : "❌"}`).join("  ");
+    console.log(`    ${role.name}  ${parts}`);
+  }
+  console.log();
+});
+
+test("赵黎战：各角色在不同强化组合下的通关情况", () => {
+  console.log("\n═══ 赵黎战（HP22，循环递增 4→6→镜→4→7→镜→4→8→镜）═══\n");
+
+  const boss = bosses["赵黎"];
+
+  // 强化组合：蛊强化（血刃/血甲）+ 真元+4 + 生命+4
+  const combos: Array<{ label: string; build: (r: RoleDef) => RoleDef }> = [
+    { label: "无强化", build: (r) => r },
+    { label: "血刃蛊", build: (r) => ({ ...r, flags: ["血刃蛊"] }) },
+    { label: "血甲蛊", build: (r) => ({ ...r, flags: ["血甲蛊"] }) },
+    { label: "血刃蛊+真元4", build: (r) => ({ ...r, essence: r.essence + 4, flags: ["血刃蛊"] }) },
+    { label: "血甲蛊+真元4", build: (r) => ({ ...r, essence: r.essence + 4, flags: ["血甲蛊"] }) },
+    { label: "血刃蛊+真元4+生命4", build: (r) => ({ ...r, hp: r.hp + 4, essence: r.essence + 4, flags: ["血刃蛊"] }) },
+    { label: "血甲蛊+真元4+生命4", build: (r) => ({ ...r, hp: r.hp + 4, essence: r.essence + 4, flags: ["血甲蛊"] }) },
+  ];
+
+  // 表头
+  const header = "  " + "角色".padEnd(10) + combos.map((c) => c.label).join(" | ");
+  console.log(header);
+  console.log("  " + "-".repeat(header.length - 2));
+
+  for (const role of roles) {
+    const cells = combos.map((c) => {
+      const result = canWin(c.build(role), boss);
+      return `${c.label}:${result.kind === "win" ? "✅" : "❌"}`;
+    });
+    console.log("  " + role.name.padEnd(10) + cells.join(" | "));
+  }
+  console.log();
+});
+
+

@@ -25,8 +25,10 @@ import {
   type RoleId,
 } from "@/lib/gu-tomb/game";
 
-function roleGuActions(roleId: RoleId): { id: GuAction; name: string; description: string }[] {
-  const blood = { id: "blood" as const, name: "血刃蛊", description: "以血煞凝作锋刃，直取近处敌手。消耗 1 真元。" };
+function roleGuActions(roleId: RoleId, flags: string[]): { id: GuAction; name: string; description: string }[] {
+  const blood = flags.includes("血刃蛊")
+    ? { id: "blood" as const, name: "血刃蛊", description: "血煞凝锋，伤害翻倍。消耗 1 真元。" }
+    : { id: "blood" as const, name: "月光蛊", description: "以月光凝作锋刃，直取近处敌手。消耗 1 真元。" };
   switch (roleId) {
     case "healer": return [blood, { id: "heal" as const, name: "回春蛊", description: "运蛊疗愈，恢复 7 点生命。消耗 2 真元。" }];
     case "swordsman": return [blood, { id: "sword" as const, name: "剑鸣蛊", description: "先伤己 2 点，再以蛊御剑重创敌人 10 点。消耗 4 真元。" }];
@@ -109,7 +111,7 @@ function splitForViewport(text: string, readingBox: { width: number; height: num
 
 function NarrativePage({ text }: { text: string }) {
   return <>{splitParagraphs(text).map((paragraph, paragraphIndex) => {
-    const pieces = paragraph.split(/(赵黎|纪清寒|薛逢|苏莹|乔无咎|血流蛊|五转|血祭|祖传旧玉|苏衍)/g);
+    const pieces = paragraph.split(/(赵黎|纪清寒|薛逢|苏莹|乔无咎|苏衍|血魔蛊|月光蛊|血刃蛊|血甲蛊|五转|血祭|祖传旧玉)/g);
     return <p key={paragraphIndex}>{pieces.map((piece, pieceIndex) => names.has(piece) ? <strong className="story-name" key={pieceIndex}>{piece}</strong> : criticalTerms.has(piece) ? <span className="story-critical" key={pieceIndex}>{piece}</span> : piece)}</p>;
   })}</>;
 }
@@ -119,9 +121,13 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   if (!battle) return { result: "蛊息渐歇，墓道里只余摇晃的灯火。", enemyCondition: "不明", hasEnded: false };
   const enemyName = battle.enemyName;
   const actionText: Record<GuAction, string> = {
-    blood: `你催动血刃蛊，血煞在掌前凝成一线锋芒，斩向${enemyName}。`,
-    bloodflow: `血流蛊自掌心游出，${enemyName}身上的血气被它牵出一缕，反灌回你的经脉。`,
-    armor: "甲衣蛊贴身而起，细密甲纹沿经脉铺开，迎向逼近的阴影。",
+    blood: before.flags.includes("血刃蛊")
+      ? `你催动血刃蛊，血煞翻倍凝锋，一线血色直贯${enemyName}。`
+      : `你催动月光蛊，月白一线凝作锋芒，斩向${enemyName}。`,
+    blooddemon: `血魔蛊自掌心跃出，猩红一线既撕开${enemyName}，又牵回一缕血气反哺你的经脉。`,
+    armor: before.flags.includes("血甲蛊")
+      ? "血甲蛊贴身而起，血色甲纹覆满周身，硬生生挡下这一击。"
+      : "甲衣蛊贴身而起，细密甲纹沿经脉铺开，迎向逼近的阴影。",
     rest: "你收束纷乱真元，强行压下翻涌的气血，趁片刻空隙调息回气。",
     heal: `你催动回春蛊，温润的蛊息沿经脉浸润伤处，七分痛楚化作三分热意。`,
     sword: `你咬破舌尖逼出剑鸣蛊，胸前先绽开一道血口——剑蛊借血气长鸣，化作一线寒光直贯${enemyName}。`,
@@ -448,7 +454,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
     <p className="opening-copy">夜雨入墓，五人同行。大雾落下时，你只能抓住一只手。</p>
     <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
       <span className="role-title">{candidate.title}</span><strong>{candidate.name}</strong><span>{candidate.description}</span>
-      <small>命数 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻势 {candidate.attack}</small><em>擅用：{candidate.signatureGu}</em>
+      <small>命数 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻势 {candidate.attack} · 神识 {candidate.sense === "high" ? "高" : "中"}</small><em>擅用：{candidate.signatureGu}</em>
     </button>)}</div>
   </section></main>;
 }
@@ -458,14 +464,17 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
   if (!battle || !role) return null;
-  const defenseAction = { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，减轻本回合伤害。消耗 1 真元。" };
-  const attackAction = game.flags.includes("血流蛊已得")
-    ? [{ id: "bloodflow" as const, name: "血流蛊", description: "造成 6 点伤害，并恢复 6 点生命。消耗 1 真元。" }]
-    : roleGuActions(game.roleId!);
+  const defenseAction = game.flags.includes("血甲蛊")
+    ? { id: "armor" as const, name: "血甲蛊", description: "蛊甲覆身，抵挡本回合全部伤害。消耗 1 真元。" }
+    : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，减轻本回合伤害。消耗 1 真元。" };
+  const attackAction = roleGuActions(game.roleId!, game.flags);
+  const bloodDemonAction = game.flags.includes("血魔蛊")
+    ? [{ id: "blooddemon" as const, name: "血魔蛊", description: "造成 6 点伤害，并恢复 6 点生命。消耗 2 真元。" }]
+    : [];
   const guActions: { id: GuAction; name: string; description: string }[] = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
-    : [...attackAction, defenseAction];
-  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, bloodflow: 1, rest: 0, heal: 2, sword: 4, charm: 3 };
+    : [...attackAction, defenseAction, ...bloodDemonAction];
+  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, blooddemon: 2, rest: 0, heal: 2, sword: 4, charm: 3 };
   const enemyCue = enemyCueFor(battle);
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">
@@ -479,7 +488,7 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
-      <p>血刃蛊与甲衣蛊各消耗 1 真元；夺得血流蛊后，它会替换血刃蛊。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
+      <p>月光蛊与甲衣蛊各消耗 1 真元；夺得血刃蛊或血甲蛊后，它们会替换初始蛊。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
       <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
     </section></div> : null}
   </section>;

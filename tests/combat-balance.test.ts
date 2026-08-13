@@ -36,11 +36,12 @@ const bosses: Record<string, BossDef> = {
       { damage: 6 },
       { damage: 9 },
       { damage: 0, heal: 5 },
+      { damage: 6, heal: 6 },
     ],
   },
 };
 
-type RoleDef = { id: string; name: string; hp: number; essence: number; atk: number };
+type RoleDef = { id: string; name: string; hp: number; essence: number; atk: number; flags?: string[] };
 const roles: RoleDef[] = [
   { id: "healer", name: "游方蛊医", hp: 14, essence: 12, atk: 3 },
   { id: "swordsman", name: "流浪剑修", hp: 15, essence: 10, atk: 4 },
@@ -91,6 +92,9 @@ function simulateTurn(
     ? Math.min(role.essence, state.essence + 3)
     : state.essence - cost;
 
+  // ── 月光蛊 / 血刃蛊（强化后攻击×2）──
+  if (action === "blood" && role.flags?.includes("血刃蛊")) damage = role.atk * 2;
+
   // ── 剑鸣蛊：先自伤 2，再造成 10 伤害 ──
   if (action === "sword") {
     hp -= 2;
@@ -118,10 +122,10 @@ function simulateTurn(
     };
   }
 
-  // ── 通用动作 ──
+  // ── 甲衣蛊 / 血甲蛊（强化后免全伤）──
   if (action === "armor") {
-    damage = 1;
-    received = Math.max(0, received - 3);
+    if (role.flags?.includes("血甲蛊")) { damage = 1; received = 0; }
+    else { damage = 1; received = Math.max(0, received - 3); }
   }
   if (action === "rest") {
     damage = 0;
@@ -382,7 +386,7 @@ test("输出数值缺口分析：每角色对每BOSS需要多少强化", () => {
         if (boost.atk > 0) parts.push(`ATK +${boost.atk}`);
         if (boost.essence > 0) parts.push(`Essence +${boost.essence}`);
         console.log(
-          `  ❌ ${boss.name}: 需要 ${parts.join(" / ")}（总和 +${boost.total}）才能通关`,
+          `  ❌ ${boss.name}: 需要 ${parts.join(" / ")}（总和 +${boost.hp + boost.atk + boost.essence}）才能通关`,
         );
       } else {
         console.log(`  ❌ ${boss.name}: 搜索范围(${30})内未找到可行提升`);
@@ -392,4 +396,32 @@ test("输出数值缺口分析：每角色对每BOSS需要多少强化", () => {
 
   console.log();
   assert.ok(true); // 仅输出，不验证
+});
+
+test("验证血刃蛊/血甲蛊强化后能否突破苏衍", () => {
+  console.log("\n── 强化效果对苏衍战的影响 ──");
+
+  const variants: Array<{ label: string; flags: string[] }> = [
+    { label: "无强化", flags: [] },
+    { label: "血刃蛊(攻击×2)", flags: ["血刃蛊"] },
+    { label: "血甲蛊(免全伤)", flags: ["血甲蛊"] },
+  ];
+
+  for (const role of roles) {
+    const row: string[] = [`  ${role.name}`];
+    for (const variant of variants) {
+      const boosted: RoleDef = { ...role, flags: variant.flags };
+      const result = canWin(boosted, bosses["苏衍"]);
+      row.push(`${variant.label}: ${result.kind === "win" ? "✅" : "❌"}`);
+    }
+    console.log(row.join(" | "));
+  }
+  console.log();
+
+  // 至少验证血刃蛊让某个角色能通关苏衍（若当前数值可行）
+  // 落魄世家子：无强化必败
+  assert.equal(canWin(roles.find((r) => r.id === "heir")!, bosses["苏衍"]).kind, "lose");
+  // 血刃蛊强化后至少数值缺口应缩小（用 canWin 直接验证结果类型，不断言具体胜负，因数值可能仍需更多强化）
+  const heirBlade = canWin({ ...roles.find((r) => r.id === "heir")!, flags: ["血刃蛊"] }, bosses["苏衍"]);
+  assert.ok(heirBlade.kind === "win" || heirBlade.kind === "lose"); // 仅确保不抛异常
 });

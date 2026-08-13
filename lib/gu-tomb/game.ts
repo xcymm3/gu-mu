@@ -273,7 +273,7 @@ export function chooseRole(id: RoleId = "healer") { const role = getRole(id)!; r
 
 // 好感度并列顺序：赵黎 > 薛逢 > 纪清寒 > 苏莹
 const allyOrder: AllyId[] = ["zhao", "xue", "ji", "su"];
-function rankTrust(trust: Record<AllyId, number>): AllyId[] {
+export function rankTrust(trust: Record<AllyId, number>): AllyId[] {
   return [...allyOrder].sort((a, b) => (trust[b] - trust[a]) || (allyOrder.indexOf(a) - allyOrder.indexOf(b)));
 }
 

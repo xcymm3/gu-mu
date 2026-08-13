@@ -11,6 +11,7 @@ import {
   getEnemyCondition,
   getRole,
   initialGame,
+  rankTrust,
   resolveBattleTurn,
   resolveEnding,
   roles,
@@ -19,6 +20,7 @@ import {
   storyMeta,
   storyPresentation,
   startBattle,
+  type AllyId,
   type Choice,
   type GameState,
   type GuAction,
@@ -27,12 +29,12 @@ import {
 
 function roleGuActions(roleId: RoleId, flags: string[]): { id: GuAction; name: string; description: string }[] {
   const blood = flags.includes("血刃蛊")
-    ? { id: "blood" as const, name: "血刃蛊", description: "血煞凝锋，伤害翻倍。消耗 1 真元。" }
-    : { id: "blood" as const, name: "月光蛊", description: "以月光凝作锋刃，直取近处敌手。消耗 1 真元。" };
+    ? { id: "blood" as const, name: "血刃蛊", description: "血煞凝锋，锋芒较前更甚。" }
+    : { id: "blood" as const, name: "月光蛊", description: "以月光凝作锋刃，直取近处敌手。" };
   switch (roleId) {
-    case "healer": return [blood, { id: "heal" as const, name: "回春蛊", description: "运蛊疗愈，恢复 7 点生命。消耗 2 真元。" }];
-    case "swordsman": return [blood, { id: "sword" as const, name: "剑鸣蛊", description: "先伤己 2 点，再以蛊御剑重创敌人 10 点。消耗 4 真元。" }];
-    case "heir": return [blood, { id: "charm" as const, name: "惑心蛊", description: "造成攻击伤害并使敌人本回合行动无效。消耗 3 真元。" }];
+    case "healer": return [blood, { id: "heal" as const, name: "回春蛊", description: "运蛊疗愈，温养周身伤处。" }];
+    case "swordsman": return [blood, { id: "sword" as const, name: "剑鸣蛊", description: "先伤己身，再以蛊御剑，重创敌手。" }];
+    case "heir": return [blood, { id: "charm" as const, name: "惑心蛊", description: "迷乱敌手心智，令其一击落空。" }];
   }
 }
 const names = new Set(storyPresentation.names);
@@ -189,6 +191,21 @@ function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
   return battle.intent.cue;
 }
 
+function buildBattleResultText(game: GameState, won: boolean): string {
+  const enemyName = game.battle?.enemyName ?? "那具躯体";
+  if (won) {
+    return `你收势站定，胸口仍微微起伏。${enemyName}的身躯轰然倒下，再没有半点动静。墓道里一时静了下来，只剩你自己的呼吸声，在石壁间轻轻回荡。这一战，终究是你胜了。`;
+  }
+  const top = rankTrust(game.trust)[0];
+  const savers: Partial<Record<AllyId, string>> = {
+    zhao: `就在${enemyName}的攻势即将吞没你的刹那，一道身影横插而入——赵黎只一拂袖，便将那记杀招化去。他头也不回，语气依旧漫不经心：“死在这里，太便宜你了。”`,
+    ji: `就在${enemyName}的攻势即将吞没你的刹那，纪清寒横剑挡在你身前，硬生生替你接下这一击。剑身嗡鸣，她虎口渗出血来，却只低声道：“退后。”`,
+    xue: `就在${enemyName}的攻势即将吞没你的刹那，薛逢竟不知从哪扑了出来，连滚带爬地把你拽到一旁。他喘着粗气，脸上还挂着惊魂未定的笑：“可、可不能让你死在这儿。”`,
+    su: `就在${enemyName}的攻势即将吞没你的刹那，苏莹不知哪来的力气，一把将你推开。她自己却踉跄着，被余劲扫中，唇角渗出一丝血来。`,
+  };
+  return savers[top] ?? savers.su!;
+}
+
 export function GuTombGame() {
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
@@ -202,6 +219,7 @@ export function GuTombGame() {
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
   const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
+  const [battleResult, setBattleResult] = useState<{ won: boolean; text: string } | null>(null);
   const [showGameMenu, setShowGameMenu] = useState(false);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
@@ -251,6 +269,7 @@ export function GuTombGame() {
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
+    setBattleResult(null);
     setShowGameMenu(false);
     setGame(chooseRole(id));
   }
@@ -277,6 +296,7 @@ export function GuTombGame() {
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
+    setBattleResult(null);
     setShowGameMenu(false);
     setGame(restored);
     setNarrative(slot.narrative.sceneId === restored.sceneId ? slot.narrative : { sceneId: restored.sceneId, page: 0 });
@@ -286,6 +306,7 @@ export function GuTombGame() {
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
+    setBattleResult(null);
     setShowGameMenu(false);
     setGame(initialGame());
     setHomeView("menu");
@@ -320,11 +341,15 @@ export function GuTombGame() {
     const next = resolveBattleTurn(game, action);
     if (next === game) return;
     const feedback = describeBattleTurn(game, next, action);
-    setBattleFeedback(feedback);
     if (feedback.hasEnded) {
+      const battle = game.battle!;
+      const won = Boolean(battle.victoryFlag && next.flags.includes(battle.victoryFlag));
       setPendingBattleState(next);
+      setBattleResult({ won, text: buildBattleResultText(game, won) });
+      setBattleFeedback(null);
       return;
     }
+    setBattleFeedback(feedback);
     setGame(next);
   }
 
@@ -342,6 +367,12 @@ export function GuTombGame() {
     setGame(pendingBattleState);
     setPendingBattleState(null);
     setBattleFeedback(null);
+  }
+
+  function confirmBattleResult() {
+    if (!battleResult) return;
+    setBattleResult(null);
+    continueBattle();
   }
 
 
@@ -366,8 +397,19 @@ export function GuTombGame() {
   const visibleChoices = (scene.choices ?? []).filter((choice) => canChoose(game, choice));
   return (
     <main className="game-shell">
-      <section className={`game-frame story-frame${battle ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
-        {battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
+      <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
+        {battleResult ? <>
+          <header className="status-bar">
+            <div><span>修士</span><strong>{role.name}</strong></div>
+            <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
+            <button className="game-menu-trigger" type="button" aria-expanded={showGameMenu} aria-label="打开游戏菜单" onClick={() => setShowGameMenu(true)}>菜单</button>
+          </header>
+          <section className="scene" aria-live="polite">
+            <p className="eyebrow">战斗结束</p>
+            <div className="scene-copy" ref={copyRef}><NarrativePage text={battleResult.text} /></div>
+          </section>
+          <div className="choice-panel"><button className="primary-button" onClick={confirmBattleResult}>继续</button></div>
+        </> : battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
           <header className="status-bar">
             <div><span>修士</span><strong>{role.name}</strong></div>
             <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
@@ -490,14 +532,14 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
   const [showHelp, setShowHelp] = useState(false);
   if (!battle || !role) return null;
   const defenseAction = game.flags.includes("血甲蛊")
-    ? { id: "armor" as const, name: "血甲蛊", description: "蛊甲覆身，抵挡本回合全部伤害。消耗 1 真元。" }
-    : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，减轻本回合伤害。消耗 1 真元。" };
+    ? { id: "armor" as const, name: "血甲蛊", description: "血色蛊甲覆身，挡下这一击。" }
+    : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，护住周身要害。" };
   const attackAction = roleGuActions(game.roleId!, game.flags);
   const bloodDemonAction = game.flags.includes("血魔蛊")
-    ? [{ id: "blooddemon" as const, name: "血魔蛊", description: "造成 6 点伤害，并恢复 6 点生命。消耗 2 真元。" }]
+    ? [{ id: "blooddemon" as const, name: "血魔蛊", description: "既噬敌血气，又反哺己身。" }]
     : [];
   const guActions: { id: GuAction; name: string; description: string }[] = game.essence === 0
-    ? [{ id: "rest" as const, name: "调息", description: "本回合不出手，恢复 3 点真元。" }]
+    ? [{ id: "rest" as const, name: "调息", description: "收束真元，调息回气。" }]
     : [...attackAction, defenseAction, ...bloodDemonAction];
   const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, blooddemon: 2, rest: 0, heal: 2, sword: 4, charm: 3 };
   const enemyCue = enemyCueFor(battle);
@@ -513,7 +555,7 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
-      <p>月光蛊与甲衣蛊各消耗 1 真元；夺得血刃蛊或血甲蛊后，它们会替换初始蛊。真元归零时只能调息一回合，恢复 3 点真元，敌人仍会行动。</p>
+      <p>月光蛊与甲衣蛊需以真元催动；夺得血刃蛊或血甲蛊后，它们会替换初始蛊。真元耗尽时，只能调息回气，敌人仍会行动。</p>
       <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
     </section></div> : null}
   </section>;

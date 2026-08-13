@@ -27,14 +27,17 @@ import {
   type RoleId,
 } from "@/lib/gu-tomb/game";
 
-function roleGuActions(roleId: RoleId, flags: string[]): { id: GuAction; name: string; description: string }[] {
-  const blood = flags.includes("血刃蛊")
+function bloodGuAction(flags: string[]): { id: GuAction; name: string; description: string } {
+  return flags.includes("血刃蛊")
     ? { id: "blood" as const, name: "血刃蛊", description: "血煞凝锋，锋芒较前更甚。" }
     : { id: "blood" as const, name: "月光蛊", description: "以月光凝作锋刃，直取近处敌手。" };
+}
+
+function signatureGuAction(roleId: RoleId): { id: GuAction; name: string; description: string } {
   switch (roleId) {
-    case "healer": return [blood, { id: "heal" as const, name: "回春蛊", description: "运蛊疗愈，温养周身伤处。" }];
-    case "swordsman": return [blood, { id: "sword" as const, name: "剑鸣蛊", description: "先伤己身，再以蛊御剑，重创敌手。" }];
-    case "heir": return [blood, { id: "charm" as const, name: "惑心蛊", description: "迷乱敌手心智，令其一击落空。" }];
+    case "healer": return { id: "heal" as const, name: "回春蛊", description: "运蛊疗愈，温养周身伤处。" };
+    case "swordsman": return { id: "sword" as const, name: "剑鸣蛊", description: "先伤己身，再以蛊御剑，重创敌手。" };
+    case "heir": return { id: "charm" as const, name: "惑心蛊", description: "迷乱敌手心智，令其一击落空。" };
   }
 }
 const names = new Set(storyPresentation.names);
@@ -534,13 +537,14 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
   const defenseAction = game.flags.includes("血甲蛊")
     ? { id: "armor" as const, name: "血甲蛊", description: "血色蛊甲覆身，挡下这一击。" }
     : { id: "armor" as const, name: "甲衣蛊", description: "蛊甲覆身，护住周身要害。" };
-  const attackAction = roleGuActions(game.roleId!, game.flags);
+  const attackAction = bloodGuAction(game.flags);
+  const signatureAction = signatureGuAction(game.roleId!);
   const bloodDemonAction = game.flags.includes("血魔蛊")
     ? [{ id: "blooddemon" as const, name: "血魔蛊", description: "既噬敌血气，又反哺己身。" }]
     : [];
   const guActions: { id: GuAction; name: string; description: string }[] = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "收束真元，调息回气。" }]
-    : [...attackAction, defenseAction, ...bloodDemonAction];
+    : [attackAction, defenseAction, signatureAction, ...bloodDemonAction];
   const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, blooddemon: 2, rest: 0, heal: 2, sword: 4, charm: 3 };
   const enemyCue = enemyCueFor(battle);
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);

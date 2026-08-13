@@ -14,9 +14,9 @@ const bosses: Record<string, BossDef> = {
     name: "铜皮傀儡",
     hp: 12,
     pattern: [
+      { damage: 2 },
       { damage: 3 },
       { damage: 5 },
-      { damage: 2 },
     ],
   },
   血傀儡: {
@@ -593,4 +593,111 @@ test("乔无咎战：不使用血魔蛊时的通关情况", () => {
   }
   console.log();
 });
+
+test("苏衍战：各角色各强化组合的通关情况", () => {
+  console.log("\n═══ 苏衍战（HP28，循环 4→6→9→回5→血魔蛊6伤6回）═══\n");
+  const boss = bosses["苏衍"];
+
+  const combos: Array<{ label: string; build: (r: RoleDef) => RoleDef }> = [
+    { label: "无强化", build: (r) => r },
+    { label: "血刃蛊", build: (r) => ({ ...r, flags: ["血刃蛊"] }) },
+    { label: "血甲蛊", build: (r) => ({ ...r, flags: ["血甲蛊"] }) },
+    { label: "血刃蛊+真元4", build: (r) => ({ ...r, essence: r.essence + 4, flags: ["血刃蛊"] }) },
+    { label: "血甲蛊+真元4", build: (r) => ({ ...r, essence: r.essence + 4, flags: ["血甲蛊"] }) },
+    { label: "血刃蛊+真元4+生命4", build: (r) => ({ ...r, hp: r.hp + 4, essence: r.essence + 4, flags: ["血刃蛊"] }) },
+    { label: "血甲蛊+真元4+生命4", build: (r) => ({ ...r, hp: r.hp + 4, essence: r.essence + 4, flags: ["血甲蛊"] }) },
+  ];
+
+  console.log("  " + "角色".padEnd(10) + combos.map((c) => c.label).join(" | "));
+  console.log("  " + "-".repeat(80));
+  for (const role of roles) {
+    const cells = combos.map((c) => {
+      const r = canWin(c.build(role), boss);
+      return `${c.label}:${r.kind === "win" ? "✅" : "❌"}`;
+    });
+    console.log("  " + role.name.padEnd(10) + cells.join(" | "));
+  }
+  console.log();
+});
+
+test("搜索苏衍新循环3→5→血魔蛊→无敌打x的最小x", () => {
+  console.log("\n═══ 搜索苏衍 x（循环 3→5→血魔蛊(6伤6回)→无敌打x）═══");
+  console.log("目标：蛊医强化后（血刃蛊或血甲蛊 + 真元4）能通关的最小 x\n");
+
+  const [healer, swordsman, heir] = roles;
+  const win = (r: RoleDef, boss: BossDef) => canWin(r, boss).kind === "win";
+
+  for (let x = 1; x <= 15; x++) {
+    const boss: BossDef = {
+      name: "苏衍", hp: 28,
+      pattern: [
+        { damage: 3 },
+        { damage: 5 },
+        { damage: 6, heal: 6 },
+        { damage: x, invulnerable: true },
+      ],
+    };
+
+    const healerBlade = win({ ...healer, essence: healer.essence + 4, flags: ["血刃蛊"] }, boss);
+    const healerArmor = win({ ...healer, essence: healer.essence + 4, flags: ["血甲蛊"] }, boss);
+    const healerOk = healerBlade || healerArmor;
+    const healerBlade8 = win({ ...healer, essence: healer.essence + 8, flags: ["血刃蛊"] }, boss);
+
+    const swordBlade = win({ ...swordsman, essence: swordsman.essence + 4, flags: ["血刃蛊"] }, boss);
+    const heirBlade = win({ ...heir, essence: heir.essence + 4, flags: ["血刃蛊"] }, boss);
+
+    console.log(`  x=${String(x).padStart(2)}: 蛊医=${healerOk ? "✅" : "❌"}(刃${healerBlade ? "✅" : "❌"}/甲${healerArmor ? "✅" : "❌"}) 蛊医真元+8=${healerBlade8 ? "✅" : "❌"}  剑修血刃=${swordBlade ? "✅" : "❌"}  世家子血刃=${heirBlade ? "✅" : "❌"}`);
+  }
+  console.log();
+});
+
+test("验证蛊医攻击+1（丹药）能否过苏衍", () => {
+  console.log("\n═══ 蛊医攻击+1 对苏衍战的影响（当前苏衍 HP28, 4→6→9→回5→血魔蛊6伤6回）═══\n");
+  const boss = bosses["苏衍"];
+  const healer = roles[0];
+  const win = (r: RoleDef) => canWin(r, boss).kind === "win";
+
+  for (const atkBoost of [0, 1, 2]) {
+    const base = { ...healer, atk: healer.atk + atkBoost };
+    const noBoost = win(base);
+    const blade = win({ ...base, flags: ["血刃蛊"] });
+    const bladeEss = win({ ...base, essence: base.essence + 4, flags: ["血刃蛊"] });
+    const armorEss = win({ ...base, essence: base.essence + 4, flags: ["血甲蛊"] });
+    console.log(`  攻+${atkBoost}(攻${base.atk}): 无强化=${noBoost ? "✅" : "❌"} 血刃蛊=${blade ? "✅" : "❌"} 血刃蛊+真元4=${bladeEss ? "✅" : "❌"} 血甲蛊+真元4=${armorEss ? "✅" : "❌"}`);
+  }
+  console.log();
+});
+
+test("逐回合复现用户操作序列：蛊医10步 vs 苏衍(3→5→6伤6回→无敌打2)", () => {
+  console.log("\n═══ 逐回合复现蛊医操作（苏衍 3→5→6伤6回→无敌打2，HP28）═══\n");
+  const boss: BossDef = {
+    name: "苏衍", hp: 28,
+    pattern: [
+      { damage: 3 },
+      { damage: 5 },
+      { damage: 6, heal: 6 },
+      { damage: 2, invulnerable: true },
+    ],
+  };
+  const healer: RoleDef = { id: "healer", name: "游方蛊医", hp: 14, essence: 14, atk: 3, flags: ["血刃蛊"] };
+
+  const actions: SimAction[] = ["blood", "blood", "heal", "heal", "blood", "blood", "heal", "armor", "blood", "blood"];
+  let state: SimState = { hp: healer.hp, essence: healer.essence, enemyHp: boss.hp, turn: 0 };
+
+  console.log("  回合 | 行动 | 你HP | 真元 | 苏衍HP");
+  console.log(`  初始 |   -   |  ${state.hp}  |  ${state.essence}  |  ${state.enemyHp}`);
+
+  for (let i = 0; i < actions.length; i++) {
+    const action = actions[i];
+    const result = simulateTurn(state, action, healer, boss);
+    if (!result) { console.log(`  第${i + 1}回合 ${action} 无效！`); break; }
+    state = result.state;
+    console.log(`  第${i + 1}回合 | ${action.padEnd(5)} |  ${state.hp}  |  ${state.essence}  |  ${state.enemyHp}${result.won ? " [胜利]" : ""}`);
+    if (result.won) break;
+  }
+  console.log();
+});
+
+
+
 

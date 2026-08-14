@@ -129,8 +129,8 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   const enemyName = battle.enemyName;
   const actionText: Record<GuAction, string> = {
     blood: before.flags.includes("血刃蛊")
-      ? `你催动血刃蛊，血煞翻倍凝锋，一线血色直贯${enemyName}。`
-      : `你催动月光蛊，月白一线凝作锋芒，斩向${enemyName}。`,
+      ? `你催动血刃蛊，血煞凝锋，锋芒较往日更甚，一线猩红直贯${enemyName}。`
+      : `你催动月光蛊，月白一线凝作锋芒，径直贯向${enemyName}。`,
     blooddemon: `血魔蛊自掌心跃出，猩红一线既撕开${enemyName}，又牵回一缕血气反哺你的经脉。`,
     armor: before.flags.includes("血甲蛊")
       ? "血甲蛊贴身而起，血色甲纹覆满周身，硬生生挡下这一击。"
@@ -144,9 +144,9 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   if (!nextBattle || after.sceneId !== before.sceneId) return {
     result: after.sceneId === battle.defeatNext
       ? battle.intent.reflect && action !== "armor"
-        ? `${actionText[action]}血幕却将你的蛊力原样倒卷而回。你胸口如受重锤，分明是被自己的攻势反弹所伤，眼前顿时一黑。`
-        : `${actionText[action]}${enemyName}的攻势随后压下。你再也压不住翻涌的气血，只能在墓室中踉跄倒下。`
-      : `${actionText[action]}${enemyName}的躯壳猛地一滞，随后在昏暗灯火中崩裂倒下，再没有余力还击。`,
+        ? `${actionText[action]}血幕却将你的蛊力原样倒卷而回。你胸口如受重锤，分明是被自己的攻势所伤，眼前顿时一黑。`
+        : `${actionText[action]}${enemyName}的攻势随后压下。你再也压不住翻涌的气血，眼前一黑，踉跄着倒了下去。`
+      : `${actionText[action]}${enemyName === "铜皮傀儡" || enemyName === "血傀儡" ? `${enemyName}关节间的活蛊线根根崩断，沉重的躯壳轰然倒地，再没有余力还击。` : `${enemyName}的动作猛地一滞，随即轰然倒下，再没有余力还击。`}`,
     enemyCondition: after.sceneId === battle.defeatNext ? "你已落败" : "已伏诛",
     hasEnded: true,
     emphasis: after.sceneId === battle.defeatNext ? "danger" : "success",
@@ -182,7 +182,7 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
           ? `${enemyName}的攻势撞上护体蛊息，余劲只在石室中荡开一阵回响。`
           : enemyName === "尸灯傀儡"
             ? corpseResponse
-            : `${enemyName}趁蛊息未散逼近，来势震得你气血一滞。`;
+            : `${enemyName}不给你喘息之机，趁蛊息未散逼上前来，来势震得你气血一滞。`;
   const nextCue = enemyCueFor(nextBattle);
   return {
     result: `${actionText[action]}${enemyResponse}`,
@@ -199,14 +199,14 @@ function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
 function buildBattleResultText(game: GameState, won: boolean): string {
   const enemyName = game.battle?.enemyName ?? "那具躯体";
   if (won) {
-    return `你收势站定，胸口仍微微起伏。${enemyName}的身躯轰然倒下，再没有半点动静。墓道里一时静了下来，只剩你自己的呼吸声，在石壁间轻轻回荡。这一战，终究是你胜了。`;
+    return `你收势站定，胸口仍微微起伏，掌心的蛊息余温未散。${enemyName}的身躯轰然倒下，激起一片尘土，再没有半点动静。四周一时静得只余你自己的呼吸，在耳畔一进一出。这一战，终究是你胜了。`;
   }
   const top = rankTrust(game.trust)[0];
   const savers: Partial<Record<AllyId, string>> = {
-    zhao: `就在${enemyName}的攻势即将吞没你的刹那，一道身影横插而入——赵黎只一拂袖，便将那记杀招化去。他头也不回，语气依旧漫不经心：“死在这里，太便宜你了。”`,
-    ji: `就在${enemyName}的攻势即将吞没你的刹那，纪清寒横剑挡在你身前，硬生生替你接下这一击。剑身嗡鸣，她虎口渗出血来，却只低声道：“退后。”`,
-    xue: `就在${enemyName}的攻势即将吞没你的刹那，薛逢竟不知从哪扑了出来，连滚带爬地把你拽到一旁。他喘着粗气，脸上还挂着惊魂未定的笑：“可、可不能让你死在这儿。”`,
-    su: `就在${enemyName}的攻势即将吞没你的刹那，苏莹不知哪来的力气，一把将你推开。她自己却踉跄着，被余劲扫中，唇角渗出一丝血来。`,
+    zhao: `就在${enemyName}的攻势即将吞没你的刹那，一道身影横插而入——赵黎只一拂袖，那记杀招便如泥牛入海，消弭于无形。他头也不回，语气依旧漫不经心：“死在这里，太便宜你了。”`,
+    ji: `就在${enemyName}的攻势即将吞没你的刹那，纪清寒横剑挡在你身前，硬生生替你接下这一击。剑身嗡鸣不止，她虎口崩裂，渗出血来，却只低声道：“退后。”`,
+    xue: `就在${enemyName}的攻势即将吞没你的刹那，薛逢不知从哪儿扑了出来，连滚带爬地把你拽到一旁。他喘着粗气，脸上还挂着惊魂未定的笑：“可、可不能让你死在这儿……你欠薛某一条命了。”`,
+    su: `就在${enemyName}的攻势即将吞没你的刹那，苏莹不知哪来的力气，一把将你推开。她自己却踉跄着被余劲扫中，唇角渗出一丝血来，却只定定地看着你，像在确认你没事。`,
   };
   return savers[top] ?? savers.su!;
 }

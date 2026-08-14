@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { GuTombMark } from "@/components/GuTombMark";
 import {
@@ -98,13 +98,11 @@ function splitParagraphs(text: string) {
   return blocks.filter(Boolean);
 }
 
-function splitForViewport(text: string, readingBox: { width: number; height: number }) {
-  // NarrativePage wraps Chinese prose into separate paragraphs, each with its own
-  // line-height and gap. Leave enough room for that real layout instead of filling
-  // every estimated line; the final choice page is therefore never clipped.
-  const charactersPerLine = Math.max(14, Math.floor(readingBox.width / 15.5));
-  const visibleLines = Math.max(3, Math.floor(readingBox.height / 32));
-  const limit = Math.max(56, Math.floor(visibleLines * charactersPerLine * 0.68));
+function splitForViewport(text: string) {
+  // Keep paging independent from DOM measurements. Measuring a panel whose height
+  // itself changes when choices appear creates a ResizeObserver feedback loop.
+  // Overflow is handled by the dedicated reading pane, not by repagination.
+  const limit = 280;
   const sentences = text.match(/[^。！？；]+[。！？；]?/g) ?? [text];
   const pages: string[] = [];
   let current = "";
@@ -222,7 +220,6 @@ export function GuTombGame() {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>("system");
   const [narrative, setNarrative] = useState({ sceneId: "gate", page: 0 });
-  const [readingBox, setReadingBox] = useState({ width: 340, height: 280 });
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
   const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
@@ -258,18 +255,7 @@ export function GuTombGame() {
     document.documentElement.dataset.theme = themePreference;
   }, [reduceMotion, seenEndings, themePreference]);
 
-  useLayoutEffect(() => {
-    const element = copyRef.current;
-    if (!element) return;
-    const observer = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
-      setReadingBox((current) => current.width === width && current.height === height ? current : { width, height });
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [battleResult?.text, game.sceneId, pendingChoice?.id, role?.id]);
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (copyRef.current) copyRef.current.scrollTop = 0;
   }, [battleResult?.text, game.sceneId, narrative.page, pendingChoice?.id]);
 
@@ -399,7 +385,7 @@ export function GuTombGame() {
 
   const battle = game.battle;
   const sourceText = sceneText(game, scene);
-  const fittedPages = splitForViewport(sourceText, readingBox);
+  const fittedPages = splitForViewport(sourceText);
   const pageCount = fittedPages.length;
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
   const pageIndex = Math.min(narrativePage, pageCount - 1);

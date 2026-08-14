@@ -514,11 +514,11 @@ function GameSettings({ onBack, onClearEndings, onThemeChange, onToggleReduceMot
 function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: RoleId) => void }) {
   return <main className="game-shell role-select"><section className="game-frame opening-card" aria-labelledby="game-title">
     <button className="back-button role-back" onClick={onBack}>返回主界面</button>
-    <p className="eyebrow">固定剧本 · 多结局 · 蛊斗</p><h1 id="game-title">{storyMeta.title}</h1>
-    <p className="opening-copy">夜雨入墓，五人同行。大雾落下时，你只能抓住一只手。</p>
+    <h1 id="game-title">{storyMeta.title}</h1>
+    <p className="opening-copy">请选择你的身份</p>
     <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
-      <span className="role-title">{candidate.title}</span><strong>{candidate.name}</strong><span>{candidate.description}</span>
-      <small>命数 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻势 {candidate.attack} · 神识 {candidate.sense === "high" ? "高" : "中"}</small><em>擅用：{candidate.signatureGu}</em>
+      <strong className="role-card-title">{candidate.title}</strong><span>{candidate.description}</span>
+      <small>命数 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻势 {candidate.attack} · 神识 {candidate.sense === "high" ? "高" : "中"} <em>擅用：{candidate.signatureGu}</em></small>
     </button>)}</div>
   </section></main>;
 }

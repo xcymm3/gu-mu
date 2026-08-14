@@ -12,7 +12,7 @@ test("三种无姓名男性身份沿用原有属性", () => {
   assert.deepEqual([heir.maxHealth, heir.maxEssence], [12, 10]);
 });
 
-test("高神识仅落魄世家子具备", () => {
+test("高神识仅世家之子具备", () => {
   assert.equal(chooseRole("healer").flags.includes("高神识"), false);
   assert.equal(chooseRole("swordsman").flags.includes("高神识"), false);
   assert.equal(chooseRole("heir").flags.includes("高神识"), true);

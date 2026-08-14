@@ -69,7 +69,7 @@ type RoleDef = { id: string; name: string; hp: number; essence: number; atk: num
 const roles: RoleDef[] = [
   { id: "healer", name: "游方蛊医", hp: 14, essence: 12, atk: 3 },
   { id: "swordsman", name: "流浪剑修", hp: 15, essence: 10, atk: 4 },
-  { id: "heir", name: "落魄世家子", hp: 12, essence: 10, atk: 3 },
+  { id: "heir", name: "世家之子", hp: 12, essence: 10, atk: 3 },
 ];
 
 // ── 回合级模拟 ──
@@ -456,7 +456,7 @@ test("验证血刃蛊/血甲蛊强化后能否突破苏衍", () => {
   console.log();
 
   // 至少验证血刃蛊让某个角色能通关苏衍（若当前数值可行）
-  // 落魄世家子：无强化必败
+  // 世家之子：无强化必败
   assert.equal(canWin(roles.find((r) => r.id === "heir")!, bosses["苏衍"]).kind, "lose");
   // 血刃蛊强化后至少数值缺口应缩小（用 canWin 直接验证结果类型，不断言具体胜负，因数值可能仍需更多强化）
   const heirBlade = canWin({ ...roles.find((r) => r.id === "heir")!, flags: ["血刃蛊"] }, bosses["苏衍"]);
@@ -697,7 +697,6 @@ test("逐回合复现用户操作序列：蛊医10步 vs 苏衍(3→5→6伤6回
   }
   console.log();
 });
-
 
 
 

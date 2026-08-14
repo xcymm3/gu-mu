@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { GuTombMark } from "@/components/GuTombMark";
 import {
@@ -99,8 +99,12 @@ function splitParagraphs(text: string) {
 }
 
 function splitForViewport(text: string, readingBox: { width: number; height: number }) {
-  const charactersPerLine = Math.max(14, Math.floor(readingBox.width / 16));
-  const limit = Math.max(80, Math.floor(readingBox.height / 30) * charactersPerLine * 0.9);
+  // NarrativePage wraps Chinese prose into separate paragraphs, each with its own
+  // line-height and gap. Leave enough room for that real layout instead of filling
+  // every estimated line; the final choice page is therefore never clipped.
+  const charactersPerLine = Math.max(14, Math.floor(readingBox.width / 15.5));
+  const visibleLines = Math.max(3, Math.floor(readingBox.height / 32));
+  const limit = Math.max(56, Math.floor(visibleLines * charactersPerLine * 0.68));
   const sentences = text.match(/[^。！？；]+[。！？；]?/g) ?? [text];
   const pages: string[] = [];
   let current = "";
@@ -254,7 +258,7 @@ export function GuTombGame() {
     document.documentElement.dataset.theme = themePreference;
   }, [reduceMotion, seenEndings, themePreference]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = copyRef.current;
     if (!element) return;
     const observer = new ResizeObserver(([entry]) => {
@@ -263,7 +267,11 @@ export function GuTombGame() {
     });
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [battleResult?.text, game.sceneId, pendingChoice?.id, role?.id]);
+
+  useLayoutEffect(() => {
+    if (copyRef.current) copyRef.current.scrollTop = 0;
+  }, [battleResult?.text, game.sceneId, narrative.page, pendingChoice?.id]);
 
   function loadScene(sceneId: string) { setNarrative({ sceneId, page: 0 }); }
 

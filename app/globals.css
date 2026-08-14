@@ -1392,3 +1392,162 @@ html[data-reduce-motion="true"] *::after {
   .story-frame.is-battling .gu-list { gap: var(--space-2); }
   .story-frame.is-battling .gu-list button { min-height: 2.8rem; padding: var(--space-2) var(--space-3); }
 }
+
+/* Viewport contract: the page never moves; only the designated reading/list area may scroll. */
+.game-shell {
+  height: 100dvh;
+  min-height: 0;
+  overscroll-behavior: none;
+}
+
+.game-frame {
+  height: calc(100dvh - var(--frame-inset) - var(--frame-inset));
+  min-height: 0;
+  max-height: calc(100dvh - var(--frame-inset) - var(--frame-inset));
+}
+
+.content-scroll,
+.scene-copy,
+.story-frame.is-battling .intent-copy,
+.battle-help-dialog {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--color-rule-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.content-scroll::-webkit-scrollbar,
+.scene-copy::-webkit-scrollbar,
+.story-frame.is-battling .intent-copy::-webkit-scrollbar,
+.battle-help-dialog::-webkit-scrollbar {
+  width: 0.35rem;
+}
+
+.content-scroll::-webkit-scrollbar-thumb,
+.scene-copy::-webkit-scrollbar-thumb,
+.story-frame.is-battling .intent-copy::-webkit-scrollbar-thumb,
+.battle-help-dialog::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-sm);
+  background: var(--color-rule-strong);
+}
+
+/* Story: controls stay fixed below the reading pane. */
+.scene-copy {
+  padding-inline-end: var(--space-2);
+}
+
+/* Home and character selection retain their navigation while their long content scrolls internally. */
+.main-menu {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.menu-index {
+  min-height: 0;
+  margin-block: var(--space-5);
+  padding-inline-end: var(--space-2);
+}
+
+.role-select .opening-card {
+  display: grid;
+  grid-template-rows: auto auto auto auto minmax(0, 1fr);
+  min-height: 0;
+}
+
+.role-select .role-list {
+  min-height: 0;
+  margin-top: var(--space-5);
+  padding-inline-end: var(--space-2);
+}
+
+/* Archive and settings: header/tab controls are always visible, records scroll beneath them. */
+.archive-card:not(.save-archive) {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  min-height: 0;
+}
+
+.settings-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+}
+
+.ending-list,
+.settings-list,
+.save-archive-list,
+.save-slot-list {
+  min-height: 0;
+  padding-inline-end: var(--space-2);
+}
+
+.settings-list {
+  margin-top: var(--space-5);
+}
+
+.save-archive-list,
+.save-slot-list {
+  align-content: start;
+}
+
+/* The in-game menu is a fixed dialog with only its six save entries scrollable. */
+.game-menu-dialog {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  height: calc(100dvh - var(--space-8));
+  max-height: calc(100dvh - var(--space-8));
+  overflow: hidden;
+}
+
+.game-menu-dialog .save-slot-list {
+  overflow-y: auto;
+}
+
+/* Endings keep their actions visible; only the long epitaph prose can scroll. */
+.ending-card {
+  display: grid;
+  grid-template-rows: auto auto auto auto minmax(0, 1fr) auto auto auto auto;
+  min-height: 0;
+  justify-content: stretch;
+}
+
+.ending-card .ending-text {
+  min-height: 0;
+  margin-bottom: var(--space-4);
+  padding-inline-end: var(--space-2);
+}
+
+.ending-card .primary-button { margin-top: 0; }
+.ending-card .quiet-button { margin-top: var(--space-2); }
+
+/* Combat actions stay exposed.  A long battle report gains its own reading scroll. */
+.story-frame.is-battling .intent-copy {
+  flex: 1 1 auto;
+  margin-bottom: var(--space-3);
+}
+
+.battle-help-dialog {
+  max-height: calc(100dvh - var(--space-8));
+}
+
+@media (max-height: 42rem) {
+  .main-menu,
+  .archive-card,
+  .settings-card,
+  .role-select .opening-card,
+  .ending-card { padding: var(--space-4); }
+
+  .menu-title-row { gap: var(--space-2); }
+  .gu-tomb-mark { width: 2rem; height: 2rem; }
+  .menu-intro h1 { font-size: var(--text-xl); }
+  .menu-intro > p:last-child,
+  .opening-copy { margin-top: var(--space-3); font-size: var(--text-sm); line-height: 1.55; }
+  .role-back { margin-bottom: var(--space-3); }
+  .role-select .role-list { margin-top: var(--space-3); }
+  .ending-card .ending-number { margin: var(--space-3) 0 var(--space-2); }
+  .ending-card .epitaph { margin-top: var(--space-3); font-size: var(--text-sm); }
+  .ending-card .ending-text { margin-top: var(--space-3); font-size: var(--text-sm); line-height: 1.6; }
+}

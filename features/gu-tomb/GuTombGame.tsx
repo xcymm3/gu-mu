@@ -127,16 +127,16 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   const enemyName = battle.enemyName;
   const actionText: Record<GuAction, string> = {
     blood: before.flags.includes("血刃蛊")
-      ? `你催动血刃蛊，血煞翻倍凝作一道猩红锋刃，挟着浓重的血气，直贯${enemyName}。`
-      : `你催动月光蛊，一线月白在指尖凝作锋刃，寒光乍起，直取${enemyName}。`,
-    blooddemon: `血魔蛊自掌心跃出，猩红一线既撕开${enemyName}的躯壳，又牵回一缕血气，反哺进你的经脉。`,
+      ? `你催动血刃蛊，血煞翻倍凝锋，一线血色直贯${enemyName}。`
+      : `你催动月光蛊，月白一线凝作锋芒，斩向${enemyName}。`,
+    blooddemon: `血魔蛊自掌心跃出，猩红一线既撕开${enemyName}，又牵回一缕血气反哺你的经脉。`,
     armor: before.flags.includes("血甲蛊")
-      ? "血甲蛊骤然展开，血色甲纹覆满周身，如披铁衣，硬生生挡下这一击。"
-      : "甲衣蛊贴身而起，细密的甲纹沿经脉铺开，护住周身要害。",
-    rest: "你收束纷乱的真元，强行压下翻涌的气血，趁这片刻空隙调息回气。",
-    heal: "你催动回春蛊，温润的蛊息沿经脉浸润伤处，七分痛楚，渐渐化作三分热意。",
-    sword: `你咬破舌尖，逼出剑鸣蛊。胸前先绽开一道血口，剑蛊借这血气长鸣一声，化作一线寒光，直贯${enemyName}。`,
-    charm: `惑心蛊如烟渗出，无声无息地钻进${enemyName}的识海。它瞳孔一滞，挥到半途的攻势，生生僵在了半空。`,
+      ? "血甲蛊贴身而起，血色甲纹覆满周身，硬生生挡下这一击。"
+      : "甲衣蛊贴身而起，细密甲纹沿经脉铺开，迎向逼近的阴影。",
+    rest: "你收束纷乱真元，强行压下翻涌的气血，趁片刻空隙调息回气。",
+    heal: `你催动回春蛊，温润的蛊息沿经脉浸润伤处，七分痛楚化作三分热意。`,
+    sword: `你咬破舌尖逼出剑鸣蛊，胸前先绽开一道血口——剑蛊借血气长鸣，化作一线寒光直贯${enemyName}。`,
+    charm: `惑心蛊如烟渗出，${enemyName}瞳孔一滞，挥到半途的攻势僵在半空。`,
   };
   const nextBattle = after.battle;
   if (!nextBattle || after.sceneId !== before.sceneId) return {
@@ -170,17 +170,17 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
           : `${enemyName}胸腹骤然鼓起，一圈尖啸音波在墓道中炸开，声浪灌耳，震得人胸中气血翻涌。`;
   const enemyResponse = battle.intent.reflect
     ? action === "armor"
-        ? "你的一击撞入血幕，反卷而回的血光，被甲衣蛊尽数挡在身外。"
-        : "你催出的蛊息刚触及血幕，便沿原路倒卷回来，震得你气血一阵翻涌。"
+        ? `你的一击撞入血幕，反卷而回的血光被甲衣蛊尽数挡在身外。`
+        : `你催出的蛊息刚触及血幕，便沿原路倒卷回来，震得气血翻涌。`
     : battle.intent.heal
-      ? `${enemyName}仰头饮下血瓶中的赤液，原本萎靡的血气，肉眼可见地重新凝实起来。`
+      ? `${enemyName}仰头饮下血瓶中的赤液，原本萎靡的血气肉眼可见地重新凝实。`
       : immune
-        ? `${enemyName}的攻势被扰乱，刚凝成的杀意，无声散去。`
+        ? `${enemyName}的攻势被扰乱，刚凝成的杀意无声散去。`
         : defended
           ? `${enemyName}的攻势撞上护体蛊息，余劲只在石室中荡开一阵回响。`
           : enemyName === "尸灯傀儡"
             ? corpseResponse
-            : `${enemyName}趁蛊息未散，欺身逼近，来势汹汹，震得你气血一滞。`;
+            : `${enemyName}趁蛊息未散逼近，来势震得你气血一滞。`;
   const nextCue = enemyCueFor(nextBattle);
   return {
     result: `${actionText[action]}${enemyResponse}`,
@@ -452,7 +452,7 @@ function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlocked
   const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
       <header className="menu-intro"><div className="menu-title-row"><GuTombMark className="gu-tomb-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。大雾落下时，你抓住谁的手，就会走向不同的血路。</p></header>
-      <nav className="menu-index content-scroll" aria-label="主界面菜单">
+      <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
         <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {saveSlotCount} 卷行迹</small></span></button>
         <button className="menu-action" onClick={onArchive}><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
@@ -466,7 +466,7 @@ function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad
   return <main className="game-shell archive-shell"><section className="game-frame archive-card save-archive" aria-labelledby="save-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">六卷行迹</p><h1 id="save-title">读取存档</h1></div></header>
     <p className="save-archive-copy">存档只保存于当前浏览器。读取任意一卷，将从该处继续行走。</p>
-    <div className="save-archive-list content-scroll">{saveSlots.map((slot, index) => {
+    <div className="save-archive-list">{saveSlots.map((slot, index) => {
       const label = slot ? saveSlotLabel(slot) : null;
       return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><button className="slot-load-button" type="button" disabled={!slot} onClick={() => slot && onLoad(slot)}>读取</button></article>;
     })}</div>
@@ -477,7 +477,7 @@ function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () 
   return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" role="dialog" aria-modal="true" aria-label="游戏菜单" onClick={(event) => event.stopPropagation()}>
     <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
     <p className="game-menu-copy">存档仅保存在此浏览器与此设备中。读取存档会放弃当前未保存的进度。</p>
-    <div className="save-slot-list content-scroll" aria-label="六个存档位">{saveSlots.map((slot, index) => {
+    <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => {
       const label = slot ? saveSlotLabel(slot) : null;
       return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><nav><button className="slot-save-button" type="button" onClick={() => onSave(index)}>存入</button>{slot ? <button className="slot-load-button" type="button" onClick={() => onLoad(slot)}>读取</button> : null}</nav></article>;
     })}</div>
@@ -492,7 +492,7 @@ function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { a
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">命数卷宗</p><h1 id="archive-title">结局一览</h1></div></header>
     <div className="archive-tabs" role="tablist" aria-label="选择修士">{roles.map((candidate) => <button aria-selected={candidate.id === archiveRoleId} className="archive-tab" key={candidate.id} onClick={() => onSelectRole(candidate.id)} role="tab">{candidate.name}</button>)}</div>
     <p className="archive-summary"><strong>{unlockedForRole} / {availableEndingIds.length}</strong><span>{roles.find((candidate) => candidate.id === archiveRoleId)?.name}可触及的命数</span></p>
-    <ul className="ending-list content-scroll">{Object.values(endings).map((ending) => {
+    <ul className="ending-list">{Object.values(endings).map((ending) => {
       const reachable = availableEndingIds.includes(ending.id);
       const unlocked = seenEndings.includes(ending.id);
       return <li className={`ending-entry${unlocked ? " is-unlocked" : ""}${reachable ? "" : " is-unavailable"}`} key={ending.id}><div><strong>{ending.name}</strong><span>{unlocked ? "已解锁" : reachable ? "尚未解锁" : "此身份无法抵达"}</span></div><p>{unlocked ? ending.epitaph : reachable ? "此命数仍藏在蛊墓深处。" : "换一位修士，才可能走到这里。"}</p></li>;
@@ -509,7 +509,7 @@ function GameSettings({ onBack, onClearEndings, onThemeChange, onToggleReduceMot
   }
   return <main className="game-shell settings-shell"><section className="game-frame settings-card" aria-labelledby="settings-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">行囊与灯火</p><h1 id="settings-title">游戏设置</h1></div></header>
-    <div className="settings-list content-scroll"><div className="settings-note theme-setting"><strong>界面主题</strong><p>选择蛊墓在此设备上的明暗样式。</p><div aria-label="选择界面主题" className="theme-options" role="group">{(["system", "light", "dark"] as ThemePreference[]).map((theme) => <button aria-pressed={themePreference === theme} className="theme-option" key={theme} onClick={() => onThemeChange(theme)}>{theme === "system" ? "跟随系统" : theme === "light" ? "亮色" : "暗色"}</button>)}</div></div>
+    <div className="settings-list"><div className="settings-note theme-setting"><strong>界面主题</strong><p>选择蛊墓在此设备上的明暗样式。</p><div aria-label="选择界面主题" className="theme-options" role="group">{(["system", "light", "dark"] as ThemePreference[]).map((theme) => <button aria-pressed={themePreference === theme} className="theme-option" key={theme} onClick={() => onThemeChange(theme)}>{theme === "system" ? "跟随系统" : theme === "light" ? "亮色" : "暗色"}</button>)}</div></div>
       <button aria-pressed={reduceMotion} className="settings-row" onClick={onToggleReduceMotion}><span><strong>减少动态</strong><small>剧情与按钮以更静止的方式呈现</small></span><em>{reduceMotion ? "已开启" : "跟随系统"}</em></button>
       <div className="settings-note"><strong>图鉴记录</strong><p>已解锁结局会保存在当前设备中。</p></div>
       <button className={`settings-row settings-danger${confirmClear ? " is-confirming" : ""}`} onClick={clearEndings}><span><strong>{confirmClear ? "再次点击，确认清除" : "清除结局记录"}</strong><small>{confirmClear ? "此操作无法撤回" : "只清除本设备上的图鉴进度"}</small></span><em>{confirmClear ? "确认" : "清除"}</em></button>
@@ -522,7 +522,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
     <button className="back-button role-back" onClick={onBack}>返回主界面</button>
     <p className="eyebrow">固定剧本 · 多结局 · 蛊斗</p><h1 id="game-title">{storyMeta.title}</h1>
     <p className="opening-copy">夜雨入墓，五人同行。大雾落下时，你只能抓住一只手。</p>
-    <div className="role-list content-scroll" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
+    <div className="role-list" aria-label="选择角色">{roles.map((candidate) => <button className="role-card" key={candidate.id} onClick={() => onSelect(candidate.id)}>
       <span className="role-title">{candidate.title}</span><strong>{candidate.name}</strong><span>{candidate.description}</span>
       <small>命数 {candidate.maxHealth} · 真元 {candidate.maxEssence} · 攻势 {candidate.attack} · 神识 {candidate.sense === "high" ? "高" : "中"}</small><em>擅用：{candidate.signatureGu}</em>
     </button>)}</div>
@@ -571,7 +571,7 @@ function EndingScreen({ game, seenEndings, onReplay, onChangeRole, onMenu }: { g
   const endingText = ending.text;
   return <main className="game-shell"><section className="game-frame ending-card" aria-labelledby="ending-title">
     <p className="eyebrow">结局已定</p><p className="ending-number">{String(seenEndings.length).padStart(2, "0")} / {String(Object.keys(endings).length).padStart(2, "0")}</p><h1 id="ending-title">{ending.name}</h1>
-    <p className="epitaph">“{ending.epitaph}”</p><p className="ending-text content-scroll">{endingText}</p>
+    <p className="epitaph">“{ending.epitaph}”</p><p className="ending-text">{endingText}</p>
     <button className="primary-button" onClick={onReplay}>重入蛊墓</button><button className="quiet-button" onClick={onChangeRole}>重新开始</button><button className="quiet-button" onClick={onMenu}>返回主界面</button>
     <p className="gallery">本次会话已见：{seenEndings.map((id) => endings[id].name).join("、") || "无"}</p>
   </section></main>;

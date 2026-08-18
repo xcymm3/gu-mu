@@ -1,5 +1,5 @@
-import { GuTombGame } from "@/features/gu-tomb/GuTombGame";
+import { XueGuYinGame } from "@/features/xue-gu-yin/XueGuYinGame";
 
 export default function Home() {
-  return <GuTombGame />;
+  return <XueGuYinGame />;
 }

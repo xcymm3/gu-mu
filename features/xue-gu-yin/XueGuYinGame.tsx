@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { GuTombMark } from "@/components/GuTombMark";
+import { XueGuYinMark } from "@/components/XueGuYinMark";
 import {
   applyChoice,
   canChoose,
@@ -14,6 +14,7 @@ import {
   rankTrust,
   resolveBattleTurn,
   resolveEnding,
+  resolveRandomChoice,
   roles,
   sceneText,
   scenes,
@@ -25,7 +26,7 @@ import {
   type GameState,
   type GuAction,
   type RoleId,
-} from "@/lib/gu-tomb/game";
+} from "@/lib/xue-gu-yin/game";
 
 function bloodGuAction(flags: string[]): { id: GuAction; name: string; description: string } {
   return flags.includes("血刃蛊")
@@ -43,8 +44,8 @@ function signatureGuAction(roleId: RoleId): { id: GuAction; name: string; descri
 const names = new Set(storyPresentation.names);
 const criticalTerms = new Set(storyPresentation.criticalTerms);
 const endingStorageKey = "xue-gu-yin-unlocked-endings-v1";
-const motionStorageKey = "gu-tomb-reduce-motion";
-const themeStorageKey = "gu-tomb-theme";
+const motionStorageKey = "xue-gu-yin-reduce-motion";
+const themeStorageKey = "xue-gu-yin-theme";
 const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const saveSlotCount = 6;
 const endingRoleAccess: Record<RoleId, string[]> = { healer: Object.keys(endings), swordsman: Object.keys(endings), heir: Object.keys(endings) };
@@ -129,24 +130,24 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
   const enemyName = battle.enemyName;
   const actionText: Record<GuAction, string> = {
     blood: before.flags.includes("血刃蛊")
-      ? `你催动血刃蛊，血煞凝锋，锋芒较往日更甚，一线猩红直贯${enemyName}。`
-      : `你催动月光蛊，月白一线凝作锋芒，径直贯向${enemyName}。`,
-    blooddemon: `血魔蛊自掌心跃出，猩红一线既撕开${enemyName}，又牵回一缕血气反哺你的经脉。`,
+      ? `你体内真元轰然运转，催动血刃蛊！滔天血煞之气瞬间凝为实质，锋芒比往日更甚，一线猩红如雷霆般直贯${enemyName}！`
+      : `你指尖真元暴涨，催动月光蛊！一线清冷如雪的月白光芒凝作锋锐刃芒，划破黑暗，直贯${enemyName}要害！`,
+    blooddemon: `血魔蛊自你掌心呼啸跃出，猩红血芒既撕开${enemyName}的防御，又牵引回一缕精纯血气反哺你的周身经脉！`,
     armor: before.flags.includes("血甲蛊")
-      ? "血甲蛊贴身而起，血色甲纹覆满周身，硬生生挡下这一击。"
-      : "甲衣蛊贴身而起，细密甲纹沿经脉铺开，迎向逼近的阴影。",
-    rest: "你收束纷乱真元，强行压下翻涌的气血，趁片刻空隙调息回气。",
-    heal: `你催动回春蛊，温润的蛊息沿经脉浸润伤处，七分痛楚化作三分热意。`,
-    sword: `你咬破舌尖逼出剑鸣蛊，胸前先绽开一道血口——剑蛊借血气长鸣，化作一线寒光直贯${enemyName}。`,
-    charm: `惑心蛊如烟渗出，${enemyName}瞳孔一滞，挥到半途的攻势僵在半空。`,
+      ? `血甲蛊受真元感应瞬间激活，猩红如血的凝实甲纹覆满周身，硬生生顶住了这势大力沉的轰然一击！`
+      : `甲衣蛊受真元感应贴身而起，细密如钢鳞般的甲纹沿着全身经脉迅速铺开，正面迎向逼近的沉重阴影！`,
+    rest: `你强行收束体内纷乱的真元，压下胸口翻涌的气血，趁着战斗的短暂空隙吐故纳新，迅速回气。`,
+    heal: `你催动回春蛊，一股温润绵长的治愈蛊息沿着四肢百骸浸润伤处，周身七分火辣辣的剧痛转瞬间化作三分微热升腾。`,
+    sword: `你咬破舌尖逼出一口精血催发剑鸣蛊！胸前衣衫撕裂、绽开一道血口——剑蛊汲取精血杀气清啸长鸣，化作一线惊天寒光直贯${enemyName}！`,
+    charm: `惑心蛊化作一缕诡异粉烟悄然渗出。${enemyName}的动作猛然一滞，挥至半途的万钧攻势竟硬生生僵在了半空！`,
   };
   const nextBattle = after.battle;
   if (!nextBattle || after.sceneId !== before.sceneId) return {
     result: after.sceneId === battle.defeatNext
       ? battle.intent.reflect && action !== "armor"
-        ? `${actionText[action]}血幕却将你的蛊力原样倒卷而回。你胸口如受重锤，分明是被自己的攻势所伤，眼前顿时一黑。`
-        : `${actionText[action]}${enemyName}的攻势随后压下。你再也压不住翻涌的气血，眼前一黑，踉跄着倒了下去。`
-      : `${actionText[action]}${enemyName === "铜皮傀儡" || enemyName === "血傀儡" ? `${enemyName}关节间的活蛊线根根崩断，沉重的躯壳轰然倒地，再没有余力还击。` : `${enemyName}的动作猛地一滞，随即轰然倒下，再没有余力还击。`}`,
+        ? `诡异的血幕将你全力的蛊力原样倒卷轰回！胸口如遭万斤重锤轰击，周身经脉剧痛，分明是被自己的杀招所伤，眼前一黑倒飞而出。`
+        : `${actionText[action]}${enemyName}狂暴的攻势如泰山压顶般轰然砸下。你再也无法压制体内翻涌的气血，眼前黑蒙一片，剧痛袭来，身体踉跄着栽倒在地。`
+      : `${actionText[action]}${enemyName === "铜皮傀儡" || enemyName === "血傀儡" ? `${enemyName}周身关节发出咔吧一阵脆响，庞大沉重的躯壳轰然瘫塌倒地，激起满地尘土，再无半点余力反击。` : `${enemyName}的动作猛地一滞，随即轰然倒下，再没有余力还击。`}`,
     enemyCondition: after.sceneId === battle.defeatNext ? "你已落败" : "已伏诛",
     hasEnded: true,
     emphasis: after.sceneId === battle.defeatNext ? "danger" : "success",
@@ -172,17 +173,17 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
           : `${enemyName}胸腹骤然鼓起，一圈尖啸音波在墓道中炸开，声浪灌耳，震得人胸中气血翻涌。`;
   const enemyResponse = battle.intent.reflect
     ? action === "armor"
-        ? `你的一击撞入血幕，反卷而回的血光被甲衣蛊尽数挡在身外。`
-        : `你催出的蛊息刚触及血幕，便沿原路倒卷回来，震得气血翻涌。`
+        ? `你的一击猛烈撞入血幕之中，反卷而回的暴戾血光被护体蛊力尽数挡在身外。`
+        : `你催出的蛊息刚一触及血幕，便顺着原路倒卷回来，震得你经脉剧痛，气血翻涌！`
     : battle.intent.heal
-      ? `${enemyName}仰头饮下血瓶中的赤液，原本萎靡的血气肉眼可见地重新凝实。`
+      ? `${enemyName}仰头饮下玉瓶中的赤红液体，周身原本萎靡的气血与真元以肉眼可见的速度重新凝实暴涨。`
       : immune
         ? `${enemyName}的攻势被扰乱，刚凝成的杀意无声散去。`
         : defended
-          ? `${enemyName}的攻势撞上护体蛊息，余劲只在石室中荡开一阵回响。`
+          ? `${enemyName}狂暴的攻势重重撞击在护体真元之上，余劲扫过，只在幽闭的石室中荡开一阵刺耳的回响。`
           : enemyName === "尸灯傀儡"
             ? corpseResponse
-            : `${enemyName}不给你喘息之机，趁蛊息未散逼上前来，来势震得你气血一滞。`;
+            : `${enemyName}不给你丝毫喘息之机，趁着旧力已尽新力未生之际欺身逼近，狂暴的破空余劲震得你周身气血一滞！`;
   const nextCue = enemyCueFor(nextBattle);
   return {
     result: `${actionText[action]}${enemyResponse}`,
@@ -199,19 +200,22 @@ function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
 function buildBattleResultText(game: GameState, won: boolean): string {
   const enemyName = game.battle?.enemyName ?? "那具躯体";
   if (won) {
-    return `你收势站定，胸口仍微微起伏，掌心的蛊息余温未散。${enemyName}的身躯轰然倒下，激起一片尘土，再没有半点动静。四周一时静得只余你自己的呼吸，在耳畔一进一出。这一战，终究是你胜了。`;
+    const corpse = enemyName === "铜皮傀儡" || enemyName === "血傀儡"
+      ? `的庞大躯壳轰然倒塌，溅起满地尘埃，彻底沦为一摊废铁。`
+      : `的身躯轰然倒下，溅起满地尘埃，再无半点动静。`;
+    return `你缓缓收势站定，胸口剧烈起伏，掌心沉浮的真元余温尚未散去。${enemyName}${corpse}四下里顿时陷入一片死寂，唯余你沉重的喘息声在耳畔回荡。这一战，终究是你笑到了最后。`;
   }
   const top = rankTrust(game.trust)[0];
   const savers: Partial<Record<AllyId, string>> = {
-    zhao: `就在${enemyName}的攻势即将吞没你的刹那，一道身影横插而入——赵黎只一拂袖，那记杀招便如泥牛入海，消弭于无形。他头也不回，语气依旧漫不经心：“死在这里，太便宜你了。”`,
-    ji: `就在${enemyName}的攻势即将吞没你的刹那，纪清寒横剑挡在你身前，硬生生替你接下这一击。剑身嗡鸣不止，她虎口崩裂，渗出血来，却只低声道：“退后。”`,
-    xue: `就在${enemyName}的攻势即将吞没你的刹那，薛逢不知从哪儿扑了出来，连滚带爬地把你拽到一旁。他喘着粗气，脸上还挂着惊魂未定的笑：“可、可不能让你死在这儿……你欠薛某一条命了。”`,
-    su: `就在${enemyName}的攻势即将吞没你的刹那，苏莹不知哪来的力气，一把将你推开。她自己却踉跄着被余劲扫中，唇角渗出一丝血来，却只定定地看着你，像在确认你没事。`,
+    zhao: `就在${enemyName}那足以致命的攻势即将把你吞没的刹那，一道残影横插而入——赵黎面无表情地大袖一挥，狂暴的血影翻涌而出，那记致命杀招顿时如泥牛入海般消弭无形。他负手而立，头也不回，语气依旧阴鸷而漫不经心：“小子，若死在这种破铜烂铁手里，太便宜你了。”`,
+    ji: `就在${enemyName}的攻势即将把你吞没的刹那，一道清冷剑芒掠过！纪清寒横剑伫立在你身前，硬生生接下了这万钧一击。寒铁长剑嗡鸣震颤，她纤细的虎口崩裂出血痕，却连眉头都不曾皱上一皱，只头也不回地低声道：“退后，交给我。”`,
+    xue: `就在${enemyName}的铁拳即将来临之际，一道滚圆的身影不知从何处横冲直撞地扑了过来，连滚带爬地将你死死拽到一旁。薛逢瘫坐在地剧烈喘着粗气，脸上挂着惊魂未定的难看讨好笑容：“哎呦我的道友……可不能让你死在这儿，你今儿个……可欠了薛某一条命！”`,
+    su: `就在那股狂暴劲力即将碾碎你的瞬息，苏莹不知从哪迸发出一股巨力，发疯般将你狠狠推开！她自己却被${enemyName}的余劲扫中，娇躯倒飞而出，唇角溢出一缕鲜血。然而她顾不得伤势，只定定地凝望着你，确认你平安无事后才松了口气。`,
   };
   return savers[top] ?? savers.su!;
 }
 
-export function GuTombGame() {
+export function XueGuYinGame() {
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
   const [saveSlots, setSaveSlots] = useState<SaveSlots>(emptySaveSlots);
@@ -319,7 +323,8 @@ export function GuTombGame() {
     setSeenEndings((seen) => seen.includes(endingId) ? seen : [...seen, endingId]);
     setGame({ ...next, endingId });
   }
-  function selectChoice(choice: Choice) {
+  function selectChoice(raw: Choice) {
+    const choice = resolveRandomChoice(raw);
     if (choice.result) {
       setPendingChoice(choice);
       return;
@@ -445,7 +450,7 @@ export function GuTombGame() {
 function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
   const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
-      <header className="menu-intro"><div className="menu-title-row"><GuTombMark className="gu-tomb-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。大雾落下时，你抓住谁的手，就会走向不同的血路。</p></header>
+      <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。大雾落下时，你抓住谁的手，就会走向不同的血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
         <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {saveSlotCount} 卷行迹</small></span></button>

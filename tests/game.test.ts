@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { applyChoice, canChoose, chooseRole, getEnemyCondition, resolveBattleTurn, resolveEnding, scenes, startBattle, storyMeta } from "../lib/gu-tomb/game.ts";
+import { applyChoice, canChoose, chooseRole, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, scenes, startBattle, storyMeta } from "../lib/xue-gu-yin/game.ts";
 
 test("三种无姓名男性身份沿用原有属性", () => {
   const medic = chooseRole("healer");
@@ -45,6 +45,19 @@ test("大雾节点只展示好感度前二的同行者", () => {
   assert.equal(canChoose(state, zhaoChoice), false);
 });
 
+test("大雾节点尾行乔无咎入口仅在识破棋局时可用，退回暗线后回 fog 抓人", () => {
+  const follow = scenes.fog.choices?.find((item) => item.id === "follow-qiao");
+  assert.ok(follow);
+  assert.equal(follow.next, "shadowQiao");
+  assert.equal(canChoose(chooseRole(), follow), false);
+  assert.equal(canChoose({ ...chooseRole(), flags: ["识破棋局"] }, follow), true);
+  // 暗线退回点回到 fog（而非 puppets），保证塌陷后仍可锁定同行者
+  const retreat = scenes.shadowQiao.choices?.find((item) => item.id === "retreat");
+  const flee = scenes.shadowTruth.choices?.find((item) => item.id === "flee");
+  assert.equal(retreat?.next, "fog");
+  assert.equal(flee?.next, "fog");
+});
+
 test("高神识角色第一幕多出识破棋局选项", () => {
   const choice = scenes.gate.choices?.find((item) => item.id === "insight");
   assert.ok(choice);
@@ -59,6 +72,25 @@ test("苏莹真结局选项只在三枚线索齐备时出现", () => {
   assert.equal(canChoose(base, choice), false);
   assert.equal(canChoose({ ...base, flags: ["旧玉发烫", "生门低语"] }, choice), false);
   assert.equal(canChoose({ ...base, flags: ["旧玉发烫", "生门低语", "活符低语"] }, choice), true);
+});
+
+test("让苏莹先挑后随机获得一种蛊（血甲蛊或血刃蛊），result 写明所得蛊", () => {
+  const choice = scenes.chamber.choices?.find((item) => item.id === "yield-su");
+  assert.ok(choice);
+  assert.deepEqual(choice.effect?.flags, ["活符低语"]);
+  // roll=0 → 血甲蛊
+  const armor = resolveRandomChoice(choice, () => 0);
+  assert.ok(armor.effect?.flags?.includes("血甲蛊"));
+  assert.ok(armor.effect?.flags?.includes("活符低语"));
+  assert.ok(armor.result?.includes("甲纹森森"));
+  // roll 接近 1 → 血刃蛊
+  const blade = resolveRandomChoice(choice, () => 0.99);
+  assert.ok(blade.effect?.flags?.includes("血刃蛊"));
+  assert.ok(blade.result?.includes("血芒吞吐"));
+  // 应用后状态同时携带活符低语与随机蛊 flag
+  const next = applyChoice(chooseRole(), armor);
+  assert.ok(next.flags.includes("活符低语"));
+  assert.ok(next.flags.includes("血甲蛊") || next.flags.includes("血刃蛊"));
 });
 
 test("赵黎线的冰寒蛊简会开启节点三的决战变体", () => {

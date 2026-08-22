@@ -1,6 +1,6 @@
-/* Hallmark · macrostructure: Narrative Workflow · tone: quiet mint utility · anchor hue: forest-teal
- * theme: studied-DNA (source: image) · paper oklch(97.2% 0.014 165) · accent oklch(42% 0.08 165)
- * display: Geist Sans · body: Geist Sans with Chinese sans fallbacks · studied: yes · DNA-source: user reference
+/* Hallmark · macrostructure: Photographic · tone: moonlit xianxia visual novel · anchor hue: jade-teal
+ * theme: Midnight · canvas oklch(16% 0.026 176) · accent oklch(67% 0.10 158)
+ * display: Chinese serif system stack · body: Geist Sans with Chinese sans fallbacks · generated: imagegen character sprite
  */
 
 :root {
@@ -28,7 +28,23 @@
   --color-bloom-1: oklch(96.6% 0.014 165);
   --color-bloom-2: oklch(96.6% 0.014 165);
 
-  --font-display: var(--font-geist-sans), "PingFang SC", "Microsoft YaHei", sans-serif;
+  --color-vn-sky-top: oklch(25% 0.038 188);
+  --color-vn-sky-bottom: oklch(11% 0.021 172);
+  --color-vn-mountain-far: oklch(17% 0.032 177 / 0.62);
+  --color-vn-mountain-near: oklch(10% 0.025 168 / 0.94);
+  --color-vn-moon: oklch(91% 0.041 94 / 0.72);
+  --color-vn-shadow: oklch(6% 0.018 170 / 0.78);
+  --color-vn-dialog: oklch(98% 0.012 150 / 0.94);
+  --color-vn-dialog-ink: oklch(21% 0.031 167);
+  --color-vn-dialog-muted: oklch(36% 0.038 167);
+  --color-vn-chrome: oklch(14% 0.027 174 / 0.78);
+  --color-vn-chrome-ink: oklch(94% 0.021 150);
+  --color-vn-rule: oklch(77% 0.055 158 / 0.58);
+  --color-vn-choice: oklch(14% 0.028 174 / 0.9);
+  --color-vn-choice-hover: oklch(21% 0.052 165 / 0.96);
+  --color-vn-choice-ink: oklch(96% 0.014 150);
+
+  --font-display: "STKaiti", "KaiTi", "Noto Serif SC", "Songti SC", serif;
   --font-body: var(--font-geist-sans), "Microsoft YaHei", "PingFang SC", sans-serif;
   --font-mono: var(--font-body);
 
@@ -96,6 +112,9 @@ html[data-theme="dark"] {
   --color-bloom-2: var(--color-canvas);
   --shadow-card: 0 0.75rem 2.25rem oklch(8% 0.022 165 / 0.38);
   --shadow-whisper: 0 0.25rem 0.9rem oklch(8% 0.022 165 / 0.26);
+  --color-vn-dialog: oklch(15% 0.025 172 / 0.94);
+  --color-vn-dialog-ink: oklch(94% 0.018 150);
+  --color-vn-dialog-muted: oklch(78% 0.032 158);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -126,5 +145,8 @@ html[data-theme="dark"] {
     --color-bloom-2: var(--color-canvas);
     --shadow-card: 0 0.75rem 2.25rem oklch(8% 0.022 165 / 0.38);
     --shadow-whisper: 0 0.25rem 0.9rem oklch(8% 0.022 165 / 0.26);
+    --color-vn-dialog: oklch(15% 0.025 172 / 0.94);
+    --color-vn-dialog-ink: oklch(94% 0.018 150);
+    --color-vn-dialog-muted: oklch(78% 0.032 158);
   }
 }

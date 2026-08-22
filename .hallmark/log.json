@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-08-22",
+    "macrostructure": "Photographic",
+    "theme": "Midnight",
+    "enrichment": "generated transparent xianxia character sprite",
+    "brief": "Turn the game into a desktop-first full-screen visual novel with fixed dialogue pagination and no reading scrollbars."
+  },
+  {
+    "date": "2026-08-22",
     "macrostructure": "Workbench",
     "theme": "studied-DNA",
     "enrichment": "code-native ink stage",

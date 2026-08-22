@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
@@ -99,22 +100,58 @@ function splitParagraphs(text: string) {
   return blocks.filter(Boolean);
 }
 
-function splitForViewport(text: string) {
-  // Keep paging independent from DOM measurements. Measuring a panel whose height
-  // itself changes when choices appear creates a ResizeObserver feedback loop.
-  // Overflow is handled by the dedicated reading pane, not by repagination.
-  const limit = 280;
-  const sentences = text.match(/[^。！？；]+[。！？；]?/g) ?? [text];
+function splitForViewport(text: string, limit: number) {
+  const blocks = text.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
+  const units = blocks.flatMap((block, blockIndex) => {
+    const clauses = block.match(/[^。！？；，]+[。！？；，]?/g) ?? [block];
+    return blockIndex === blocks.length - 1 ? clauses : [...clauses, "\n\n"];
+  });
   const pages: string[] = [];
   let current = "";
-  for (const sentence of sentences) {
-    if (current.length >= Math.floor(limit * 0.62) && current.length + sentence.length > limit) {
-      pages.push(current);
-      current = sentence;
-    } else current += sentence;
+  for (const unit of units) {
+    if (unit === "\n\n") {
+      if (current && !current.endsWith("\n\n")) current += unit;
+      continue;
+    }
+    const visibleLength = current.replace(/\s/g, "").length;
+    if (current.trim() && visibleLength + unit.length > limit) {
+      pages.push(current.trim());
+      current = unit;
+    } else {
+      current += unit;
+    }
   }
-  if (current) pages.push(current);
+  if (current.trim()) pages.push(current.trim());
   return pages;
+}
+
+function useNarrativeLimit() {
+  const [limit, setLimit] = useState(128);
+
+  useEffect(() => {
+    function fitToViewport() {
+      const { innerHeight: height, innerWidth: width } = window;
+      if (width >= 960) {
+        setLimit(height >= 980 ? 148 : height >= 820 ? 112 : height >= 700 ? 84 : 68);
+        return;
+      }
+      setLimit(height >= 820 ? 112 : height >= 680 ? 88 : 68);
+    }
+
+    fitToViewport();
+    window.addEventListener("resize", fitToViewport);
+    return () => window.removeEventListener("resize", fitToViewport);
+  }, []);
+
+  return limit;
+}
+
+function inferSpeaker(text: string) {
+  const firstQuote = text.search(/[“「『]/);
+  if (firstQuote < 0) return "旁白";
+  const lead = text.slice(Math.max(0, firstQuote - 54), firstQuote);
+  const candidates = storyPresentation.names.filter((name) => lead.includes(name));
+  return candidates.at(-1) ?? "旁白";
 }
 
 function NarrativePage({ text }: { text: string }) {
@@ -126,20 +163,30 @@ function NarrativePage({ text }: { text: string }) {
 
 function VisualNovelRail({ chapter, roleName }: { chapter: string; roleName: string }) {
   return <aside className="vn-rail" aria-label="篇章信息">
-    <div className="vn-rail-brand"><XueGuYinMark className="xue-gu-yin-mark" /><div><strong>{storyMeta.title}</strong><span>蛊墓见闻录</span></div></div>
-    <div className="vn-rail-copy"><p>当前篇章</p><strong>{chapter}</strong><p>行走之人</p><strong>{roleName}</strong></div>
-    <p className="vn-rail-note">夜雨未歇。每一句应答、每一枚蛊虫，都会将你带往不同的墓室。</p>
+    <div className="vn-rail-brand"><XueGuYinMark className="xue-gu-yin-mark" /><div><strong>{storyMeta.title}</strong><span>{chapter}</span></div></div>
+    <p className="vn-rail-role">行走之人 <strong>{roleName}</strong></p>
   </aside>;
 }
 
 function VisualNovelLedger({ title }: { title: string }) {
   return <aside className="vn-ledger" aria-label="阅读记录">
-    <p>墓中记录</p>
-    <strong>{title}</strong>
-    <span>故事会在抉择处停下。请循着人物的言行，判断谁值得同行。</span>
-    <i aria-hidden="true" />
-    <small>血蛊醒 · 固定剧本</small>
+    <span>当前场景</span><strong>{title}</strong>
   </aside>;
+}
+
+function VisualNovelPortrait({ visible }: { visible: boolean }) {
+  return <div className={`vn-character-slot${visible ? " is-visible" : ""}`} aria-hidden="true">
+    <Image
+      alt=""
+      className="vn-character"
+      height={1536}
+      priority
+      sizes="(min-width: 960px) 42vw, 0px"
+      src="/characters/ji-qinghan-placeholder.webp"
+      unoptimized
+      width={1024}
+    />
+  </div>;
 }
 
 function describeBattleTurn(before: GameState, after: GameState, action: GuAction): BattleFeedback {
@@ -249,6 +296,7 @@ export function XueGuYinGame() {
   const [showGameMenu, setShowGameMenu] = useState(false);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
+  const narrativeLimit = useNarrativeLimit();
   const role = getRole(game.roleId);
   const scene = scenes[game.sceneId];
 
@@ -408,17 +456,21 @@ export function XueGuYinGame() {
 
   const battle = game.battle;
   const sourceText = sceneText(game, scene);
-  const fittedPages = splitForViewport(sourceText);
+  const fittedPages = splitForViewport(sourceText, narrativeLimit);
   const pageCount = fittedPages.length;
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
   const pageIndex = Math.min(narrativePage, pageCount - 1);
   const isLastNarrativePage = pageIndex === pageCount - 1;
   const narrativeParts: string[] = [fittedPages[pageIndex]];
   const visibleChoices = (scene.choices ?? []).filter((choice) => canChoose(game, choice));
+  const presentedText = battleResult?.text ?? pendingChoice?.result ?? narrativeParts[0] ?? sourceText;
+  const speaker = inferSpeaker(presentedText);
+  const showJiPortrait = presentedText.includes("纪清寒") && !battle;
   return (
     <main className="game-shell game-shell--play">
       <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
         <div className="vn-stage" aria-hidden="true"><span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" /></div>
+        <VisualNovelPortrait visible={showJiPortrait} />
         <div className="vn-play-layout">
         <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
         <div className="vn-story-core">
@@ -429,8 +481,8 @@ export function XueGuYinGame() {
             <button className="game-menu-trigger" type="button" aria-expanded={showGameMenu} aria-label="打开游戏菜单" onClick={() => setShowGameMenu(true)}>菜单</button>
           </header>
           <section className="scene" aria-live="polite">
-            <p className="eyebrow">战斗结束</p>
-            <div className="scene-copy" ref={copyRef}><NarrativePage text={battleResult.text} /></div>
+            <p className="vn-speaker">旁白</p><p className="eyebrow">战斗结束</p>
+            <div className="scene-copy vn-text-reveal" key={`battle-result-${battleResult.text}`} ref={copyRef}><NarrativePage text={battleResult.text} /></div>
           </section>
           <div className="choice-panel"><button className="primary-button" onClick={confirmBattleResult}>继续</button></div>
         </> : battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
@@ -441,15 +493,15 @@ export function XueGuYinGame() {
           </header>
           {pendingChoice ? <>
           <section className="scene" aria-live="polite">
-            <p className="eyebrow">抉择已定</p>
-            <div className="scene-copy" ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
+            <p className="vn-speaker">{speaker}</p><p className="eyebrow">抉择已定</p>
+            <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}`} ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
           </section>
           <div className="choice-panel"><button className="primary-button" onClick={confirmChoice}>继续</button></div>
           </> : <>
           <section className="scene" aria-live="polite">
-            <p className="eyebrow">{scene.chapter}</p>
+            <p className="vn-speaker">{speaker}</p><p className="eyebrow">{scene.chapter}</p>
             <h1>{scene.title}</h1>
-            <div className="scene-copy" ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
+            <div className="scene-copy vn-text-reveal" key={`${scene.id}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
             <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
           </section>
           {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}
@@ -475,6 +527,7 @@ export function XueGuYinGame() {
 function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
   const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
+      <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-placeholder.webp" unoptimized width={1024} /></div>
       <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。大雾落下时，你抓住谁的手，就会走向不同的血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>

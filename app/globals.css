@@ -1,5 +1,5 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
-/* Hallmark · genre: atmospheric visual novel · macrostructure: Workbench · theme: studied-DNA · enrichment: code-native ink stage · nav: in-game menu · footer: ending epitaph */
+/* Hallmark · genre: atmospheric visual novel · macrostructure: Photographic · theme: Midnight · enrichment: generated character sprite · nav: N4 · footer: Ft2 · contrast/slop/mobile: pass */
 @import "tailwindcss";
 @import "../tokens.css";
 
@@ -599,10 +599,12 @@ h1 {
   }
 }
 
-/* Desktop visual-novel stage.  The mobile reading card remains the compact fallback. */
+/* Visual-novel stage. The desktop composition is full-screen; small screens retain the compact reader. */
 .vn-stage,
 .vn-rail,
-.vn-ledger { display: none; }
+.vn-ledger,
+.vn-character-slot,
+.menu-stage { display: none; }
 
 .vn-play-layout,
 .vn-story-core {
@@ -613,165 +615,337 @@ h1 {
   min-width: 0;
 }
 
-@media (min-width: 64rem) {
-  .game-shell {
-    padding: clamp(var(--space-6), 4vw, var(--space-10));
-  }
+@media (min-width: 60rem) {
+  .game-shell { padding: clamp(var(--space-6), 3vw, var(--space-10)); }
+  .game-shell:not(.game-shell--play):not(.menu-shell) .game-frame { width: min(100%, 72rem); }
 
-  .game-shell:not(.game-shell--play) .game-frame {
-    width: min(100%, 68rem);
-    min-height: min(calc(100dvh - clamp(var(--space-10), 8vw, 10rem)), 48rem);
-  }
-
-  .main-menu {
-    display: grid;
-    grid-template-columns: minmax(17rem, .88fr) minmax(22rem, 1.12fr);
-    align-items: center;
-    column-gap: clamp(var(--space-8), 6vw, 5rem);
-  }
-
-  .main-menu .menu-intro { align-self: center; }
-  .main-menu .menu-index { margin-top: 0; }
-  .main-menu .menu-note { grid-column: 1 / -1; margin-top: var(--space-5); }
-
-  .role-select .opening-card { justify-content: flex-start; }
-  .role-select .role-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
-  .role-card { min-height: 15rem; align-items: flex-start; justify-content: flex-start; }
-
+  .menu-shell,
   .game-shell--play {
     position: relative;
-    background:
-      radial-gradient(circle at 50% 8%, color-mix(in oklch, var(--color-canvas), white 16%), transparent 40%),
-      linear-gradient(145deg, var(--color-canvas), color-mix(in oklch, var(--color-canvas), var(--color-accent) 14%));
+    padding: 0;
+    background: var(--color-vn-sky-bottom);
   }
 
+  .menu-shell .main-menu,
   .game-shell--play .story-frame {
     position: relative;
     isolation: isolate;
-    width: min(100%, 94rem);
-    height: min(calc(100dvh - clamp(var(--space-10), 8vw, 10rem)), 54rem);
-    min-height: 40rem;
+    width: 100%;
+    height: 100dvh;
+    min-height: 38rem;
     max-height: none;
     padding: 0;
     overflow: hidden;
-    border-color: color-mix(in oklch, var(--color-accent), white 32%);
-    border-radius: calc(var(--radius-lg) + .35rem);
-    background: oklch(24% .025 160);
-    box-shadow: 0 1.6rem 4rem color-mix(in oklch, var(--color-void), transparent 44%);
+    border: 0;
+    border-radius: 0;
+    background: var(--color-vn-sky-bottom);
+    box-shadow: none;
   }
 
+  .menu-stage,
   .vn-stage {
     display: block;
     position: absolute;
     z-index: 0;
     inset: 0;
     overflow: hidden;
-    background:
-      radial-gradient(circle at 64% 19%, oklch(89% .036 95 / .82) 0 3.5rem, transparent 3.7rem),
-      linear-gradient(180deg, oklch(28% .038 185 / .93) 0%, oklch(19% .025 183 / .95) 46%, oklch(13% .022 175) 100%);
+    background: linear-gradient(180deg, var(--color-vn-sky-top), var(--color-vn-sky-bottom));
   }
 
-  .vn-stage::after {
+  .menu-stage::before,
+  .vn-stage::before {
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, oklch(10% .02 170 / .68), transparent 40%, oklch(10% .02 170 / .58));
+    background:
+      linear-gradient(90deg, var(--color-vn-shadow), transparent 43%, var(--color-vn-shadow)),
+      linear-gradient(0deg, var(--color-vn-shadow), transparent 42%);
     content: "";
   }
 
-  .vn-stage-moon { position: absolute; top: 9%; right: 29%; width: 7.5rem; aspect-ratio: 1; border-radius: 50%; background: oklch(93% .03 95 / .42); box-shadow: 0 0 4.5rem oklch(91% .04 95 / .32); }
-  .vn-stage-mountain { position: absolute; bottom: 0; width: 62%; height: 63%; background: oklch(16% .032 176 / .88); clip-path: polygon(0 100%, 12% 61%, 26% 79%, 42% 27%, 56% 71%, 74% 6%, 100% 100%); }
-  .vn-stage-mountain--far { left: -5%; opacity: .56; transform: scale(1.12); filter: blur(2px); }
-  .vn-stage-mountain--near { right: -9%; opacity: .9; }
-  .vn-stage-gate { position: absolute; right: 36%; bottom: 0; width: 15rem; height: 25rem; border: .8rem solid oklch(10% .016 170 / .92); border-bottom: 0; border-radius: 9rem 9rem 0 0 / 6rem 6rem 0 0; box-shadow: inset 0 0 0 .18rem oklch(56% .04 150 / .28), 0 0 4rem oklch(6% .014 170 / .68); }
-
-  .vn-play-layout {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 12rem minmax(0, 1fr) 14rem;
-    gap: var(--space-4);
-    height: 100%;
-    padding: var(--space-5);
+  .menu-stage::after,
+  .vn-stage::after {
+    position: absolute;
+    right: -6%;
+    bottom: -8%;
+    width: 68%;
+    height: 70%;
+    background: var(--color-vn-mountain-near);
+    clip-path: polygon(0 100%, 8% 67%, 22% 83%, 40% 25%, 54% 71%, 72% 9%, 100% 100%);
+    content: "";
   }
 
-  .vn-rail,
+  .vn-stage-moon,
+  .menu-stage-moon {
+    position: absolute;
+    top: 7%;
+    right: 25%;
+    width: clamp(5rem, 8vw, 8.5rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-vn-moon);
+    box-shadow: 0 0 5rem var(--color-vn-moon);
+  }
+
+  .vn-stage-mountain { position: absolute; bottom: 0; width: 65%; height: 62%; background: var(--color-vn-mountain-far); clip-path: polygon(0 100%, 11% 64%, 27% 80%, 44% 29%, 58% 72%, 75% 8%, 100% 100%); }
+  .vn-stage-mountain--far { left: -8%; filter: blur(2px); }
+  .vn-stage-mountain--near { right: -11%; background: var(--color-vn-mountain-near); }
+  .vn-stage-gate,
+  .menu-stage-gate { position: absolute; right: 39%; bottom: -1rem; width: clamp(13rem, 18vw, 20rem); height: clamp(23rem, 52vh, 34rem); border: clamp(.6rem, .8vw, 1rem) solid var(--color-vn-shadow); border-bottom: 0; border-radius: 50% 50% 0 0 / 22% 22% 0 0; box-shadow: inset 0 0 0 .16rem var(--color-vn-rule), 0 0 4rem var(--color-vn-shadow); }
+
+  .menu-character,
+  .vn-character {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+    filter: drop-shadow(0 1.25rem 1.6rem var(--color-vn-shadow));
+  }
+
+  .menu-character {
+    position: absolute;
+    z-index: 2;
+    right: 3vw;
+    bottom: -2.5vh;
+    width: min(48vw, 48rem);
+    height: 97vh;
+  }
+
+  .main-menu .menu-intro,
+  .main-menu .menu-index,
+  .main-menu .menu-note { position: relative; z-index: 3; }
+  .main-menu { display: block; color: var(--color-vn-chrome-ink); }
+  .main-menu .menu-intro { width: min(42rem, 48vw); margin: 12vh 0 0 8vw; }
+  .main-menu .menu-title-row { align-items: flex-start; }
+  .main-menu .menu-title-row .xue-gu-yin-mark { width: 4rem; height: 4rem; color: var(--color-vn-chrome-ink); }
+  .main-menu .menu-intro h1 { color: var(--color-vn-chrome-ink); font-size: clamp(4.6rem, 8vw, 8rem); font-weight: 700; letter-spacing: .08em; text-shadow: 0 .18rem .8rem var(--color-vn-shadow); }
+  .main-menu .menu-intro h1 { overflow-wrap: normal; white-space: nowrap; }
+  .main-menu .menu-intro > p:last-child { max-width: 31rem; color: var(--color-vn-chrome-ink); font-size: var(--text-base); line-height: 1.9; }
+  .main-menu .eyebrow { color: var(--color-vn-chrome-ink); }
+  .main-menu .menu-index { width: min(24rem, 32vw); margin: clamp(1.5rem, 4vh, 3.5rem) 0 0 8vw; overflow: visible; }
+  .main-menu .menu-action { min-height: 3.8rem; padding-inline: var(--space-5); border-color: transparent; border-radius: 0; background: transparent; color: var(--color-vn-chrome-ink); }
+  .main-menu .menu-action strong { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: .12em; }
+  .main-menu .menu-action small { color: var(--color-vn-chrome-ink); opacity: .72; }
+  .main-menu .menu-action-primary { border-inline-start: var(--space-1) solid var(--color-accent); background: var(--color-vn-chrome); }
+  .main-menu .menu-note { position: absolute; right: 2.5rem; bottom: 2rem; color: var(--color-vn-chrome-ink); }
+
+  .role-select {
+    padding: 0;
+    background: var(--color-vn-sky-bottom);
+  }
+  .role-select .opening-card {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    height: 100dvh;
+    min-height: 38rem;
+    max-height: none;
+    justify-content: flex-start;
+    padding: clamp(3rem, 7vh, 6rem) clamp(4rem, 8vw, 9rem);
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background:
+      linear-gradient(90deg, var(--color-vn-shadow), transparent 58%),
+      linear-gradient(180deg, var(--color-vn-sky-top), var(--color-vn-sky-bottom));
+    color: var(--color-vn-chrome-ink);
+    box-shadow: none;
+  }
+  .role-select .opening-card::after {
+    position: absolute;
+    z-index: -1;
+    right: -5%;
+    bottom: -16%;
+    width: 72%;
+    height: 66%;
+    background: var(--color-vn-mountain-near);
+    clip-path: polygon(0 100%, 13% 55%, 29% 81%, 47% 19%, 62% 72%, 78% 8%, 100% 100%);
+    content: "";
+  }
+  .role-select .role-back { align-self: flex-start; margin: 0 0 var(--space-8); border-color: var(--color-vn-rule); background: var(--color-vn-chrome); color: var(--color-vn-chrome-ink); }
+  .role-select .opening-card h1 { color: var(--color-vn-chrome-ink); font-size: clamp(3.5rem, 6vw, 6rem); letter-spacing: .1em; }
+  .role-select .opening-copy { margin-top: var(--space-2); color: var(--color-vn-chrome-ink); font-size: var(--text-lg); }
+  .role-select .role-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); margin-top: clamp(2rem, 7vh, 5rem); }
+  .role-select .role-card {
+    min-height: clamp(14rem, 34vh, 20rem);
+    align-items: flex-start;
+    justify-content: space-between;
+    border-color: var(--color-vn-rule);
+    border-radius: .2rem;
+    background: var(--color-vn-chrome);
+    color: var(--color-vn-chrome-ink);
+    box-shadow: 0 .8rem 2rem var(--color-vn-shadow);
+  }
+  .role-select .role-card-title,
+  .role-select .role-card > span,
+  .role-select .role-card small { color: var(--color-vn-chrome-ink); }
+  .role-select .role-card-title { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: .04em; }
+  .role-select .role-card > span { opacity: .82; }
+  .role-select .role-card small { opacity: .68; }
+  .role-select .role-card small em { color: var(--color-vn-chrome-ink); opacity: .82; }
+
+  .vn-play-layout,
+  .vn-story-core { position: absolute; z-index: 3; inset: 0; display: block; height: 100%; }
+
+  .vn-character-slot {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    right: 4vw;
+    bottom: 0;
+    width: min(43vw, 43rem);
+    height: 94vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-normal) var(--ease-out);
+  }
+  .vn-character-slot.is-visible { opacity: 1; }
+
+  .vn-rail {
+    display: flex;
+    position: absolute;
+    top: 1.75rem;
+    left: 2.5rem;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-vn-rule);
+    background: var(--color-vn-chrome);
+    color: var(--color-vn-chrome-ink);
+  }
+  .vn-rail-brand { display: flex; align-items: center; gap: var(--space-3); }
+  .vn-rail-brand .xue-gu-yin-mark { width: 2.2rem; height: 2.2rem; }
+  .vn-rail-brand strong,
+  .vn-rail-brand span { display: block; }
+  .vn-rail-brand strong { font-family: var(--font-display); letter-spacing: .12em; }
+  .vn-rail-brand span,
+  .vn-rail-role { margin: 0; color: var(--color-vn-chrome-ink); font-size: var(--text-xs); }
+  .vn-rail-role strong { margin-inline-start: var(--space-2); }
+
   .vn-ledger {
     display: flex;
-    flex-direction: column;
-    min-width: 0;
-    padding: var(--space-5);
-    border: 1px solid color-mix(in oklch, var(--color-accent), white 38%);
-    border-radius: var(--radius-md);
-    background: color-mix(in oklch, var(--color-paper), transparent 8%);
-    box-shadow: var(--shadow-card);
+    position: absolute;
+    top: 6.6rem;
+    left: 2.5rem;
+    align-items: baseline;
+    gap: var(--space-2);
+    color: var(--color-vn-chrome-ink);
   }
-
-  .vn-rail-brand { display: flex; gap: var(--space-3); align-items: center; }
-  .vn-rail-brand .xue-gu-yin-mark { flex: 0 0 auto; width: 2.4rem; height: 2.4rem; }
-  .vn-rail-brand strong { display: block; font-family: var(--font-display); letter-spacing: .08em; }
-  .vn-rail-brand span,
-  .vn-rail-copy p,
-  .vn-ledger p,
-  .vn-ledger small { color: var(--color-muted); font-size: var(--text-xs); }
-  .vn-rail-copy { display: grid; gap: var(--space-1); margin-top: var(--space-8); }
-  .vn-rail-copy p { margin: var(--space-3) 0 0; }
-  .vn-rail-copy strong { font-size: var(--text-sm); line-height: 1.5; }
-  .vn-rail-note { margin: auto 0 0; color: var(--color-muted); font-size: var(--text-xs); line-height: 1.8; }
-
-  .vn-story-core {
-    display: flex;
-    flex: initial;
-    flex-direction: column;
-    min-width: 0;
-    min-height: 0;
-    padding: var(--space-4);
-  }
+  .vn-ledger span { font-size: var(--text-xs); opacity: .72; }
+  .vn-ledger strong { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: .08em; }
 
   .vn-story-core .status-bar {
-    flex: 0 0 auto;
-    padding: var(--space-4) var(--space-5);
-    border: 1px solid color-mix(in oklch, var(--color-accent), white 45%);
-    border-radius: var(--radius-md);
-    background: color-mix(in oklch, var(--color-paper), transparent 4%);
-    box-shadow: var(--shadow-card);
+    position: absolute;
+    z-index: 6;
+    top: 1.75rem;
+    right: 2.5rem;
+    width: min(23rem, 33vw);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-vn-rule);
+    background: var(--color-vn-chrome);
+    color: var(--color-vn-chrome-ink);
   }
+  .vn-story-core .status-bar span { color: var(--color-vn-chrome-ink); opacity: .72; }
+  .vn-story-core .status-bar strong { color: var(--color-vn-chrome-ink); }
+  .vn-story-core .game-menu-trigger { min-width: 4rem; min-height: 2.45rem; border-color: var(--color-vn-rule); background: transparent; color: var(--color-vn-chrome-ink); }
 
   .vn-story-core .scene {
-    display: flex;
-    flex: 0 1 18rem;
-    flex-direction: column;
-    min-height: 11rem;
-    margin-top: auto;
-    padding: var(--space-5) var(--space-6) var(--space-4);
-    border: 1px solid color-mix(in oklch, var(--color-accent), white 42%);
-    border-radius: var(--radius-md);
-    background: color-mix(in oklch, var(--color-paper), transparent 2%);
-    box-shadow: var(--shadow-card);
+    position: absolute;
+    z-index: 5;
+    right: 5vw;
+    bottom: 2rem;
+    left: 5vw;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    height: clamp(14rem, 30vh, 19rem);
+    min-height: 0;
+    padding: 2rem clamp(2rem, 4vw, 4rem) var(--space-5);
+    border: 1px solid var(--color-vn-rule);
+    border-radius: var(--space-1);
+    background: var(--color-vn-dialog);
+    color: var(--color-vn-dialog-ink);
+    box-shadow: 0 1rem 3rem var(--color-vn-shadow);
   }
+  .vn-story-core .scene .vn-speaker {
+    position: absolute;
+    top: -1.5rem;
+    left: 2rem;
+    min-width: 8rem;
+    margin: 0;
+    padding: var(--space-2) var(--space-6);
+    border: 1px solid var(--color-vn-rule);
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-align: center;
+  }
+  .vn-story-core .scene .eyebrow { display: none; }
+  .vn-story-core .scene h1 { grid-column: 1; color: var(--color-vn-dialog-ink); font-size: var(--text-lg); letter-spacing: .04em; }
+  .vn-story-core .scene-copy {
+    grid-column: 1 / -1;
+    align-content: start;
+    max-width: 72ch;
+    min-height: 0;
+    margin-top: var(--space-3);
+    padding: 0;
+    overflow: hidden;
+  }
+  .vn-story-core .scene-copy p { color: var(--color-vn-dialog-muted); font-size: clamp(.96rem, 1.1vw, 1.08rem); line-height: 1.9; text-align: start; }
+  .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy { padding-inline-end: 11rem; }
+  .vn-story-core .scene .narrative-progress { position: absolute; right: 1.3rem; bottom: .8rem; margin: 0; color: var(--color-vn-dialog-muted); }
 
-  .vn-story-core .scene-copy { max-width: 70ch; }
-  .vn-story-core .choice-panel { flex: 0 0 auto; margin-top: var(--space-3); padding: var(--space-3); border: 1px solid color-mix(in oklch, var(--color-accent), white 42%); border-radius: var(--radius-md); background: color-mix(in oklch, var(--color-paper), transparent 2%); box-shadow: var(--shadow-card); }
-  .vn-story-core .choice-panel .choice-button { background: var(--color-paper); }
+  .vn-story-core .choice-panel {
+    position: absolute;
+    z-index: 7;
+    right: 6vw;
+    bottom: calc(clamp(14rem, 30vh, 19rem) + 3rem);
+    width: min(48rem, 64vw);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .vn-story-core .choice-panel:not(:has(.choice-button)) { right: 6vw; bottom: 3rem; width: 9rem; }
+  .vn-story-core .choice-button,
+  .vn-story-core .choice-panel .primary-button {
+    min-height: 3rem;
+    border: 1px solid var(--color-vn-rule);
+    border-radius: var(--space-1);
+    background: var(--color-vn-choice);
+    color: var(--color-vn-choice-ink);
+    box-shadow: 0 .45rem 1.2rem var(--color-vn-shadow);
+  }
+  .vn-story-core .choice-button { padding: .7rem 1.1rem; }
+  .vn-story-core .choice-button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .vn-ledger { justify-content: flex-start; }
-  .vn-ledger p { margin: 0 0 var(--space-2); }
-  .vn-ledger strong { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.3; }
-  .vn-ledger span { margin-top: var(--space-4); color: var(--color-muted); font-size: var(--text-sm); line-height: 1.8; }
-  .vn-ledger i { display: block; width: 2.5rem; height: 1px; margin-top: var(--space-6); background: var(--color-accent); }
-  .vn-ledger small { margin-top: auto; line-height: 1.6; }
-
-  .story-frame.is-battling .vn-story-core { padding: 0; }
-  .story-frame.is-battling .vn-story-core .battle-panel { height: 100%; min-height: 0; }
-
-  .game-menu-dialog { width: min(42rem, calc(100vw - var(--space-8))); }
+  .story-frame.is-battling .vn-story-core .battle-panel {
+    position: absolute;
+    inset: 6rem clamp(7rem, 12vw, 14rem) 2.5rem;
+    height: auto;
+    min-height: 0;
+    border-color: var(--color-vn-rule);
+    background: var(--color-vn-dialog);
+    color: var(--color-vn-dialog-ink);
+    box-shadow: 0 1rem 3rem var(--color-vn-shadow);
+  }
+  .story-frame.is-battling .battle-player-bar { color: var(--color-vn-dialog-ink); }
+  .story-frame.is-battling .intent-copy { overflow: hidden; }
+  .game-menu-dialog { width: min(44rem, calc(100% - var(--space-8))); }
 }
 
-@media (min-width: 64rem) and (max-height: 48rem) {
-  .game-shell--play .story-frame { min-height: 0; }
-  .vn-play-layout { padding: var(--space-3); }
-  .vn-rail, .vn-ledger { padding: var(--space-4); }
-  .vn-rail-copy { margin-top: var(--space-4); }
-  .vn-story-core .scene { flex-basis: 13rem; }
+@media (min-width: 60rem) and (max-height: 44rem) {
+  .main-menu .menu-intro { margin-top: 6vh; }
+  .main-menu .menu-intro h1 { font-size: clamp(3.8rem, 7vw, 6rem); }
+  .main-menu .menu-index { margin-top: var(--space-4); }
+  .main-menu .menu-action { min-height: 3.2rem; }
+  .vn-story-core .scene { bottom: 1.25rem; height: 13.5rem; padding-top: 1.55rem; }
+  .vn-story-core .scene-copy p { font-size: .9rem; line-height: 1.72; }
+  .vn-story-core .choice-panel { bottom: 15.25rem; }
+  .vn-story-core .choice-panel:not(:has(.choice-button)) { bottom: 2.2rem; }
+  .story-frame.is-battling .vn-story-core .battle-panel { inset-block: 4.8rem 1rem; }
 }
 
 /* Single-screen rule: every in-game surface must remain operable without page scrolling. */
@@ -1748,3 +1922,35 @@ html[data-reduce-motion="true"] *::after {
   .ending-card .epitaph { margin-top: var(--space-3); font-size: var(--text-sm); }
   .ending-card .ending-text { margin-top: var(--space-3); font-size: var(--text-sm); line-height: 1.6; }
 }
+
+/* Narrative pages are pre-paginated for the viewport; the dialogue surface itself never scrolls. */
+.game-shell--play .scene-copy {
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+.game-shell--play .scene-copy::-webkit-scrollbar { display: none; }
+
+@keyframes vn-text-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.vn-text-reveal { animation: vn-text-reveal 280ms var(--ease-out) both; }
+
+@media (hover: hover) and (pointer: fine) {
+  .main-menu .menu-action:hover,
+  .vn-story-core .choice-button:hover,
+  .vn-story-core .choice-panel .primary-button:hover {
+    background: var(--color-vn-choice-hover);
+    color: var(--color-vn-choice-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vn-text-reveal { animation: none; }
+  .vn-character-slot { transition: none; }
+}
+
+html[data-reduce-motion="true"] .vn-text-reveal { animation: none; }
+html[data-reduce-motion="true"] .vn-character-slot { transition: none; }

@@ -4,7 +4,7 @@ import { endings, roles } from "./story/data.ts";
 import type { AllyId, Battle, Choice, EnemyAction, GameState, RoleId, Scene } from "./model.ts";
 
 export { endingAccess, endings, roles, scenes, storyMeta, storyPresentation } from "./story/data.ts";
-export { resolveSceneEvents, resolveScenePresentation, type ScenePresentation } from "./engine/narrative.ts";
+export { resolveSceneEvents, resolveScenePresentation, type PresentedCharacter, type ScenePresentation } from "./engine/narrative.ts";
 export type { GuAction } from "./combat.ts";
 export type { AllyId, Battle, BattleConfig, CharacterId, CharacterPosition, Choice, Effect, Ending, EnemyAction, GameState, Role, RoleId, RouteId, Scene, VisualNovelEvent } from "./model.ts";
 

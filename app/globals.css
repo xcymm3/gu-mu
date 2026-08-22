@@ -1,5 +1,5 @@
-/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
-/* Hallmark · genre: atmospheric visual novel · macrostructure: Photographic · theme: Midnight · enrichment: generated character sprite · nav: N4 · footer: Ft2 · contrast/slop/mobile: pass */
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
+/* Hallmark · genre: atmospheric visual novel · macrostructure: Marquee Hero · theme: Midnight · enrichment: event-driven CSS stage · nav: N9 · footer: Ft5 · contrast/slop/mobile: pass */
 @import "tailwindcss";
 @import "../tokens.css";
 
@@ -1954,3 +1954,214 @@ html[data-reduce-motion="true"] *::after {
 
 html[data-reduce-motion="true"] .vn-text-reveal { animation: none; }
 html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
+
+/* Step 3 · The narrative event stream now drives the full-bleed stage and cast. */
+.vn-character-layer { display: none; }
+
+@keyframes vn-scene-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (min-width: 60rem) {
+  .vn-stage {
+    animation: vn-scene-reveal var(--dur-scene) var(--ease-out) both;
+  }
+
+  .vn-stage-image {
+    object-fit: cover;
+  }
+
+  .vn-placeholder-tomb-corridor {
+    background:
+      linear-gradient(90deg, var(--color-vn-stone), transparent 23%, transparent 77%, var(--color-vn-stone)),
+      linear-gradient(180deg, var(--color-vn-sky-top), var(--color-vn-corridor));
+  }
+
+  .vn-placeholder-tomb-corridor .vn-stage-moon,
+  .vn-placeholder-tomb-corridor .vn-stage-mountain,
+  .vn-placeholder-tomb-corridor::after {
+    display: none;
+  }
+
+  .vn-placeholder-tomb-corridor .vn-stage-gate {
+    right: 50%;
+    bottom: -8%;
+    width: min(42vw, 42rem);
+    height: 92%;
+    border-color: var(--color-vn-stone);
+    box-shadow: inset 0 0 4rem var(--color-vn-corridor), 0 0 8rem var(--color-vn-shadow);
+    transform: translateX(50%);
+  }
+
+  .vn-placeholder-fog-passage {
+    background:
+      linear-gradient(0deg, var(--color-vn-fog), transparent 62%),
+      linear-gradient(180deg, var(--color-vn-sky-top), var(--color-vn-sky-bottom));
+  }
+
+  .vn-placeholder-fog-passage::before {
+    background:
+      linear-gradient(90deg, var(--color-vn-shadow), transparent 32%, var(--color-vn-fog), transparent 68%, var(--color-vn-shadow)),
+      linear-gradient(0deg, var(--color-vn-fog), transparent 70%);
+  }
+
+  .vn-placeholder-fog-passage .vn-stage-gate {
+    opacity: 0.24;
+  }
+
+  .vn-placeholder-blood-chamber {
+    background:
+      radial-gradient(circle at 50% 66%, var(--color-vn-blood-glow), transparent 30%),
+      linear-gradient(180deg, var(--color-vn-blood-deep), var(--color-vn-corridor));
+  }
+
+  .vn-placeholder-blood-chamber .vn-stage-moon,
+  .vn-placeholder-blood-chamber .vn-stage-mountain,
+  .vn-placeholder-blood-chamber .vn-stage-gate {
+    display: none;
+  }
+
+  .vn-placeholder-blood-chamber::after {
+    display: block;
+    right: 14%;
+    bottom: -22%;
+    width: 72%;
+    height: 54%;
+    border: 1px solid var(--color-vn-blood-glow);
+    border-radius: 50%;
+    background: var(--color-vn-blood-deep);
+    box-shadow: inset 0 0 5rem var(--color-vn-blood-glow), 0 0 5rem var(--color-vn-blood-glow);
+    clip-path: none;
+  }
+
+  .vn-character-layer {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .vn-character-slot {
+    right: auto;
+    bottom: -2vh;
+    width: min(34vw, 36rem);
+    height: 91vh;
+    opacity: 0.68;
+    transition: opacity var(--dur-normal) var(--ease-out);
+  }
+
+  .vn-character-slot.is-left { left: 2vw; }
+  .vn-character-slot.is-center { left: 50%; transform: translateX(-50%); }
+  .vn-character-slot.is-right { right: 2vw; }
+  .vn-character-slot.is-speaking { z-index: 3; opacity: 1; }
+
+  .vn-character-placeholder {
+    position: absolute;
+    inset: 7% 9% 0;
+    filter: drop-shadow(0 1.25rem 1.6rem var(--color-vn-shadow));
+  }
+
+  .vn-character-placeholder::before {
+    position: absolute;
+    z-index: 2;
+    top: 2%;
+    left: 50%;
+    width: 26%;
+    aspect-ratio: 0.82;
+    border: 1px solid var(--color-vn-silhouette-edge);
+    border-radius: 48% 48% 42% 42%;
+    background: var(--color-vn-silhouette);
+    box-shadow: 0 0 2rem var(--color-vn-silhouette-edge);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .vn-character-placeholder::after {
+    position: absolute;
+    right: 4%;
+    bottom: 0;
+    left: 4%;
+    height: 83%;
+    border: 1px solid var(--color-vn-silhouette-edge);
+    border-radius: 42% 42% 6% 6% / 18% 18% 4% 4%;
+    background: var(--color-vn-silhouette);
+    box-shadow: inset 0 0 3rem var(--color-vn-shadow), 0 1rem 2rem var(--color-vn-shadow);
+    content: "";
+    clip-path: polygon(28% 0, 72% 0, 100% 31%, 86% 100%, 14% 100%, 0 31%);
+  }
+
+  .vn-character-placeholder span {
+    position: absolute;
+    z-index: 4;
+    right: 10%;
+    bottom: 46%;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-vn-silhouette-edge);
+    background: var(--color-vn-chrome);
+    color: var(--color-vn-seal);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    letter-spacing: 0.16em;
+    writing-mode: vertical-rl;
+  }
+
+  .vn-placeholder-xue-feng::after { right: 0; left: 0; }
+  .vn-placeholder-su-ying { inset-inline: 16%; }
+  .vn-placeholder-qiao-wujiu::before,
+  .vn-placeholder-su-yan::before { box-shadow: 0 0 3rem var(--color-vn-blood-glow); }
+
+  .vn-rail {
+    top: var(--space-6);
+    left: var(--space-8);
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .vn-rail-role { display: none; }
+
+  .vn-ledger {
+    top: 5.4rem;
+    left: var(--space-8);
+  }
+
+  .vn-story-core .status-bar {
+    top: var(--space-6);
+    right: var(--space-8);
+    width: min(22rem, 30vw);
+    border-color: transparent;
+    background: var(--color-vn-chrome);
+  }
+
+  .vn-story-core .scene {
+    right: 4vw;
+    bottom: var(--space-6);
+    left: 4vw;
+    height: clamp(15rem, 29vh, 18.5rem);
+    padding-inline: clamp(2rem, 4.5vw, 5rem);
+  }
+
+  .vn-story-core .scene-copy {
+    max-width: 72ch;
+  }
+
+  .vn-story-core .choice-panel {
+    right: 5vw;
+    bottom: calc(clamp(15rem, 29vh, 18.5rem) + 2.4rem);
+    width: min(50rem, 66vw);
+  }
+
+  .vn-story-core .choice-panel:not(:has(.choice-button)) {
+    right: 5vw;
+    bottom: 2.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vn-stage { animation: none; }
+}
+
+html[data-reduce-motion="true"] .vn-stage { animation: none; }

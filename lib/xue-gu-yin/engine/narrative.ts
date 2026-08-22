@@ -1,4 +1,4 @@
-import { actBackgrounds, type BackgroundAssetKey } from "../assets.ts";
+import { actBackgrounds, type BackgroundAssetKey, type CharacterAssetKey } from "../assets.ts";
 import type {
   BattleConfig,
   CharacterId,
@@ -33,7 +33,15 @@ export type ScenePresentation = {
   choices: Choice[];
   battle: BattleConfig | null;
   background: BackgroundAssetKey;
+  characters: PresentedCharacter[];
   visibleCharacters: CharacterId[];
+};
+
+export type PresentedCharacter = {
+  id: CharacterId;
+  asset: CharacterAssetKey;
+  position: CharacterPosition;
+  expression: string;
 };
 
 type ChoiceEvent = Extract<VisualNovelEvent, { type: "choice" }>;
@@ -50,6 +58,27 @@ function isBattleEvent(event: VisualNovelEvent): event is BattleEvent {
 
 function isBackgroundEvent(event: VisualNovelEvent): event is BackgroundEvent {
   return event.type === "background";
+}
+
+function resolveCharacters(events: VisualNovelEvent[]): PresentedCharacter[] {
+  const visible = new Map<CharacterId, PresentedCharacter>();
+
+  for (const event of events) {
+    if (event.type !== "character") continue;
+    if (event.action === "hide") {
+      visible.delete(event.character);
+      continue;
+    }
+    const previous = visible.get(event.character);
+    visible.set(event.character, {
+      id: event.character,
+      asset: event.asset ?? previous?.asset ?? characterAssets[event.character],
+      position: event.position ?? previous?.position ?? "center",
+      expression: event.expression ?? previous?.expression ?? "neutral",
+    });
+  }
+
+  return [...visible.values()];
 }
 
 function resolveLegacyText(state: GameState, scene: Scene): string {
@@ -125,9 +154,7 @@ export function resolveScenePresentation(state: GameState, scene: Scene): SceneP
   const choiceEvent = [...events].reverse().find(isChoiceEvent);
   const battleEvent = [...events].reverse().find(isBattleEvent);
   const backgroundEvent = events.find(isBackgroundEvent);
-  const visibleCharacters = events
-    .filter((event): event is Extract<VisualNovelEvent, { type: "character" }> => event.type === "character" && event.action !== "hide")
-    .map((event) => event.character);
+  const characters = resolveCharacters(events);
 
   return {
     events,
@@ -135,6 +162,7 @@ export function resolveScenePresentation(state: GameState, scene: Scene): SceneP
     choices: choiceEvent?.choices ?? [],
     battle: battleEvent?.config ?? null,
     background: backgroundEvent?.asset ?? actBackgrounds[scene.act],
-    visibleCharacters,
+    characters,
+    visibleCharacters: characters.map((character) => character.id),
   };
 }

@@ -1,6 +1,6 @@
-/* Hallmark · macrostructure: Photographic · tone: moonlit xianxia visual novel · anchor hue: jade-teal
+/* Hallmark · macrostructure: Marquee Hero · tone: moonlit xianxia visual novel · anchor hue: jade-teal
  * theme: Midnight · canvas oklch(16% 0.026 176) · accent oklch(67% 0.10 158)
- * display: Chinese serif system stack · body: Geist Sans with Chinese sans fallbacks · generated: imagegen character sprite
+ * display: Chinese serif system stack · body: Geist Sans with Chinese sans fallbacks · enrichment: event-driven CSS stage
  */
 
 :root {
@@ -43,6 +43,14 @@
   --color-vn-choice: oklch(14% 0.028 174 / 0.9);
   --color-vn-choice-hover: oklch(21% 0.052 165 / 0.96);
   --color-vn-choice-ink: oklch(96% 0.014 150);
+  --color-vn-fog: oklch(74% 0.026 164 / 0.5);
+  --color-vn-corridor: oklch(8% 0.018 168);
+  --color-vn-stone: oklch(22% 0.025 164);
+  --color-vn-blood-deep: oklch(12% 0.046 24);
+  --color-vn-blood-glow: oklch(43% 0.15 24 / 0.72);
+  --color-vn-silhouette: oklch(12% 0.025 170 / 0.96);
+  --color-vn-silhouette-edge: oklch(66% 0.07 160 / 0.68);
+  --color-vn-seal: oklch(84% 0.036 96);
 
   --font-display: "STKaiti", "KaiTi", "Noto Serif SC", "Songti SC", serif;
   --font-body: var(--font-geist-sans), "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -84,6 +92,7 @@
   --dur-fast: 150ms;
   --dur-normal: 240ms;
   --dur-short: 220ms;
+  --dur-scene: 420ms;
 }
 
 html[data-theme="dark"] {

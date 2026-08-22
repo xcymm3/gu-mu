@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
+import { getVisualAsset, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
 import {
   applyChoice,
   canChoose,
@@ -27,6 +28,7 @@ import {
   type Choice,
   type GameState,
   type GuAction,
+  type PresentedCharacter,
   type RoleId,
 } from "@/lib/xue-gu-yin/game";
 
@@ -174,19 +176,50 @@ function VisualNovelLedger({ title }: { title: string }) {
   </aside>;
 }
 
-function VisualNovelPortrait({ visible }: { visible: boolean }) {
-  return <div className={`vn-character-slot${visible ? " is-visible" : ""}`} aria-hidden="true">
-    <Image
-      alt=""
-      className="vn-character"
-      height={1536}
-      priority
-      sizes="(min-width: 960px) 42vw, 0px"
-      src="/characters/ji-qinghan-placeholder.webp"
-      unoptimized
-      width={1024}
-    />
+const characterLabels: Record<PresentedCharacter["id"], string> = {
+  "zhao-li": "赵黎",
+  "ji-qinghan": "纪清寒",
+  "xue-feng": "薛逢",
+  "su-ying": "苏莹",
+  "qiao-wujiu": "乔无咎",
+  "su-yan": "苏衍",
+};
+
+function VisualNovelCharacters({ activeSpeaker, characters }: { activeSpeaker: string; characters: PresentedCharacter[] }) {
+  return <div className="vn-character-layer" aria-hidden="true">
+    {characters.map((character) => {
+      const asset = getVisualAsset(character.asset);
+      const isActive = activeSpeaker === characterLabels[character.id];
+      return <div
+        className={`vn-character-slot is-visible is-${character.position}${isActive ? " is-speaking" : ""}`}
+        data-character={character.id}
+        data-expression={character.expression}
+        key={character.id}
+      >
+        {asset.kind === "image" ? <Image
+          alt=""
+          className="vn-character"
+          height={1536}
+          priority
+          sizes="(min-width: 960px) 36vw, 0px"
+          src={asset.src}
+          unoptimized
+          width={1024}
+        /> : <div className={`vn-character-placeholder ${asset.className}`}><span>{characterLabels[character.id]}</span></div>}
+      </div>;
+    })}
   </div>;
+}
+
+function VisualNovelStage({ activeSpeaker, background, characters }: { activeSpeaker: string; background: BackgroundAssetKey; characters: PresentedCharacter[] }) {
+  const asset = getVisualAsset(background);
+  return <>
+    <div className={`vn-stage${asset.kind === "css" ? ` ${asset.className}` : ""}`} key={background} role="img" aria-label={asset.alt}>
+      {asset.kind === "image" ? <Image alt="" className="vn-stage-image" fill priority sizes="100vw" src={asset.src} unoptimized /> : null}
+      <span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" />
+    </div>
+    <VisualNovelCharacters activeSpeaker={activeSpeaker} characters={characters} />
+  </>;
 }
 
 function describeBattleTurn(before: GameState, after: GameState, action: GuAction): BattleFeedback {
@@ -465,13 +498,12 @@ export function XueGuYinGame() {
   const narrativeParts: string[] = [fittedPages[pageIndex]];
   const visibleChoices = presentation.choices.filter((choice) => canChoose(game, choice));
   const presentedText = battleResult?.text ?? pendingChoice?.result ?? narrativeParts[0] ?? sourceText;
-  const speaker = inferSpeaker(presentedText);
-  const showJiPortrait = presentation.visibleCharacters.includes("ji-qinghan") && !battle;
+  const dialogueEvent = presentation.events.find((event) => event.type === "dialogue");
+  const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : dialogueEvent?.type === "dialogue" ? dialogueEvent.displayName : inferSpeaker(presentedText);
   return (
     <main className="game-shell game-shell--play">
       <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
-        <div className="vn-stage" aria-hidden="true"><span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" /></div>
-        <VisualNovelPortrait visible={showJiPortrait} />
+        <VisualNovelStage activeSpeaker={speaker} background={presentation.background} characters={battle ? [] : presentation.characters} />
         <div className="vn-play-layout">
         <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
         <div className="vn-story-core">

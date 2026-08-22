@@ -28,7 +28,7 @@
 | `lib/xue-gu-yin/assets.ts` | 背景、立绘、音频等资源键与路径／占位描述 | 剧情条件、状态修改。 |
 | `lib/xue-gu-yin/combat.ts` | 单回合战斗纯函数 | 战斗界面和剧情跳转。 |
 | `lib/xue-gu-yin/game.ts` | 状态转换、条件、战斗接线与旧导入兼容门面 | 长篇剧情正文、React JSX、CSS。 |
-| `features/xue-gu-yin/XueGuYinGame.tsx` | 页面布局、分页、按钮、存档 UI、战斗展示；只消费结构化呈现数据 | 任何具体角色名、路线判断、剧情段落、结局判定。 |
+| `features/xue-gu-yin/XueGuYinGame.tsx` | 视觉小说舞台、分页、按钮、存档 UI、战斗展示；只消费结构化呈现数据 | 任何具体路线判断、剧情段落、结局判定。 |
 | `docs/story-flow.md` | 面向人类的路线概览与条件说明 | 与代码不一致的历史设定。 |
 | `tests/game.test.ts` | 节点合同、关键选项条件、分支与结局的自动校验 | 长篇剧情正文。 |
 
@@ -63,6 +63,8 @@ events: [
 - `events` 存在时，叙事运行时以它为准；不要同时维护两份含义不同的 `text`。
 - 迁移前后使用 `resolveScenePresentation` 比较正文、选择和战斗配置，确保玩家流程不变。
 - React 只消费 `ScenePresentation` 或事件列表，不直接读取 `scene.text/choices/battle`。
+- `ScenePresentation.background` 驱动背景层，`characters` 驱动多角色立绘层；不得在组件里写死某个节点只显示纪清寒。
+- 正式美术替换占位资源时，只修改 `assets.ts` 对应资源键的描述，剧情事件与 React 组件不需要改路径。
 
 ## 如何增加剧情内容而不增加节点
 

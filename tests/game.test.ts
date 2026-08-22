@@ -60,6 +60,7 @@ test("原生视觉小说事件可以与旧场景并存", () => {
     chapter: "测试",
     title: "原生事件",
     events: [
+      { type: "character", action: "show", character: "ji-qinghan", asset: "character.ji-qinghan.placeholder", position: "right", expression: "alert" },
       { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "别动。", expression: "alert", position: "center" },
       { type: "choice", choices: [{ id: "wait", label: "停下", next: "gate" }] },
     ],
@@ -68,6 +69,32 @@ test("原生视觉小说事件可以与旧场景并存", () => {
   assert.equal(presentation.background, "background.tomb-corridor");
   assert.equal(presentation.text, "纪清寒：别动。");
   assert.deepEqual(presentation.choices.map((choice) => choice.id), ["wait"]);
+  assert.deepEqual(presentation.characters, [{ id: "ji-qinghan", asset: "character.ji-qinghan.placeholder", position: "right", expression: "alert" }]);
+});
+
+test("角色显隐事件会按顺序生成舞台最终阵容", () => {
+  const eventScene: Scene = {
+    id: "cast-test",
+    act: 3,
+    node: 1,
+    chapter: "测试",
+    title: "阵容事件",
+    events: [
+      { type: "character", action: "show", character: "zhao-li", position: "left", expression: "neutral" },
+      { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+      { type: "character", action: "expression", character: "su-ying", expression: "relieved" },
+      { type: "character", action: "hide", character: "zhao-li" },
+      { type: "narration", text: "雾里只剩一道人影。" },
+    ],
+  };
+  const presentation = resolveScenePresentation(chooseRole(), eventScene);
+  assert.deepEqual(presentation.visibleCharacters, ["su-ying"]);
+  assert.deepEqual(presentation.characters[0], {
+    id: "su-ying",
+    asset: "character.su-ying.placeholder",
+    position: "right",
+    expression: "relieved",
+  });
 });
 
 test("资源键全部从统一清单解析，纪清寒占位立绘指向现有资源", () => {

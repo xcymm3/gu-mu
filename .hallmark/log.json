@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-08-22",
+    "macrostructure": "Marquee Hero",
+    "theme": "Midnight",
+    "enrichment": "event-driven CSS stage and character silhouettes",
+    "brief": "Connect structured narrative events to layered backgrounds, multiple character sprites, dialogue, and floating choices."
+  },
+  {
+    "date": "2026-08-22",
     "macrostructure": "Photographic",
     "theme": "Midnight",
     "enrichment": "generated transparent xianxia character sprite",

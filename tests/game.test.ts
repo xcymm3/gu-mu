@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { applyChoice, canChoose, chooseRole, endingAccess, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, scenes, startBattle, storyMeta } from "../lib/xue-gu-yin/game.ts";
+import { getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
+import { applyChoice, canChoose, chooseRole, endingAccess, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 
 test("三种无姓名男性身份沿用原有属性", () => {
   const medic = chooseRole("healer");
@@ -31,6 +32,49 @@ test("五幕节点合同固定为一、六、四、三与可变结局", () => {
   assert.deepEqual(counts[1], [1, 2, 3, 4, 5, 6]);
   assert.deepEqual(counts[2], [1, 2, 3, 4]);
   assert.deepEqual(counts[3], [1, 2, 3]);
+});
+
+test("旧版固定场景会被适配成背景、正文与选择事件", () => {
+  const presentation = resolveScenePresentation(chooseRole(), scenes.gate);
+  assert.equal(presentation.background, "background.tomb-gate");
+  assert.ok(presentation.text.includes("乔无咎"));
+  assert.equal(presentation.choices.length, scenes.gate.choices?.length);
+  assert.ok(presentation.events.some((event) => event.type === "narration"));
+  assert.ok(presentation.events.some((event) => event.type === "choice"));
+});
+
+test("战斗节点会生成结构化 battle 事件而不改变战斗配置", () => {
+  const events = resolveSceneEvents(chooseRole(), scenes.puppets);
+  const battleEvent = events.find((event) => event.type === "battle");
+  assert.ok(battleEvent && battleEvent.type === "battle");
+  if (!battleEvent || battleEvent.type !== "battle") throw new Error("战斗事件未生成");
+  assert.equal(battleEvent.config.enemyName, "铜皮傀儡");
+  assert.equal(battleEvent.config.enemyHealth, 12);
+});
+
+test("原生视觉小说事件可以与旧场景并存", () => {
+  const nativeScene: Scene = {
+    id: "native-test",
+    act: 2,
+    node: 1,
+    chapter: "测试",
+    title: "原生事件",
+    events: [
+      { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "别动。", expression: "alert", position: "center" },
+      { type: "choice", choices: [{ id: "wait", label: "停下", next: "gate" }] },
+    ],
+  };
+  const presentation = resolveScenePresentation(chooseRole(), nativeScene);
+  assert.equal(presentation.background, "background.tomb-corridor");
+  assert.equal(presentation.text, "纪清寒：别动。");
+  assert.deepEqual(presentation.choices.map((choice) => choice.id), ["wait"]);
+});
+
+test("资源键全部从统一清单解析，纪清寒占位立绘指向现有资源", () => {
+  assert.ok(Object.keys(visualAssetManifest).length >= 10);
+  const portrait = getVisualAsset("character.ji-qinghan.placeholder");
+  assert.equal(portrait.kind, "image");
+  if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-placeholder.webp");
 });
 
 test("大雾节点的四个选择分别锁定四条同行路线", () => {

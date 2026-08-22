@@ -1,6 +1,6 @@
 # AI Agent 剧本维护手册
 
-本项目采用**固定节点合同**。修改剧情时，优先修改 `lib/xue-gu-yin/game.ts` 的数据；不要把人物名、分支判断、场景正文或结局规则重新写进 React 组件。
+本项目采用**固定节点合同**与渐进式视觉小说事件模型。修改剧情时，优先修改 `lib/xue-gu-yin/story/data.ts`；不要把人物名、分支判断、场景正文或结局规则重新写进 React 组件。旧 `text/choices/battle` 场景会由叙事运行时自动转换成事件，允许逐节点迁移，不需要一次重写全部剧本。
 
 ## 不可破坏的结构合同
 
@@ -22,34 +22,58 @@
 
 | 文件 | 可以修改什么 | 不应放什么 |
 | --- | --- | --- |
-| `lib/xue-gu-yin/game.ts` | 角色、场景正文、选项、条件、旗标、战斗、结局、剧本元数据 | React JSX、CSS、浏览器存储调用。 |
-| `features/xue-gu-yin/XueGuYinGame.tsx` | 页面布局、分页、按钮、存档 UI、战斗展示 | 任何具体角色名、路线判断、剧情段落、结局判定。 |
+| `lib/xue-gu-yin/model.ts` | 领域类型、`VisualNovelEvent` 联合类型、场景和状态合同 | 具体剧情正文、React JSX。 |
+| `lib/xue-gu-yin/story/data.ts` | 角色、场景正文／事件、选项、结局和剧本元数据 | React JSX、CSS、浏览器存储调用。 |
+| `lib/xue-gu-yin/engine/narrative.ts` | 将场景解析成事件与 `ScenePresentation` 的纯运行时 | 具体节点剧情和视觉组件。 |
+| `lib/xue-gu-yin/assets.ts` | 背景、立绘、音频等资源键与路径／占位描述 | 剧情条件、状态修改。 |
+| `lib/xue-gu-yin/combat.ts` | 单回合战斗纯函数 | 战斗界面和剧情跳转。 |
+| `lib/xue-gu-yin/game.ts` | 状态转换、条件、战斗接线与旧导入兼容门面 | 长篇剧情正文、React JSX、CSS。 |
+| `features/xue-gu-yin/XueGuYinGame.tsx` | 页面布局、分页、按钮、存档 UI、战斗展示；只消费结构化呈现数据 | 任何具体角色名、路线判断、剧情段落、结局判定。 |
 | `docs/story-flow.md` | 面向人类的路线概览与条件说明 | 与代码不一致的历史设定。 |
 | `tests/game.test.ts` | 节点合同、关键选项条件、分支与结局的自动校验 | 长篇剧情正文。 |
 
 ## 如何修改一个节点
 
-1. 在 `scenes` 找到目标 `id`。不改变该节点的 `act`、`node`，除非用户明确要求调整五幕合同。
-2. 改 `title`、`text` 与 `choices`。`text` 可是静态字符串，也可为 `(state) => string`，用于按路线、旗标或关系生成不同文本。
-3. 选项只能通过 `effect` 修改状态：
+1. 在 `lib/xue-gu-yin/story/data.ts` 的 `scenes` 找到目标 `id`。不改变该节点的 `act`、`node`，除非用户明确要求调整五幕合同。
+2. 未迁移节点可继续改 `title`、`text` 与 `choices`。`text` 可是静态字符串，也可为 `(state) => string`，用于按路线、旗标或关系生成不同文本。
+3. 已迁移节点使用 `events`，可写静态数组或 `(state) => VisualNovelEvent[]`。对白人物、立绘表情、背景、音效、选择与战斗都必须表达成事件，不能在组件里推测。
+4. 选项只能通过 `effect` 修改状态：
    - `route`：仅在第二幕节点 6 锁定同行路线；
    - `flag`：记录一次性线索、物品或叙事事实；
    - `trust`：调整 NPC 隐藏关系；
    - `health` / `essence` / `time`：资源后果；
    - `ending`：为第五幕写入显式结局。
-4. 需要隐藏选项时使用 `requires`。例如苏莹存活选项要求三枚旗标；不要在选项文字中泄露数值条件。
-5. 更新 `docs/story-flow.md` 的相应分支说明，并为新的硬条件添加测试。
+5. 需要隐藏选项时使用 `requires`。例如苏莹存活选项要求三枚旗标；不要在选项文字中泄露数值条件。
+6. 更新 `docs/story-flow.md` 的相应分支说明，并为新的硬条件添加测试。
+
+## 如何迁移为视觉小说事件
+
+每次只迁移一个节点，并保留原 `id`、`act`、`node`、选择效果、战斗配置和跳转目标：
+
+```ts
+events: [
+  { type: "background", asset: "background.tomb-corridor", transition: "fade" },
+  { type: "character", action: "show", character: "ji-qinghan", asset: "character.ji-qinghan.placeholder", position: "center", expression: "alert" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "别动。", expression: "alert", position: "center" },
+  { type: "choice", choices: [...] },
+]
+```
+
+- 资源必须先登记在 `assets.ts`，剧情只引用资源键。
+- `events` 存在时，叙事运行时以它为准；不要同时维护两份含义不同的 `text`。
+- 迁移前后使用 `resolveScenePresentation` 比较正文、选择和战斗配置，确保玩家流程不变。
+- React 只消费 `ScenePresentation` 或事件列表，不直接读取 `scene.text/choices/battle`。
 
 ## 如何增加剧情内容而不增加节点
 
-- 将更多叙事写入节点的 `text`；UI 会根据手机屏幕高度自动分页。
+- 将更多叙事写入节点的 `text`；UI 会根据实际对白框容量自动分页。
 - 同一节点内可用多个选择表达不同态度，但应在后续既有节点汇合。
 - 对四线路径，用 `routeText(state, { zhao, ji, xue, su })` 在同一个第三幕节点写出四种不同内容。
 - 不要通过复制 `routeTrialB`、`routeTrialC` 等方式增加平行场景。这样会破坏固定节点合同并让存档和测试难以维护。
 
 ## 战斗修改
 
-- 在 `patterns` 中定义敌人的 3 至 4 步动作循环；`cue` 必须是叙事征兆，不能直接显示伤害数值或推荐蛊术。
+- 在 `game.ts` 的 `patterns` 中定义敌人的 3 至 4 步动作循环；`cue` 必须是叙事征兆，不能直接显示伤害数值或推荐蛊术。
 - 在场景的 `battle` 中填敌人、生命、胜负去向；敌人生命在 UI 仅显示“健康／受伤／重伤”。
 - 若要添加新 Boss，优先占用既有节点的战斗变体；必须新增战斗节点时，先得到用户对五幕合同修改的明确授权。
 
@@ -67,8 +91,9 @@
 ## 每次修改后的验证
 
 ```powershell
+pnpm lint
 pnpm test
 pnpm build
 ```
 
-两项都必须通过。若节点合同变动，先更新测试，再更新 `storyMeta.acts` 与 `docs/story-flow.md`。
+三项都必须通过。若节点合同变动，先更新测试，再更新 `storyMeta.acts` 与 `docs/story-flow.md`。

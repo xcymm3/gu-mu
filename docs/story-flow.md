@@ -1,7 +1,7 @@
 # 《血蛊引》全剧情关键文档
 
 > 本文是掌控全剧情的**唯一权威文档**，完整记录角色、蛊、剧情节点与选择、战斗（含胜利奖励）、敌人属性、结局与 TAG 作用。
-> 代码事实来源：`lib/xue-gu-yin/game.ts`（若与本文冲突，以代码为准）。
+> 剧本事实来源：`lib/xue-gu-yin/story/data.ts`；状态与战斗运行时来源：`lib/xue-gu-yin/game.ts` 和 `lib/xue-gu-yin/combat.ts`（若与本文冲突，以代码为准）。
 
 ---
 

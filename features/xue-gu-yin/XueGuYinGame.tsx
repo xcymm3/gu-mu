@@ -17,8 +17,8 @@ import {
   resolveBattleTurn,
   resolveEnding,
   resolveRandomChoice,
+  resolveScenePresentation,
   roles,
-  sceneText,
   scenes,
   storyMeta,
   storyPresentation,
@@ -455,17 +455,18 @@ export function XueGuYinGame() {
   if (!scene) return null;
 
   const battle = game.battle;
-  const sourceText = sceneText(game, scene);
+  const presentation = resolveScenePresentation(game, scene);
+  const sourceText = presentation.text;
   const fittedPages = splitForViewport(sourceText, narrativeLimit);
   const pageCount = fittedPages.length;
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
   const pageIndex = Math.min(narrativePage, pageCount - 1);
   const isLastNarrativePage = pageIndex === pageCount - 1;
   const narrativeParts: string[] = [fittedPages[pageIndex]];
-  const visibleChoices = (scene.choices ?? []).filter((choice) => canChoose(game, choice));
+  const visibleChoices = presentation.choices.filter((choice) => canChoose(game, choice));
   const presentedText = battleResult?.text ?? pendingChoice?.result ?? narrativeParts[0] ?? sourceText;
   const speaker = inferSpeaker(presentedText);
-  const showJiPortrait = presentedText.includes("纪清寒") && !battle;
+  const showJiPortrait = presentation.visibleCharacters.includes("ji-qinghan") && !battle;
   return (
     <main className="game-shell game-shell--play">
       <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
@@ -505,8 +506,8 @@ export function XueGuYinGame() {
             <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
           </section>
           {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}
-          {isLastNarrativePage && scene.battle ? <div className="choice-panel"><button className="primary-button" onClick={() => setGame((current) => startBattle(current, scene))}>放出本命蛊</button></div> : null}
-          {isLastNarrativePage && scene.choices ? (
+          {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={() => setGame((current) => startBattle(current, scene))}>放出本命蛊</button></div> : null}
+          {isLastNarrativePage && presentation.choices.length > 0 ? (
           <nav className="choice-panel" aria-label="剧情选项">
             {visibleChoices.map((choice) => choice.id === "continue"
               ? <button className="primary-button" key={choice.id}>继续</button>

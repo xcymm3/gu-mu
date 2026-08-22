@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { applyChoice, canChoose, chooseRole, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, scenes, startBattle, storyMeta } from "../lib/xue-gu-yin/game.ts";
+import { applyChoice, canChoose, chooseRole, endingAccess, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, scenes, startBattle, storyMeta } from "../lib/xue-gu-yin/game.ts";
 
 test("三种无姓名男性身份沿用原有属性", () => {
   const medic = chooseRole("healer");
@@ -10,6 +10,12 @@ test("三种无姓名男性身份沿用原有属性", () => {
   assert.deepEqual([medic.maxHealth, medic.maxEssence], [14, 12]);
   assert.deepEqual([swordsman.maxHealth, swordsman.maxEssence], [15, 10]);
   assert.deepEqual([heir.maxHealth, heir.maxEssence], [12, 10]);
+});
+
+test("游方蛊医的结局一览不包含击败苏衍的真结局", () => {
+  assert.equal(endingAccess.healer.includes("true"), false);
+  assert.equal(endingAccess.swordsman.includes("true"), true);
+  assert.equal(endingAccess.heir.includes("true"), true);
 });
 
 test("高神识仅世家之子具备", () => {
@@ -37,9 +43,12 @@ test("大雾节点的四个选择分别锁定四条同行路线", () => {
 
 test("大雾节点只展示好感度前二的同行者", () => {
   const state = { ...chooseRole(), trust: { zhao: 0, ji: 3, xue: 0, su: 2, qiao: 0 } };
-  const jiChoice = scenes.fog.choices?.find((item) => item.effect?.route === "ji")!;
-  const suChoice = scenes.fog.choices?.find((item) => item.effect?.route === "su")!;
-  const zhaoChoice = scenes.fog.choices?.find((item) => item.effect?.route === "zhao")!;
+  const jiChoice = scenes.fog.choices?.find((item) => item.effect?.route === "ji");
+  const suChoice = scenes.fog.choices?.find((item) => item.effect?.route === "su");
+  const zhaoChoice = scenes.fog.choices?.find((item) => item.effect?.route === "zhao");
+  assert.ok(jiChoice);
+  assert.ok(suChoice);
+  assert.ok(zhaoChoice);
   assert.equal(canChoose(state, jiChoice), true);
   assert.equal(canChoose(state, suChoice), true);
   assert.equal(canChoose(state, zhaoChoice), false);

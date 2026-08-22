@@ -1,7 +1,9 @@
+import { resolveCombatTurn, type GuAction } from "./combat.ts";
+
+export type { GuAction } from "./combat.ts";
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "zhao" | "ji" | "xue" | "su" | "qiao";
 export type RouteId = "zhao" | "ji" | "xue" | "su";
-export type GuAction = "blood" | "armor" | "blooddemon" | "rest" | "heal" | "sword" | "charm";
 export type EnemyAction = { id: string; damage: number; cue: string; heal?: number; invulnerable?: boolean; reflect?: boolean; essenceDrain?: number };
 
 export type Role = { id: RoleId; name: string; gender: "male"; title: string; description: string; maxHealth: number; maxEssence: number; attack: number; signatureGu: string; sense: "high" | "normal" };
@@ -276,7 +278,12 @@ export const endings: Record<string, Ending> = {
   seer: { id: "seer", name: "洞见而殁", epitaph: "看懂了棋，落不下子。", text: "你拒绝入局。暗室里万千活蛊线同时绷直，无数傀儡潮水般将你淹没。直到被蛊核的猩红吞没的前一刻，你仍不敢置信——你看懂了整盘棋，却连一枚子都来不及落。" },
 };
 
-export const endingAccess: Record<RoleId, string[]> = { healer: Object.keys(endings), swordsman: Object.keys(endings), heir: Object.keys(endings) };
+const allEndingIds = Object.keys(endings);
+export const endingAccess: Record<RoleId, string[]> = {
+  healer: allEndingIds.filter((endingId) => endingId !== "true"),
+  swordsman: [...allEndingIds],
+  heir: [...allEndingIds],
+};
 export function initialGame(): GameState { return { roleId: null, sceneId: "gate", route: null, health: 0, maxHealth: 0, essence: 0, maxEssence: 0, time: 0, flags: [], trust: { zhao: 0, ji: 0, xue: 0, su: 0, qiao: 0 }, battle: null, endingId: null }; }
 export function getRole(id: RoleId | null) { return roles.find((role) => role.id === id) ?? null; }
 export function chooseRole(id: RoleId = "healer") { const role = getRole(id)!; return { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth, essence: role.maxEssence, maxEssence: role.maxEssence, flags: role.sense === "high" ? ["高神识"] : [] }; }
@@ -347,70 +354,41 @@ function finishBattle(state: GameState, battle: Battle, won: boolean, health: nu
 }
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
   const battle = state.battle; const role = getRole(state.roleId); if (!battle || !role) return state;
+  const result = resolveCombatTurn({
+    action,
+    roleId: role.id,
+    attack: role.attack,
+    health: state.health,
+    maxHealth: state.maxHealth,
+    essence: state.essence,
+    maxEssence: state.maxEssence,
+    hasBloodBlade: state.flags.includes("血刃蛊"),
+    hasBloodArmor: state.flags.includes("血甲蛊"),
+    hasBloodDemon: state.flags.includes("血魔蛊"),
+    enemyHealth: battle.enemyHealth,
+    enemyMaxHealth: battle.enemyMaxHealth,
+    turn: battle.turn,
+    intent: battle.intent,
+  });
+  if (!result.valid) return state;
 
-  // 角色专属蛊验证
-  if (action === "heal" && role.id !== "healer") return state;
-  if (action === "sword" && role.id !== "swordsman") return state;
-  if (action === "charm" && role.id !== "heir") return state;
-  if (action === "blooddemon" && !state.flags.includes("血魔蛊")) return state;
-
-  // 真元验证
-  const cost = action === "rest" ? 0 : action === "heal" ? 2 : action === "sword" ? 4 : action === "charm" ? 3 : action === "blooddemon" ? 2 : 1;
-  if (state.essence < cost) return state;
-  if (state.essence === 0 && action !== "rest") return state;
-  if (state.essence > 0 && action === "rest") return state;
-
-  let damage = role.attack; let received = battle.intent.damage; let health = state.health;
-  const essence = action === "rest" ? Math.min(state.maxEssence, state.essence + 3) : state.essence - cost;
   const flags = action === "blooddemon" ? unique(state.flags, "血魔蛊已用") : state.flags;
+  if (result.status === "won") return finishBattle({ ...state, essence: result.essence, flags }, battle, true, result.health);
+  if (result.status === "lost") return finishBattle({ ...state, essence: result.essence, flags }, battle, false, result.health);
 
-  // ── 月光蛊 / 血刃蛊（强化后攻击×2）──
-  if (action === "blood" && state.flags.includes("血刃蛊")) damage = role.attack * 2;
-
-  // ── 剑鸣蛊：先自伤 2，再造成 10 伤害 ──
-  if (action === "sword") {
-    health -= 2;
-    if (health <= 0) return finishBattle({ ...state, essence, flags }, battle, false, health);
-    damage = 10;
-  }
-
-  // ── 回春蛊：恢复 7 生命，不造成伤害 ──
-  if (action === "heal") {
-    damage = 0;
-    health = Math.min(state.maxHealth, health + 7);
-  }
-
-  // ── 血魔蛊：6 伤害 + 恢复 6 生命 ──
-  if (action === "blooddemon") {
-    damage = 6;
-    health = Math.min(state.maxHealth, health + 6);
-  }
-
-  // ── 惑心蛊：造成 ATK 伤害，敌人行动完全无效 ──
-  if (action === "charm") {
-    const enemyHealth = battle.enemyHealth - Math.min(damage, battle.enemyHealth);
-    if (enemyHealth <= 0) return finishBattle({ ...state, essence, flags }, battle, true, health);
-    const turn = battle.turn + 1; const pattern = patternFor(battle.enemyName);
-    return { ...state, health, essence, flags, battle: { ...battle, enemyHealth, turn, intent: pattern[turn % pattern.length] } };
-  }
-
-  // ── 甲衣蛊 / 血甲蛊（强化后免全伤）──
-  if (action === "armor") {
-    if (state.flags.includes("血甲蛊")) { damage = 1; received = 0; }
-    else { damage = 1; received = Math.max(0, received - 3); }
-  }
-  if (action === "rest") damage = 0;
-
-  const reflected = battle.intent.reflect ? damage : 0;
-  if (battle.intent.invulnerable) damage = 0;
-  received += reflected;
-  const enemyHealth = battle.enemyHealth - Math.min(damage, battle.enemyHealth);
-  if (enemyHealth <= 0) return finishBattle({ ...state, essence, flags }, battle, true, health);
-  health -= received;
-  if (health <= 0) return finishBattle({ ...state, essence, flags }, battle, false, health);
-  const drainedEssence = Math.max(0, essence - (battle.intent.essenceDrain ?? 0));
-  const turn = battle.turn + 1; const pattern = patternFor(battle.enemyName);
-  return { ...state, health, essence: drainedEssence, flags, battle: { ...battle, enemyHealth: Math.min(battle.enemyMaxHealth, enemyHealth + (battle.intent.heal ?? 0)), turn, intent: pattern[turn % pattern.length] } };
+  const pattern = patternFor(battle.enemyName);
+  return {
+    ...state,
+    health: result.health,
+    essence: result.essence,
+    flags,
+    battle: {
+      ...battle,
+      enemyHealth: result.enemyHealth,
+      turn: result.turn,
+      intent: pattern[result.turn % pattern.length],
+    },
+  };
 }
 export function resolveEnding(state: GameState) {
   const explicit = state.flags.find((flag) => flag.startsWith("结局:"))?.slice(3);

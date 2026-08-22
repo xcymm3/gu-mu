@@ -8,6 +8,7 @@ import {
   applyChoice,
   canChoose,
   chooseRole,
+  endingAccess,
   endings,
   getEnemyCondition,
   getRole,
@@ -49,7 +50,6 @@ const motionStorageKey = "xue-gu-yin-reduce-motion";
 const themeStorageKey = "xue-gu-yin-theme";
 const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const saveSlotCount = 6;
-const endingRoleAccess: Record<RoleId, string[]> = { healer: Object.keys(endings), swordsman: Object.keys(endings), heir: Object.keys(endings) };
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
@@ -563,7 +563,7 @@ function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () 
 }
 
 function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { archiveRoleId: RoleId; onBack: () => void; onSelectRole: (id: RoleId) => void; seenEndings: string[] }) {
-  const availableEndingIds = endingRoleAccess[archiveRoleId];
+  const availableEndingIds = endingAccess[archiveRoleId];
   const unlockedForRole = availableEndingIds.filter((id) => seenEndings.includes(id)).length;
   return <main className="game-shell archive-shell"><section className="game-frame archive-card" aria-labelledby="archive-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">命数卷宗</p><h1 id="archive-title">结局一览</h1></div></header>

@@ -1,12 +1,19 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-// ── 战斗数值提取（镜像 game.ts 中的 resolveBattleTurn 逻辑） ──
+import {
+  resolveCombatTurn,
+  type CombatIntent,
+  type CombatRoleId,
+  type GuAction,
+} from "../lib/xue-gu-yin/combat.ts";
+
+// ── 战斗数值：测试与游戏运行时共用 resolveCombatTurn ──
 
 type BossDef = {
   name: string;
   hp: number;
-  pattern: Array<{ damage: number; heal?: number; invulnerable?: boolean; reflect?: boolean; essenceDrain?: number }>;
+  pattern: CombatIntent[];
 };
 
 const bosses: Record<string, BossDef> = {
@@ -65,7 +72,7 @@ const bosses: Record<string, BossDef> = {
   },
 };
 
-type RoleDef = { id: string; name: string; hp: number; essence: number; atk: number; flags?: string[] };
+type RoleDef = { id: CombatRoleId; name: string; hp: number; essence: number; atk: number; flags?: string[] };
 const roles: RoleDef[] = [
   { id: "healer", name: "游方蛊医", hp: 14, essence: 12, atk: 3 },
   { id: "swordsman", name: "流浪剑修", hp: 15, essence: 10, atk: 4 },
@@ -75,21 +82,11 @@ const roles: RoleDef[] = [
 // ── 回合级模拟 ──
 
 type SimState = { hp: number; essence: number; enemyHp: number; turn: number };
-type SimAction = "blood" | "armor" | "rest" | "heal" | "sword" | "charm" | "blooddemon";
 
-function actionCost(action: SimAction): number {
-  if (action === "heal") return 2;
-  if (action === "sword") return 4;
-  if (action === "charm") return 3;
-  if (action === "blooddemon") return 2;
-  if (action === "rest") return 0;
-  return 1; // blood, armor
-}
-
-function validActions(essence: number, roleId: string, flags: string[]): SimAction[] {
+function validActions(essence: number, roleId: CombatRoleId, flags: string[]): GuAction[] {
   if (essence === 0) return ["rest"];
-  const base: SimAction[] = ["blood", "armor"];
-  const roleActions: SimAction[] = (() => {
+  const base: GuAction[] = ["blood", "armor"];
+  const roleActions: GuAction[] = (() => {
     switch (roleId) {
       case "healer": return [...base, "heal"];
       case "swordsman": return [...base, "sword"];
@@ -100,105 +97,48 @@ function validActions(essence: number, roleId: string, flags: string[]): SimActi
   return flags.includes("血魔蛊") ? [...roleActions, "blooddemon"] : roleActions;
 }
 
-/** 模拟单回合，返回新状态或 null（无效行动/已结束则 null） */
+/** 将 DFS 状态适配到游戏运行时使用的共享纯函数。 */
 function simulateTurn(
   state: SimState,
-  action: SimAction,
+  action: GuAction,
   role: RoleDef,
   boss: BossDef,
 ): { state: SimState; won: boolean } | null {
   const intent = boss.pattern[state.turn % boss.pattern.length];
-  const cost = actionCost(action);
-
-  // 真元验证
-  if (state.essence < cost) return null;
-
-  let damage = role.atk;
-  let received = intent.damage;
-  let hp = state.hp;
-  const essence = action === "rest"
-    ? Math.min(role.essence, state.essence + 3)
-    : state.essence - cost;
-
-  // ── 月光蛊 / 血刃蛊（强化后攻击×2）──
-  if (action === "blood" && role.flags?.includes("血刃蛊")) damage = role.atk * 2;
-
-  // ── 血魔蛊：6 伤害 + 恢复 6 生命 ──
-  if (action === "blooddemon") {
-    damage = 6;
-    hp = Math.min(role.hp, hp + 6);
-  }
-
-  // ── 剑鸣蛊：先自伤 2，再造成 10 伤害 ──
-  if (action === "sword") {
-    hp -= 2;
-    if (hp <= 0) {
-      return { state: { hp, essence, enemyHp: state.enemyHp, turn: state.turn + 1 }, won: false };
-    }
-    damage = 10;
-  }
-
-  // ── 回春蛊：恢复 7 生命，不造成伤害 ──
-  if (action === "heal") {
-    damage = 0;
-    hp = Math.min(role.hp, hp + 7);
-  }
-
-  // ── 惑心蛊：造成 ATK 伤害，敌人行动完全无效 ──
-  if (action === "charm") {
-    const enemyHp = state.enemyHp - Math.min(damage, state.enemyHp);
-    if (enemyHp <= 0) {
-      return { state: { hp, essence, enemyHp: 0, turn: state.turn + 1 }, won: true };
-    }
-    return {
-      state: { hp, essence, enemyHp, turn: state.turn + 1 },
-      won: false,
-    };
-  }
-
-  // ── 甲衣蛊 / 血甲蛊（强化后免全伤）──
-  if (action === "armor") {
-    if (role.flags?.includes("血甲蛊")) { damage = 1; received = 0; }
-    else { damage = 1; received = Math.max(0, received - 3); }
-  }
-  if (action === "rest") {
-    damage = 0;
-  }
-
-  // invulnerable 先于 reflect
-  if (intent.invulnerable) damage = 0;
-  const reflected = intent.reflect ? damage : 0;
-  received += reflected;
-
-  const enemyHp = state.enemyHp - Math.min(damage, state.enemyHp);
-
-  // 击杀判定
-  if (enemyHp <= 0) {
-    return { state: { hp, essence, enemyHp: 0, turn: state.turn + 1 }, won: true };
-  }
-
-  hp -= received;
-  if (hp <= 0) {
-    return { state: { hp, essence, enemyHp, turn: state.turn + 1 }, won: false };
-  }
-
-  // 抽真元
-  const drainedEssence = Math.max(0, essence - (intent.essenceDrain ?? 0));
-
-  // 敌人恢复（在回合结束时）
-  const finalEnemyHp = Math.min(boss.hp, enemyHp + (intent.heal ?? 0));
-
+  const result = resolveCombatTurn({
+    action,
+    roleId: role.id,
+    attack: role.atk,
+    health: state.hp,
+    maxHealth: role.hp,
+    essence: state.essence,
+    maxEssence: role.essence,
+    hasBloodBlade: role.flags?.includes("血刃蛊") ?? false,
+    hasBloodArmor: role.flags?.includes("血甲蛊") ?? false,
+    hasBloodDemon: role.flags?.includes("血魔蛊") ?? false,
+    enemyHealth: state.enemyHp,
+    enemyMaxHealth: boss.hp,
+    turn: state.turn,
+    intent,
+  });
+  if (!result.valid) return null;
   return {
-    state: { hp, essence: drainedEssence, enemyHp: finalEnemyHp, turn: state.turn + 1 },
-    won: false,
+    state: {
+      hp: result.health,
+      essence: result.essence,
+      enemyHp: result.enemyHealth,
+      turn: result.turn,
+    },
+    won: result.status === "won",
   };
 }
 
 // ── DFS 搜索 + 记忆化 ──
 
 type SearchResult =
-  | { kind: "win"; turns: number; actions: SimAction[]; finalHp: number }
+  | { kind: "win"; turns: number; actions: GuAction[]; finalHp: number }
   | { kind: "lose" };
+type WinResult = Extract<SearchResult, { kind: "win" }>;
 
 function canWin(role: RoleDef, boss: BossDef): SearchResult {
   const initialState: SimState = { hp: role.hp, essence: role.essence, enemyHp: boss.hp, turn: 0 };
@@ -210,7 +150,7 @@ function canWin(role: RoleDef, boss: BossDef): SearchResult {
     return `${s.hp}|${s.essence}|${s.enemyHp}|${s.turn % boss.pattern.length}`;
   }
 
-  function dfs(state: SimState, actions: SimAction[], depth: number): SearchResult {
+  function dfs(state: SimState, actions: GuAction[], depth: number): SearchResult {
     if (depth > 200) return { kind: "lose" }; // 防止无限循环
 
     const key = stateKey(state);
@@ -224,20 +164,20 @@ function canWin(role: RoleDef, boss: BossDef): SearchResult {
     // 标记为已访问（临时标记为 lose 防止循环）
     memo.set(key, { kind: "lose" });
 
-    let bestWin: SearchResult | null = null;
+    let bestWin: WinResult | null = null;
 
     for (const action of validActions(state.essence, role.id, role.flags ?? [])) {
       const result = simulateTurn(state, action, role, boss);
       if (!result) continue;
 
       if (result.won) {
-        const winResult: SearchResult = {
+        const winResult: WinResult = {
           kind: "win",
           turns: actions.length + 1,
           actions: [...actions, action],
           finalHp: result.state.hp,
         };
-        if (!bestWin || winResult.turns < (bestWin as any).turns) {
+        if (!bestWin || winResult.turns < bestWin.turns) {
           bestWin = winResult;
         }
         continue;
@@ -248,7 +188,7 @@ function canWin(role: RoleDef, boss: BossDef): SearchResult {
 
       const sub = dfs(result.state, [...actions, action], depth + 1);
       if (sub.kind === "win") {
-        if (!bestWin || sub.turns < (bestWin as any).turns) {
+        if (!bestWin || sub.turns < bestWin.turns) {
           bestWin = sub;
         }
       }
@@ -476,8 +416,12 @@ function fullyBoosted(role: RoleDef, bossKey: string): Array<{ label: string; ro
   ];
 }
 
-test("每个角色拿满强化后（血刃蛊或血甲蛊）所有Boss均可通", () => {
-  console.log("\n═══ 拿满强化后全路线可通性 ═══");
+function shouldDefeatBoss(role: RoleDef, bossKey: string): boolean {
+  return !(role.id === "healer" && bossKey === "苏衍");
+}
+
+test("拿满强化后仅游方蛊医无法战胜苏衍，其余角色与Boss组合均可通", () => {
+  console.log("\n═══ 拿满强化后的设计可达性 ═══");
   console.log("（每角色：血刃蛊/血甲蛊二选一 + 真元+4；乔无咎战另加血魔蛊）\n");
 
   const bossList = ["铜皮傀儡", "赵黎", "苏衍", "乔无咎"];
@@ -489,27 +433,32 @@ test("每个角色拿满强化后（血刃蛊或血甲蛊）所有Boss均可通"
       const variants = fullyBoosted(baseRole, bossKey);
       const wins = variants.map((v) => ({ label: v.label, win: canWin(v.role, bosses[bossKey]).kind === "win" }));
       const pass = wins.some((w) => w.win);
+      const expected = shouldDefeatBoss(baseRole, bossKey);
       const detail = wins.map((w) => `${w.label}:${w.win ? "✅" : "❌"}`).join(" ");
       row.push(`${bossKey}[${pass ? "✅" : "❌"} ${detail}]`);
-      if (!pass) allPass = false;
+      if (pass !== expected) allPass = false;
     }
     console.log(row.join("\n      "));
     console.log();
   }
 
-  // 断言：每个角色在拿对强化（血刃蛊或血甲蛊任一）的情况下，所有 Boss 均可通
+  // 设计约束：游方蛊医无法击败苏衍；除此之外，拿对强化后均可击败对应敌人。
   for (const baseRole of roles) {
     for (const bossKey of bossList) {
       const variants = fullyBoosted(baseRole, bossKey);
       const anyWin = variants.some((v) => canWin(v.role, bosses[bossKey]).kind === "win");
-      assert.ok(
+      const expected = shouldDefeatBoss(baseRole, bossKey);
+      assert.equal(
         anyWin,
-        `${baseRole.name} 拿满强化后应能击败 ${bossKey}（血刃蛊或血甲蛊至少其一可通）`,
+        expected,
+        expected
+          ? `${baseRole.name} 拿满强化后应能击败 ${bossKey}（血刃蛊或血甲蛊至少其一可通）`
+          : "游方蛊医即使拿满强化也应无法击败苏衍",
       );
     }
   }
 
-  console.log(allPass ? "  ✅ 全部路线可通" : "  ❌ 存在不可通路线");
+  console.log(allPass ? "  ✅ 实际结果符合设计可达性" : "  ❌ 实际结果偏离设计可达性");
 });
 
 test("血傀儡战：各角色拿对/拿错强化的通关差异", () => {
@@ -681,7 +630,7 @@ test("逐回合复现用户操作序列：蛊医10步 vs 苏衍(3→5→6伤6回
   };
   const healer: RoleDef = { id: "healer", name: "游方蛊医", hp: 14, essence: 14, atk: 3, flags: ["血刃蛊"] };
 
-  const actions: SimAction[] = ["blood", "blood", "heal", "heal", "blood", "blood", "heal", "armor", "blood", "blood"];
+  const actions: GuAction[] = ["blood", "blood", "heal", "heal", "blood", "blood", "heal", "armor", "blood", "blood"];
   let state: SimState = { hp: healer.hp, essence: healer.essence, enemyHp: boss.hp, turn: 0 };
 
   console.log("  回合 | 行动 | 你HP | 真元 | 苏衍HP");
@@ -697,6 +646,4 @@ test("逐回合复现用户操作序列：蛊医10步 vs 苏衍(3→5→6伤6回
   }
   console.log();
 });
-
-
 

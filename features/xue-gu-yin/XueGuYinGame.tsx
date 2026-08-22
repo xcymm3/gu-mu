@@ -124,6 +124,24 @@ function NarrativePage({ text }: { text: string }) {
   })}</>;
 }
 
+function VisualNovelRail({ chapter, roleName }: { chapter: string; roleName: string }) {
+  return <aside className="vn-rail" aria-label="篇章信息">
+    <div className="vn-rail-brand"><XueGuYinMark className="xue-gu-yin-mark" /><div><strong>{storyMeta.title}</strong><span>蛊墓见闻录</span></div></div>
+    <div className="vn-rail-copy"><p>当前篇章</p><strong>{chapter}</strong><p>行走之人</p><strong>{roleName}</strong></div>
+    <p className="vn-rail-note">夜雨未歇。每一句应答、每一枚蛊虫，都会将你带往不同的墓室。</p>
+  </aside>;
+}
+
+function VisualNovelLedger({ title }: { title: string }) {
+  return <aside className="vn-ledger" aria-label="阅读记录">
+    <p>墓中记录</p>
+    <strong>{title}</strong>
+    <span>故事会在抉择处停下。请循着人物的言行，判断谁值得同行。</span>
+    <i aria-hidden="true" />
+    <small>血蛊醒 · 固定剧本</small>
+  </aside>;
+}
+
 function describeBattleTurn(before: GameState, after: GameState, action: GuAction): BattleFeedback {
   const battle = before.battle;
   if (!battle) return { result: "蛊息渐歇，墓道里只余摇晃的灯火。", enemyCondition: "不明", hasEnded: false };
@@ -398,8 +416,12 @@ export function XueGuYinGame() {
   const narrativeParts: string[] = [fittedPages[pageIndex]];
   const visibleChoices = (scene.choices ?? []).filter((choice) => canChoose(game, choice));
   return (
-    <main className="game-shell">
+    <main className="game-shell game-shell--play">
       <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
+        <div className="vn-stage" aria-hidden="true"><span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" /></div>
+        <div className="vn-play-layout">
+        <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
+        <div className="vn-story-core">
         {battleResult ? <>
           <header className="status-bar">
             <div><span>修士</span><strong>{role.name}</strong></div>
@@ -441,6 +463,9 @@ export function XueGuYinGame() {
           ) : null}
           </>}
         </>}
+        </div>
+        <VisualNovelLedger title={battle ? battle.enemyName : scene.title} />
+        </div>
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
       </section>
     </main>

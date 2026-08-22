@@ -1,4 +1,4 @@
-import { actBackgrounds, type BackgroundAssetKey, type CharacterAssetKey } from "../assets.ts";
+import { actBackgrounds, getCharacterExpressionAsset, type BackgroundAssetKey, type CharacterAssetKey } from "../assets.ts";
 import type {
   BattleConfig,
   CharacterId,
@@ -20,7 +20,7 @@ const characterNames: Array<{ id: CharacterId; name: string }> = [
 
 const characterAssets = {
   "zhao-li": "character.zhao-li.placeholder",
-  "ji-qinghan": "character.ji-qinghan.placeholder",
+  "ji-qinghan": "character.ji-qinghan.neutral",
   "xue-feng": "character.xue-feng.placeholder",
   "su-ying": "character.su-ying.placeholder",
   "qiao-wujiu": "character.qiao-wujiu.placeholder",
@@ -29,12 +29,23 @@ const characterAssets = {
 
 export type ScenePresentation = {
   events: VisualNovelEvent[];
+  beats: SceneBeat[];
   text: string;
   choices: Choice[];
   battle: BattleConfig | null;
   background: BackgroundAssetKey;
   characters: PresentedCharacter[];
   visibleCharacters: CharacterId[];
+};
+
+export type SceneBeat = {
+  kind: "narration" | "dialogue";
+  text: string;
+  speakerId: CharacterId | null;
+  displayName: string;
+  mode: "dialogue-box" | "center";
+  background: BackgroundAssetKey;
+  characters: PresentedCharacter[];
 };
 
 export type PresentedCharacter = {
@@ -64,21 +75,67 @@ function resolveCharacters(events: VisualNovelEvent[]): PresentedCharacter[] {
   const visible = new Map<CharacterId, PresentedCharacter>();
 
   for (const event of events) {
-    if (event.type !== "character") continue;
-    if (event.action === "hide") {
-      visible.delete(event.character);
-      continue;
-    }
-    const previous = visible.get(event.character);
-    visible.set(event.character, {
-      id: event.character,
-      asset: event.asset ?? previous?.asset ?? characterAssets[event.character],
-      position: event.position ?? previous?.position ?? "center",
-      expression: event.expression ?? previous?.expression ?? "neutral",
-    });
+    if (event.type === "character") applyCharacterEvent(visible, event);
+    if (event.type === "dialogue") applyDialogueEvent(visible, event);
   }
 
   return [...visible.values()];
+}
+
+function applyDialogueEvent(visible: Map<CharacterId, PresentedCharacter>, event: Extract<VisualNovelEvent, { type: "dialogue" }>) {
+  const previous = visible.get(event.speaker);
+  const expression = event.expression ?? previous?.expression ?? "neutral";
+  visible.set(event.speaker, {
+    id: event.speaker,
+    asset: getCharacterExpressionAsset(event.speaker, expression) ?? previous?.asset ?? characterAssets[event.speaker],
+    position: event.position ?? previous?.position ?? "center",
+    expression,
+  });
+}
+
+function applyCharacterEvent(visible: Map<CharacterId, PresentedCharacter>, event: Extract<VisualNovelEvent, { type: "character" }>) {
+  if (event.action === "hide") {
+    visible.delete(event.character);
+    return;
+  }
+  const previous = visible.get(event.character);
+  const expression = event.expression ?? previous?.expression ?? "neutral";
+  visible.set(event.character, {
+    id: event.character,
+    asset: event.asset ?? getCharacterExpressionAsset(event.character, expression) ?? previous?.asset ?? characterAssets[event.character],
+    position: event.position ?? previous?.position ?? "center",
+    expression,
+  });
+}
+
+export function resolveSceneBeats(scene: Scene, events: VisualNovelEvent[]): SceneBeat[] {
+  let background = actBackgrounds[scene.act];
+  const visible = new Map<CharacterId, PresentedCharacter>();
+  const beats: SceneBeat[] = [];
+
+  for (const event of events) {
+    if (event.type === "background") {
+      background = event.asset;
+      continue;
+    }
+    if (event.type === "character") {
+      applyCharacterEvent(visible, event);
+      continue;
+    }
+    if (event.type !== "narration" && event.type !== "dialogue") continue;
+    if (event.type === "dialogue") applyDialogueEvent(visible, event);
+    beats.push({
+      kind: event.type,
+      text: event.text,
+      speakerId: event.type === "dialogue" ? event.speaker : null,
+      displayName: event.type === "dialogue" ? event.displayName : "旁白",
+      mode: event.type === "narration" ? event.mode ?? "dialogue-box" : "dialogue-box",
+      background,
+      characters: [...visible.values()].map((character) => ({ ...character })),
+    });
+  }
+
+  return beats;
 }
 
 function resolveLegacyText(state: GameState, scene: Scene): string {
@@ -126,7 +183,13 @@ function withDefaultBackground(scene: Scene, events: VisualNovelEvent[]): Visual
 export function resolveSceneEvents(state: GameState, scene: Scene): VisualNovelEvent[] {
   if (scene.events) {
     const nativeEvents = typeof scene.events === "function" ? scene.events(state) : scene.events;
-    return withDefaultBackground(scene, nativeEvents);
+    const events = withDefaultBackground(scene, nativeEvents);
+    if (scene.battle && !events.some(isBattleEvent)) {
+      const battle = resolveBattleConfig(state, scene);
+      if (battle) events.push({ type: "battle", config: battle });
+    }
+    if (scene.choices?.length && !events.some(isChoiceEvent)) events.push({ type: "choice", choices: scene.choices });
+    return events;
   }
 
   const text = resolveLegacyText(state, scene);
@@ -144,13 +207,8 @@ export function resolveSceneEvents(state: GameState, scene: Scene): VisualNovelE
 /** 供当前 React 表现层消费的兼容视图；第三步可直接消费 events。 */
 export function resolveScenePresentation(state: GameState, scene: Scene): ScenePresentation {
   const events = resolveSceneEvents(state, scene);
-  const text = events
-    .flatMap((event) => event.type === "narration"
-      ? [event.text]
-      : event.type === "dialogue"
-        ? [`${event.displayName}：${event.text}`]
-        : [])
-    .join("\n\n");
+  const beats = resolveSceneBeats(scene, events);
+  const text = beats.map((beat) => beat.text).join("\n\n");
   const choiceEvent = [...events].reverse().find(isChoiceEvent);
   const battleEvent = [...events].reverse().find(isBattleEvent);
   const backgroundEvent = events.find(isBackgroundEvent);
@@ -158,6 +216,7 @@ export function resolveScenePresentation(state: GameState, scene: Scene): SceneP
 
   return {
     events,
+    beats,
     text,
     choices: choiceEvent?.choices ?? [],
     battle: battleEvent?.config ?? null,

@@ -34,12 +34,14 @@ test("五幕节点合同固定为一、六、四、三与可变结局", () => {
   assert.deepEqual(counts[3], [1, 2, 3]);
 });
 
-test("旧版固定场景会被适配成背景、正文与选择事件", () => {
+test("第一幕已迁移为原生事件且保留全部选择", () => {
   const presentation = resolveScenePresentation(chooseRole(), scenes.gate);
   assert.equal(presentation.background, "background.tomb-gate");
-  assert.ok(presentation.text.includes("乔无咎"));
+  assert.equal(scenes.gate.text, undefined);
+  assert.ok(presentation.text.includes("诸位道友，此地荒原之下"));
   assert.equal(presentation.choices.length, scenes.gate.choices?.length);
   assert.ok(presentation.events.some((event) => event.type === "narration"));
+  assert.ok(presentation.events.some((event) => event.type === "dialogue"));
   assert.ok(presentation.events.some((event) => event.type === "choice"));
 });
 
@@ -67,9 +69,38 @@ test("原生视觉小说事件可以与旧场景并存", () => {
   };
   const presentation = resolveScenePresentation(chooseRole(), nativeScene);
   assert.equal(presentation.background, "background.tomb-corridor");
-  assert.equal(presentation.text, "纪清寒：别动。");
+  assert.equal(presentation.text, "别动。");
   assert.deepEqual(presentation.choices.map((choice) => choice.id), ["wait"]);
-  assert.deepEqual(presentation.characters, [{ id: "ji-qinghan", asset: "character.ji-qinghan.placeholder", position: "right", expression: "alert" }]);
+  assert.deepEqual(presentation.characters, [{ id: "ji-qinghan", asset: "character.ji-qinghan.alert", position: "center", expression: "alert" }]);
+});
+
+test("每段正文保存当时的背景、说话人与立绘表情", () => {
+  const eventScene: Scene = {
+    id: "beat-test",
+    act: 1,
+    node: 1,
+    chapter: "测试",
+    title: "阅读帧",
+    events: [
+      { type: "background", asset: "background.tomb-gate" },
+      { type: "narration", text: "雨声压住了呼吸。", mode: "center" },
+      { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "neutral" },
+      { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "退后。", expression: "alert", position: "right" },
+    ],
+  };
+  const presentation = resolveScenePresentation(chooseRole(), eventScene);
+  assert.equal(presentation.beats.length, 2);
+  assert.deepEqual(presentation.beats[0], {
+    kind: "narration",
+    text: "雨声压住了呼吸。",
+    speakerId: null,
+    displayName: "旁白",
+    mode: "center",
+    background: "background.tomb-gate",
+    characters: [],
+  });
+  assert.equal(presentation.beats[1].displayName, "纪清寒");
+  assert.equal(presentation.beats[1].characters[0]?.expression, "alert");
 });
 
 test("角色显隐事件会按顺序生成舞台最终阵容", () => {
@@ -102,6 +133,12 @@ test("资源键全部从统一清单解析，纪清寒占位立绘指向现有�
   const portrait = getVisualAsset("character.ji-qinghan.placeholder");
   assert.equal(portrait.kind, "image");
   if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-placeholder.webp");
+});
+
+test("正式墓门背景从统一资源清单加载", () => {
+  const background = getVisualAsset("background.tomb-gate");
+  assert.equal(background.kind, "image");
+  if (background.kind === "image") assert.equal(background.src, "/backgrounds/tomb-gate-v1.png");
 });
 
 test("大雾节点的四个选择分别锁定四条同行路线", () => {

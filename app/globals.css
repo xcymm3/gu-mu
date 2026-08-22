@@ -1969,7 +1969,19 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
   }
 
   .vn-stage-image {
+    z-index: 0;
     object-fit: cover;
+  }
+
+  .vn-stage--image::before {
+    z-index: 1;
+  }
+
+  .vn-stage--image::after,
+  .vn-stage--image .vn-stage-moon,
+  .vn-stage--image .vn-stage-mountain,
+  .vn-stage--image .vn-stage-gate {
+    display: none;
   }
 
   .vn-placeholder-tomb-corridor {

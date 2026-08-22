@@ -30,6 +30,7 @@ import {
   type GuAction,
   type PresentedCharacter,
   type RoleId,
+  type SceneBeat,
 } from "@/lib/xue-gu-yin/game";
 
 function bloodGuAction(flags: string[]): { id: GuAction; name: string; description: string } {
@@ -127,6 +128,12 @@ function splitForViewport(text: string, limit: number) {
   return pages;
 }
 
+type NarrativeFrame = SceneBeat & { text: string; beatIndex: number };
+
+function framesForPresentation(beats: SceneBeat[], limit: number): NarrativeFrame[] {
+  return beats.flatMap((beat, beatIndex) => splitForViewport(beat.text, limit).map((text) => ({ ...beat, text, beatIndex })));
+}
+
 function useNarrativeLimit() {
   const [limit, setLimit] = useState(128);
 
@@ -214,7 +221,7 @@ function VisualNovelCharacters({ activeSpeaker, characters }: { activeSpeaker: s
 function VisualNovelStage({ activeSpeaker, background, characters }: { activeSpeaker: string; background: BackgroundAssetKey; characters: PresentedCharacter[] }) {
   const asset = getVisualAsset(background);
   return <>
-    <div className={`vn-stage${asset.kind === "css" ? ` ${asset.className}` : ""}`} key={background} role="img" aria-label={asset.alt}>
+    <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} key={background} role="img" aria-label={asset.alt}>
       {asset.kind === "image" ? <Image alt="" className="vn-stage-image" fill priority sizes="100vw" src={asset.src} unoptimized /> : null}
       <span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" />
     </div>
@@ -490,20 +497,22 @@ export function XueGuYinGame() {
   const battle = game.battle;
   const presentation = resolveScenePresentation(game, scene);
   const sourceText = presentation.text;
-  const fittedPages = splitForViewport(sourceText, narrativeLimit);
-  const pageCount = fittedPages.length;
+  const narrativeFrames = framesForPresentation(presentation.beats, narrativeLimit);
+  const pageCount = Math.max(1, narrativeFrames.length);
   const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
   const pageIndex = Math.min(narrativePage, pageCount - 1);
   const isLastNarrativePage = pageIndex === pageCount - 1;
-  const narrativeParts: string[] = [fittedPages[pageIndex]];
+  const activeFrame = narrativeFrames[pageIndex] ?? presentation.beats[0];
+  const narrativeParts: string[] = [activeFrame?.text ?? sourceText];
   const visibleChoices = presentation.choices.filter((choice) => canChoose(game, choice));
   const presentedText = battleResult?.text ?? pendingChoice?.result ?? narrativeParts[0] ?? sourceText;
-  const dialogueEvent = presentation.events.find((event) => event.type === "dialogue");
-  const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : dialogueEvent?.type === "dialogue" ? dialogueEvent.displayName : inferSpeaker(presentedText);
+  const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : activeFrame?.displayName ?? inferSpeaker(presentedText);
+  const stageBackground = activeFrame?.background ?? presentation.background;
+  const stageCharacters = activeFrame?.characters ?? presentation.characters;
   return (
     <main className="game-shell game-shell--play">
       <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
-        <VisualNovelStage activeSpeaker={speaker} background={presentation.background} characters={battle ? [] : presentation.characters} />
+        <VisualNovelStage activeSpeaker={speaker} background={stageBackground} characters={battle ? [] : stageCharacters} />
         <div className="vn-play-layout">
         <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
         <div className="vn-story-core">
@@ -534,7 +543,7 @@ export function XueGuYinGame() {
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">{scene.chapter}</p>
             <h1>{scene.title}</h1>
-            <div className="scene-copy vn-text-reveal" key={`${scene.id}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
+            <div className="scene-copy vn-text-reveal" key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
             <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
           </section>
           {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}

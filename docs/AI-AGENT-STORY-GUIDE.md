@@ -23,7 +23,8 @@
 | 文件 | 可以修改什么 | 不应放什么 |
 | --- | --- | --- |
 | `lib/xue-gu-yin/model.ts` | 领域类型、`VisualNovelEvent` 联合类型、场景和状态合同 | 具体剧情正文、React JSX。 |
-| `lib/xue-gu-yin/story/data.ts` | 角色、场景正文／事件、选项、结局和剧本元数据 | React JSX、CSS、浏览器存储调用。 |
+| `lib/xue-gu-yin/story/data.ts` | 角色、场景接线、选项、结局和剧本元数据 | 大段已迁移事件正文、React JSX、CSS。 |
+| `lib/xue-gu-yin/story/events/*.ts` | 已迁移节点的旁白、对白、登退场与表情事件 | 选项效果的重复副本、React JSX。 |
 | `lib/xue-gu-yin/engine/narrative.ts` | 将场景解析成事件与 `ScenePresentation` 的纯运行时 | 具体节点剧情和视觉组件。 |
 | `lib/xue-gu-yin/assets.ts` | 背景、立绘、音频等资源键与路径／占位描述 | 剧情条件、状态修改。 |
 | `lib/xue-gu-yin/combat.ts` | 单回合战斗纯函数 | 战斗界面和剧情跳转。 |
@@ -60,11 +61,17 @@ events: [
 ```
 
 - 资源必须先登记在 `assets.ts`，剧情只引用资源键。
+- `narration` 与 `dialogue` 各自形成一个阅读节拍；运行时会为每个节拍保存当时的背景、可见角色、位置和表情。不要把多个角色的对白重新塞回同一个 `narration`。
+- `dialogue` 会自动让说话者登场，并应用事件上的 `expression` 和 `position`；显式 `character show/hide` 用于控制对白前后的构图与多人同屏。
+- `ScenePresentation.beats` 是表现层的逐页输入；React 不得从正文字符串反推说话人或表情。
 - `events` 存在时，叙事运行时以它为准；不要同时维护两份含义不同的 `text`。
+- 场景仍可把 `choices` 和 `battle` 留在 `Scene` 顶层，叙事运行时会在原生事件末尾自动接入，便于逐节点迁移且避免复制分支规则。
 - 迁移前后使用 `resolveScenePresentation` 比较正文、选择和战斗配置，确保玩家流程不变。
 - React 只消费 `ScenePresentation` 或事件列表，不直接读取 `scene.text/choices/battle`。
 - `ScenePresentation.background` 驱动背景层，`characters` 驱动多角色立绘层；不得在组件里写死某个节点只显示纪清寒。
 - 正式美术替换占位资源时，只修改 `assets.ts` 对应资源键的描述，剧情事件与 React 组件不需要改路径。
+
+当前迁移样板：第一幕 `gate` 位于 `story/events/act1.ts`；乔无咎揭露相关的 `shadowTruth`、`qiaoReveal` 位于 `story/events/key-scenes.ts`。后续节点应按幕建立事件文件，不要把所有正文重新堆回 `data.ts`。
 
 ## 如何增加剧情内容而不增加节点
 

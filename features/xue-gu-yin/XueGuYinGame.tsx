@@ -5,9 +5,11 @@ import { useEffect, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
 import { useVisualNovelAudio, type VisualNovelAudioEngine } from "@/features/xue-gu-yin/audio/VisualNovelAudio";
-import { getVisualAsset, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
+import { getVisualAsset, visualAssetManifest, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
 import { defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile, type AudioAssetKey, type AudioSettings, type SfxAssetKey } from "@/lib/xue-gu-yin/audio";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey, type BacklogEntry } from "@/lib/xue-gu-yin/reading";
+import { releaseMeta } from "@/lib/xue-gu-yin/release";
+import { createSaveSlot, emptySaveSlots, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT, type SaveSlot, type SaveSlots } from "@/lib/xue-gu-yin/save";
 import {
   applyChoice,
   canChoose,
@@ -58,27 +60,14 @@ const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const readStorageKey = "xue-gu-yin-read-frames-v1";
 const quickSaveStorageKey = "xue-gu-yin-quick-save-v1";
 const audioStorageKey = "xue-gu-yin-audio-settings-v1";
-const saveSlotCount = 6;
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
 type StageEffect = { effect: "fade" | "flash" | "shake" | "darken"; tone: "neutral" | "danger" };
-type SaveSlot = { version: 2; savedAt: string; game: GameState; narrative: { sceneId: string; page: number } };
-type SaveSlots = Array<SaveSlot | null>;
-
-function emptySaveSlots(): SaveSlots { return Array.from({ length: saveSlotCount }, () => null); }
-
-function isSaveSlot(value: unknown): value is SaveSlot {
-  if (!value || typeof value !== "object") return false;
-  const candidate = value as Partial<SaveSlot>;
-  return candidate.version === 2 && typeof candidate.savedAt === "string" && Boolean(candidate.game && typeof candidate.game === "object") && Boolean(candidate.narrative && typeof candidate.narrative === "object");
-}
-
 function readSaveSlots(): SaveSlots {
   try {
     const parsed = JSON.parse(window.localStorage.getItem(saveStorageKey) ?? "[]") as unknown;
-    if (!Array.isArray(parsed)) return emptySaveSlots();
-    return Array.from({ length: saveSlotCount }, (_, index) => isSaveSlot(parsed[index]) ? parsed[index] : null);
+    return normalizeSaveSlots(parsed);
   } catch { return emptySaveSlots(); }
 }
 
@@ -167,6 +156,34 @@ function useNarrativeLimit() {
   return limit;
 }
 
+function useVisualAssetPreloader() {
+  useEffect(() => {
+    const sources = [...new Set(Object.values(visualAssetManifest).flatMap((asset) => asset.kind === "image" ? [asset.src] : []))];
+    const images: HTMLImageElement[] = [];
+    const preload = () => {
+      for (const source of sources) {
+        const image = new window.Image();
+        image.decoding = "async";
+        image.src = source;
+        images.push(image);
+      }
+    };
+    const idleWindow = window as unknown as {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    let cancel: () => void;
+    if (typeof idleWindow.requestIdleCallback === "function") {
+      const idleId = idleWindow.requestIdleCallback(preload, { timeout: 1800 });
+      cancel = () => idleWindow.cancelIdleCallback?.(idleId);
+    } else {
+      const timeoutId = globalThis.setTimeout(preload, 650);
+      cancel = () => globalThis.clearTimeout(timeoutId);
+    }
+    return () => { cancel(); images.length = 0; };
+  }, []);
+}
+
 function inferSpeaker(text: string) {
   const firstQuote = text.search(/[“「『]/);
   if (firstQuote < 0) return "旁白";
@@ -215,19 +232,22 @@ function VisualNovelCharacters({ activeSpeaker, characters }: { activeSpeaker: s
         data-expression={character.expression}
         key={character.id}
       >
-        {asset.kind === "image" ? <Image
-          alt=""
-          className="vn-character"
-          height={1536}
-          priority
-          sizes="(min-width: 960px) 36vw, 0px"
-          src={asset.src}
-          unoptimized
-          width={1024}
-        /> : <div className={`vn-character-placeholder ${asset.className}`}><span>{characterLabels[character.id]}</span></div>}
+        {asset.kind === "image" ? <CharacterImage key={asset.src} label={characterLabels[character.id]} src={asset.src} /> : <div className={`vn-character-placeholder ${asset.className}`}><span>{characterLabels[character.id]}</span></div>}
       </div>;
     })}
   </div>;
+}
+
+function CharacterImage({ label, src }: { label: string; src: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <div className="vn-character-placeholder vn-asset-fallback-character"><span>{label}</span></div>;
+  return <Image alt="" className="vn-character" height={1536} priority sizes="(min-width: 960px) 36vw, 0px" src={src} unoptimized width={1024} onError={() => setFailed(true)} />;
+}
+
+function StageImage({ alt, className, src }: { alt: string; className: string; src: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <div className="vn-asset-fallback" role="img" aria-label={`${alt}（资源加载失败，已使用安全背景）`}><span>场景暂缺</span></div>;
+  return <Image alt="" className={className} fill priority sizes="100vw" src={src} unoptimized onError={() => setFailed(true)} />;
 }
 
 function VisualNovelEffects({ effects, token }: { effects: StageEffect[]; token: string }) {
@@ -257,7 +277,7 @@ function VisualNovelStage({ activeSpeaker, background, characters, effects, effe
   const asset = getVisualAsset(background);
   return <>
     <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} key={background} role="img" aria-label={asset.alt}>
-      {asset.kind === "image" ? <Image alt="" className="vn-stage-image" fill priority sizes="100vw" src={asset.src} unoptimized /> : null}
+      {asset.kind === "image" ? <StageImage alt={asset.alt} className="vn-stage-image" src={asset.src} /> : null}
       <span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" />
     </div>
     <VisualNovelCharacters activeSpeaker={activeSpeaker} characters={characters} />
@@ -357,6 +377,7 @@ function buildBattleResultText(game: GameState, won: boolean): string {
 }
 
 export function XueGuYinGame() {
+  useVisualAssetPreloader();
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
   const [saveSlots, setSaveSlots] = useState<SaveSlots>(emptySaveSlots);
@@ -469,19 +490,13 @@ export function XueGuYinGame() {
   }
 
   function saveToSlot(index: number) {
-    const stateToSave = pendingBattleState ?? game;
     const nextSlots = [...saveSlots];
-    nextSlots[index] = {
-      version: 2,
-      savedAt: new Date().toISOString(),
-      game: stateToSave,
-      narrative: stateToSave.sceneId === game.sceneId ? narrative : { sceneId: stateToSave.sceneId, page: 0 },
-    };
+    nextSlots[index] = createSaveSlot({ game, narrative, pendingGame: pendingBattleState });
     persistSaveSlots(nextSlots);
   }
 
   function loadFromSlot(slot: SaveSlot) {
-    const restored = { ...slot.game, battle: slot.game.battle ?? null, endingId: null };
+    const restored = restoreSaveSlot(slot);
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
@@ -491,8 +506,8 @@ export function XueGuYinGame() {
     setAutoMode(false);
     setSkipMode(false);
     setUiHidden(false);
-    setGame(restored);
-    setNarrative(slot.narrative.sceneId === restored.sceneId ? slot.narrative : { sceneId: restored.sceneId, page: 0 });
+    setGame(restored.game);
+    setNarrative(restored.narrative);
   }
 
   function returnToMainMenu() {
@@ -658,13 +673,7 @@ export function XueGuYinGame() {
   }
 
   function createQuickSave() {
-    const stateToSave = pendingBattleState ?? game;
-    const slot: SaveSlot = {
-      version: 2,
-      savedAt: new Date().toISOString(),
-      game: stateToSave,
-      narrative: stateToSave.sceneId === game.sceneId ? narrative : { sceneId: stateToSave.sceneId, page: 0 },
-    };
+    const slot = createSaveSlot({ game, narrative, pendingGame: pendingBattleState });
     setQuickSave(slot);
     window.localStorage.setItem(quickSaveStorageKey, JSON.stringify(slot));
     setQuickNotice("快速存档完成");
@@ -859,7 +868,7 @@ function BacklogOverlay({ entries, onClose }: { entries: BacklogEntry[]; onClose
   useEffect(() => { listRef.current?.scrollTo({ top: listRef.current.scrollHeight }); }, [entries]);
   return <div className="vn-backlog-backdrop" role="presentation" onClick={onClose}>
     <section className="vn-backlog" role="dialog" aria-modal="true" aria-labelledby="backlog-title" onClick={(event) => event.stopPropagation()}>
-      <header><div><p className="eyebrow">BACKLOG</p><h2 id="backlog-title">历史记录</h2></div><button type="button" aria-label="关闭历史记录" onClick={onClose}>×</button></header>
+      <header><div><p className="eyebrow">BACKLOG</p><h2 id="backlog-title">历史记录</h2></div><button autoFocus type="button" aria-label="关闭历史记录" onClick={onClose}>×</button></header>
       <div className="vn-backlog-list" ref={listRef}>
         {entries.length ? entries.map((entry) => <article key={entry.id}><p><span>{entry.sceneTitle}</span><strong>{entry.speaker}</strong></p><div><NarrativePage text={entry.text} /></div></article>) : <p className="vn-backlog-empty">尚无可以回看的文字。</p>}
       </div>
@@ -875,11 +884,11 @@ function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlocked
       <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。大雾落下时，你抓住谁的手，就会走向不同的血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
-        <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {saveSlotCount} 卷行迹</small></span></button>
+        <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {SAVE_SLOT_COUNT} 卷行迹</small></span></button>
         <button className="menu-action" onClick={onArchive}><span><strong>结局一览</strong><small>已解锁 {unlockedCount} / {Object.keys(endings).length}</small></span></button>
         <button className="menu-action" onClick={onSettings}><span><strong>游戏设置</strong><small>阅读与记录</small></span></button>
       </nav>
-    <p className="menu-note">每一次选择都会留下痕迹。</p>
+    <p className="menu-note">每一次选择都会留下痕迹。<small>v{releaseMeta.version}</small></p>
   </section></main>;
 }
 
@@ -896,7 +905,7 @@ function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad
 
 function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () => void; onLoad: (slot: SaveSlot) => void; onMenu: () => void; onSave: (index: number) => void; saveSlots: SaveSlots }) {
   return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" role="dialog" aria-modal="true" aria-label="游戏菜单" onClick={(event) => event.stopPropagation()}>
-    <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
+    <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button autoFocus className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
     <p className="game-menu-copy">存档仅保存在此浏览器与此设备中。读取存档会放弃当前未保存的进度。</p>
     <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => {
       const label = slot ? saveSlotLabel(slot) : null;
@@ -992,7 +1001,7 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
     </div>
     {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>}
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
-      <button className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
+      <button autoFocus className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
       <p>月光蛊与甲衣蛊需以真元催动；夺得血刃蛊或血甲蛊后，它们会替换初始蛊。真元耗尽时，只能调息回气，敌人仍会行动。</p>
       <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
@@ -1006,7 +1015,7 @@ function EndingScreen({ game, seenEndings, onReplay, onChangeRole, onMenu }: { g
   const background = getVisualAsset(ending.background);
   return <main className={`game-shell ending-shell ending-shell--${ending.id}`}><section className="ending-stage" aria-labelledby="ending-title">
     <div className="ending-stage-background" aria-hidden="true">
-      {background.kind === "image" ? <Image alt="" fill priority sizes="100vw" src={background.src} unoptimized /> : <div className={background.className} />}
+      {background.kind === "image" ? <StageImage alt={background.alt} className="ending-stage-image" src={background.src} /> : <div className={background.className} />}
     </div>
     <div className="ending-stage-shade" aria-hidden="true" />
     <article className="ending-card">

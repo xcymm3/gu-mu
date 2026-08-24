@@ -323,7 +323,7 @@ test("五名主要人物基础立绘均从透明 WebP 资源加载", () => {
 test("正式墓门背景从统一资源清单加载", () => {
   const background = getVisualAsset("background.tomb-gate");
   assert.equal(background.kind, "image");
-  if (background.kind === "image") assert.equal(background.src, "/backgrounds/tomb-gate-v1.png");
+  if (background.kind === "image") assert.equal(background.src, "/backgrounds/tomb-gate-v1.webp");
 });
 
 test("大雾节点的四个选择分别锁定四条同行路线", () => {

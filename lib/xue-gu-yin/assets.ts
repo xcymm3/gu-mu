@@ -7,7 +7,7 @@ export type VisualAssetDescriptor =
  * CSS 条目是开发占位资源，可在正式美术到位后原位替换为 image 条目。
  */
 export const visualAssetManifest = {
-  "background.tomb-gate": { kind: "image", src: "/backgrounds/tomb-gate-v1.png", alt: "夜雨中的蛊墓石门" },
+  "background.tomb-gate": { kind: "image", src: "/backgrounds/tomb-gate-v1.webp", alt: "夜雨中的蛊墓石门" },
   "background.tomb-corridor": { kind: "css", className: "vn-placeholder-tomb-corridor", alt: "阴暗狭长的蛊墓甬道" },
   "background.fog-passage": { kind: "image", src: "/backgrounds/fog-passage-v1.webp", alt: "被蛊雾吞没的古墓甬道" },
   "background.trap-passage": { kind: "image", src: "/backgrounds/trap-passage-v1.webp", alt: "坍塌断裂的机关陷道" },

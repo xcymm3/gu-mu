@@ -897,7 +897,7 @@ h1 {
   }
   .vn-story-core .scene-copy p { color: var(--color-vn-dialog-muted); font-size: clamp(.96rem, 1.1vw, 1.08rem); line-height: 1.9; text-align: start; }
   .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy { padding-inline-end: 11rem; }
-  .vn-story-core .scene .narrative-progress { position: absolute; right: 1.3rem; bottom: .8rem; margin: 0; color: var(--color-vn-dialog-muted); }
+  .vn-story-core .scene .narrative-progress { position: absolute; right: 11rem; bottom: .8rem; margin: 0; color: var(--color-vn-dialog-muted); }
 
   .vn-story-core .choice-panel {
     position: absolute;
@@ -1235,6 +1235,14 @@ h1 {
   margin: 0;
   color: var(--color-faint);
   font-size: var(--text-sm);
+}
+
+.menu-note small {
+  margin-left: .75em;
+  color: currentColor;
+  font-family: var(--font-mono);
+  font-size: .72em;
+  letter-spacing: .04em;
 }
 
 .menu-save-bank {
@@ -2270,6 +2278,25 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 }
 
 .vn-effect-layer { position: absolute; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
+.vn-asset-fallback {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  background:
+    radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--color-vn-fog) 38%, transparent), transparent 32%),
+    linear-gradient(180deg, var(--color-vn-sky-top), var(--color-vn-corridor));
+  place-items: center;
+}
+.vn-asset-fallback span {
+  padding: .5rem .8rem;
+  border: 1px solid var(--color-vn-rule, var(--color-rule));
+  color: var(--color-vn-dialog-muted, var(--color-muted));
+  background: color-mix(in srgb, var(--color-vn-dialog, var(--color-paper)) 82%, transparent);
+  font-size: var(--text-xs);
+  letter-spacing: .12em;
+}
+.vn-asset-fallback-character { opacity: .82; }
 .vn-effect { position: absolute; inset: 0; opacity: 0; }
 .vn-effect.is-flash { background: rgba(238, 255, 249, .9); animation: vn-effect-flash 420ms ease-out both; }
 .vn-effect.is-flash.is-danger { background: rgba(151, 17, 28, .8); }
@@ -2503,12 +2530,12 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
   .vn-stage,
   .vn-character-layer,
   .vn-effect,
-  .scene-copy.is-scene-fade,
-  .vn-continue-indicator { animation: none; }
+  .scene-copy,
+  .vn-continue-indicator { animation: none !important; transition: none !important; }
 }
 
 html[data-reduce-motion="true"] .vn-stage,
 html[data-reduce-motion="true"] .vn-character-layer,
 html[data-reduce-motion="true"] .vn-effect,
-html[data-reduce-motion="true"] .scene-copy.is-scene-fade,
-html[data-reduce-motion="true"] .vn-continue-indicator { animation: none; }
+html[data-reduce-motion="true"] .scene-copy,
+html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !important; transition: none !important; }

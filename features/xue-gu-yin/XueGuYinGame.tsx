@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
 import { getVisualAsset, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
+import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey, type BacklogEntry } from "@/lib/xue-gu-yin/reading";
 import {
   applyChoice,
   canChoose,
@@ -52,6 +53,8 @@ const endingStorageKey = "xue-gu-yin-unlocked-endings-v1";
 const motionStorageKey = "xue-gu-yin-reduce-motion";
 const themeStorageKey = "xue-gu-yin-theme";
 const saveStorageKey = "xue-gu-yin-save-slots-v2";
+const readStorageKey = "xue-gu-yin-read-frames-v1";
+const quickSaveStorageKey = "xue-gu-yin-quick-save-v1";
 const saveSlotCount = 6;
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
@@ -334,6 +337,14 @@ export function XueGuYinGame() {
   const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
   const [battleResult, setBattleResult] = useState<{ won: boolean; text: string } | null>(null);
   const [showGameMenu, setShowGameMenu] = useState(false);
+  const [showBacklog, setShowBacklog] = useState(false);
+  const [autoMode, setAutoMode] = useState(false);
+  const [skipMode, setSkipMode] = useState(false);
+  const [uiHidden, setUiHidden] = useState(false);
+  const [readFrames, setReadFrames] = useState<string[]>([]);
+  const [backlog, setBacklog] = useState<BacklogEntry[]>([]);
+  const [quickSave, setQuickSave] = useState<SaveSlot | null>(null);
+  const [quickNotice, setQuickNotice] = useState("");
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
   const narrativeLimit = useNarrativeLimit();
@@ -349,6 +360,10 @@ export function XueGuYinGame() {
         setReduceMotion(window.localStorage.getItem(motionStorageKey) === "true");
         const storedTheme = window.localStorage.getItem(themeStorageKey);
         if (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system") setThemePreference(storedTheme);
+        const storedRead = JSON.parse(window.localStorage.getItem(readStorageKey) ?? "[]") as unknown;
+        if (Array.isArray(storedRead)) setReadFrames(storedRead.filter((key): key is string => typeof key === "string"));
+        const storedQuickSave = JSON.parse(window.localStorage.getItem(quickSaveStorageKey) ?? "null") as unknown;
+        if (isSaveSlot(storedQuickSave)) setQuickSave(storedQuickSave);
       } finally {
         storageLoadedRef.current = true;
       }
@@ -361,9 +376,10 @@ export function XueGuYinGame() {
     window.localStorage.setItem(endingStorageKey, JSON.stringify(seenEndings));
     window.localStorage.setItem(motionStorageKey, String(reduceMotion));
     window.localStorage.setItem(themeStorageKey, themePreference);
+    window.localStorage.setItem(readStorageKey, JSON.stringify(readFrames));
     document.documentElement.dataset.reduceMotion = String(reduceMotion);
     document.documentElement.dataset.theme = themePreference;
-  }, [reduceMotion, seenEndings, themePreference]);
+  }, [readFrames, reduceMotion, seenEndings, themePreference]);
 
   useEffect(() => {
     if (copyRef.current) copyRef.current.scrollTop = 0;
@@ -378,6 +394,11 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setBattleResult(null);
     setShowGameMenu(false);
+    setShowBacklog(false);
+    setAutoMode(false);
+    setSkipMode(false);
+    setUiHidden(false);
+    setBacklog([]);
     setGame(chooseRole(id));
   }
 
@@ -405,6 +426,10 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setBattleResult(null);
     setShowGameMenu(false);
+    setShowBacklog(false);
+    setAutoMode(false);
+    setSkipMode(false);
+    setUiHidden(false);
     setGame(restored);
     setNarrative(slot.narrative.sceneId === restored.sceneId ? slot.narrative : { sceneId: restored.sceneId, page: 0 });
   }
@@ -415,6 +440,10 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setBattleResult(null);
     setShowGameMenu(false);
+    setShowBacklog(false);
+    setAutoMode(false);
+    setSkipMode(false);
+    setUiHidden(false);
     setGame(initialGame());
     setHomeView("menu");
   }
@@ -509,9 +538,117 @@ export function XueGuYinGame() {
   const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : activeFrame?.displayName ?? inferSpeaker(presentedText);
   const stageBackground = activeFrame?.background ?? presentation.background;
   const stageCharacters = activeFrame?.characters ?? presentation.characters;
+  const currentFrameKey = readingFrameKey(scene.id, activeFrame?.beatIndex ?? 0, pageIndex, presentedText);
+  const hasBlockingAction = isLastNarrativePage && Boolean(presentation.battle || visibleChoices.length);
+  const canAdvanceReading = !battle && !pendingChoice && !battleResult && !hasBlockingAction;
+
+  function rememberCurrentFrame() {
+    setReadFrames((current) => current.includes(currentFrameKey) ? current : [...current, currentFrameKey]);
+    setBacklog((current) => appendBacklog(current, {
+      id: currentFrameKey,
+      sceneId: scene.id,
+      sceneTitle: scene.title,
+      speaker,
+      text: presentedText,
+    }));
+  }
+
+  function advanceNarrative() {
+    if (uiHidden) { setUiHidden(false); return; }
+    if (!canAdvanceReading) return;
+    rememberCurrentFrame();
+    setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) });
+  }
+
+  function advanceInteraction() {
+    if (uiHidden) { setUiHidden(false); return; }
+    if (showGameMenu || showBacklog || battle) return;
+    if (battleResult) { rememberCurrentFrame(); confirmBattleResult(); return; }
+    if (pendingChoice) { rememberCurrentFrame(); confirmChoice(); return; }
+    advanceNarrative();
+  }
+
+  function chooseWithHistory(choice: Choice) {
+    rememberCurrentFrame();
+    setAutoMode(false);
+    setSkipMode(false);
+    selectChoice(choice);
+  }
+
+  function beginBattle() {
+    rememberCurrentFrame();
+    setAutoMode(false);
+    setSkipMode(false);
+    setGame((current) => startBattle(current, scene));
+  }
+
+  function openBacklog() {
+    rememberCurrentFrame();
+    setAutoMode(false);
+    setSkipMode(false);
+    setShowBacklog(true);
+  }
+
+  function createQuickSave() {
+    const stateToSave = pendingBattleState ?? game;
+    const slot: SaveSlot = {
+      version: 2,
+      savedAt: new Date().toISOString(),
+      game: stateToSave,
+      narrative: stateToSave.sceneId === game.sceneId ? narrative : { sceneId: stateToSave.sceneId, page: 0 },
+    };
+    setQuickSave(slot);
+    window.localStorage.setItem(quickSaveStorageKey, JSON.stringify(slot));
+    setQuickNotice("快速存档完成");
+  }
+
+  function loadQuickSave() {
+    if (!quickSave) { setQuickNotice("尚无快速存档"); return; }
+    loadFromSlot(quickSave);
+    setQuickNotice("已读取快速存档");
+  }
+
+  const readingModeAllowed = canRunReadingMode({
+    hasOverlay: showGameMenu || showBacklog,
+    inBattle: Boolean(battle),
+    hasPendingResult: Boolean(pendingChoice || battleResult),
+    hasBlockingAction,
+  });
+
   return (
     <main className="game-shell game-shell--play">
-      <section className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}`} aria-label="血蛊引游戏界面">
+      <ReadingController
+        autoMode={autoMode}
+        canAdvance={readingModeAllowed && canAdvanceReading}
+        currentRead={readFrames.includes(currentFrameKey)}
+        onAdvance={advanceInteraction}
+        onAuto={() => setAutoMode((current) => !current)}
+        onBacklog={() => showBacklog ? setShowBacklog(false) : openBacklog()}
+        onHide={() => setUiHidden((current) => !current)}
+        onMenu={() => {
+          if (showBacklog) setShowBacklog(false);
+          else setShowGameMenu((current) => !current);
+        }}
+        onQuickLoad={loadQuickSave}
+        onQuickSave={createQuickSave}
+        onSkip={setSkipMode}
+        skipMode={skipMode}
+        text={presentedText}
+      />
+      <section
+        className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}`}
+        aria-label="血蛊引游戏界面"
+        onClick={(event) => {
+          if ((event.target as HTMLElement).closest("button, a, input, select, textarea")) return;
+          if (uiHidden) setUiHidden(false);
+          else advanceInteraction();
+        }}
+        onContextMenu={(event) => { event.preventDefault(); setUiHidden((current) => !current); }}
+        onWheel={(event) => {
+          if (event.deltaY < -24) openBacklog();
+          else if (event.deltaY > 24) advanceInteraction();
+        }}
+      >
         <VisualNovelStage activeSpeaker={speaker} background={stageBackground} characters={battle ? [] : stageCharacters} />
         <div className="vn-play-layout">
         <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
@@ -546,13 +683,13 @@ export function XueGuYinGame() {
             <div className="scene-copy vn-text-reveal" key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
             <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
           </section>
-          {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={() => setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) })}>继续</button></div> : null}
-          {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={() => setGame((current) => startBattle(current, scene))}>放出本命蛊</button></div> : null}
+          {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={advanceNarrative}>继续</button></div> : null}
+          {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={beginBattle}>放出本命蛊</button></div> : null}
           {isLastNarrativePage && presentation.choices.length > 0 ? (
           <nav className="choice-panel" aria-label="剧情选项">
             {visibleChoices.map((choice) => choice.id === "continue"
-              ? <button className="primary-button" key={choice.id}>继续</button>
-              : <button className="choice-button" key={choice.id} onClick={() => selectChoice(choice)}><span>{choice.label}</span></button>)}
+              ? <button className="primary-button" key={choice.id} onClick={() => chooseWithHistory(choice)}>继续</button>
+              : <button className="choice-button" key={choice.id} onClick={() => chooseWithHistory(choice)}><span>{choice.label}</span></button>)}
           </nav>
           ) : null}
           </>}
@@ -560,10 +697,102 @@ export function XueGuYinGame() {
         </div>
         <VisualNovelLedger title={battle ? battle.enemyName : scene.title} />
         </div>
+        <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} skipMode={skipMode} />
+        {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
+        {showBacklog ? <BacklogOverlay entries={backlog} onClose={() => setShowBacklog(false)} /> : null}
       </section>
     </main>
   );
+}
+
+function ReadingController({ autoMode, canAdvance, currentRead, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip, skipMode, text }: {
+  autoMode: boolean;
+  canAdvance: boolean;
+  currentRead: boolean;
+  onAdvance: () => void;
+  onAuto: () => void;
+  onBacklog: () => void;
+  onHide: () => void;
+  onMenu: () => void;
+  onQuickLoad: () => void;
+  onQuickSave: () => void;
+  onSkip: (active: boolean) => void;
+  skipMode: boolean;
+  text: string;
+}) {
+  useEffect(() => {
+    function isTypingTarget(target: EventTarget | null) {
+      return target instanceof HTMLElement && Boolean(target.closest("button, a, input, textarea, select, [contenteditable='true']"));
+    }
+    function keyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") { event.preventDefault(); onMenu(); return; }
+      if (isTypingTarget(event.target)) return;
+      if (event.key === "Control") { onSkip(true); return; }
+      if (event.repeat && !["Enter", " "].includes(event.key)) return;
+      const key = event.key.toLowerCase();
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onAdvance(); }
+      else if (key === "a") onAuto();
+      else if (key === "b") onBacklog();
+      else if (key === "h") onHide();
+      else if (key === "q") onQuickSave();
+      else if (key === "l") onQuickLoad();
+    }
+    function keyUp(event: KeyboardEvent) { if (event.key === "Control") onSkip(false); }
+    function windowBlur() { onSkip(false); }
+    window.addEventListener("keydown", keyDown);
+    window.addEventListener("keyup", keyUp);
+    window.addEventListener("blur", windowBlur);
+    return () => {
+      window.removeEventListener("keydown", keyDown);
+      window.removeEventListener("keyup", keyUp);
+      window.removeEventListener("blur", windowBlur);
+    };
+  }, [onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip]);
+
+  useEffect(() => {
+    if (!canAdvance || (!autoMode && !(skipMode && currentRead))) return;
+    const delay = skipMode && currentRead ? 110 : autoAdvanceDelay(text);
+    const timer = window.setTimeout(onAdvance, delay);
+    return () => window.clearTimeout(timer);
+  }, [autoMode, canAdvance, currentRead, onAdvance, skipMode, text]);
+
+  return null;
+}
+
+function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide, onQuickLoad, onQuickSave, skipMode }: {
+  autoMode: boolean;
+  canQuickLoad: boolean;
+  disabled: boolean;
+  onAuto: () => void;
+  onBacklog: () => void;
+  onHide: () => void;
+  onQuickLoad: () => void;
+  onQuickSave: () => void;
+  skipMode: boolean;
+}) {
+  return <nav className="vn-quick-menu" aria-label="阅读快捷菜单">
+    <button type="button" onClick={onBacklog}>历史 <kbd>B</kbd></button>
+    <button aria-pressed={autoMode} className={autoMode ? "is-active" : ""} disabled={disabled} type="button" onClick={onAuto}>自动 <kbd>A</kbd></button>
+    <span className={skipMode ? "is-active" : ""}>快进 <kbd>Ctrl</kbd></span>
+    <button type="button" onClick={onQuickSave}>快存 <kbd>Q</kbd></button>
+    <button disabled={!canQuickLoad} type="button" onClick={onQuickLoad}>快读 <kbd>L</kbd></button>
+    <button type="button" onClick={onHide}>隐藏 <kbd>H</kbd></button>
+  </nav>;
+}
+
+function BacklogOverlay({ entries, onClose }: { entries: BacklogEntry[]; onClose: () => void }) {
+  const listRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => { listRef.current?.scrollTo({ top: listRef.current.scrollHeight }); }, [entries]);
+  return <div className="vn-backlog-backdrop" role="presentation" onClick={onClose}>
+    <section className="vn-backlog" role="dialog" aria-modal="true" aria-labelledby="backlog-title" onClick={(event) => event.stopPropagation()}>
+      <header><div><p className="eyebrow">BACKLOG</p><h2 id="backlog-title">历史记录</h2></div><button type="button" aria-label="关闭历史记录" onClick={onClose}>×</button></header>
+      <div className="vn-backlog-list" ref={listRef}>
+        {entries.length ? entries.map((entry) => <article key={entry.id}><p><span>{entry.sceneTitle}</span><strong>{entry.speaker}</strong></p><div><NarrativePage text={entry.text} /></div></article>) : <p className="vn-backlog-empty">尚无可以回看的文字。</p>}
+      </div>
+      <footer>按 B 或 Esc 返回游戏</footer>
+    </section>
+  </div>;
 }
 
 function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {

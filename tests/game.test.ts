@@ -3,6 +3,32 @@ import test from "node:test";
 
 import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
 import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
+import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey } from "../lib/xue-gu-yin/reading.ts";
+
+test("阅读帧键稳定且正文变化会生成新键", () => {
+  const first = readingFrameKey("gate", 0, 0, "夜雨落在墓门前。");
+  assert.equal(first, readingFrameKey("gate", 0, 0, "夜雨落在墓门前。"));
+  assert.notEqual(first, readingFrameKey("gate", 0, 0, "夜雨停在墓门前。"));
+});
+
+test("历史记录去重并保留最近条目", () => {
+  const entry = { id: "gate:0", sceneId: "gate", sceneTitle: "夜雨墓门", speaker: "旁白", text: "夜雨落下。" };
+  assert.deepEqual(appendBacklog([entry], entry), [entry]);
+  const second = { ...entry, id: "gate:1", text: "墓门洞开。" };
+  assert.deepEqual(appendBacklog([entry], second, 1), [second]);
+});
+
+test("自动播放延时随文本增长并设有上限", () => {
+  assert.ok(autoAdvanceDelay("短句") < autoAdvanceDelay("这是一段明显更长、需要更多阅读时间的文字。"));
+  assert.equal(autoAdvanceDelay("长".repeat(500)), 3600);
+});
+
+test("自动与快进在选项、战斗和覆盖层暂停", () => {
+  assert.equal(canRunReadingMode({ hasOverlay: false, inBattle: false, hasPendingResult: false, hasBlockingAction: false }), true);
+  assert.equal(canRunReadingMode({ hasOverlay: true, inBattle: false, hasPendingResult: false, hasBlockingAction: false }), false);
+  assert.equal(canRunReadingMode({ hasOverlay: false, inBattle: true, hasPendingResult: false, hasBlockingAction: false }), false);
+  assert.equal(canRunReadingMode({ hasOverlay: false, inBattle: false, hasPendingResult: false, hasBlockingAction: true }), false);
+});
 
 test("三种无姓名男性身份沿用原有属性", () => {
   const medic = chooseRole("healer");

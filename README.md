@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 血蛊引
 
-## Getting Started
+以蛊墓寻宝、结盟与背叛为核心的固定剧本视觉小说／轻量 RPG。项目使用 Next.js、React 与 pnpm。
 
-First, run the development server:
+## 本地开发
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 [http://localhost:3000](http://localhost:3000)。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 阅读操作
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `Enter` / `Space`：推进文本
+- `A`：自动播放
+- 按住 `Ctrl`：快进已读文本
+- `B`：历史记录
+- `H`：隐藏／恢复界面
+- `Q` / `L`：快速存档／读取
+- `Esc`：游戏菜单
+- 鼠标右键：隐藏／恢复界面
+- 滚轮向上／向下：历史记录／推进文本
 
-## Learn More
+自动播放与快进会在选项、战斗和覆盖层处暂停。快速存档独立于六个手动存档位，所有记录只保存在当前浏览器。
 
-To learn more about Next.js, take a look at the following resources:
+## 验证
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm test
+pnpm lint
+pnpm build
+```

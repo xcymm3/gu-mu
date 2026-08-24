@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
+import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
 import { applyChoice, canChoose, chooseRole, endingAccess, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 
 test("三种无姓名男性身份沿用原有属性", () => {
@@ -157,6 +157,51 @@ test("第二幕条件事件仍会响应旧旗标", () => {
   const insightful = { ...base, flags: [...base.flags, "识破棋局"] };
   assert.equal(resolveScenePresentation(base, scenes.fog).text.includes("拐入一条"), false);
   assert.equal(resolveScenePresentation(insightful, scenes.fog).text.includes("拐入一条"), true);
+});
+
+test("第三幕四个固定节点及暗线均已迁移为原生事件", () => {
+  const routeState = { ...chooseRole(), route: "ji" as const };
+  for (const sceneId of ["routeTrial", "routeTruth", "routeCost", "bloodGate", "shadowQiao", "shadowTruth", "shadowBargain", "shadowBetrayal"] as const) {
+    const scene = scenes[sceneId];
+    const presentation = resolveScenePresentation(routeState, scene);
+    assert.equal(scene.text, undefined, `${sceneId} 仍保留旧 text`);
+    assert.ok(presentation.beats.length > 0, `${sceneId} 没有阅读节拍`);
+  }
+  assert.equal(resolveScenePresentation(routeState, scenes.routeTrial).choices.length, scenes.routeTrial.choices?.length);
+  assert.equal(resolveScenePresentation(routeState, scenes.bloodGate).choices.length, 1);
+});
+
+test("第三幕同行路线保持各自的人物演出和条件内容", () => {
+  const expectations = [
+    ["zhao", "赵黎", "蛊简"],
+    ["ji", "纪清寒", "活不过四十岁"],
+    ["xue", "薛逢", "活蛊线"],
+    ["su", "苏莹", "蛊不可祭"],
+  ] as const;
+  for (const [route, name, phrase] of expectations) {
+    const presentation = resolveScenePresentation({ ...chooseRole(), route }, scenes.routeTrial);
+    assert.ok(presentation.text.includes(name));
+    assert.ok(presentation.text.includes(phrase));
+  }
+  const tailed = resolveScenePresentation({ ...chooseRole(), route: "ji", flags: ["曾尾行乔无咎"] }, scenes.routeTrial);
+  assert.ok(tailed.text.includes("有人早来过"));
+});
+
+test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () => {
+  const assets = [
+    ["background.fog-passage", "/backgrounds/fog-passage-v1.webp"],
+    ["background.trap-passage", "/backgrounds/trap-passage-v1.webp"],
+    ["background.control-room", "/backgrounds/control-room-v1.webp"],
+    ["character.su-yan.neutral", "/characters/su-yan-v1.webp"],
+  ] as const;
+  for (const [key, src] of assets) {
+    const asset = getVisualAsset(key);
+    assert.equal(asset.kind, "image");
+    if (asset.kind === "image") assert.equal(asset.src, src);
+  }
+  assert.equal(getCharacterExpressionAsset("su-yan", "awakened"), "character.su-yan.awakened");
+  const shadow = resolveScenePresentation(chooseRole(), scenes.shadowTruth);
+  assert.equal(shadow.beats[0]?.background, "background.control-room");
 });
 
 test("五名主要人物基础立绘均从透明 WebP 资源加载", () => {

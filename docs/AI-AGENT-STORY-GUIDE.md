@@ -72,9 +72,11 @@ events: [
 - `ScenePresentation.background` 驱动背景层，`characters` 驱动多角色立绘层；不得在组件里写死某个节点只显示纪清寒。
 - 正式美术替换占位资源时，只修改 `assets.ts` 对应资源键的描述，剧情事件与 React 组件不需要改路径。
 
-当前迁移结构：第一幕 `gate` 位于 `story/events/act1.ts`；第二幕六个节点位于 `story/events/act2.ts`；乔无咎揭露相关的 `shadowTruth`、`qiaoReveal` 位于 `story/events/key-scenes.ts`。后续节点应按幕建立事件文件，不要把所有正文重新堆回 `data.ts`。
+当前迁移结构：第一幕 `gate` 位于 `story/events/act1.ts`；第二幕六个节点位于 `story/events/act2.ts`；第三幕四条同行路线与乔无咎暗线位于 `story/events/act3.ts`；跨幕关键揭露 `shadowTruth`、`qiaoReveal` 位于 `story/events/key-scenes.ts`。后续节点应按幕建立事件文件，不要把所有正文重新堆回 `data.ts`。
 
 第二幕中的 `puppetsEvents(state)` 与 `fogEvents(state)` 是条件演出样板：函数只根据现有旗标增减阅读事件，选择条件、状态效果和战斗配置仍留在 `data.ts`。不要在事件函数中直接修改 `GameState`。
+
+第三幕中的 `routeTrialEvents(state)`、`routeTruthEvents(state)`、`routeCostEvents(state)` 与 `bloodGateEvents(state)` 继续复用四个固定场景 ID，并根据 `state.route` 选择事件数组。赵黎、纪清寒、薛逢、苏莹四条同行路线不得各复制一套场景；路线选择、旗标与数值效果仍只在 `data.ts` 的原选项中维护。
 
 ## 如何增加剧情内容而不增加节点
 

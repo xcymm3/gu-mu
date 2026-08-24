@@ -9,7 +9,9 @@ export type VisualAssetDescriptor =
 export const visualAssetManifest = {
   "background.tomb-gate": { kind: "image", src: "/backgrounds/tomb-gate-v1.png", alt: "夜雨中的蛊墓石门" },
   "background.tomb-corridor": { kind: "css", className: "vn-placeholder-tomb-corridor", alt: "阴暗狭长的蛊墓甬道" },
-  "background.fog-passage": { kind: "css", className: "vn-placeholder-fog-passage", alt: "被大雾吞没的墓道" },
+  "background.fog-passage": { kind: "image", src: "/backgrounds/fog-passage-v1.webp", alt: "被蛊雾吞没的古墓甬道" },
+  "background.trap-passage": { kind: "image", src: "/backgrounds/trap-passage-v1.webp", alt: "坍塌断裂的机关陷道" },
+  "background.control-room": { kind: "image", src: "/backgrounds/control-room-v1.webp", alt: "遍布活蛊线的机关控制暗室" },
   "background.blood-chamber": { kind: "css", className: "vn-placeholder-blood-chamber", alt: "血光浮动的五转蛊室" },
   "character.ji-qinghan.placeholder": { kind: "image", src: "/characters/ji-qinghan-v1.webp", alt: "纪清寒基础立绘" },
   "character.ji-qinghan.neutral": { kind: "image", src: "/characters/ji-qinghan-v1.webp", alt: "纪清寒平静表情" },
@@ -32,7 +34,9 @@ export const visualAssetManifest = {
   "character.qiao-wujiu.neutral": { kind: "image", src: "/characters/qiao-wujiu-v1.webp", alt: "乔无咎平静表情" },
   "character.qiao-wujiu.calm": { kind: "image", src: "/characters/qiao-wujiu-v1.webp", alt: "乔无咎从容表情" },
   "character.qiao-wujiu.smug": { kind: "image", src: "/characters/qiao-wujiu-v1.webp", alt: "乔无咎自得表情" },
-  "character.su-yan.placeholder": { kind: "css", className: "vn-placeholder-su-yan", alt: "苏衍临时剪影" },
+  "character.su-yan.placeholder": { kind: "image", src: "/characters/su-yan-v1.webp", alt: "苏衍基础立绘" },
+  "character.su-yan.neutral": { kind: "image", src: "/characters/su-yan-v1.webp", alt: "苏衍冷漠表情" },
+  "character.su-yan.awakened": { kind: "image", src: "/characters/su-yan-v1.webp", alt: "苏衍苏醒表情" },
 } as const satisfies Record<string, VisualAssetDescriptor>;
 
 export type VisualAssetKey = keyof typeof visualAssetManifest;
@@ -69,6 +73,10 @@ const characterExpressionAssets = {
     neutral: "character.qiao-wujiu.neutral",
     calm: "character.qiao-wujiu.calm",
     smug: "character.qiao-wujiu.smug",
+  },
+  "su-yan": {
+    neutral: "character.su-yan.neutral",
+    awakened: "character.su-yan.awakened",
   },
 } as const satisfies Partial<Record<string, Partial<Record<string, CharacterAssetKey>>>>;
 

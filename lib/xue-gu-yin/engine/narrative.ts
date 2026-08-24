@@ -24,7 +24,7 @@ const characterAssets = {
   "xue-feng": "character.xue-feng.neutral",
   "su-ying": "character.su-ying.neutral",
   "qiao-wujiu": "character.qiao-wujiu.neutral",
-  "su-yan": "character.su-yan.placeholder",
+  "su-yan": "character.su-yan.neutral",
 } as const;
 
 export type ScenePresentation = {
@@ -109,7 +109,7 @@ function applyCharacterEvent(visible: Map<CharacterId, PresentedCharacter>, even
 }
 
 export function resolveSceneBeats(scene: Scene, events: VisualNovelEvent[]): SceneBeat[] {
-  let background = actBackgrounds[scene.act];
+  let background: BackgroundAssetKey = actBackgrounds[scene.act];
   const visible = new Map<CharacterId, PresentedCharacter>();
   const beats: SceneBeat[] = [];
 

@@ -54,4 +54,3 @@ export const suActThreeScenes: Record<string, Scene> = {
     choices: [{ id: "su-open-gate", label: "与苏莹共同按下血钥", next: "bloodGuard", result: "血色石门向两侧退开，沉睡者的呼吸从黑暗深处传来。" }],
   },
 };
-

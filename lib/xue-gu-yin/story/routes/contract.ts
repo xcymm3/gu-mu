@@ -13,4 +13,3 @@ export const actThreeRouteEntries: Record<PersonalityRouteId, string> = {
   su: actThreeRouteSceneIds.su[0],
   traitor: actThreeRouteSceneIds.traitor[0],
 };
-

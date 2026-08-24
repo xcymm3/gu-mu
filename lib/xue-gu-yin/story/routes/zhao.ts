@@ -54,4 +54,3 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
     choices: [{ id: "zhao-open-gate", label: "与赵黎一同推开血色石门", next: "bloodGuard", result: "石门洞开，血光将两个人的影子拉向同一座血池。" }],
   },
 };
-

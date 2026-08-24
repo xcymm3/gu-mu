@@ -55,4 +55,3 @@ export const traitorActThreeScenes: Record<string, Scene> = {
     choices: [{ id: "traitor-face-zhao", label: "迎向夺蛊而来的赵黎", next: "ending", result: "血光贯穿心口。你与乔无咎一同成为赵黎炼化血魔蛊的最后两份血食。", effect: { ending: "traitor" } }],
   },
 };
-

@@ -54,4 +54,3 @@ export const jiActThreeScenes: Record<string, Scene> = {
     choices: [{ id: "ji-open-gate", label: "握住断剑，与她共同破门", next: "bloodGuard", result: "寒光切开血纹，血色石门在你们面前缓缓开启。" }],
   },
 };
-

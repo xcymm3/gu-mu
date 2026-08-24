@@ -122,7 +122,7 @@ test("角色显隐事件会按顺序生成舞台最终阵容", () => {
   assert.deepEqual(presentation.visibleCharacters, ["su-ying"]);
   assert.deepEqual(presentation.characters[0], {
     id: "su-ying",
-    asset: "character.su-ying.placeholder",
+    asset: "character.su-ying.wary",
     position: "right",
     expression: "relieved",
   });
@@ -132,7 +132,46 @@ test("资源键全部从统一清单解析，纪清寒占位立绘指向现有�
   assert.ok(Object.keys(visualAssetManifest).length >= 10);
   const portrait = getVisualAsset("character.ji-qinghan.placeholder");
   assert.equal(portrait.kind, "image");
-  if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-placeholder.webp");
+  if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-v1.webp");
+});
+
+test("第二幕六个固定节点均已迁移为原生阅读事件", () => {
+  const actTwoIds = ["swarm", "shadow", "chamber", "illusion", "puppets", "fog"] as const;
+  for (const sceneId of actTwoIds) {
+    const scene = scenes[sceneId];
+    const presentation = resolveScenePresentation(chooseRole(), scene);
+    assert.equal(scene.text, undefined, `${sceneId} 仍保留旧 text`);
+    assert.ok(presentation.beats.length > 0, `${sceneId} 没有阅读节拍`);
+    assert.ok(presentation.events.some((event) => event.type === "narration"));
+  }
+  assert.equal(resolveScenePresentation(chooseRole(), scenes.swarm).choices.length, scenes.swarm.choices?.length);
+  assert.equal(resolveScenePresentation(chooseRole(), scenes.puppets).battle?.enemyName, "铜皮傀儡");
+});
+
+test("第二幕条件事件仍会响应旧旗标", () => {
+  const base = chooseRole();
+  const aided = { ...base, flags: [...base.flags, "苏莹低语"] };
+  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("暗红丹丸"), false);
+  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("暗红丹丸"), true);
+
+  const insightful = { ...base, flags: [...base.flags, "识破棋局"] };
+  assert.equal(resolveScenePresentation(base, scenes.fog).text.includes("拐入一条"), false);
+  assert.equal(resolveScenePresentation(insightful, scenes.fog).text.includes("拐入一条"), true);
+});
+
+test("五名主要人物基础立绘均从透明 WebP 资源加载", () => {
+  const portraits = [
+    ["character.zhao-li.neutral", "/characters/zhao-li-v1.webp"],
+    ["character.ji-qinghan.neutral", "/characters/ji-qinghan-v1.webp"],
+    ["character.xue-feng.neutral", "/characters/xue-feng-v1.webp"],
+    ["character.su-ying.neutral", "/characters/su-ying-v1.webp"],
+    ["character.qiao-wujiu.neutral", "/characters/qiao-wujiu-v1.webp"],
+  ] as const;
+  for (const [key, src] of portraits) {
+    const portrait = getVisualAsset(key);
+    assert.equal(portrait.kind, "image");
+    if (portrait.kind === "image") assert.equal(portrait.src, src);
+  }
 });
 
 test("正式墓门背景从统一资源清单加载", () => {

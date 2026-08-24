@@ -19,11 +19,11 @@ const characterNames: Array<{ id: CharacterId; name: string }> = [
 ];
 
 const characterAssets = {
-  "zhao-li": "character.zhao-li.placeholder",
+  "zhao-li": "character.zhao-li.neutral",
   "ji-qinghan": "character.ji-qinghan.neutral",
-  "xue-feng": "character.xue-feng.placeholder",
-  "su-ying": "character.su-ying.placeholder",
-  "qiao-wujiu": "character.qiao-wujiu.placeholder",
+  "xue-feng": "character.xue-feng.neutral",
+  "su-ying": "character.su-ying.neutral",
+  "qiao-wujiu": "character.qiao-wujiu.neutral",
   "su-yan": "character.su-yan.placeholder",
 } as const;
 

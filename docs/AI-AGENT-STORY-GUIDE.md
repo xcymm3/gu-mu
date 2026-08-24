@@ -31,6 +31,7 @@
 | `lib/xue-gu-yin/game.ts` | 状态转换、条件、战斗接线与旧导入兼容门面 | 长篇剧情正文、React JSX、CSS。 |
 | `features/xue-gu-yin/XueGuYinGame.tsx` | 视觉小说舞台、分页、按钮、存档 UI、战斗展示；只消费结构化呈现数据 | 任何具体路线判断、剧情段落、结局判定。 |
 | `docs/story-flow.md` | 面向人类的路线概览与条件说明 | 与代码不一致的历史设定。 |
+| `docs/art-prompts.md` | 已接入生成美术的可复现提示词与生成批次说明 | 剧情规则、资源路径接线。 |
 | `tests/game.test.ts` | 节点合同、关键选项条件、分支与结局的自动校验 | 长篇剧情正文。 |
 
 ## 如何修改一个节点
@@ -71,7 +72,9 @@ events: [
 - `ScenePresentation.background` 驱动背景层，`characters` 驱动多角色立绘层；不得在组件里写死某个节点只显示纪清寒。
 - 正式美术替换占位资源时，只修改 `assets.ts` 对应资源键的描述，剧情事件与 React 组件不需要改路径。
 
-当前迁移样板：第一幕 `gate` 位于 `story/events/act1.ts`；乔无咎揭露相关的 `shadowTruth`、`qiaoReveal` 位于 `story/events/key-scenes.ts`。后续节点应按幕建立事件文件，不要把所有正文重新堆回 `data.ts`。
+当前迁移结构：第一幕 `gate` 位于 `story/events/act1.ts`；第二幕六个节点位于 `story/events/act2.ts`；乔无咎揭露相关的 `shadowTruth`、`qiaoReveal` 位于 `story/events/key-scenes.ts`。后续节点应按幕建立事件文件，不要把所有正文重新堆回 `data.ts`。
+
+第二幕中的 `puppetsEvents(state)` 与 `fogEvents(state)` 是条件演出样板：函数只根据现有旗标增减阅读事件，选择条件、状态效果和战斗配置仍留在 `data.ts`。不要在事件函数中直接修改 `GameState`。
 
 ## 如何增加剧情内容而不增加节点
 

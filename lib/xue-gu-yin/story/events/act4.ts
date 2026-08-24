@@ -1,4 +1,4 @@
-import type { GameState, RouteId, VisualNovelEvent } from "../../model.ts";
+import type { GameState, LegacyStoryRouteId, VisualNovelEvent } from "../../model.ts";
 
 const routeCast = {
   zhao: { id: "zhao-li", name: "赵黎", position: "left", expression: "wary" },
@@ -7,13 +7,17 @@ const routeCast = {
   su: { id: "su-ying", name: "苏莹", position: "right", expression: "wary" },
 } as const;
 
-function routeEvents(state: GameState, content: Record<RouteId, VisualNovelEvent[]>): VisualNovelEvent[] {
-  return state.route
+function isLegacyStoryRoute(route: GameState["route"]): route is LegacyStoryRouteId {
+  return route !== null && route !== "traitor";
+}
+
+function routeEvents(state: GameState, content: Record<LegacyStoryRouteId, VisualNovelEvent[]>): VisualNovelEvent[] {
+  return isLegacyStoryRoute(state.route)
     ? content[state.route]
     : [{ type: "narration", text: "血色石门在你身后闭合，墓室里只剩蛊卵裂开的细响。" }];
 }
 
-function showRouteCharacter(route: RouteId): VisualNovelEvent {
+function showRouteCharacter(route: LegacyStoryRouteId): VisualNovelEvent {
   const actor = routeCast[route];
   return { type: "character", action: "show", character: actor.id, position: actor.position, expression: actor.expression };
 }
@@ -34,9 +38,9 @@ export function bloodRoomEvents(state: GameState): VisualNovelEvent[] {
     { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "四人的血，一个人的命，正好。", expression: "smug", position: "center" },
     { type: "narration", text: "乔无咎没有现身，声音却沿着活蛊线从每一面石壁同时传来。" },
   ];
-  if (state.route) {
+  if (isLegacyStoryRoute(state.route)) {
     events.push(showRouteCharacter(state.route));
-    const routeMoment: Record<RouteId, VisualNovelEvent> = {
+    const routeMoment: Record<LegacyStoryRouteId, VisualNovelEvent> = {
       zhao: { type: "narration", text: "赵黎站在你身侧，掌中血纹缓缓舒展，像一头终于等到猎物围成一圈的狼。" },
       ji: { type: "narration", text: "纪清寒以残剑拄地。血线已缠上她的手腕，正从经络中抽取气血，送向池中蛊卵。" },
       xue: { type: "narration", text: "薛逢目光在血池、石门与四壁活蛊线之间来回游移，显然已在盘算此刻向谁下跪最值钱。" },

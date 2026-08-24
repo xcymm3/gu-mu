@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
 import { audioAssetManifest, defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile } from "../lib/xue-gu-yin/audio.ts";
-import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
+import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, lockPersonalityRoute, personalityRouteMap, resolveBattleTurn, resolveDominantPersonalities, resolveEnding, resolvePersonalityRoute, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey } from "../lib/xue-gu-yin/reading.ts";
 
 test("阅读帧键稳定且正文变化会生成新键", () => {
@@ -29,6 +29,66 @@ test("自动与快进在选项、战斗和覆盖层暂停", () => {
   assert.equal(canRunReadingMode({ hasOverlay: true, inBattle: false, hasPendingResult: false, hasBlockingAction: false }), false);
   assert.equal(canRunReadingMode({ hasOverlay: false, inBattle: true, hasPendingResult: false, hasBlockingAction: false }), false);
   assert.equal(canRunReadingMode({ hasOverlay: false, inBattle: false, hasPendingResult: false, hasBlockingAction: true }), false);
+});
+
+test("四种隐藏人格映射到四条新路线", () => {
+  assert.deepEqual(personalityRouteMap, {
+    power: "zhao",
+    compassion: "ji",
+    insight: "su",
+    scheme: "traitor",
+  });
+  for (const [personality, route] of Object.entries(personalityRouteMap)) {
+    const state = {
+      ...chooseRole(),
+      personality: { power: 0, compassion: 0, insight: 0, scheme: 0, [personality]: 2 },
+    };
+    assert.equal(resolvePersonalityRoute(state.personality), route);
+    assert.equal(lockPersonalityRoute(state).route, route);
+    assert.equal(lockPersonalityRoute(state).routeLocked, true);
+  }
+});
+
+test("人格并列时等待最终确认，且只能从最高人格中选择", () => {
+  const state = {
+    ...chooseRole(),
+    personality: { power: 2, compassion: 2, insight: 1, scheme: 0 },
+  };
+  assert.deepEqual(resolveDominantPersonalities(state.personality), ["power", "compassion"]);
+  assert.equal(resolvePersonalityRoute(state.personality), null);
+  assert.equal(lockPersonalityRoute(state).route, null);
+  assert.equal(lockPersonalityRoute(state, "insight").route, null);
+  assert.equal(lockPersonalityRoute(state, "compassion").route, "ji");
+  assert.equal(canChoose(state, { id: "tie-ji", label: "确认重情", next: "gate", requires: { dominantPersonality: "compassion" } }), true);
+  assert.equal(canChoose(state, { id: "tie-su", label: "确认察微", next: "gate", requires: { dominantPersonality: "insight" } }), false);
+});
+
+test("共通线选项可以累计隐藏人格而不提前锁定路线", () => {
+  const next = applyChoice(chooseRole(), {
+    id: "seek-power",
+    label: "观察赵黎的血道秘术",
+    next: "swarm",
+    effect: { personality: { power: 2 } },
+  });
+  assert.deepEqual(next.personality, { power: 2, compassion: 0, insight: 0, scheme: 0 });
+  assert.equal(next.route, null);
+  assert.equal(next.routeLocked, false);
+});
+
+test("路线锁定后人格和路线都不会被后续选项改变", () => {
+  const locked = lockPersonalityRoute({
+    ...chooseRole(),
+    personality: { power: 3, compassion: 0, insight: 0, scheme: 0 },
+  });
+  const next = applyChoice(locked, {
+    id: "late-choice",
+    label: "后续选择",
+    next: "gate",
+    effect: { personality: { compassion: 9 }, route: "su" },
+  });
+  assert.equal(next.route, "zhao");
+  assert.equal(next.routeLocked, true);
+  assert.deepEqual(next.personality, locked.personality);
 });
 
 test("三种无姓名男性身份沿用原有属性", () => {

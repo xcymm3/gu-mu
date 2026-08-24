@@ -62,6 +62,7 @@ test("读取存档会清除旧结局并修正错位叙事页", () => {
 
 test("损坏或旧格式存档不会进入六个有效槽位", () => {
   assert.equal(isSaveSlot({ version: 1 }), false);
+  assert.equal(isSaveSlot({ version: 2 }), false);
   assert.deepEqual(normalizeSaveSlots("bad"), Array.from({ length: SAVE_SLOT_COUNT }, () => null));
 });
 

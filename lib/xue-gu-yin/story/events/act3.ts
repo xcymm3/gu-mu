@@ -1,4 +1,4 @@
-import type { GameState, RouteId, VisualNovelEvent } from "../../model.ts";
+import type { GameState, LegacyStoryRouteId, VisualNovelEvent } from "../../model.ts";
 
 const routeCharacters = {
   zhao: { id: "zhao-li", name: "赵黎", position: "left", expression: "wary" },
@@ -7,16 +7,20 @@ const routeCharacters = {
   su: { id: "su-ying", name: "苏莹", position: "right", expression: "wary" },
 } as const;
 
+function isLegacyStoryRoute(route: GameState["route"]): route is LegacyStoryRouteId {
+  return route !== null && route !== "traitor";
+}
+
 function routeOrFallback(
   state: GameState,
-  content: Record<RouteId, VisualNovelEvent[]>,
+  content: Record<LegacyStoryRouteId, VisualNovelEvent[]>,
 ): VisualNovelEvent[] {
-  return state.route
+  return isLegacyStoryRoute(state.route)
     ? content[state.route]
     : [{ type: "narration", text: "墓道在身后轰然断裂。你尚未看清同行之人的面孔，只能循着血腥气继续向前。" }];
 }
 
-function showRouteCharacter(route: RouteId): VisualNovelEvent {
+function showRouteCharacter(route: LegacyStoryRouteId): VisualNovelEvent {
   const character = routeCharacters[route];
   return {
     type: "character",
@@ -57,8 +61,8 @@ export function routeTrialEvents(state: GameState): VisualNovelEvent[] {
     }),
   ];
 
-  if (state.flags.includes("曾尾行乔无咎") && state.route) {
-    const replies: Record<RouteId, VisualNovelEvent> = {
+  if (state.flags.includes("曾尾行乔无咎") && isLegacyStoryRoute(state.route)) {
+    const replies: Record<LegacyStoryRouteId, VisualNovelEvent> = {
       zhao: { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "你看得倒清楚。", expression: "wary", position: "left" },
       ji: { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "这墓里，果然有人早来过了。", expression: "alert", position: "right" },
       xue: { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "这等没凭没据的话，可别乱说……", expression: "panicked", position: "left" },
@@ -144,7 +148,7 @@ export function bloodGateEvents(state: GameState): VisualNovelEvent[] {
     { type: "background", asset: "background.fog-passage", transition: "fade" },
     { type: "narration", text: "石门上的五道血纹依次亮起。其余人的生死，早已被崩裂墓道切碎在身后。门缝里吹出的风没有尘土味，只有新鲜血气。" },
   ];
-  if (state.route) events.push(showRouteCharacter(state.route));
+  if (isLegacyStoryRoute(state.route)) events.push(showRouteCharacter(state.route));
   events.push(
     { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "前面便是主墓室。各凭本事吧，诸位。", expression: "smug", position: "center" },
     { type: "narration", text: "乔无咎的声音自石壁深处传来，第一次不再掩饰。你握住发烫的旧玉，将血纹石门缓缓推开。" },

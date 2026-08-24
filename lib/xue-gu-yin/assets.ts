@@ -92,4 +92,5 @@ export const actBackgrounds = {
   2: "background.tomb-corridor",
   3: "background.fog-passage",
   4: "background.blood-chamber",
-} as const satisfies Record<1 | 2 | 3 | 4, BackgroundAssetKey>;
+  5: "background.blood-chamber",
+} as const satisfies Record<1 | 2 | 3 | 4 | 5, BackgroundAssetKey>;

@@ -3,7 +3,14 @@ import type { AudioAssetKey } from "./audio.ts";
 
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "zhao" | "ji" | "xue" | "su" | "qiao";
-export type RouteId = "zhao" | "ji" | "xue" | "su";
+export type PersonalityId = "power" | "compassion" | "insight" | "scheme";
+export type PersonalityScores = Record<PersonalityId, number>;
+export type PersonalityRouteId = "zhao" | "ji" | "su" | "traitor";
+/** @deprecated 第二、三步完成旧剧情迁移后移除。 */
+export type LegacyRouteId = "xue";
+export type RouteId = PersonalityRouteId | LegacyRouteId;
+/** @deprecated 旧版第三、四幕专用；第三步迁移完成后移除。 */
+export type LegacyStoryRouteId = Exclude<RouteId, "traitor">;
 export type CharacterId = "zhao-li" | "ji-qinghan" | "xue-feng" | "su-ying" | "qiao-wujiu" | "su-yan";
 export type CharacterPosition = "far-left" | "left" | "center" | "right" | "far-right";
 
@@ -39,6 +46,8 @@ export type Effect = {
   flag?: string;
   flags?: string[];
   ending?: string;
+  personality?: Partial<PersonalityScores>;
+  /** @deprecated 第二步会将旧好感度选项迁移为 personality。 */
   trust?: Partial<Record<AllyId, number>>;
   route?: RouteId;
   randomFlags?: string[];
@@ -49,7 +58,7 @@ export type Choice = {
   label: string;
   next: string;
   result?: string;
-  requires?: { route?: RouteId; flags?: string[]; allyTopTwo?: AllyId };
+  requires?: { route?: RouteId; flags?: string[]; allyTopTwo?: AllyId; dominantPersonality?: PersonalityId };
   effect?: Effect;
 };
 
@@ -72,12 +81,15 @@ export type GameState = {
   roleId: RoleId | null;
   sceneId: string;
   route: RouteId | null;
+  routeLocked: boolean;
+  personality: PersonalityScores;
   health: number;
   maxHealth: number;
   essence: number;
   maxEssence: number;
   time: number;
   flags: string[];
+  /** @deprecated 第二步完成前仅供旧共通线与旧战败反馈兼容。 */
   trust: Record<AllyId, number>;
   battle: Battle | null;
   endingId: string | null;
@@ -97,7 +109,7 @@ export type VisualNovelEvent =
 
 export type Scene = {
   id: string;
-  act: 1 | 2 | 3 | 4;
+  act: 1 | 2 | 3 | 4 | 5;
   node: number;
   chapter: string;
   title: string;

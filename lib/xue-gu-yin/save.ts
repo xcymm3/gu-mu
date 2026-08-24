@@ -1,6 +1,6 @@
 import type { GameState } from "./model.ts";
 
-export const SAVE_SLOT_VERSION = 2 as const;
+export const SAVE_SLOT_VERSION = 3 as const;
 export const SAVE_SLOT_COUNT = 6;
 
 export type NarrativePosition = { sceneId: string; page: number };
@@ -13,7 +13,9 @@ export type SaveSlot = {
 export type SaveSlots = Array<SaveSlot | null>;
 
 const roleIds = new Set<GameState["roleId"]>(["healer", "swordsman", "heir", null]);
+const routeIds = new Set<GameState["route"]>(["zhao", "ji", "su", "traitor", "xue", null]);
 const allyIds = ["zhao", "ji", "xue", "su", "qiao"] as const;
+const personalityIds = ["power", "compassion", "insight", "scheme"] as const;
 
 function isNarrativePosition(value: unknown): value is NarrativePosition {
   if (!value || typeof value !== "object") return false;
@@ -28,6 +30,10 @@ function isGameState(value: unknown): value is GameState {
   const candidate = value as Partial<GameState>;
   return roleIds.has(candidate.roleId as GameState["roleId"])
     && typeof candidate.sceneId === "string"
+    && routeIds.has(candidate.route as GameState["route"])
+    && typeof candidate.routeLocked === "boolean"
+    && Boolean(candidate.personality && typeof candidate.personality === "object")
+    && personalityIds.every((personality) => Number.isFinite(candidate.personality?.[personality]))
     && Number.isFinite(candidate.health)
     && Number.isFinite(candidate.maxHealth)
     && Number.isFinite(candidate.essence)

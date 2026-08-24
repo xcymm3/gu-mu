@@ -687,11 +687,19 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
 function EndingScreen({ game, seenEndings, onReplay, onChangeRole, onMenu }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void; onMenu: () => void }) {
   const ending = game.endingId ? endings[game.endingId] : null;
   if (!ending) return null;
-  const endingText = ending.text;
-  return <main className="game-shell"><section className="game-frame ending-card" aria-labelledby="ending-title">
-    <p className="eyebrow">结局已定</p><p className="ending-number">{String(seenEndings.length).padStart(2, "0")} / {String(Object.keys(endings).length).padStart(2, "0")}</p><h1 id="ending-title">{ending.name}</h1>
-    <p className="epitaph">“{ending.epitaph}”</p><p className="ending-text">{endingText}</p>
-    <button className="primary-button" onClick={onReplay}>重入蛊墓</button><button className="quiet-button" onClick={onChangeRole}>重新开始</button><button className="quiet-button" onClick={onMenu}>返回主界面</button>
-    <p className="gallery">本次会话已见：{seenEndings.map((id) => endings[id].name).join("、") || "无"}</p>
+  const background = getVisualAsset(ending.background);
+  return <main className={`game-shell ending-shell ending-shell--${ending.id}`}><section className="ending-stage" aria-labelledby="ending-title">
+    <div className="ending-stage-background" aria-hidden="true">
+      {background.kind === "image" ? <Image alt="" fill priority sizes="100vw" src={background.src} unoptimized /> : <div className={background.className} />}
+    </div>
+    <div className="ending-stage-shade" aria-hidden="true" />
+    <article className="ending-card">
+      <div className="ending-heading"><p className="eyebrow">结局已定</p><p className="ending-number">{String(seenEndings.length).padStart(2, "0")} / {String(Object.keys(endings).length).padStart(2, "0")}</p></div>
+      <h1 id="ending-title">{ending.name}</h1>
+      <p className="epitaph">“{ending.epitaph}”</p>
+      <p className="ending-text">{ending.text}</p>
+      <div className="ending-actions"><button className="primary-button" onClick={onReplay}>重入蛊墓</button><button className="quiet-button" onClick={onChangeRole}>重新开始</button><button className="quiet-button" onClick={onMenu}>返回主界面</button></div>
+      <p className="gallery">本次会话已见：{seenEndings.map((id) => endings[id].name).join("、") || "无"}</p>
+    </article>
   </section></main>;
 }

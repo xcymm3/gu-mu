@@ -108,4 +108,4 @@ export type Scene = {
   battle?: BattleConfig | ((state: GameState) => BattleConfig);
 };
 
-export type Ending = { id: string; name: string; epitaph: string; text: string };
+export type Ending = { id: string; name: string; epitaph: string; text: string; background: BackgroundAssetKey };

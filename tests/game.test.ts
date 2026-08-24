@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
-import { applyChoice, canChoose, chooseRole, endingAccess, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
+import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 
 test("三种无姓名男性身份沿用原有属性", () => {
   const medic = chooseRole("healer");
@@ -202,6 +202,43 @@ test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () =>
   assert.equal(getCharacterExpressionAsset("su-yan", "awakened"), "character.su-yan.awakened");
   const shadow = resolveScenePresentation(chooseRole(), scenes.shadowTruth);
   assert.equal(shadow.beats[0]?.background, "background.control-room");
+});
+
+test("第四幕全部高潮场景均已迁移为原生事件", () => {
+  const state = { ...chooseRole("swordsman"), route: "su" as const, flags: ["苏莹存活"] };
+  for (const sceneId of ["bloodGuard", "bloodRoom", "awakening", "finale", "masterBattle", "zhaoBattle", "qiaoReveal", "qiaoBattle"] as const) {
+    const scene = scenes[sceneId];
+    const presentation = resolveScenePresentation(state, scene);
+    assert.equal(scene.text, undefined, `${sceneId} 仍保留旧 text`);
+    assert.ok(presentation.beats.length > 0, `${sceneId} 没有阅读节拍`);
+    assert.equal(presentation.beats[0]?.background, "background.blood-chamber");
+  }
+});
+
+test("第四幕迁移不改变首领战配置与终局选项", () => {
+  const state = { ...chooseRole("swordsman"), route: "su" as const, flags: ["苏莹存活"] };
+  assert.deepEqual(
+    [scenes.bloodGuard, scenes.masterBattle, scenes.zhaoBattle, scenes.qiaoBattle].map((scene) => resolveScenePresentation(state, scene).battle?.enemyName),
+    ["血傀儡", "苏衍", "赵黎", "乔无咎"],
+  );
+  assert.equal(resolveScenePresentation(state, scenes.finale).choices.length, scenes.finale.choices?.length);
+  assert.ok(resolveScenePresentation(state, scenes.awakening).text.includes("苏衍缓缓睁眼"));
+});
+
+test("终局背景与每个结局的视觉舞台资源均已登记", () => {
+  const formalBackgrounds = [
+    ["background.blood-chamber", "/backgrounds/blood-chamber-v1.webp"],
+    ["background.dawn-exit", "/backgrounds/dawn-exit-v1.webp"],
+    ["background.blood-ruin", "/backgrounds/blood-ruin-v1.webp"],
+  ] as const;
+  for (const [key, src] of formalBackgrounds) {
+    const asset = getVisualAsset(key);
+    assert.equal(asset.kind, "image");
+    if (asset.kind === "image") assert.equal(asset.src, src);
+  }
+  for (const ending of Object.values(endings)) {
+    assert.equal(getVisualAsset(ending.background).kind, "image", `${ending.id} 未使用正式结局背景`);
+  }
 });
 
 test("五名主要人物基础立绘均从透明 WebP 资源加载", () => {

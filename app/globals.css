@@ -1929,6 +1929,155 @@ html[data-reduce-motion="true"] *::after {
   scrollbar-width: none;
 }
 
+/* Act V ending stage: a full visual-novel tableau instead of the legacy result card. */
+.ending-shell {
+  padding: 0;
+  background: var(--color-void);
+}
+
+.ending-stage {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--color-void);
+}
+
+.ending-stage-background,
+.ending-stage-background > div,
+.ending-stage-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.ending-stage-background img {
+  object-fit: cover;
+}
+
+.ending-stage-shade {
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgb(5 13 11 / 0.92) 0%, rgb(5 13 11 / 0.68) 38%, transparent 72%),
+    linear-gradient(0deg, rgb(5 13 11 / 0.82) 0%, transparent 50%);
+}
+
+.ending-card {
+  position: absolute;
+  z-index: 2;
+  inset: clamp(2rem, 7vh, 5.5rem) auto clamp(2rem, 7vh, 5.5rem) clamp(2rem, 8vw, 9rem);
+  display: flex;
+  width: min(38rem, calc(100vw - 4rem));
+  min-height: 0;
+  padding: clamp(1.5rem, 3vw, 2.75rem);
+  border: 1px solid color-mix(in oklch, white 22%, transparent);
+  border-radius: var(--radius-lg);
+  justify-content: center;
+  overflow: hidden;
+  color: #f4f0e7;
+  background: rgb(7 17 14 / 0.86);
+  box-shadow: 0 2rem 5rem rgb(0 0 0 / 0.38);
+  backdrop-filter: blur(12px);
+}
+
+.ending-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.ending-heading .eyebrow,
+.ending-heading .ending-number {
+  margin: 0;
+}
+
+.ending-card h1 {
+  margin-top: var(--space-3);
+  color: #fffaf0;
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  text-shadow: 0 0.1em 0.5em rgb(0 0 0 / 0.45);
+}
+
+.ending-card .epitaph {
+  margin-top: var(--space-4);
+  color: #d9b97f;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+}
+
+.ending-card .ending-text {
+  min-height: auto;
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  overflow: visible;
+  color: rgb(244 240 231 / 0.82);
+  font-size: clamp(0.98rem, 1.35vw, 1.16rem);
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
+.ending-actions {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.ending-actions .primary-button,
+.ending-actions .quiet-button {
+  min-height: 2.8rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.ending-actions .quiet-button {
+  border-color: rgb(255 255 255 / 0.28);
+  background: rgb(255 255 255 / 0.06);
+  color: rgb(255 255 255 / 0.82);
+}
+
+.ending-actions .quiet-button:hover {
+  border-color: rgb(255 255 255 / 0.55);
+  background: rgb(255 255 255 / 0.12);
+  color: #fffaf0;
+}
+
+.ending-card .gallery {
+  margin-top: var(--space-4);
+  color: rgb(255 255 255 / 0.48);
+}
+
+@media (max-width: 48rem) {
+  .ending-stage-shade {
+    background: linear-gradient(0deg, rgb(5 13 11 / 0.95) 0%, rgb(5 13 11 / 0.6) 76%, transparent 100%);
+  }
+
+  .ending-card {
+    inset: auto var(--space-3) var(--space-3);
+    width: auto;
+    max-height: calc(100dvh - var(--space-6));
+    padding: var(--space-5);
+  }
+
+  .ending-card h1 { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .ending-card .ending-text { font-size: var(--text-sm); line-height: 1.7; }
+  .ending-actions { grid-template-columns: 1fr 1fr; }
+  .ending-actions .primary-button { grid-column: 1 / -1; }
+  .ending-card .gallery { display: none; }
+}
+
+@media (max-height: 36rem) {
+  .ending-card {
+    inset-block: var(--space-3);
+    justify-content: flex-start;
+  }
+
+  .ending-card h1 { font-size: clamp(2.2rem, 8vh, 3.5rem); }
+  .ending-card .ending-text { margin-top: var(--space-3); line-height: 1.55; }
+  .ending-actions { margin-top: var(--space-4); }
+}
+
 .game-shell--play .scene-copy::-webkit-scrollbar { display: none; }
 
 @keyframes vn-text-reveal {

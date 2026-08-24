@@ -87,3 +87,25 @@ Use case: game-character-sprite. Create a polished 2D anime visual-novel full-bo
 ```text
 Edit this exact character illustration into a production-ready visual-novel sprite. Preserve Su Yan's face, hair, pose, black and dark-red ceremonial robes, proportions, and all character details. Remove the entire black/red background and every halo or floor shadow. Output the isolated full-body character only on a genuine fully transparent alpha background with clean anti-aliased edges. Do not crop the hair, sleeves, robe, hands, or feet. No scenery, no colored backdrop, no text, no logo, no UI, no watermark.
 ```
+
+## 第七步：第四幕与结局背景
+
+本批三张背景使用 Codex 内置 imagegen，模式均为 `stylized-concept`，生成后统一转为 16:9 WebP。
+
+### 五转血魔蛊室
+
+```text
+Use case: stylized-concept. Create a polished 2D anime visual-novel environment background for the climax of a dark Chinese xianxia mystery game. A vast ancient underground Blood Gu chamber built from black stone, with a circular blood pool at center, a cracked five-turn Gu chrysalis hovering just above the liquid, an ancient black stone coffin rising behind it, and countless restrained blood-red living threads converging from the walls. Powerful ritual atmosphere, ominous but not excessively gory, clear architectural depth, no people. Leave the lower 30 percent dark, quiet and low-contrast for a visual-novel dialogue box. Wide 16:9 cinematic composition, commercial Japanese visual-novel background quality, painterly anime environment art, ink-black, deep jade and controlled crimson palette, no characters, no text, no logo, no UI, no watermark.
+```
+
+### 出墓天光
+
+```text
+Use case: stylized-concept. Create a polished 2D anime visual-novel ending background for a dark Chinese xianxia mystery game. Dawn outside an ancient Gu tomb after a night of rain: the broken stone gate opens toward a pale golden sky, wet wild grass and mountain mist catch the first sunlight, the ruined tomb remains dark behind the threshold, a quiet path leads away into the living world. Bittersweet relief rather than celebration, no people. Leave the lower 30 percent visually quiet and low-contrast for ending text. Wide 16:9 cinematic composition, commercial Japanese visual-novel background quality, painterly anime environment art, pale gold, misty jade and rain-washed stone palette, no characters, no text, no logo, no UI, no watermark.
+```
+
+### 血室崩塌
+
+```text
+Use case: stylized-concept. Create a polished 2D anime visual-novel bad-ending background for a dark Chinese xianxia mystery game. The ancient underground Blood Gu chamber is collapsing under a deep crimson moonlike glow from the cracked ceiling; black stone pillars split, blood-red living threads snap across the air, the central blood pool overflows into dark reflections, abandoned weapons lie near the edge. Tragic, supernatural, restrained and cinematic, no bodies and no people. Leave the lower 30 percent dark and low-contrast for ending text. Wide 16:9 composition, commercial Japanese visual-novel background quality, painterly anime environment art, charcoal black and controlled crimson palette, no characters, no text, no logo, no UI, no watermark.
+```

@@ -1,7 +1,8 @@
-import type { Ending, GameState, Role, RoleId, RouteId, Scene } from "../model.ts";
+import type { Ending, Role, RoleId, Scene } from "../model.ts";
 import { gateEvents } from "./events/act1.ts";
 import { chamberEvents, fogEvents, illusionEvents, puppetsEvents, shadowEvents, swarmEvents } from "./events/act2.ts";
 import { bloodGateEvents, routeCostEvents, routeTrialEvents, routeTruthEvents, shadowBargainEvents, shadowBetrayalEvents, shadowQiaoEvents } from "./events/act3.ts";
+import { awakeningEvents, bloodGuardEvents, bloodRoomEvents, finaleEvents, masterBattleEvents, qiaoBattleEvents, zhaoBattleEvents } from "./events/act4.ts";
 import { qiaoRevealEvents, shadowTruthEvents } from "./events/key-scenes.ts";
 
 export const storyMeta = {
@@ -26,8 +27,6 @@ export const roles: Role[] = [
   { id: "swordsman", name: "流浪剑修", gender: "male", title: "四转巅峰 · 流浪剑修", description: "以蛊御剑，不善言辞，只求用剑法斩尽一切。", maxHealth: 15, maxEssence: 10, attack: 4, signatureGu: "剑鸣蛊", sense: "normal" },
   { id: "heir", name: "世家之子", gender: "male", title: "四转巅峰 · 世家之子", description: "曾有过显赫世家，如今却穷困潦倒。神识过人，能看清人心。", maxHealth: 12, maxEssence: 10, attack: 3, signatureGu: "惑心蛊", sense: "high" },
 ];
-
-function routeText(state: GameState, content: Record<RouteId, string>) { return state.route ? content[state.route] : "墓道在身后轰然断裂。你尚未看清同行之人的面孔，只能循着血腥气继续向前。"; }
 
 export const scenes: Record<string, Scene> = {
   gate: {
@@ -131,32 +130,22 @@ export const scenes: Record<string, Scene> = {
   },
   bloodGuard: {
     id: "bloodGuard", act: 4, node: 1, chapter: "第四幕 · 血魔蛊室 · 节点 1 / 3", title: "守门血傀儡",
-    text: "推开血色石门的刹那，一具通体猩红的傀儡堵在门后——它比铜皮傀儡高出整整一倍，蛊核里翻涌着浓稠的血光。赵黎皱了皱眉，正要出手，血傀儡已朝你扑来。",
+    events: bloodGuardEvents,
     battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "bloodRoom", defeatNext: "bloodRoom", victoryFlag: "血傀儡已毁", defeatFlag: "血傀儡被赵黎击碎" },
   },
   bloodRoom: {
     id: "bloodRoom", act: 4, node: 1, chapter: "第四幕 · 血魔蛊室 · 节点 1 / 3", title: "五转蛊卵",
-    text: (state) => `石门合拢，四壁血纹齐亮，数道血线汇向中央血池。池中蛊卵缓缓裂开，**五转血魔蛊**的威压灌满石室。乔无咎不现身，只通过活蛊线从石壁中说：“四人的血，一个人的命，正好。”\n\n${state.route === "ji" ? "纪清寒以残剑拄地，血线正自她体内流向血池。" : state.route === "su" && state.flags.includes("苏莹存活") ? "苏莹站在你身侧，指尖那滴血仍在石面暗纹中发亮。" : state.route === "xue" ? "薛逢已开始盘算向谁跪下最值钱。" : "赵黎站在你身侧，却像一头终于等到猎物围成一圈的狼。"}`,
+    events: bloodRoomEvents,
     choices: [{ id: "resist", label: "压住蛊种，寻找血祭阵眼", next: "awakening", result: "你压住翻涌的蛊种，在漫天血纹中寻找阵眼。" }, { id: "answer-qiao", label: "拖住乔无咎，逼他多说一句", next: "awakening", result: "你扬声拖住乔无咎，逼他多说了半句。他的声音里，第一次透出不耐。", effect: { trust: { qiao: -1 } } }],
   },
   awakening: {
     id: "awakening", act: 4, node: 2, chapter: "第四幕 · 血魔蛊室 · 节点 2 / 3", title: "血流将醒",
-    text: (state) => routeText(state, {
-      zhao: "赵黎终于出手，掌中血蛊直取你的心脉。你等的正是这一刻：冰寒蛊简的秘术冻住周身血气，旧玉随之发亮，血魔蛊的蛊影在池中停滞一瞬。",
-      ji: "纪清寒看着你，只说“你选”。她以冰蚕剑插入血池阵眼，愿用三息冻结替你炸出一线生机。你知道这一剑下去，她与自己的蛊种都可能碎裂。",
-      xue: "薛逢抢先跪下，向乔无咎说依约把你带来。乔无咎却淡淡答祭品名单上也有他。你藏在聚灵蛊中的追踪印记顺着活蛊线逆行，控制室的位置终于在识海中亮起。",
-      su: state.flags.includes("苏莹存活") ? "苏莹的血滴入石面，暗门在血池下缓缓升起。黑石棺椁破水而出，苏衍并未坐化，而是以血魔蛊为饵等待祭品。乔无咎惊怒未尽，已被反向活蛊线拖向血池。" : "苏莹的尸身仍在门边。你看着她未写完的血字，明白再等下去，血祭会吞掉所有人。你割开手腕，决定以自己的血替换祭品。",
-    }),
+    events: awakeningEvents,
     choices: [{ id: "face-final", label: "在蛊卵彻底裂开前作出选择", next: "finale", result: "你在蛊卵彻底裂开前，做出了选择。" }],
   },
   finale: {
     id: "finale", act: 4, node: 3, chapter: "第四幕 · 血魔蛊室 · 节点 3 / 3", title: "人吃蛊，还是蛊吃人",
-    text: (state) => routeText(state, {
-      zhao: "冰寒秘术与旧玉血光同时压住血魔蛊。赵黎第一次露出讶色，随即大笑，说你终于有资格做他的对手。只有在这里击败他，才能夺得血魔蛊。",
-      ji: "纪清寒已将冰蚕剑钉进阵眼。她要你带她离开，不要带走蛊。你若引爆自己的蛊种，血魔蛊会在将醒未醒之间化灰；代价是你们二人修为尽废。",
-      xue: "逆向活蛊线已指向控制室。乔无咎操控被截断的一瞬，就是夺蛊的唯一机会。薛逢还在求饶，你可以让他活着记账，也可以把他交回血祭。",
-      su: state.flags.includes("苏莹存活") ? "苏衍从黑石棺中复苏，五转威压压得血池翻涌。赵黎、纪清寒、薛逢与苏莹都还活着；这是唯一能让五人联手的时刻。" : "你纵身跃入血池，准备以全部血液与血魔蛊共生。苏莹未能回来，但你能决定这只蛊醒来后是吞人，还是被人驾驭。",
-    }),
+    events: finaleEvents,
     choices: [
       { id: "duel-zhao", label: "以冰寒秘术压蛊，与赵黎决战", next: "zhaoBattle", result: "你以冰寒秘术压住血魔蛊，旧玉血光与赵黎的血线撞在一处。", requires: { route: "zhao", flags: ["冰寒蛊简"] } },
       { id: "break-array", label: "与纪清寒一同炸毁祭阵", next: "ending", result: "你与纪清寒一同引爆祭阵。血魔蛊在将醒未醒之间，化成了灰。", requires: { route: "ji" }, effect: { ending: "severed" } },
@@ -167,12 +156,12 @@ export const scenes: Record<string, Scene> = {
   },
   masterBattle: {
     id: "masterBattle", act: 4, node: 3, chapter: "第四幕 · 血魔蛊室 · 节点 3 / 3", title: "苏衍诈死",
-    text: "苏衍抬手，乔无咎被活蛊线拖入血池。你以旧玉为引，血魔蛊却挣脱你的掌心，认祖归宗飞回苏衍手中——“此蛊本是我苏氏血脉所养。”赵黎先出手，纪清寒以断剑重铸阵纹，苏莹用血脉干扰墓室，薛逢被你硬拽去堵住退路。五人第一次真正站在同一边，对面是握着自己血脉之蛊的墓主。",
+    events: masterBattleEvents,
     battle: { enemyName: "苏衍", enemyHealth: 28, victoryNext: "ending", defeatNext: "ending", victoryFlag: "墓主已灭", defeatFlag: "墓主吞尽血食" },
   },
   zhaoBattle: {
     id: "zhaoBattle", act: 4, node: 3, chapter: "第四幕 · 血魔蛊室 · 节点 3 / 3", title: "血蛊相争",
-    text: "冰寒秘术封住周身血气，祖传旧玉随之放出血光。赵黎脸上的笑意终于收起，掌中血线与血魔蛊遥相呼应。他说你有资格做他的对手；你知道这一战之后，墓里只会剩下一个能握住血魔蛊的人。",
+    events: zhaoBattleEvents,
     battle: { enemyName: "赵黎", enemyHealth: 22, victoryNext: "qiaoReveal", defeatNext: "ending", victoryFlag: "血魔蛊", defeatFlag: "赵黎夺蛊" },
   },
   qiaoReveal: {
@@ -184,7 +173,7 @@ export const scenes: Record<string, Scene> = {
   },
   qiaoBattle: {
     id: "qiaoBattle", act: 4, node: 3, chapter: "第四幕 · 血魔蛊室 · 节点 3 / 3", title: "暗室杀局",
-    text: "乔无咎十指勾动，整座墓室的活蛊线同时绷紧。他知道血魔蛊已在你掌心，也不急，只一步步把你逼向死局。你攥紧那抹猩红——用，还是不用？",
+    events: qiaoBattleEvents,
     battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "ending", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "乔无咎得逞" },
   },
   shadowQiao: {
@@ -221,18 +210,18 @@ export const scenes: Record<string, Scene> = {
 };
 
 export const endings: Record<string, Ending> = {
-  demon: { id: "demon", name: "夺蛊成魔", epitaph: "血浪吞人，唯你仍立。", text: "乔无咎现身的瞬间，你终于放开那点克制。血魔蛊脱手，六尺血幕吞了乔无咎，也吞了你最后的人性。墓门外月色如血，你成了再无人敢直呼其名的血蛊魔君。" },
-  severed: { id: "severed", name: "破蛊断脉", epitaph: "蛊碎了，人还在。", text: "纪清寒冻结阵眼三息，你引爆蛊种，血魔蛊与血祭一同化灰。你们修为尽废，却互相搀扶走出天亮的墓门。江湖失去两名蛊修，山野多了一间安静药铺。" },
-  tyrant: { id: "tyrant", name: "血蛊枭雄", epitaph: "活蛊线断，旧账才刚开始。", text: "你借活蛊线反制控制室，乔无咎被祭阵反噬。临死前，他却隔空捏碎薛逢的心脉——“废物，本就该第一个死。”血魔蛊残缺认主，纪清寒带断剑离开。你未成魔，却亲眼看着那颗卑微的棋子死在执棋人手里。" },
-  sacrifice: { id: "sacrifice", name: "以身饲蛊", epitaph: "人蛊共生，意志为主。", text: "你以全身血液替代祭品，与血魔蛊共生。苏莹没有回来，但你让蛊听命于人。此后人间多了一位镇压邪蛊的血蛊主，每年入冬，你都会去她坟前坐一会儿。" },
-  true: { id: "true", name: "血脉归位", epitaph: "五人出墓，天光未负。", text: "苏衍败亡，乔无咎化为枯骨，血室崩塌。赵黎留下未竟之战，薛逢发誓改邪，纪清寒将寒蚕丝系在你腕上；苏莹红着眼问你以后会不会丢下她。你说，不丢了。" },
-  deathByZhao: { id: "deathByZhao", name: "血蛊反噬", epitaph: "血蛊相争，败者无坟。", text: "赵黎掌中血线穿透你的蛊种。旧玉落地，被他一脚踏碎。血魔蛊在池中发出一声低鸣——它已认主，却不是认你。" },
-  deathByMaster: { id: "deathByMaster", name: "命丧墓主", epitaph: "五转之下，皆为祭品。", text: "苏衍的五转威压碾碎了你最后的蛊息。血池倒灌，你看见自己的血汇入那具黑石棺椁，成为它下一场沉睡的养分。" },
-  death: { id: "death", name: "命丧血池", epitaph: "血魔蛊醒，先吞活人。", text: "你在蛊室中失去最后一点真元。血祭没有停下，苏衍与乔无咎的谋算都沉入血池，只剩血魔蛊记得你的气息。" },
-  trapped: { id: "trapped", name: "困于蛊墓", epitaph: "迟疑太久，墓门已合。", text: "你们在机关与伤势中耗尽时间。血雾封死所有退路，墓门外的夜雨仍在下，却再也落不到你身上。" },
-  lone: { id: "lone", name: "独活出墓", epitaph: "蛊散，人独活。", text: "乔无咎倒下时，你看见血魔蛊在掌心跃跃欲试的猩红。你收了手，反手将它连同自己的蛊种一并震碎。同行之人死尽，你独自走出墓门，身后背着一座空墓，与再无人能作证的夜雨。" },
-  traitor: { id: "traitor", name: "叛徒", epitaph: "为虎作伥，终被虎噬。", text: "你为虎作伥，助乔无咎杀尽同伴，却先被乔无咎弃子，再死于化魔的赵黎之手。连“背叛”都没能救你的命。" },
-  seer: { id: "seer", name: "洞见而殁", epitaph: "看懂了棋，落不下子。", text: "你拒绝入局。暗室里万千活蛊线同时绷直，无数傀儡潮水般将你淹没。直到被蛊核的猩红吞没的前一刻，你仍不敢置信——你看懂了整盘棋，却连一枚子都来不及落。" },
+  demon: { id: "demon", name: "夺蛊成魔", epitaph: "血浪吞人，唯你仍立。", text: "乔无咎现身的瞬间，你终于放开那点克制。血魔蛊脱手，六尺血幕吞了乔无咎，也吞了你最后的人性。墓门外月色如血，你成了再无人敢直呼其名的血蛊魔君。", background: "background.blood-ruin" },
+  severed: { id: "severed", name: "破蛊断脉", epitaph: "蛊碎了，人还在。", text: "纪清寒冻结阵眼三息，你引爆蛊种，血魔蛊与血祭一同化灰。你们修为尽废，却互相搀扶走出天亮的墓门。江湖失去两名蛊修，山野多了一间安静药铺。", background: "background.dawn-exit" },
+  tyrant: { id: "tyrant", name: "血蛊枭雄", epitaph: "活蛊线断，旧账才刚开始。", text: "你借活蛊线反制控制室，乔无咎被祭阵反噬。临死前，他却隔空捏碎薛逢的心脉——“废物，本就该第一个死。”血魔蛊残缺认主，纪清寒带断剑离开。你未成魔，却亲眼看着那颗卑微的棋子死在执棋人手里。", background: "background.control-room" },
+  sacrifice: { id: "sacrifice", name: "以身饲蛊", epitaph: "人蛊共生，意志为主。", text: "你以全身血液替代祭品，与血魔蛊共生。苏莹没有回来，但你让蛊听命于人。此后人间多了一位镇压邪蛊的血蛊主，每年入冬，你都会去她坟前坐一会儿。", background: "background.dawn-exit" },
+  true: { id: "true", name: "血脉归位", epitaph: "五人出墓，天光未负。", text: "苏衍败亡，乔无咎化为枯骨，血室崩塌。赵黎留下未竟之战，薛逢发誓改邪，纪清寒将寒蚕丝系在你腕上；苏莹红着眼问你以后会不会丢下她。你说，不丢了。", background: "background.dawn-exit" },
+  deathByZhao: { id: "deathByZhao", name: "血蛊反噬", epitaph: "血蛊相争，败者无坟。", text: "赵黎掌中血线穿透你的蛊种。旧玉落地，被他一脚踏碎。血魔蛊在池中发出一声低鸣——它已认主，却不是认你。", background: "background.blood-ruin" },
+  deathByMaster: { id: "deathByMaster", name: "命丧墓主", epitaph: "五转之下，皆为祭品。", text: "苏衍的五转威压碾碎了你最后的蛊息。血池倒灌，你看见自己的血汇入那具黑石棺椁，成为它下一场沉睡的养分。", background: "background.blood-chamber" },
+  death: { id: "death", name: "命丧血池", epitaph: "血魔蛊醒，先吞活人。", text: "你在蛊室中失去最后一点真元。血祭没有停下，苏衍与乔无咎的谋算都沉入血池，只剩血魔蛊记得你的气息。", background: "background.blood-ruin" },
+  trapped: { id: "trapped", name: "困于蛊墓", epitaph: "迟疑太久，墓门已合。", text: "你们在机关与伤势中耗尽时间。血雾封死所有退路，墓门外的夜雨仍在下，却再也落不到你身上。", background: "background.fog-passage" },
+  lone: { id: "lone", name: "独活出墓", epitaph: "蛊散，人独活。", text: "乔无咎倒下时，你看见血魔蛊在掌心跃跃欲试的猩红。你收了手，反手将它连同自己的蛊种一并震碎。同行之人死尽，你独自走出墓门，身后背着一座空墓，与再无人能作证的夜雨。", background: "background.dawn-exit" },
+  traitor: { id: "traitor", name: "叛徒", epitaph: "为虎作伥，终被虎噬。", text: "你为虎作伥，助乔无咎杀尽同伴，却先被乔无咎弃子，再死于化魔的赵黎之手。连“背叛”都没能救你的命。", background: "background.control-room" },
+  seer: { id: "seer", name: "洞见而殁", epitaph: "看懂了棋，落不下子。", text: "你拒绝入局。暗室里万千活蛊线同时绷直，无数傀儡潮水般将你淹没。直到被蛊核的猩红吞没的前一刻，你仍不敢置信——你看懂了整盘棋，却连一枚子都来不及落。", background: "background.control-room" },
 };
 
 const allEndingIds = Object.keys(endings);

@@ -86,6 +86,7 @@ export const illusionEvents: VisualNovelEvent[] = [
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "道友！", expression: "alert", position: "right" },
   { type: "effect", effect: "flash", tone: "neutral" },
+  { type: "sound", asset: "sfx.scene-flash" },
   { type: "narration", text: "清冷喝声如剑鸣炸开，温情幻象寸寸崩裂。你猛然清醒，手里握着的并非故人，而是纪清寒冰凉的手掌。\n\n她显然也才脱离心魔，耳根瞬间泛红，另一只手却已按住长剑，寒芒指向数步外的薛逢。" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "left", expression: "calm" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "诸位道友，速速收摄心神。", expression: "calm", position: "left" },

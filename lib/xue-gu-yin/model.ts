@@ -1,4 +1,5 @@
-import type { BackgroundAssetKey, CharacterAssetKey, VisualAssetKey } from "./assets.ts";
+import type { BackgroundAssetKey, CharacterAssetKey } from "./assets.ts";
+import type { AudioAssetKey } from "./audio.ts";
 
 export type RoleId = "healer" | "swordsman" | "heir";
 export type AllyId = "zhao" | "ji" | "xue" | "su" | "qiao";
@@ -89,8 +90,8 @@ export type VisualNovelEvent =
   | { type: "dialogue"; speaker: CharacterId; displayName: string; text: string; expression?: string; position?: CharacterPosition }
   | { type: "choice"; choices: Choice[] }
   | { type: "battle"; config: BattleConfig }
-  | { type: "music"; action: "play" | "stop" | "keep"; asset?: VisualAssetKey; fadeMs?: number }
-  | { type: "sound"; asset: VisualAssetKey }
+  | { type: "music"; action: "play" | "stop" | "keep"; asset?: AudioAssetKey; fadeMs?: number }
+  | { type: "sound"; asset: AudioAssetKey }
   | { type: "effect"; effect: "fade" | "flash" | "shake" | "darken"; tone?: "neutral" | "danger" }
   | { type: "jump"; sceneId: string };
 

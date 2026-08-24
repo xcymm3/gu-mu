@@ -1,4 +1,5 @@
 import { actBackgrounds, getCharacterExpressionAsset, type BackgroundAssetKey, type CharacterAssetKey } from "../assets.ts";
+import type { AudioAssetKey } from "../audio.ts";
 import type {
   BattleConfig,
   CharacterId,
@@ -46,6 +47,9 @@ export type SceneBeat = {
   mode: "dialogue-box" | "center";
   background: BackgroundAssetKey;
   characters: PresentedCharacter[];
+  transition: "cut" | "fade";
+  effects: Array<{ effect: "fade" | "flash" | "shake" | "darken"; tone: "neutral" | "danger" }>;
+  sounds: AudioAssetKey[];
 };
 
 export type PresentedCharacter = {
@@ -110,16 +114,31 @@ function applyCharacterEvent(visible: Map<CharacterId, PresentedCharacter>, even
 
 export function resolveSceneBeats(scene: Scene, events: VisualNovelEvent[]): SceneBeat[] {
   let background: BackgroundAssetKey = actBackgrounds[scene.act];
+  let transition: "cut" | "fade" = "cut";
   const visible = new Map<CharacterId, PresentedCharacter>();
   const beats: SceneBeat[] = [];
+  const pendingEffects: SceneBeat["effects"] = [];
+  const pendingSounds: AudioAssetKey[] = [];
 
   for (const event of events) {
     if (event.type === "background") {
       background = event.asset;
+      transition = event.transition ?? "cut";
       continue;
     }
     if (event.type === "character") {
       applyCharacterEvent(visible, event);
+      continue;
+    }
+    if (event.type === "effect") {
+      const effect = { effect: event.effect, tone: event.tone ?? "neutral" };
+      if (beats.length) beats.at(-1)!.effects.push(effect);
+      else pendingEffects.push(effect);
+      continue;
+    }
+    if (event.type === "sound") {
+      if (beats.length) beats.at(-1)!.sounds.push(event.asset);
+      else pendingSounds.push(event.asset);
       continue;
     }
     if (event.type !== "narration" && event.type !== "dialogue") continue;
@@ -132,7 +151,11 @@ export function resolveSceneBeats(scene: Scene, events: VisualNovelEvent[]): Sce
       mode: event.type === "narration" ? event.mode ?? "dialogue-box" : "dialogue-box",
       background,
       characters: [...visible.values()].map((character) => ({ ...character })),
+      transition,
+      effects: pendingEffects.splice(0),
+      sounds: pendingSounds.splice(0),
     });
+    transition = "cut";
   }
 
   return beats;

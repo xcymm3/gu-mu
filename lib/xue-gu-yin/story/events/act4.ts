@@ -24,6 +24,7 @@ export const bloodGuardEvents: VisualNovelEvent[] = [
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
   { type: "narration", text: "赵黎只皱了皱眉，尚未抬手，血傀儡已经撞碎脚下石板，直扑你面门。" },
   { type: "effect", effect: "shake", tone: "danger" },
+  { type: "sound", asset: "sfx.battle-danger" },
 ];
 
 export function bloodRoomEvents(state: GameState): VisualNovelEvent[] {
@@ -56,6 +57,7 @@ export function awakeningEvents(state: GameState): VisualNovelEvent[] {
         showRouteCharacter("zhao"),
         { type: "narration", text: "赵黎终于出手，掌中血蛊越过翻涌血池，直取你的心脉。你等的正是这一刻：冰寒蛊简上的秘术封住周身血气，腰间旧玉同时亮起。" },
         { type: "effect", effect: "flash", tone: "neutral" },
+        { type: "sound", asset: "sfx.scene-flash" },
         { type: "narration", text: "池中血魔蛊的影子凝滞了一瞬。赵黎脸上的笑意也随之一停。" },
       ],
       ji: [

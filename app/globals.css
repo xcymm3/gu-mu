@@ -128,7 +128,7 @@ h1 {
 .health-stat i { display: block; height: 0.22rem; border-radius: var(--radius-sm); background: var(--color-danger); }
 .game-menu-trigger { align-self: end; min-width: 3.25rem; min-height: 2rem; padding: 0 var(--space-2); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); color: var(--color-muted); background: var(--color-paper); cursor: pointer; font-size: var(--text-xs); font-weight: 750; }
 
-.scene { display: flex; flex: 1 1 auto; flex-direction: column; min-height: 0; padding: var(--space-8) 0 var(--space-5); }
+.scene { display: flex; position: relative; flex: 1 1 auto; flex-direction: column; min-height: 0; padding: var(--space-8) 0 var(--space-5); }
 .scene-copy { display: grid; flex: 1 1 auto; min-height: 0; gap: var(--space-4); margin-top: var(--space-6); overflow: hidden; }
 .scene-copy p { margin: 0; color: var(--color-muted); font-size: var(--text-base); line-height: 1.92; text-align: justify; text-wrap: pretty; }
 .story-name { color: var(--color-ink); font-weight: 780; }
@@ -1604,8 +1604,12 @@ h1 {
 
 .settings-list {
   display: grid;
+  align-content: start;
   gap: var(--space-3);
   margin-top: var(--space-6);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .settings-row {
@@ -1687,6 +1691,18 @@ h1 {
   cursor: not-allowed;
   opacity: 0.58;
 }
+
+.audio-mixer { display: grid; gap: var(--space-4); }
+.audio-mixer > header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.audio-mixer > header p { margin-top: var(--space-1); }
+.audio-mixer > header button { flex: 0 0 auto; min-height: 2.15rem; padding: 0 var(--space-3); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); color: var(--color-muted); background: var(--color-paper); cursor: pointer; font-size: var(--text-xs); font-weight: 700; }
+.audio-mixer > header button[aria-pressed="true"] { border-color: var(--color-danger); color: var(--color-danger); background: var(--color-danger-soft); }
+.audio-tracks { display: grid; gap: var(--space-3); }
+.audio-tracks label { display: grid; gap: var(--space-1); color: var(--color-muted); font-size: var(--text-xs); }
+.audio-tracks label > span { display: flex; justify-content: space-between; gap: var(--space-3); }
+.audio-tracks output { color: var(--color-accent); font-family: var(--font-mono); }
+.audio-tracks input { width: 100%; accent-color: var(--color-accent); cursor: pointer; }
+.audio-tracks input:disabled { cursor: not-allowed; opacity: .35; }
 
 .settings-danger {
   border-color: var(--color-danger);
@@ -2223,6 +2239,57 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
   to { opacity: 1; }
 }
 
+@keyframes vn-dialogue-fade {
+  from { opacity: 0; transform: translateY(.45rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes vn-impact-shake {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-.45rem, .12rem, 0); }
+  42% { transform: translate3d(.38rem, -.08rem, 0); }
+  64% { transform: translate3d(-.2rem, 0, 0); }
+  82% { transform: translate3d(.12rem, 0, 0); }
+}
+
+@keyframes vn-effect-flash {
+  0% { opacity: 0; }
+  16% { opacity: .88; }
+  100% { opacity: 0; }
+}
+
+@keyframes vn-effect-darken {
+  0% { opacity: 0; }
+  35% { opacity: .72; }
+  100% { opacity: .28; }
+}
+
+@keyframes vn-wait-pulse {
+  0%, 100% { opacity: .42; transform: rotate(45deg) translate(0, 0); }
+  50% { opacity: 1; transform: rotate(45deg) translate(.15rem, .15rem); }
+}
+
+.vn-effect-layer { position: absolute; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
+.vn-effect { position: absolute; inset: 0; opacity: 0; }
+.vn-effect.is-flash { background: rgba(238, 255, 249, .9); animation: vn-effect-flash 420ms ease-out both; }
+.vn-effect.is-flash.is-danger { background: rgba(151, 17, 28, .8); }
+.vn-effect.is-darken { background: radial-gradient(circle, transparent 12%, rgba(20, 0, 4, .88)); animation: vn-effect-darken 520ms ease-out both; }
+.vn-effect.is-fade { background: var(--color-vn-shadow); animation: vn-effect-flash 520ms reverse ease-out both; }
+.story-frame.is-stage-shake .vn-stage,
+.story-frame.is-stage-shake .vn-character-layer { animation: vn-impact-shake 360ms ease-out both; }
+.scene-copy.is-scene-fade { animation: vn-dialogue-fade var(--dur-normal) var(--ease-out) both; }
+
+.vn-continue-indicator {
+  position: absolute;
+  right: 1.3rem;
+  bottom: 1rem;
+  width: .62rem;
+  height: .62rem;
+  border-right: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  animation: vn-wait-pulse 1.15s ease-in-out infinite;
+}
+
 @media (min-width: 60rem) {
   .vn-stage {
     animation: vn-scene-reveal var(--dur-scene) var(--ease-out) both;
@@ -2433,7 +2500,15 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vn-stage { animation: none; }
+  .vn-stage,
+  .vn-character-layer,
+  .vn-effect,
+  .scene-copy.is-scene-fade,
+  .vn-continue-indicator { animation: none; }
 }
 
-html[data-reduce-motion="true"] .vn-stage { animation: none; }
+html[data-reduce-motion="true"] .vn-stage,
+html[data-reduce-motion="true"] .vn-character-layer,
+html[data-reduce-motion="true"] .vn-effect,
+html[data-reduce-motion="true"] .scene-copy.is-scene-fade,
+html[data-reduce-motion="true"] .vn-continue-indicator { animation: none; }

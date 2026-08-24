@@ -4,7 +4,9 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
+import { useVisualNovelAudio, type VisualNovelAudioEngine } from "@/features/xue-gu-yin/audio/VisualNovelAudio";
 import { getVisualAsset, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
+import { defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile, type AudioAssetKey, type AudioSettings, type SfxAssetKey } from "@/lib/xue-gu-yin/audio";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey, type BacklogEntry } from "@/lib/xue-gu-yin/reading";
 import {
   applyChoice,
@@ -55,10 +57,12 @@ const themeStorageKey = "xue-gu-yin-theme";
 const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const readStorageKey = "xue-gu-yin-read-frames-v1";
 const quickSaveStorageKey = "xue-gu-yin-quick-save-v1";
+const audioStorageKey = "xue-gu-yin-audio-settings-v1";
 const saveSlotCount = 6;
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
+type StageEffect = { effect: "fade" | "flash" | "shake" | "darken"; tone: "neutral" | "danger" };
 type SaveSlot = { version: 2; savedAt: string; game: GameState; narrative: { sceneId: string; page: number } };
 type SaveSlots = Array<SaveSlot | null>;
 
@@ -129,6 +133,11 @@ function splitForViewport(text: string, limit: number) {
   }
   if (current.trim()) pages.push(current.trim());
   return pages;
+}
+
+function readAudioSettings(): AudioSettings {
+  try { return sanitizeAudioSettings(JSON.parse(window.localStorage.getItem(audioStorageKey) ?? "null")); }
+  catch { return defaultAudioSettings; }
 }
 
 type NarrativeFrame = SceneBeat & { text: string; beatIndex: number };
@@ -221,7 +230,30 @@ function VisualNovelCharacters({ activeSpeaker, characters }: { activeSpeaker: s
   </div>;
 }
 
-function VisualNovelStage({ activeSpeaker, background, characters }: { activeSpeaker: string; background: BackgroundAssetKey; characters: PresentedCharacter[] }) {
+function VisualNovelEffects({ effects, token }: { effects: StageEffect[]; token: string }) {
+  if (!effects.length) return null;
+  return <div className="vn-effect-layer" key={token} aria-hidden="true">
+    {effects.map((effect, index) => <span className={`vn-effect is-${effect.effect} is-${effect.tone}`} key={`${effect.effect}-${index}`} />)}
+  </div>;
+}
+
+function SceneSoundCue({ audio, cueKey, sounds }: { audio: VisualNovelAudioEngine; cueKey: string; sounds: AudioAssetKey[] }) {
+  const signature = sounds.join("|");
+  useEffect(() => {
+    if (!signature) return;
+    for (const sound of signature.split("|") as AudioAssetKey[]) {
+      if (sound.startsWith("sfx.")) audio.playSfx(sound as SfxAssetKey);
+    }
+  }, [audio, cueKey, signature]);
+  return null;
+}
+
+function SceneAudioCue({ act, audio, background, inBattle }: { act: number; audio: VisualNovelAudioEngine; background: BackgroundAssetKey; inBattle: boolean }) {
+  useEffect(() => { audio.setScene(sceneAudioProfile({ act, background, inBattle })); }, [act, audio, background, inBattle]);
+  return null;
+}
+
+function VisualNovelStage({ activeSpeaker, background, characters, effects, effectToken }: { activeSpeaker: string; background: BackgroundAssetKey; characters: PresentedCharacter[]; effects: StageEffect[]; effectToken: string }) {
   const asset = getVisualAsset(background);
   return <>
     <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} key={background} role="img" aria-label={asset.alt}>
@@ -229,6 +261,7 @@ function VisualNovelStage({ activeSpeaker, background, characters }: { activeSpe
       <span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" />
     </div>
     <VisualNovelCharacters activeSpeaker={activeSpeaker} characters={characters} />
+    <VisualNovelEffects effects={effects} token={effectToken} />
   </>;
 }
 
@@ -331,6 +364,7 @@ export function XueGuYinGame() {
   const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("healer");
   const [reduceMotion, setReduceMotion] = useState(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>("system");
+  const [audioSettings, setAudioSettings] = useState<AudioSettings>(defaultAudioSettings);
   const [narrative, setNarrative] = useState({ sceneId: "gate", page: 0 });
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
@@ -345,11 +379,13 @@ export function XueGuYinGame() {
   const [backlog, setBacklog] = useState<BacklogEntry[]>([]);
   const [quickSave, setQuickSave] = useState<SaveSlot | null>(null);
   const [quickNotice, setQuickNotice] = useState("");
+  const [combatEffect, setCombatEffect] = useState<{ id: number; effect: "flash" | "shake" | "darken"; tone: "neutral" | "danger" } | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
   const narrativeLimit = useNarrativeLimit();
   const role = getRole(game.roleId);
   const scene = scenes[game.sceneId];
+  const audio = useVisualNovelAudio(audioSettings);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -364,6 +400,7 @@ export function XueGuYinGame() {
         if (Array.isArray(storedRead)) setReadFrames(storedRead.filter((key): key is string => typeof key === "string"));
         const storedQuickSave = JSON.parse(window.localStorage.getItem(quickSaveStorageKey) ?? "null") as unknown;
         if (isSaveSlot(storedQuickSave)) setQuickSave(storedQuickSave);
+        setAudioSettings(readAudioSettings());
       } finally {
         storageLoadedRef.current = true;
       }
@@ -377,9 +414,33 @@ export function XueGuYinGame() {
     window.localStorage.setItem(motionStorageKey, String(reduceMotion));
     window.localStorage.setItem(themeStorageKey, themePreference);
     window.localStorage.setItem(readStorageKey, JSON.stringify(readFrames));
+    window.localStorage.setItem(audioStorageKey, JSON.stringify(audioSettings));
     document.documentElement.dataset.reduceMotion = String(reduceMotion);
     document.documentElement.dataset.theme = themePreference;
-  }, [readFrames, reduceMotion, seenEndings, themePreference]);
+  }, [audioSettings, readFrames, reduceMotion, seenEndings, themePreference]);
+
+  useEffect(() => {
+    const endingBackground = game.endingId ? endings[game.endingId]?.background : undefined;
+    const profile = sceneAudioProfile({ act: scene?.act, background: endingBackground, inBattle: Boolean(game.battle) });
+    audio.setScene(profile);
+  }, [audio, game.battle, game.endingId, scene?.act]);
+
+  useEffect(() => {
+    function handleButtonSound(event: MouseEvent) {
+      const button = event.target instanceof Element ? event.target.closest("button") : null;
+      if (!button || button.hasAttribute("disabled") || button.closest(".gu-list")) return;
+      const key: SfxAssetKey = button.classList.contains("back-button") || button.classList.contains("game-menu-close") ? "sfx.ui-back" : "sfx.ui-confirm";
+      void audio.unlock().then(() => audio.playSfx(key)).catch(() => undefined);
+    }
+    document.addEventListener("click", handleButtonSound);
+    return () => document.removeEventListener("click", handleButtonSound);
+  }, [audio]);
+
+  useEffect(() => {
+    if (!combatEffect) return;
+    const timer = window.setTimeout(() => setCombatEffect(null), 520);
+    return () => window.clearTimeout(timer);
+  }, [combatEffect]);
 
   useEffect(() => {
     if (copyRef.current) copyRef.current.scrollTop = 0;
@@ -478,6 +539,10 @@ export function XueGuYinGame() {
     const next = resolveBattleTurn(game, action);
     if (next === game) return;
     const feedback = describeBattleTurn(game, next, action);
+    const lost = game.battle && next.sceneId === game.battle.defeatNext;
+    const sfx: SfxAssetKey = lost ? "sfx.battle-danger" : action === "armor" ? "sfx.battle-guard" : action === "heal" ? "sfx.battle-heal" : "sfx.battle-hit";
+    audio.playSfx(sfx);
+    setCombatEffect({ id: Date.now(), effect: lost ? "darken" : action === "armor" ? "shake" : action === "heal" ? "flash" : "shake", tone: lost ? "danger" : "neutral" });
     if (feedback.hasEnded) {
       const battle = game.battle!;
       const won = Boolean(battle.victoryFlag && next.flags.includes(battle.victoryFlag));
@@ -516,7 +581,7 @@ export function XueGuYinGame() {
   if (!role) {
     if (homeView === "archive") return <EndingArchive archiveRoleId={archiveRoleId} onBack={() => setHomeView("menu")} onSelectRole={setArchiveRoleId} seenEndings={seenEndings} />;
     if (homeView === "saves") return <SaveArchive onBack={() => setHomeView("menu")} onLoad={loadFromSlot} saveSlots={saveSlots} />;
-    if (homeView === "settings") return <GameSettings onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
+    if (homeView === "settings") return <GameSettings audioSettings={audioSettings} onAudioChange={setAudioSettings} onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
     if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSaves={() => setHomeView("saves")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} saveSlots={saveSlots} unlockedCount={seenEndings.length} />;
     return <RoleSelect onBack={() => setHomeView("menu")} onSelect={selectRole} />;
   }
@@ -539,6 +604,9 @@ export function XueGuYinGame() {
   const stageBackground = activeFrame?.background ?? presentation.background;
   const stageCharacters = activeFrame?.characters ?? presentation.characters;
   const currentFrameKey = readingFrameKey(scene.id, activeFrame?.beatIndex ?? 0, pageIndex, presentedText);
+  const stageEffects: StageEffect[] = [...(activeFrame?.effects ?? []), ...(combatEffect ? [{ effect: combatEffect.effect, tone: combatEffect.tone } satisfies StageEffect] : [])];
+  const stageEffectClasses = stageEffects.map((effect) => ` is-stage-${effect.effect}`).join("");
+  const effectToken = `${currentFrameKey}-${combatEffect?.id ?? 0}`;
   const hasBlockingAction = isLastNarrativePage && Boolean(presentation.battle || visibleChoices.length);
   const canAdvanceReading = !battle && !pendingChoice && !battleResult && !hasBlockingAction;
 
@@ -636,7 +704,7 @@ export function XueGuYinGame() {
         text={presentedText}
       />
       <section
-        className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}`}
+        className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}${stageEffectClasses}`}
         aria-label="血蛊引游戏界面"
         onClick={(event) => {
           if ((event.target as HTMLElement).closest("button, a, input, select, textarea")) return;
@@ -649,7 +717,9 @@ export function XueGuYinGame() {
           else if (event.deltaY > 24) advanceInteraction();
         }}
       >
-        <VisualNovelStage activeSpeaker={speaker} background={stageBackground} characters={battle ? [] : stageCharacters} />
+        <SceneAudioCue act={scene.act} audio={audio} background={stageBackground} inBattle={Boolean(battle)} />
+        <SceneSoundCue audio={audio} cueKey={currentFrameKey} sounds={activeFrame?.sounds ?? []} />
+        <VisualNovelStage activeSpeaker={speaker} background={stageBackground} characters={battle ? [] : stageCharacters} effectToken={effectToken} effects={stageEffects} />
         <div className="vn-play-layout">
         <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
         <div className="vn-story-core">
@@ -662,6 +732,7 @@ export function XueGuYinGame() {
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">旁白</p><p className="eyebrow">战斗结束</p>
             <div className="scene-copy vn-text-reveal" key={`battle-result-${battleResult.text}`} ref={copyRef}><NarrativePage text={battleResult.text} /></div>
+            <span className="vn-continue-indicator" aria-hidden="true" />
           </section>
           <div className="choice-panel"><button className="primary-button" onClick={confirmBattleResult}>继续</button></div>
         </> : battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
@@ -674,14 +745,16 @@ export function XueGuYinGame() {
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">抉择已定</p>
             <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}`} ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
+            <span className="vn-continue-indicator" aria-hidden="true" />
           </section>
           <div className="choice-panel"><button className="primary-button" onClick={confirmChoice}>继续</button></div>
           </> : <>
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">{scene.chapter}</p>
             <h1>{scene.title}</h1>
-            <div className="scene-copy vn-text-reveal" key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
+            <div className={`scene-copy vn-text-reveal${activeFrame?.transition === "fade" ? " is-scene-fade" : ""}`} key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
             <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
+            {!isLastNarrativePage ? <span className="vn-continue-indicator" aria-hidden="true" /> : null}
           </section>
           {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={advanceNarrative}>继续</button></div> : null}
           {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={beginBattle}>放出本命蛊</button></div> : null}
@@ -848,7 +921,20 @@ function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { a
   </section></main>;
 }
 
-function GameSettings({ onBack, onClearEndings, onThemeChange, onToggleReduceMotion, reduceMotion, themePreference }: { onBack: () => void; onClearEndings: () => void; onThemeChange: (theme: ThemePreference) => void; onToggleReduceMotion: () => void; reduceMotion: boolean; themePreference: ThemePreference }) {
+function AudioMixer({ settings, onChange }: { settings: AudioSettings; onChange: (settings: AudioSettings) => void }) {
+  const tracks: Array<{ key: "master" | "music" | "ambience" | "sfx"; label: string }> = [
+    { key: "master", label: "总音量" },
+    { key: "music", label: "背景音乐" },
+    { key: "ambience", label: "环境声音" },
+    { key: "sfx", label: "界面与战斗" },
+  ];
+  return <section className="settings-note audio-mixer" aria-labelledby="audio-mixer-title">
+    <header><div><strong id="audio-mixer-title">声音</strong><p>程序化占位音可随时替换为正式音频。</p></div><button aria-pressed={settings.muted} type="button" onClick={() => onChange({ ...settings, muted: !settings.muted })}>{settings.muted ? "恢复声音" : "全部静音"}</button></header>
+    <div className="audio-tracks">{tracks.map((track) => <label key={track.key}><span>{track.label}<output>{settings[track.key]}</output></span><input aria-label={track.label} disabled={settings.muted} max="100" min="0" step="1" type="range" value={settings[track.key]} onChange={(event) => onChange({ ...settings, [track.key]: Number(event.target.value) })} /></label>)}</div>
+  </section>;
+}
+
+function GameSettings({ audioSettings, onAudioChange, onBack, onClearEndings, onThemeChange, onToggleReduceMotion, reduceMotion, themePreference }: { audioSettings: AudioSettings; onAudioChange: (settings: AudioSettings) => void; onBack: () => void; onClearEndings: () => void; onThemeChange: (theme: ThemePreference) => void; onToggleReduceMotion: () => void; reduceMotion: boolean; themePreference: ThemePreference }) {
   const [confirmClear, setConfirmClear] = useState(false);
   function clearEndings() {
     if (!confirmClear) { setConfirmClear(true); return; }
@@ -858,6 +944,7 @@ function GameSettings({ onBack, onClearEndings, onThemeChange, onToggleReduceMot
   return <main className="game-shell settings-shell"><section className="game-frame settings-card" aria-labelledby="settings-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">行囊与灯火</p><h1 id="settings-title">游戏设置</h1></div></header>
     <div className="settings-list"><div className="settings-note theme-setting"><strong>界面主题</strong><p>选择蛊墓在此设备上的明暗样式。</p><div aria-label="选择界面主题" className="theme-options" role="group">{(["system", "light", "dark"] as ThemePreference[]).map((theme) => <button aria-pressed={themePreference === theme} className="theme-option" key={theme} onClick={() => onThemeChange(theme)}>{theme === "system" ? "跟随系统" : theme === "light" ? "亮色" : "暗色"}</button>)}</div></div>
+      <AudioMixer settings={audioSettings} onChange={onAudioChange} />
       <button aria-pressed={reduceMotion} className="settings-row" onClick={onToggleReduceMotion}><span><strong>减少动态</strong><small>剧情与按钮以更静止的方式呈现</small></span><em>{reduceMotion ? "已开启" : "跟随系统"}</em></button>
       <div className="settings-note"><strong>图鉴记录</strong><p>已解锁结局会保存在当前设备中。</p></div>
       <button className={`settings-row settings-danger${confirmClear ? " is-confirming" : ""}`} onClick={clearEndings}><span><strong>{confirmClear ? "再次点击，确认清除" : "清除结局记录"}</strong><small>{confirmClear ? "此操作无法撤回" : "只清除本设备上的图鉴进度"}</small></span><em>{confirmClear ? "确认" : "清除"}</em></button>

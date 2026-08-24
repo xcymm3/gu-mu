@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
+import { audioAssetManifest, defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile } from "../lib/xue-gu-yin/audio.ts";
 import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, resolveBattleTurn, resolveEnding, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey } from "../lib/xue-gu-yin/reading.ts";
 
@@ -124,9 +125,46 @@ test("每段正文保存当时的背景、说话人与立绘表情", () => {
     mode: "center",
     background: "background.tomb-gate",
     characters: [],
+    transition: "cut",
+    effects: [],
+    sounds: [],
   });
   assert.equal(presentation.beats[1].displayName, "纪清寒");
   assert.equal(presentation.beats[1].characters[0]?.expression, "alert");
+});
+
+test("音效与镜头事件会附着到对应阅读帧", () => {
+  const eventScene: Scene = {
+    id: "effect-test",
+    act: 4,
+    node: 1,
+    chapter: "测试",
+    title: "镜头事件",
+    events: [
+      { type: "background", asset: "background.blood-chamber", transition: "fade" },
+      { type: "narration", text: "血池轰然炸开。" },
+      { type: "effect", effect: "shake", tone: "danger" },
+      { type: "sound", asset: "sfx.battle-danger" },
+    ],
+  };
+  const [beat] = resolveScenePresentation(chooseRole(), eventScene).beats;
+  assert.equal(beat.transition, "fade");
+  assert.deepEqual(beat.effects, [{ effect: "shake", tone: "danger" }]);
+  assert.deepEqual(beat.sounds, ["sfx.battle-danger"]);
+});
+
+test("音频清单、场景分轨与设置清洗保持稳定", () => {
+  assert.equal(audioAssetManifest["bgm.tomb-depths"].channel, "music");
+  assert.deepEqual(sceneAudioProfile({ act: 4 }), { music: "bgm.blood-awakening", ambience: "amb.blood-pulse" });
+  assert.deepEqual(sceneAudioProfile({ act: 1 }), { music: "bgm.tomb-depths", ambience: "amb.rain-gate" });
+  assert.deepEqual(sanitizeAudioSettings({ muted: true, master: 130, music: -4, ambience: "40", sfx: null }), {
+    ...defaultAudioSettings,
+    muted: true,
+    master: 100,
+    music: 0,
+    ambience: 40,
+    sfx: 0,
+  });
 });
 
 test("角色显隐事件会按顺序生成舞台最终阵容", () => {

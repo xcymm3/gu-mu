@@ -5,6 +5,7 @@ import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from
 import { audioAssetManifest, defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile } from "../lib/xue-gu-yin/audio.ts";
 import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, lockPersonalityRoute, personalityRouteMap, resolveBattleTurn, resolveDominantPersonalities, resolveEnding, resolvePersonalityRoute, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey } from "../lib/xue-gu-yin/reading.ts";
+import { actThreeRouteSceneIds } from "../lib/xue-gu-yin/story/routes/contract.ts";
 
 test("阅读帧键稳定且正文变化会生成新键", () => {
   const first = readingFrameKey("gate", 0, 0, "夜雨落在墓门前。");
@@ -283,32 +284,38 @@ test("第二幕条件事件仍会响应旧旗标", () => {
   assert.equal(resolveScenePresentation(insightful, scenes.fog).text.includes("拐入一条"), true);
 });
 
-test("第三幕四个固定节点及暗线均已迁移为原生事件", () => {
-  const routeState = { ...chooseRole(), route: "ji" as const };
-  for (const sceneId of ["routeTrial", "routeTruth", "routeCost", "bloodGate", "shadowQiao", "shadowTruth", "shadowBargain", "shadowBetrayal"] as const) {
-    const scene = scenes[sceneId];
-    const presentation = resolveScenePresentation(routeState, scene);
-    assert.equal(scene.text, undefined, `${sceneId} 仍保留旧 text`);
-    assert.ok(presentation.beats.length > 0, `${sceneId} 没有阅读节拍`);
+test("第三幕四条路线各自拥有四个独立固定节点", () => {
+  const allSceneIds = Object.values(actThreeRouteSceneIds).flat();
+  assert.equal(new Set(allSceneIds).size, 16);
+  for (const [route, sceneIds] of Object.entries(actThreeRouteSceneIds)) {
+    assert.equal(sceneIds.length, 4);
+    sceneIds.forEach((sceneId, index) => {
+      const scene = scenes[sceneId];
+      assert.ok(scene, `${route} 缺少 ${sceneId}`);
+      assert.equal(scene.act, 3);
+      assert.equal(scene.node, index + 1);
+      assert.equal(scene.text, undefined);
+      assert.ok(resolveScenePresentation({ ...chooseRole(), route: route as "zhao" | "ji" | "su" | "traitor" }, scene).beats.length > 0);
+      assert.equal(scene.choices?.length, 1, `${sceneId} 应保持线性推进`);
+    });
   }
-  assert.equal(resolveScenePresentation(routeState, scenes.routeTrial).choices.length, scenes.routeTrial.choices?.length);
-  assert.equal(resolveScenePresentation(routeState, scenes.bloodGate).choices.length, 1);
+  for (const removed of ["routeTrial", "routeTruth", "routeCost", "bloodGate", "shadowQiao", "shadowTruth", "shadowBargain", "shadowBetrayal"]) {
+    assert.equal(scenes[removed], undefined, `${removed} 旧共用节点仍未移除`);
+  }
 });
 
-test("第三幕同行路线保持各自的人物演出和条件内容", () => {
+test("第三幕四条路线保持各自的人物主旨", () => {
   const expectations = [
-    ["zhao", "赵黎", "蛊简"],
-    ["ji", "纪清寒", "活不过四十岁"],
-    ["xue", "薛逢", "活蛊线"],
-    ["su", "苏莹", "蛊不可祭"],
+    ["zhao", "zhaoLesson", "赵黎", "力量"],
+    ["ji", "jiPromise", "纪清寒", "至亲"],
+    ["su", "suInscription", "苏莹", "蛊不可祭"],
+    ["traitor", "traitorKnife", "薛逢", "月白蛊刃"],
   ] as const;
-  for (const [route, name, phrase] of expectations) {
-    const presentation = resolveScenePresentation({ ...chooseRole(), route }, scenes.routeTrial);
+  for (const [route, sceneId, name, phrase] of expectations) {
+    const presentation = resolveScenePresentation({ ...chooseRole(), route }, scenes[sceneId]);
     assert.ok(presentation.text.includes(name));
     assert.ok(presentation.text.includes(phrase));
   }
-  const tailed = resolveScenePresentation({ ...chooseRole(), route: "ji", flags: ["曾尾行乔无咎"] }, scenes.routeTrial);
-  assert.ok(tailed.text.includes("有人早来过"));
 });
 
 test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () => {
@@ -324,7 +331,7 @@ test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () =>
     if (asset.kind === "image") assert.equal(asset.src, src);
   }
   assert.equal(getCharacterExpressionAsset("su-yan", "awakened"), "character.su-yan.awakened");
-  const shadow = resolveScenePresentation(chooseRole(), scenes.shadowTruth);
+  const shadow = resolveScenePresentation({ ...chooseRole(), route: "traitor" }, scenes.traitorTrail);
   assert.equal(shadow.beats[0]?.background, "background.control-room");
 });
 
@@ -417,7 +424,7 @@ test("权谋人格经薛逢切入乔无咎叛徒暗线", () => {
   const [choice] = resolveScenePresentation(state, scenes.fog).choices;
   assert.ok(choice);
   assert.equal(choice.id, "fog-scheme");
-  assert.equal(choice.next, "shadowQiao");
+  assert.equal(choice.next, "traitorTrail");
   const next = applyChoice(state, choice);
   assert.equal(next.route, "traitor");
   assert.equal(next.routeLocked, true);
@@ -429,7 +436,7 @@ test("第一、二幕选项统一累积隐藏人格而不再改动好感度", ()
     assert.equal(choices.length, 4, `${sceneId} 应提供四种人格行动`);
     for (const choice of choices) {
       assert.ok(choice.effect?.personality, `${choice.id} 未累积人格`);
-      assert.equal(choice.effect?.trust, undefined, `${choice.id} 仍在改动好感度`);
+      assert.equal("trust" in (choice.effect ?? {}), false, `${choice.id} 仍在改动好感度`);
     }
   }
 });
@@ -445,13 +452,13 @@ test("四种人格行动对所有主角可见且正确累计对应分数", () =>
   assert.ok(next.flags.includes("识破棋局"));
 });
 
-test("苏莹真结局选项只在三枚线索齐备时出现", () => {
-  const choice = scenes.routeTruth.choices?.find((item) => item.id === "shield-su");
+test("苏莹线固定推进会补齐血钥与存活事实", () => {
+  const choice = scenes.suLineage.choices?.find((item) => item.id === "su-share-burden");
   assert.ok(choice);
-  const base = { ...chooseRole(), route: "su" as const };
-  assert.equal(canChoose(base, choice), false);
-  assert.equal(canChoose({ ...base, flags: ["旧玉发烫", "生门低语"] }, choice), false);
-  assert.equal(canChoose({ ...base, flags: ["旧玉发烫", "生门低语", "活符低语"] }, choice), true);
+  const next = applyChoice({ ...chooseRole(), route: "su", routeLocked: true }, choice);
+  assert.ok(next.flags.includes("苏莹存活"));
+  assert.ok(next.flags.includes("苏氏血钥"));
+  assert.equal(next.sceneId, "suThreshold");
 });
 
 test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），result 写明所得蛊", () => {
@@ -515,5 +522,4 @@ test("血甲蛊抵挡本回合全部伤害", () => {
 
 test("隐藏线结局可被 resolveEnding 解析", () => {
   assert.equal(resolveEnding({ ...chooseRole(), flags: ["结局:traitor"] }), "traitor");
-  assert.equal(resolveEnding({ ...chooseRole(), flags: ["结局:seer"] }), "seer");
 });

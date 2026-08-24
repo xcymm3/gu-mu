@@ -2,15 +2,10 @@ import type { BackgroundAssetKey, CharacterAssetKey } from "./assets.ts";
 import type { AudioAssetKey } from "./audio.ts";
 
 export type RoleId = "healer" | "swordsman" | "heir";
-export type AllyId = "zhao" | "ji" | "xue" | "su" | "qiao";
 export type PersonalityId = "power" | "compassion" | "insight" | "scheme";
 export type PersonalityScores = Record<PersonalityId, number>;
 export type PersonalityRouteId = "zhao" | "ji" | "su" | "traitor";
-/** @deprecated 第二、三步完成旧剧情迁移后移除。 */
-export type LegacyRouteId = "xue";
-export type RouteId = PersonalityRouteId | LegacyRouteId;
-/** @deprecated 旧版第三、四幕专用；第三步迁移完成后移除。 */
-export type LegacyStoryRouteId = Exclude<RouteId, "traitor">;
+export type RouteId = PersonalityRouteId;
 export type CharacterId = "zhao-li" | "ji-qinghan" | "xue-feng" | "su-ying" | "qiao-wujiu" | "su-yan";
 export type CharacterPosition = "far-left" | "left" | "center" | "right" | "far-right";
 
@@ -47,8 +42,6 @@ export type Effect = {
   flags?: string[];
   ending?: string;
   personality?: Partial<PersonalityScores>;
-  /** @deprecated 第二步会将旧好感度选项迁移为 personality。 */
-  trust?: Partial<Record<AllyId, number>>;
   route?: RouteId;
   randomFlags?: string[];
 };
@@ -58,7 +51,7 @@ export type Choice = {
   label: string;
   next: string;
   result?: string;
-  requires?: { route?: RouteId; flags?: string[]; allyTopTwo?: AllyId; dominantPersonality?: PersonalityId };
+  requires?: { route?: RouteId; flags?: string[]; dominantPersonality?: PersonalityId };
   effect?: Effect;
 };
 
@@ -89,8 +82,6 @@ export type GameState = {
   maxEssence: number;
   time: number;
   flags: string[];
-  /** @deprecated 第二步完成前仅供旧共通线与旧战败反馈兼容。 */
-  trust: Record<AllyId, number>;
   battle: Battle | null;
   endingId: string | null;
 };

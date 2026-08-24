@@ -1,6 +1,6 @@
 import type { GameState } from "./model.ts";
 
-export const SAVE_SLOT_VERSION = 3 as const;
+export const SAVE_SLOT_VERSION = 4 as const;
 export const SAVE_SLOT_COUNT = 6;
 
 export type NarrativePosition = { sceneId: string; page: number };
@@ -13,8 +13,7 @@ export type SaveSlot = {
 export type SaveSlots = Array<SaveSlot | null>;
 
 const roleIds = new Set<GameState["roleId"]>(["healer", "swordsman", "heir", null]);
-const routeIds = new Set<GameState["route"]>(["zhao", "ji", "su", "traitor", "xue", null]);
-const allyIds = ["zhao", "ji", "xue", "su", "qiao"] as const;
+const routeIds = new Set<GameState["route"]>(["zhao", "ji", "su", "traitor", null]);
 const personalityIds = ["power", "compassion", "insight", "scheme"] as const;
 
 function isNarrativePosition(value: unknown): value is NarrativePosition {
@@ -38,9 +37,7 @@ function isGameState(value: unknown): value is GameState {
     && Number.isFinite(candidate.maxHealth)
     && Number.isFinite(candidate.essence)
     && Number.isFinite(candidate.maxEssence)
-    && Array.isArray(candidate.flags)
-    && Boolean(candidate.trust && typeof candidate.trust === "object")
-    && allyIds.every((ally) => Number.isFinite(candidate.trust?.[ally]));
+    && Array.isArray(candidate.flags);
 }
 
 export function emptySaveSlots(count = SAVE_SLOT_COUNT): SaveSlots {

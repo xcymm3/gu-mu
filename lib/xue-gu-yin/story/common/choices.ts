@@ -1,5 +1,6 @@
 import { resolveDominantPersonalities } from "../../personality.ts";
 import type { Choice, GameState } from "../../model.ts";
+import { actThreeRouteEntries } from "../routes/contract.ts";
 
 export const gateChoices: Choice[] = [
   {
@@ -159,7 +160,7 @@ export const fogRouteChoices: Choice[] = [
   {
     id: "fog-power",
     label: "迎着最强烈的血气追去——赵黎就在那个方向",
-    next: "routeTrial",
+    next: actThreeRouteEntries.zhao,
     result: "别人都在寻找退路，你却迎着雾中最危险的血气追去。赵黎回手扣住你的手腕，像是早已料到你会跟来。",
     requires: { dominantPersonality: "power" },
     effect: { route: "zhao" },
@@ -167,7 +168,7 @@ export const fogRouteChoices: Choice[] = [
   {
     id: "fog-compassion",
     label: "循着断剑声跃下陷道——纪清寒可能受了伤",
-    next: "routeTrial",
+    next: actThreeRouteEntries.ji,
     result: "剑刃折断的声音从下方传来。你几乎没有思索便跃入陷道，在黑暗中抓住了纪清寒冰冷的手。",
     requires: { dominantPersonality: "compassion" },
     effect: { route: "ji" },
@@ -175,7 +176,7 @@ export const fogRouteChoices: Choice[] = [
   {
     id: "fog-insight",
     label: "沿血色古文消失的方向追去——苏莹一定知道什么",
-    next: "routeTrial",
+    next: actThreeRouteEntries.su,
     result: "雾气遮住视野，却遮不住石壁上一闪即逝的血色古文。你沿着痕迹追下去，在陷道尽头找到了苏莹。",
     requires: { dominantPersonality: "insight" },
     effect: { route: "su" },
@@ -183,7 +184,7 @@ export const fogRouteChoices: Choice[] = [
   {
     id: "fog-scheme",
     label: "先抓住异常安静的薛逢——他一定知道乔无咎去了哪里",
-    next: "shadowQiao",
+    next: actThreeRouteEntries.traitor,
     result: "你不是去救薛逢，而是一把扣住他的后颈。所有人都在雾中呼喊，唯独他知道哪里没有机关；这枚棋子还有利用价值。",
     requires: { dominantPersonality: "scheme" },
     effect: { route: "traitor" },

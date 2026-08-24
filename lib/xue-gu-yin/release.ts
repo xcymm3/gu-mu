@@ -7,12 +7,11 @@ export const releaseMeta = {
 } as const;
 
 export const canonicalReleasePaths = {
-  "赵黎同行线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "routeTrial", "routeTruth", "routeCost", "bloodGate", "bloodGuard", "bloodRoom", "awakening", "finale", "zhaoBattle", "qiaoReveal", "qiaoBattle", "ending"],
-  "纪清寒同行线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "routeTrial", "routeTruth", "routeCost", "bloodGate", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
-  "薛逢同行线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "routeTrial", "routeTruth", "routeCost", "bloodGate", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
-  "苏莹献祭线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "routeTrial", "routeTruth", "routeCost", "bloodGate", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
-  "苏莹墓主线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "routeTrial", "routeTruth", "routeCost", "bloodGate", "bloodGuard", "bloodRoom", "awakening", "finale", "masterBattle", "ending"],
-  "乔无咎暗线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "shadowQiao", "shadowTruth", "shadowBargain", "shadowBetrayal", "ending"],
+  "赵黎力量线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "zhaoTrail", "zhaoLesson", "zhaoPrice", "zhaoThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "zhaoBattle", "qiaoReveal", "qiaoBattle", "ending"],
+  "纪清寒关怀线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "jiTrail", "jiPromise", "jiBurden", "jiThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
+  "苏莹洞察献祭线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "suTrail", "suInscription", "suLineage", "suThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
+  "苏莹洞察墓主线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "suTrail", "suInscription", "suLineage", "suThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "masterBattle", "ending"],
+  "乔无咎叛徒线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "traitorTrail", "traitorKnife", "traitorBargain", "traitorOath", "ending"],
 } as const;
 
 function sceneDestinations(scene: Scene, probeStates: GameState[]): string[] {

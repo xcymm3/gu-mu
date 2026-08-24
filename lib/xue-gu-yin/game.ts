@@ -2,36 +2,27 @@ import { resolveCombatTurn, type GuAction } from "./combat.ts";
 import { resolveScenePresentation } from "./engine/narrative.ts";
 import { addPersonalityScores, createPersonalityScores, resolveDominantPersonalities } from "./personality.ts";
 import { endings, roles } from "./story/data.ts";
-import type { AllyId, Battle, Choice, EnemyAction, GameState, RoleId, Scene } from "./model.ts";
+import type { Battle, Choice, EnemyAction, GameState, RoleId, Scene } from "./model.ts";
 
 export { endingAccess, endings, roles, scenes, storyMeta, storyPresentation } from "./story/data.ts";
 export { resolveSceneBeats, resolveSceneEvents, resolveScenePresentation, type PresentedCharacter, type SceneBeat, type ScenePresentation } from "./engine/narrative.ts";
 export { createPersonalityScores, lockPersonalityRoute, personalityIds, personalityRouteMap, rankPersonalities, resolveDominantPersonalities, resolvePersonalityRoute } from "./personality.ts";
 export type { GuAction } from "./combat.ts";
-export type { AllyId, Battle, BattleConfig, CharacterId, CharacterPosition, Choice, Effect, Ending, EnemyAction, GameState, LegacyRouteId, LegacyStoryRouteId, PersonalityId, PersonalityRouteId, PersonalityScores, Role, RoleId, RouteId, Scene, VisualNovelEvent } from "./model.ts";
+export type { Battle, BattleConfig, CharacterId, CharacterPosition, Choice, Effect, Ending, EnemyAction, GameState, PersonalityId, PersonalityRouteId, PersonalityScores, Role, RoleId, RouteId, Scene, VisualNovelEvent } from "./model.ts";
 
-export function initialGame(): GameState { return { roleId: null, sceneId: "gate", route: null, routeLocked: false, personality: createPersonalityScores(), health: 0, maxHealth: 0, essence: 0, maxEssence: 0, time: 0, flags: [], trust: { zhao: 0, ji: 0, xue: 0, su: 0, qiao: 0 }, battle: null, endingId: null }; }
+export function initialGame(): GameState { return { roleId: null, sceneId: "gate", route: null, routeLocked: false, personality: createPersonalityScores(), health: 0, maxHealth: 0, essence: 0, maxEssence: 0, time: 0, flags: [], battle: null, endingId: null }; }
 export function getRole(id: RoleId | null) { return roles.find((role) => role.id === id) ?? null; }
 export function chooseRole(id: RoleId = "healer") { const role = getRole(id)!; return { ...initialGame(), roleId: id, health: role.maxHealth, maxHealth: role.maxHealth, essence: role.maxEssence, maxEssence: role.maxEssence, flags: role.sense === "high" ? ["高神识"] : [] }; }
-
-// 好感度并列顺序：赵黎 > 薛逢 > 纪清寒 > 苏莹
-const allyOrder: AllyId[] = ["zhao", "xue", "ji", "su"];
-export function rankTrust(trust: Record<AllyId, number>): AllyId[] {
-  return [...allyOrder].sort((a, b) => (trust[b] - trust[a]) || (allyOrder.indexOf(a) - allyOrder.indexOf(b)));
-}
 
 export function canChoose(state: GameState, choice: Choice) {
   if (choice.requires?.route && state.route !== choice.requires.route) return false;
   if (choice.requires?.flags && !choice.requires.flags.every((flag) => state.flags.includes(flag))) return false;
-  if (choice.requires?.allyTopTwo && !rankTrust(state.trust).slice(0, 2).includes(choice.requires.allyTopTwo)) return false;
   if (choice.requires?.dominantPersonality && !resolveDominantPersonalities(state.personality).includes(choice.requires.dominantPersonality)) return false;
   return true;
 }
 function unique(items: string[], item?: string) { return item && !items.includes(item) ? [...items, item] : items; }
 export function applyChoice(state: GameState, choice: Choice): GameState {
   const effect = choice.effect;
-  const trust = { ...state.trust };
-  for (const [ally, amount] of Object.entries(effect?.trust ?? {})) trust[ally as AllyId] += amount ?? 0;
   const personality = state.routeLocked
     ? state.personality
     : addPersonalityScores(state.personality, effect?.personality);
@@ -41,7 +32,7 @@ export function applyChoice(state: GameState, choice: Choice): GameState {
   const requestedRoute = effect?.route;
   const route = state.routeLocked ? state.route : requestedRoute ?? state.route;
   const routeLocked = state.routeLocked || requestedRoute !== undefined;
-  return { ...state, sceneId: choice.next, route, routeLocked, personality, maxHealth, maxEssence, health: Math.max(1, Math.min(maxHealth, state.health + (effect?.health ?? 0))), essence: Math.max(0, Math.min(maxEssence, state.essence + (effect?.essence ?? 0))), time: state.time + (effect?.time ?? 0), flags, trust };
+  return { ...state, sceneId: choice.next, route, routeLocked, personality, maxHealth, maxEssence, health: Math.max(1, Math.min(maxHealth, state.health + (effect?.health ?? 0))), essence: Math.max(0, Math.min(maxEssence, state.essence + (effect?.essence ?? 0))), time: state.time + (effect?.time ?? 0), flags };
 }
 /** 若选项带 randomFlags，则随机取其一并入 effect.flags，并按结果生成对应 result 文本（供 UI 在选择时调用，保证 result 写明所得蛊）。 */
 export function resolveRandomChoice(choice: Choice, roll: () => number = Math.random): Choice {

@@ -1,23 +1,24 @@
-import type { GameState, LegacyStoryRouteId, VisualNovelEvent } from "../../model.ts";
+import type { GameState, PersonalityRouteId, VisualNovelEvent } from "../../model.ts";
+
+type MainStoryRouteId = Exclude<PersonalityRouteId, "traitor">;
 
 const routeCast = {
   zhao: { id: "zhao-li", name: "赵黎", position: "left", expression: "wary" },
   ji: { id: "ji-qinghan", name: "纪清寒", position: "right", expression: "alert" },
-  xue: { id: "xue-feng", name: "薛逢", position: "left", expression: "panicked" },
   su: { id: "su-ying", name: "苏莹", position: "right", expression: "wary" },
 } as const;
 
-function isLegacyStoryRoute(route: GameState["route"]): route is LegacyStoryRouteId {
-  return route !== null && route !== "traitor";
+function isMainStoryRoute(route: GameState["route"]): route is MainStoryRouteId {
+  return route === "zhao" || route === "ji" || route === "su";
 }
 
-function routeEvents(state: GameState, content: Record<LegacyStoryRouteId, VisualNovelEvent[]>): VisualNovelEvent[] {
-  return isLegacyStoryRoute(state.route)
+function routeEvents(state: GameState, content: Record<MainStoryRouteId, VisualNovelEvent[]>): VisualNovelEvent[] {
+  return isMainStoryRoute(state.route)
     ? content[state.route]
     : [{ type: "narration", text: "血色石门在你身后闭合，墓室里只剩蛊卵裂开的细响。" }];
 }
 
-function showRouteCharacter(route: LegacyStoryRouteId): VisualNovelEvent {
+function showRouteCharacter(route: MainStoryRouteId): VisualNovelEvent {
   const actor = routeCast[route];
   return { type: "character", action: "show", character: actor.id, position: actor.position, expression: actor.expression };
 }
@@ -38,12 +39,11 @@ export function bloodRoomEvents(state: GameState): VisualNovelEvent[] {
     { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "四人的血，一个人的命，正好。", expression: "smug", position: "center" },
     { type: "narration", text: "乔无咎没有现身，声音却沿着活蛊线从每一面石壁同时传来。" },
   ];
-  if (isLegacyStoryRoute(state.route)) {
+  if (isMainStoryRoute(state.route)) {
     events.push(showRouteCharacter(state.route));
-    const routeMoment: Record<LegacyStoryRouteId, VisualNovelEvent> = {
+    const routeMoment: Record<MainStoryRouteId, VisualNovelEvent> = {
       zhao: { type: "narration", text: "赵黎站在你身侧，掌中血纹缓缓舒展，像一头终于等到猎物围成一圈的狼。" },
       ji: { type: "narration", text: "纪清寒以残剑拄地。血线已缠上她的手腕，正从经络中抽取气血，送向池中蛊卵。" },
-      xue: { type: "narration", text: "薛逢目光在血池、石门与四壁活蛊线之间来回游移，显然已在盘算此刻向谁下跪最值钱。" },
       su: state.flags.includes("苏莹存活")
         ? { type: "narration", text: "苏莹站在你身侧，指尖那滴血仍嵌在石面暗纹里发亮，与黑石棺深处的某物遥相呼应。" }
         : { type: "narration", text: "门边只余苏莹留下的血字。血池每翻涌一次，那抹字迹便黯淡一分。" },
@@ -68,12 +68,6 @@ export function awakeningEvents(state: GameState): VisualNovelEvent[] {
         showRouteCharacter("ji"),
         { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "你选。", expression: "softened", position: "right" },
         { type: "narration", text: "她将冰蚕剑对准血池阵眼，愿以三息寒气替你炸开一线生机。你很清楚，这一剑落下，她与自己的蛊种都可能一同碎裂。" },
-      ],
-      xue: [
-        showRouteCharacter("xue"),
-        { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "乔家主！薛某依约，把人带到了！", expression: "panicked", position: "left" },
-        { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "做得不错。祭品名册上，也有你。", expression: "smug", position: "right" },
-        { type: "narration", text: "薛逢脸上的笑彻底僵住。与此同时，你藏在聚灵蛊中的逆向印记沿活蛊线疾驰，控制暗室的位置终于在识海中亮起。" },
       ],
       su: state.flags.includes("苏莹存活")
         ? [
@@ -106,12 +100,6 @@ export function finaleEvents(state: GameState): VisualNovelEvent[] {
         { type: "narration", text: "纪清寒已将冰蚕剑钉进阵眼。寒气沿血纹蔓延，将醒未醒的蛊卵发出刺耳裂响。" },
         { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "带我离开。不要带走这只蛊。", expression: "softened", position: "right" },
         { type: "narration", text: "若你引爆自己的蛊种，血魔蛊会在此刻化灰；代价是你们二人的修为尽废。" },
-      ],
-      xue: [
-        showRouteCharacter("xue"),
-        { type: "narration", text: "逆向活蛊线已经指向控制暗室。乔无咎操控中断的一瞬，就是夺蛊的唯一机会。" },
-        { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "道友，薛某也是一时糊涂！留我一命，我替你记乔家所有的账！", expression: "panicked", position: "left" },
-        { type: "narration", text: "你可以让他活着记账，也可以把他交回血祭。" },
       ],
       su: state.flags.includes("苏莹存活")
         ? [

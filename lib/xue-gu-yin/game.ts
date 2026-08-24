@@ -69,10 +69,7 @@ export function startBattle(state: GameState, scene: Scene): GameState {
 function finishBattle(state: GameState, battle: Battle, won: boolean, health: number) {
   const next = won ? battle.victoryNext : battle.defeatNext;
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
-  const final = battle.enemyName === "苏衍" ? (won ? "true" : "deathByMaster")
-    : battle.enemyName === "赵黎" ? (won ? undefined : "deathByZhao")
-    : battle.enemyName === "乔无咎" ? (won ? (state.flags.includes("血魔蛊已用") ? "demon" : "lone") : "death")
-    : undefined;
+  const final = won ? battle.victoryEnding : battle.defeatEnding;
   const maxEssence = battle.enemyName === "血傀儡" && won ? state.maxEssence + 4 : state.maxEssence;
   const essence = battle.enemyName === "血傀儡" && won ? Math.min(maxEssence, state.essence + 4) : state.essence;
   return { ...state, maxEssence, essence, health: won ? Math.min(state.maxHealth, Math.max(1, health) + 2) : 1, time: won ? state.time : state.time + 1, sceneId: next, battle: null, flags: unique(unique(state.flags, flag), final ? `结局:${final}` : undefined) };
@@ -119,5 +116,5 @@ export function resolveEnding(state: GameState) {
   const explicit = state.flags.find((flag) => flag.startsWith("结局:"))?.slice(3);
   if (explicit && explicit in endings) return explicit;
   if (state.time >= 4) return "trapped";
-  return "lone";
+  return "trapped";
 }

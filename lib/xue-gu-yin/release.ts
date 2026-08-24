@@ -7,11 +7,10 @@ export const releaseMeta = {
 } as const;
 
 export const canonicalReleasePaths = {
-  "赵黎力量线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "zhaoTrail", "zhaoLesson", "zhaoPrice", "zhaoThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "zhaoBattle", "qiaoReveal", "qiaoBattle", "ending"],
-  "纪清寒关怀线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "jiTrail", "jiPromise", "jiBurden", "jiThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
-  "苏莹洞察献祭线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "suTrail", "suInscription", "suLineage", "suThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "ending"],
-  "苏莹洞察墓主线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "suTrail", "suInscription", "suLineage", "suThreshold", "bloodGuard", "bloodRoom", "awakening", "finale", "masterBattle", "ending"],
-  "乔无咎叛徒线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "traitorTrail", "traitorKnife", "traitorBargain", "traitorOath", "ending"],
+  "赵黎力量线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "zhaoTrail", "zhaoLesson", "zhaoPrice", "zhaoThreshold", "zhaoBloodGate", "zhaoBloodGuard", "zhaoAwakening", "zhaoDuel", "zhaoClaim", "zhaoQiaoDuel", "zhaoFall", "zhaoEpilogue", "ending"],
+  "纪清寒关怀线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "jiTrail", "jiPromise", "jiBurden", "jiThreshold", "jiBloodGate", "jiBloodGuard", "jiRescue", "jiArrayTruth", "jiQiaoDuel", "jiDestroyGu", "jiAftermath", "jiEpilogue", "ending"],
+  "苏莹洞察线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "suTrail", "suInscription", "suLineage", "suThreshold", "suBloodGate", "suBloodGuard", "suCoffin", "suMasterTruth", "suMasterDuel", "suCollapse", "suAftermath", "suEpilogue", "ending"],
+  "乔无咎叛徒线": ["gate", "swarm", "shadow", "chamber", "illusion", "puppets", "fog", "traitorTrail", "traitorKnife", "traitorBargain", "traitorOath", "traitorControlRoom", "traitorTrapJi", "traitorSacrificeSu", "traitorQiaoTriumph", "traitorZhaoArrives", "traitorBloodTaken", "traitorDiscarded", "traitorDeath", "ending"],
 } as const;
 
 function sceneDestinations(scene: Scene, probeStates: GameState[]): string[] {

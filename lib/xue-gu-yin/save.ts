@@ -1,6 +1,6 @@
 import type { GameState } from "./model.ts";
 
-export const SAVE_SLOT_VERSION = 4 as const;
+export const SAVE_SLOT_VERSION = 5 as const;
 export const SAVE_SLOT_COUNT = 6;
 
 export type NarrativePosition = { sceneId: string; page: number };

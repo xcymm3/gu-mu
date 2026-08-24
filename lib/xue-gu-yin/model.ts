@@ -62,6 +62,8 @@ export type BattleConfig = {
   defeatNext: string;
   victoryFlag?: string;
   defeatFlag?: string;
+  victoryEnding?: string;
+  defeatEnding?: string;
 };
 
 export type Battle = BattleConfig & {

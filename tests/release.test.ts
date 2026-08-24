@@ -20,8 +20,8 @@ test("全部场景可从墓门抵达且没有悬空跳转", () => {
   assert.deepEqual(validateStoryGraph(scenes, probeStates), []);
 });
 
-test("五条过渡期发布基准路线保持首尾连通", () => {
-  assert.equal(Object.keys(canonicalReleasePaths).length, 5);
+test("四条正式分线发布基准路线保持首尾连通", () => {
+  assert.equal(Object.keys(canonicalReleasePaths).length, 4);
   assert.deepEqual(validateCanonicalPaths(scenes, probeStates), []);
 });
 
@@ -64,6 +64,7 @@ test("损坏或旧格式存档不会进入六个有效槽位", () => {
   assert.equal(isSaveSlot({ version: 1 }), false);
   assert.equal(isSaveSlot({ version: 2 }), false);
   assert.equal(isSaveSlot({ version: 3 }), false);
+  assert.equal(isSaveSlot({ version: 4 }), false);
   assert.deepEqual(normalizeSaveSlots("bad"), Array.from({ length: SAVE_SLOT_COUNT }, () => null));
 });
 

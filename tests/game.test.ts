@@ -5,7 +5,7 @@ import { getCharacterExpressionAsset, getVisualAsset, visualAssetManifest } from
 import { audioAssetManifest, defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile } from "../lib/xue-gu-yin/audio.ts";
 import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCondition, lockPersonalityRoute, personalityRouteMap, resolveBattleTurn, resolveDominantPersonalities, resolveEnding, resolvePersonalityRoute, resolveRandomChoice, resolveSceneEvents, resolveScenePresentation, scenes, startBattle, storyMeta, type Scene } from "../lib/xue-gu-yin/game.ts";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey } from "../lib/xue-gu-yin/reading.ts";
-import { actThreeRouteSceneIds } from "../lib/xue-gu-yin/story/routes/contract.ts";
+import { actFiveRouteSceneIds, actFourRouteSceneIds, actThreeRouteSceneIds } from "../lib/xue-gu-yin/story/routes/contract.ts";
 
 test("阅读帧键稳定且正文变化会生成新键", () => {
   const first = readingFrameKey("gate", 0, 0, "夜雨落在墓门前。");
@@ -113,13 +113,14 @@ test("高神识仅世家之子具备", () => {
   assert.equal(chooseRole("heir").flags.includes("高神识"), true);
 });
 
-test("五幕节点合同固定为一、六、四、三与可变结局", () => {
-  assert.deepEqual(storyMeta.acts.map((act) => act.nodes), [1, 6, 4, 3, "可变"]);
-  const counts = [1, 2, 3, 4].map((act) => [...new Set(Object.values(scenes).filter((scene) => scene.act === act).map((scene) => scene.node))]);
+test("五幕节点合同固定为共通线一、六与分线四、六、二", () => {
+  assert.deepEqual(storyMeta.acts.map((act) => act.nodes), [1, 6, "每线 4", "每线 6", "每线 2"]);
+  const counts = [1, 2, 3, 4, 5].map((act) => [...new Set(Object.values(scenes).filter((scene) => scene.act === act).map((scene) => scene.node))]);
   assert.deepEqual(counts[0], [1]);
   assert.deepEqual(counts[1], [1, 2, 3, 4, 5, 6]);
   assert.deepEqual(counts[2], [1, 2, 3, 4]);
-  assert.deepEqual(counts[3], [1, 2, 3]);
+  assert.deepEqual(counts[3], [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(counts[4], [1, 2]);
 });
 
 test("第一幕已迁移为原生事件且保留全部选择", () => {
@@ -335,25 +336,60 @@ test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () =>
   assert.equal(shadow.beats[0]?.background, "background.control-room");
 });
 
-test("第四幕全部高潮场景均已迁移为原生事件", () => {
-  const state = { ...chooseRole("swordsman"), route: "su" as const, flags: ["苏莹存活"] };
-  for (const sceneId of ["bloodGuard", "bloodRoom", "awakening", "finale", "masterBattle", "zhaoBattle", "qiaoReveal", "qiaoBattle"] as const) {
-    const scene = scenes[sceneId];
-    const presentation = resolveScenePresentation(state, scene);
-    assert.equal(scene.text, undefined, `${sceneId} 仍保留旧 text`);
-    assert.ok(presentation.beats.length > 0, `${sceneId} 没有阅读节拍`);
-    assert.equal(presentation.beats[0]?.background, "background.blood-chamber");
+test("第四、五幕四条路线各自拥有六个高潮节点与两个收束节点", () => {
+  assert.equal(new Set(Object.values(actFourRouteSceneIds).flat()).size, 24);
+  assert.equal(new Set(Object.values(actFiveRouteSceneIds).flat()).size, 8);
+  for (const route of ["zhao", "ji", "su", "traitor"] as const) {
+    actFourRouteSceneIds[route].forEach((sceneId, index) => {
+      const scene = scenes[sceneId];
+      assert.ok(scene, `${route} 缺少第四幕场景 ${sceneId}`);
+      assert.equal(scene.act, 4);
+      assert.equal(scene.node, index + 1);
+      assert.ok(resolveScenePresentation({ ...chooseRole(), route }, scene).beats.length > 0);
+    });
+    actFiveRouteSceneIds[route].forEach((sceneId, index) => {
+      const scene = scenes[sceneId];
+      assert.ok(scene, `${route} 缺少第五幕场景 ${sceneId}`);
+      assert.equal(scene.act, 5);
+      assert.equal(scene.node, index + 1);
+      assert.ok(resolveScenePresentation({ ...chooseRole(), route }, scene).beats.length > 0);
+    });
+  }
+  for (const removed of ["bloodGuard", "bloodRoom", "awakening", "finale", "masterBattle", "zhaoBattle", "qiaoReveal", "qiaoBattle"]) {
+    assert.equal(scenes[removed], undefined, `${removed} 旧公共高潮仍未移除`);
   }
 });
 
-test("第四幕迁移不改变首领战配置与终局选项", () => {
-  const state = { ...chooseRole("swordsman"), route: "su" as const, flags: ["苏莹存活"] };
-  assert.deepEqual(
-    [scenes.bloodGuard, scenes.masterBattle, scenes.zhaoBattle, scenes.qiaoBattle].map((scene) => resolveScenePresentation(state, scene).battle?.enemyName),
-    ["血傀儡", "苏衍", "赵黎", "乔无咎"],
-  );
-  assert.equal(resolveScenePresentation(state, scenes.finale).choices.length, scenes.finale.choices?.length);
-  assert.ok(resolveScenePresentation(state, scenes.awakening).text.includes("苏衍缓缓睁眼"));
+test("四条路线从第三幕结束后不再重新汇合", () => {
+  for (const route of ["zhao", "ji", "su", "traitor"] as const) {
+    const actThreeLast = scenes[actThreeRouteSceneIds[route][3]];
+    const actFourLast = scenes[actFourRouteSceneIds[route][5]];
+    const fixedBattle = typeof actFourLast.battle === "function" ? undefined : actFourLast.battle;
+    assert.equal(actThreeLast.choices?.[0]?.next, actFourRouteSceneIds[route][0]);
+    assert.equal(actFourLast.choices?.[0]?.next ?? fixedBattle?.victoryNext, actFiveRouteSceneIds[route][0]);
+    assert.equal(scenes[actFiveRouteSceneIds[route][0]].choices?.[0]?.next, actFiveRouteSceneIds[route][1]);
+    assert.equal(scenes[actFiveRouteSceneIds[route][1]].choices?.[0]?.next, "ending");
+  }
+});
+
+test("高潮战斗显式声明路线专属的失败结局", () => {
+  const battles = ["zhaoBloodGuard", "zhaoDuel", "zhaoQiaoDuel", "jiBloodGuard", "jiQiaoDuel", "suBloodGuard", "suMasterDuel"];
+  for (const sceneId of battles) {
+    const battle = scenes[sceneId].battle;
+    assert.ok(battle && typeof battle !== "function");
+    if (!battle || typeof battle === "function") throw new Error(`${sceneId} 缺少固定战斗配置`);
+    assert.equal(battle.defeatNext, "ending");
+    assert.ok(battle.defeatEnding, `${sceneId} 未声明失败结局`);
+  }
+});
+
+test("战斗结算使用场景声明的失败结局而非敌人名硬编码", () => {
+  const state = { ...chooseRole("healer"), route: "zhao" as const, health: 1 };
+  const battle = startBattle(state, scenes.zhaoDuel);
+  const defeated = resolveBattleTurn(battle, "blood");
+  assert.equal(defeated.sceneId, "ending");
+  assert.ok(defeated.flags.includes("结局:deathByZhao"));
+  assert.equal(resolveEnding(defeated), "deathByZhao");
 });
 
 test("终局背景与每个结局的视觉舞台资源均已登记", () => {
@@ -480,19 +516,18 @@ test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），re
   assert.ok(next.flags.includes("血甲蛊") || next.flags.includes("血刃蛊"));
 });
 
-test("赵黎线的冰寒蛊简会开启节点三的决战变体", () => {
-  const choice = scenes.finale.choices?.find((item) => item.id === "duel-zhao");
+test("赵黎线固定以冰寒蛊简进入专属决战", () => {
+  const choice = scenes.zhaoAwakening.choices?.[0];
   assert.ok(choice);
   const state = { ...chooseRole(), route: "zhao" as const, flags: ["冰寒蛊简"] };
-  assert.equal(canChoose(state, choice), true);
   const next = applyChoice(state, choice);
-  assert.equal(next.sceneId, "zhaoBattle");
-  assert.equal(startBattle(next, scenes.zhaoBattle).battle?.enemyName, "赵黎");
+  assert.equal(next.sceneId, "zhaoDuel");
+  assert.equal(startBattle(next, scenes.zhaoDuel).battle?.enemyName, "赵黎");
 });
 
 test("真结局路线的墓主战可正常开启，敌方血量仍隐性显示", () => {
   const state = { ...chooseRole(), route: "su" as const, flags: ["苏莹存活"] };
-  const battle = startBattle(state, scenes.masterBattle);
+  const battle = startBattle(state, scenes.suMasterDuel);
   assert.equal(battle.battle?.enemyName, "苏衍");
   assert.equal(getEnemyCondition(28, 28), "健康");
   assert.equal(getEnemyCondition(8, 28), "重伤");

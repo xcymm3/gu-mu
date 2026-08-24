@@ -141,6 +141,11 @@ function useNarrativeLimit() {
   useEffect(() => {
     function fitToViewport() {
       const { innerHeight: height, innerWidth: width } = window;
+      const isCompactLandscape = width < 960 && width >= 560 && width > height;
+      if (isCompactLandscape) {
+        setLimit(height >= 480 ? 84 : height >= 390 ? 64 : 52);
+        return;
+      }
       if (width >= 960) {
         setLimit(height >= 980 ? 148 : height >= 820 ? 112 : height >= 700 ? 84 : 68);
         return;

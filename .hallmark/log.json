@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-08-24",
+    "macrostructure": "Marquee Hero",
+    "theme": "Midnight",
+    "enrichment": "shared compact landscape stage",
+    "brief": "Reuse the desktop visual-novel stage on landscape phones and replace portrait fallback with a rotation prompt."
+  },
+  {
     "date": "2026-08-22",
     "macrostructure": "Marquee Hero",
     "theme": "Midnight",

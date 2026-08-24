@@ -19,7 +19,7 @@ import {
   getEnemyCondition,
   getRole,
   initialGame,
-  rankTrust,
+  resolveDominantPersonalities,
   resolveBattleTurn,
   resolveEnding,
   resolveRandomChoice,
@@ -29,10 +29,10 @@ import {
   storyMeta,
   storyPresentation,
   startBattle,
-  type AllyId,
   type Choice,
   type GameState,
   type GuAction,
+  type PersonalityId,
   type PresentedCharacter,
   type RoleId,
   type SceneBeat,
@@ -371,14 +371,14 @@ function buildBattleResultText(game: GameState, won: boolean): string {
       : `的身躯轰然倒下，溅起满地尘埃，再无半点动静。`;
     return `你缓缓收势站定，胸口剧烈起伏，掌心沉浮的真元余温尚未散去。${enemyName}${corpse}四下里顿时陷入一片死寂，唯余你沉重的喘息声在耳畔回荡。这一战，终究是你笑到了最后。`;
   }
-  const top = rankTrust(game.trust)[0];
-  const savers: Partial<Record<AllyId, string>> = {
-    zhao: `就在${enemyName}那足以致命的攻势即将把你吞没的刹那，一道残影横插而入——赵黎面无表情地大袖一挥，狂暴的血影翻涌而出，那记致命杀招顿时如泥牛入海般消弭无形。他负手而立，头也不回，语气依旧阴鸷而漫不经心：“小子，若死在这种破铜烂铁手里，太便宜你了。”`,
-    ji: `就在${enemyName}的攻势即将把你吞没的刹那，一道清冷剑芒掠过！纪清寒横剑伫立在你身前，硬生生接下了这万钧一击。寒铁长剑嗡鸣震颤，她纤细的虎口崩裂出血痕，却连眉头都不曾皱上一皱，只头也不回地低声道：“退后，交给我。”`,
-    xue: `就在${enemyName}的铁拳即将来临之际，一道滚圆的身影不知从何处横冲直撞地扑了过来，连滚带爬地将你死死拽到一旁。薛逢瘫坐在地剧烈喘着粗气，脸上挂着惊魂未定的难看讨好笑容：“哎呦我的道友……可不能让你死在这儿，你今儿个……可欠了薛某一条命！”`,
-    su: `就在那股狂暴劲力即将碾碎你的瞬息，苏莹不知从哪迸发出一股巨力，发疯般将你狠狠推开！她自己却被${enemyName}的余劲扫中，娇躯倒飞而出，唇角溢出一缕鲜血。然而她顾不得伤势，只定定地凝望着你，确认你平安无事后才松了口气。`,
+  const dominant = resolveDominantPersonalities(game.personality)[0];
+  const savers: Record<PersonalityId, string> = {
+    power: `就在${enemyName}那足以致命的攻势即将把你吞没的刹那，一道残影横插而入——赵黎面无表情地大袖一挥，狂暴的血影翻涌而出，那记致命杀招顿时如泥牛入海般消弭无形。他负手而立，头也不回，语气依旧阴鸷而漫不经心：“小子，若死在这种破铜烂铁手里，太便宜你了。”`,
+    compassion: `就在${enemyName}的攻势即将把你吞没的刹那，一道清冷剑芒掠过！纪清寒横剑伫立在你身前，硬生生接下了这万钧一击。寒铁长剑嗡鸣震颤，她纤细的虎口崩裂出血痕，却连眉头都不曾皱上一皱，只头也不回地低声道：“退后，交给我。”`,
+    insight: `就在那股狂暴劲力即将碾碎你的瞬息，苏莹不知从哪迸发出一股巨力，发疯般将你狠狠推开！她自己却被${enemyName}的余劲扫中，娇躯倒飞而出，唇角溢出一缕鲜血。然而她顾不得伤势，只定定地凝望着你，确认你平安无事后才松了口气。`,
+    scheme: `就在${enemyName}的铁拳即将落下之际，薛逢忽然尖声喝破机关活线的位置。你顺势拧身避过致命一击，他却已经退回阴影里，脸上挂着算计得逞般的讨好笑容：“道友若死了，薛某后面的买卖可就没人照应了。”`,
   };
-  return savers[top] ?? savers.su!;
+  return savers[dominant];
 }
 
 export function XueGuYinGame() {
@@ -886,7 +886,7 @@ function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlocked
   const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
       <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-placeholder.webp" unoptimized width={1024} /></div>
-      <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。大雾落下时，你抓住谁的手，就会走向不同的血路。</p></header>
+      <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。每一次抉择都在塑造你；大雾落下时，你会循着自己的本心走上不同血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
         <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {SAVE_SLOT_COUNT} 卷行迹</small></span></button>

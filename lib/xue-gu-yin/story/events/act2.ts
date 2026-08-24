@@ -1,4 +1,5 @@
 import type { GameState, VisualNovelEvent } from "../../model.ts";
+import { resolveFogRouteChoices } from "../common/choices.ts";
 
 export const swarmEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-corridor", transition: "fade" },
@@ -141,6 +142,7 @@ export function fogEvents(state: GameState): VisualNovelEvent[] {
   }
   events.push(
     { type: "narration", text: "十二具更沉重的傀儡自雾中逼出，脚步碾过碎石，一声比一声近。地面骤然裂开，所有人都被陷道吞没。\n\n下坠的混乱里，你只来得及抓住一只手。" },
+    { type: "choice", choices: resolveFogRouteChoices(state) },
   );
   return events;
 }

@@ -386,45 +386,63 @@ test("正式墓门背景从统一资源清单加载", () => {
   if (background.kind === "image") assert.equal(background.src, "/backgrounds/tomb-gate-v1.webp");
 });
 
-test("大雾节点的四个选择分别锁定四条同行路线", () => {
-  for (const route of ["zhao", "ji", "xue", "su"] as const) {
+test("大雾节点的四种人格分别锁定四条固定路线", () => {
+  for (const route of ["zhao", "ji", "su", "traitor"] as const) {
     const choice = scenes.fog.choices?.find((item) => item.effect?.route === route);
     assert.ok(choice);
-    assert.equal(applyChoice(chooseRole(), choice).route, route);
+    const next = applyChoice(chooseRole(), choice);
+    assert.equal(next.route, route);
+    assert.equal(next.routeLocked, true);
   }
 });
 
-test("大雾节点只展示好感度前二的同行者", () => {
-  const state = { ...chooseRole(), trust: { zhao: 0, ji: 3, xue: 0, su: 2, qiao: 0 } };
-  const jiChoice = scenes.fog.choices?.find((item) => item.effect?.route === "ji");
-  const suChoice = scenes.fog.choices?.find((item) => item.effect?.route === "su");
-  const zhaoChoice = scenes.fog.choices?.find((item) => item.effect?.route === "zhao");
-  assert.ok(jiChoice);
-  assert.ok(suChoice);
-  assert.ok(zhaoChoice);
-  assert.equal(canChoose(state, jiChoice), true);
-  assert.equal(canChoose(state, suChoice), true);
-  assert.equal(canChoose(state, zhaoChoice), false);
+test("大雾节点在人格唯一领先时只展示对应行动", () => {
+  const state = { ...chooseRole(), personality: { power: 3, compassion: 1, insight: 0, scheme: 0 } };
+  const choices = resolveScenePresentation(state, scenes.fog).choices;
+  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power"]);
+  const next = applyChoice(state, choices[0]);
+  assert.equal(next.route, "zhao");
+  assert.equal(next.routeLocked, true);
 });
 
-test("大雾节点尾行乔无咎入口仅在识破棋局时可用，退回暗线后回 fog 抓人", () => {
-  const follow = scenes.fog.choices?.find((item) => item.id === "follow-qiao");
-  assert.ok(follow);
-  assert.equal(follow.next, "shadowQiao");
-  assert.equal(canChoose(chooseRole(), follow), false);
-  assert.equal(canChoose({ ...chooseRole(), flags: ["识破棋局"] }, follow), true);
-  // 暗线退回点回到 fog（而非 puppets），保证塌陷后仍可锁定同行者
-  const retreat = scenes.shadowQiao.choices?.find((item) => item.id === "retreat");
-  const flee = scenes.shadowTruth.choices?.find((item) => item.id === "flee");
-  assert.equal(retreat?.next, "fog");
-  assert.equal(flee?.next, "fog");
+test("大雾节点在人格并列时展示多个确认行动", () => {
+  const state = { ...chooseRole(), personality: { power: 2, compassion: 0, insight: 2, scheme: 1 } };
+  const choices = resolveScenePresentation(state, scenes.fog).choices;
+  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-insight"]);
+  assert.ok(choices.every((choice) => canChoose(state, choice)));
 });
 
-test("高神识角色第一幕多出识破棋局选项", () => {
-  const choice = scenes.gate.choices?.find((item) => item.id === "insight");
+test("权谋人格经薛逢切入乔无咎叛徒暗线", () => {
+  const state = { ...chooseRole(), personality: { power: 0, compassion: 0, insight: 0, scheme: 4 } };
+  const [choice] = resolveScenePresentation(state, scenes.fog).choices;
   assert.ok(choice);
-  assert.equal(canChoose(chooseRole("heir"), choice), true);
-  assert.equal(canChoose(chooseRole("healer"), choice), false);
+  assert.equal(choice.id, "fog-scheme");
+  assert.equal(choice.next, "shadowQiao");
+  const next = applyChoice(state, choice);
+  assert.equal(next.route, "traitor");
+  assert.equal(next.routeLocked, true);
+});
+
+test("第一、二幕选项统一累积隐藏人格而不再改动好感度", () => {
+  for (const sceneId of ["gate", "swarm", "shadow", "chamber", "illusion"] as const) {
+    const choices = scenes[sceneId].choices ?? [];
+    assert.equal(choices.length, 4, `${sceneId} 应提供四种人格行动`);
+    for (const choice of choices) {
+      assert.ok(choice.effect?.personality, `${choice.id} 未累积人格`);
+      assert.equal(choice.effect?.trust, undefined, `${choice.id} 仍在改动好感度`);
+    }
+  }
+});
+
+test("四种人格行动对所有主角可见且正确累计对应分数", () => {
+  for (const roleId of ["healer", "swordsman", "heir"] as const) {
+    assert.equal(resolveScenePresentation(chooseRole(roleId), scenes.gate).choices.length, 4);
+  }
+  const choice = scenes.gate.choices?.find((item) => item.id === "gate-scheme");
+  assert.ok(choice);
+  const next = applyChoice(chooseRole("healer"), choice);
+  assert.equal(next.personality.scheme, 1);
+  assert.ok(next.flags.includes("识破棋局"));
 });
 
 test("苏莹真结局选项只在三枚线索齐备时出现", () => {
@@ -436,8 +454,8 @@ test("苏莹真结局选项只在三枚线索齐备时出现", () => {
   assert.equal(canChoose({ ...base, flags: ["旧玉发烫", "生门低语", "活符低语"] }, choice), true);
 });
 
-test("让苏莹先挑后随机获得一种蛊（血甲蛊或血刃蛊），result 写明所得蛊", () => {
-  const choice = scenes.chamber.choices?.find((item) => item.id === "yield-su");
+test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），result 写明所得蛊", () => {
+  const choice = scenes.chamber.choices?.find((item) => item.id === "chamber-insight");
   assert.ok(choice);
   assert.deepEqual(choice.effect?.flags, ["活符低语"]);
   // roll=0 → 血甲蛊

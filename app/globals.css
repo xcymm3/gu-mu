@@ -1,5 +1,5 @@
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
-/* Hallmark · genre: atmospheric visual novel · macrostructure: Marquee Hero · theme: Midnight · enrichment: event-driven CSS stage · nav: N9 · footer: Ft5 · contrast/slop/mobile: pass */
+/* Hallmark · genre: atmospheric visual novel · macrostructure: Marquee Hero + Narrative Workflow combat · theme: Midnight · enrichment: image-backed battle actors · nav: N9 · footer: Ft5 · contrast/slop/mobile: pass */
 @import "tailwindcss";
 @import "../tokens.css";
 
@@ -3830,6 +3830,177 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   .story-frame.is-battling .battle-commands,
   .story-frame.is-battling .battle-panel > .primary-button {
     bottom: var(--vn-utility-clearance);
+  }
+}
+
+/* Hallmark · battle remains inside the visual-novel stage instead of becoming a separate HUD. */
+@media (min-width: 60rem),
+  (orientation: landscape) and (max-width: 59.99rem) {
+  .story-frame.is-battling .vn-story-core .battle-status-bar {
+    position: absolute;
+    z-index: 6;
+    top: var(--space-6);
+    right: auto;
+    left: 4vw;
+    grid-template-columns: minmax(5rem, 1fr) minmax(7rem, 1.2fr) minmax(5rem, .8fr) auto;
+    width: min(34rem, 50vw);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-vn-rule);
+    background: var(--color-vn-chrome);
+    color: var(--color-vn-chrome-ink);
+    box-shadow: 0 .7rem 2rem var(--color-vn-shadow);
+    backdrop-filter: blur(.55rem);
+  }
+
+  .story-frame.is-battling .vn-ledger {
+    display: none;
+  }
+
+  .story-frame.is-battling .battle-status-bar span,
+  .story-frame.is-battling .battle-status-bar strong {
+    color: var(--color-vn-chrome-ink);
+  }
+
+  .story-frame.is-battling .battle-status-bar span {
+    opacity: .72;
+  }
+
+  .battle-status-actions {
+    display: flex;
+    align-items: end;
+    gap: var(--space-2);
+  }
+
+  .story-frame.is-battling .battle-status-actions .battle-help-button,
+  .story-frame.is-battling .battle-status-actions .game-menu-trigger {
+    border-color: var(--color-vn-rule);
+    background: transparent;
+    color: var(--color-vn-chrome-ink);
+  }
+
+  .story-frame.is-battling .vn-story-core .battle-scene {
+    right: 4vw;
+    bottom: var(--vn-utility-clearance);
+    left: 4vw;
+    display: grid;
+    flex: none;
+    grid-template-rows: minmax(0, 1fr);
+    width: auto;
+    height: clamp(15rem, 29vh, 18.5rem);
+    padding: 2rem clamp(2rem, 4.5vw, 5rem) var(--space-5);
+    border: 1px solid var(--color-vn-rule);
+    background: var(--color-vn-dialog);
+    box-shadow: 0 1rem 3rem var(--color-vn-shadow);
+  }
+
+  .story-frame.is-battling .battle-scene .scene-copy {
+    align-content: center;
+    max-width: 76ch;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .story-frame.is-battling .battle-scene .scene-copy p {
+    color: var(--color-vn-dialog-muted);
+  }
+
+  .story-frame.is-battling .battle-choice-panel {
+    right: auto;
+    left: 5vw;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(38rem, 56vw);
+  }
+
+  .story-frame.is-battling .battle-choice-button {
+    min-width: 0;
+  }
+
+  .story-frame.is-battling .battle-choice-button small {
+    color: var(--color-vn-choice-ink);
+    opacity: .66;
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate {
+    top: 7vh;
+    right: 6vw;
+    gap: var(--space-1);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-vn-chrome-ink);
+    text-shadow: 0 .2rem .8rem var(--color-vn-shadow);
+    backdrop-filter: none;
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate strong {
+    padding-top: var(--space-1);
+    border-top: 1px solid var(--color-vn-rule);
+    opacity: .84;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 59.99rem) {
+  .story-frame.is-battling .vn-story-core .battle-status-bar {
+    top: max(var(--space-2), env(safe-area-inset-top));
+    left: max(var(--space-3), env(safe-area-inset-left));
+    grid-template-columns: minmax(3.8rem, 1fr) minmax(5.5rem, 1.2fr) minmax(4rem, .8fr) auto;
+    width: min(58vw, 29rem);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .story-frame.is-battling .battle-status-bar span,
+  .story-frame.is-battling .battle-status-bar strong,
+  .story-frame.is-battling .battle-status-actions button {
+    font-size: .62rem;
+  }
+
+  .story-frame.is-battling .battle-status-actions {
+    gap: var(--space-1);
+  }
+
+  .story-frame.is-battling .battle-status-actions .battle-help-button,
+  .story-frame.is-battling .battle-status-actions .game-menu-trigger {
+    min-width: 2rem;
+    min-height: 1.75rem;
+    height: 1.75rem;
+    padding-inline: var(--space-1);
+  }
+
+  .story-frame.is-battling .vn-story-core .battle-scene {
+    right: max(var(--space-3), env(safe-area-inset-right));
+    bottom: var(--vn-utility-clearance);
+    left: max(var(--space-3), env(safe-area-inset-left));
+    height: clamp(9.2rem, 44dvh, 11rem);
+    padding: var(--space-4) var(--space-6) var(--space-3);
+  }
+
+  .story-frame.is-battling .battle-scene .scene-copy p {
+    font-size: clamp(.72rem, 1.8vw, .84rem);
+    line-height: 1.58;
+  }
+
+  .story-frame.is-battling .battle-choice-panel {
+    left: max(var(--space-4), env(safe-area-inset-left));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(55vw, 30rem);
+  }
+
+  .story-frame.is-battling .battle-choice-button {
+    min-height: 2.35rem;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate {
+    top: 8vh;
+    right: max(var(--space-3), env(safe-area-inset-right));
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate span {
+    font-size: .78rem;
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate strong {
+    font-size: .56rem;
   }
 }
 

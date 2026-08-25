@@ -464,6 +464,18 @@ test("五名主要人物基础立绘均从透明 WebP 资源加载", () => {
   }
 });
 
+test("铜皮傀儡与血傀儡均从正式透明立绘资源加载", () => {
+  const enemies = [
+    ["character.enemy.tong-pi-kui-lei", "/characters/tong-pi-kui-lei-v1.webp"],
+    ["character.enemy.xue-kui-lei", "/characters/xue-kui-lei-v1.webp"],
+  ] as const;
+  for (const [key, src] of enemies) {
+    const portrait = getVisualAsset(key);
+    assert.equal(portrait.kind, "image");
+    if (portrait.kind === "image") assert.equal(portrait.src, src);
+  }
+});
+
 test("正式墓门背景从统一资源清单加载", () => {
   const background = getVisualAsset("background.tomb-gate");
   assert.equal(background.kind, "image");

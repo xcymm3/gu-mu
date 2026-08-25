@@ -279,6 +279,8 @@ function SceneAudioCue({ act, audio, background, inBattle }: { act: number; audi
 }
 
 const battleActorAssets = {
+  "铜皮傀儡": { asset: "character.enemy.tong-pi-kui-lei", label: "铜皮傀儡" },
+  "血傀儡": { asset: "character.enemy.xue-kui-lei", label: "血傀儡" },
   "赵黎": { asset: "character.zhao-li.wary", label: "赵黎" },
   "乔无咎": { asset: "character.qiao-wujiu.smug", label: "乔无咎" },
   "苏衍": { asset: "character.su-yan.awakened", label: "苏衍" },
@@ -796,7 +798,7 @@ export function XueGuYinGame() {
             <div className="scene-copy vn-text-reveal" key={`battle-result-${battleResult.text}`} ref={copyRef}><NarrativePage text={battleResult.text} /></div>
             <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
-        </> : battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
+        </> : battle ? <BattleScene battleFeedback={battleFeedback} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
           <header className="status-bar">
             <div><span>修士</span><strong>{role.name}</strong></div>
             <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
@@ -1021,7 +1023,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
   </section></main>;
 }
 
-function BattlePanel({ battleFeedback, game, onAction, onOpenMenu }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onOpenMenu: () => void }) {
+function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onOpenMenu: () => void }) {
   const battle = game.battle;
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
@@ -1039,22 +1041,33 @@ function BattlePanel({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
     : [attackAction, defenseAction, signatureAction, ...bloodDemonAction];
   const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, blooddemon: 2, rest: 0, heal: 2, sword: 4, charm: 3 };
   const enemyCue = enemyCueFor(battle);
-  const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
-  return <section className="battle-panel" aria-label="蛊斗">
-    <header className="battle-player-bar"><div><span>修士</span><strong>{role.name}</strong></div><div className="battle-health"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" onClick={onOpenMenu}>菜单</button></header>
-    <div className="battle-heading"><div className="enemy-row"><span>蛊斗对象</span><strong>{battle.enemyName}</strong><small>敌方状态：{enemyCondition}</small></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
-    <p className="essence-stat"><span>真元</span><strong>{game.essence}/{game.maxEssence}</strong></p>
-    <div className={`intent-copy${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
-      {battleFeedback ? <><span className="battle-report-label">本回合结果</span><p>{battleFeedback.result}</p>{battleFeedback.nextCue ? <><span className="battle-report-label">敌方异动</span><p>{battleFeedback.nextCue}</p></> : null}</> : <><span className="battle-report-label">敌方异动</span><p>{enemyCue}</p></>}
-    </div>
-    <div className="battle-commands"><p>选择本回合蛊术</p><div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span><em>{actionCosts[action.id]} 真元</em></button>)}</div></div>
+  const narration = battleFeedback ? [battleFeedback.result, battleFeedback.nextCue].filter(Boolean) as string[] : [enemyCue];
+  const narrationKey = narration.join("|");
+  return <>
+    <header className="status-bar battle-status-bar">
+      <div><span>修士</span><strong>{role.name}</strong></div>
+      <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
+      <div className="battle-essence"><span>真元</span><strong>{game.essence}/{game.maxEssence}</strong></div>
+      <nav className="battle-status-actions" aria-label="战斗辅助功能"><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" onClick={onOpenMenu}>菜单</button></nav>
+    </header>
+    <section className={`scene battle-scene${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
+      <p className="vn-speaker">{battle.enemyName}</p>
+      <p className="eyebrow">交锋</p>
+      <div className="scene-copy vn-text-reveal" key={narrationKey}>{narration.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
+    </section>
+    <nav className="choice-panel battle-choice-panel" aria-label="选择本回合蛊术">
+      {guActions.map((action) => {
+        const cost = actionCosts[action.id];
+        return <button className="choice-button battle-choice-button" key={action.id} disabled={game.essence < cost} aria-label={`${action.name}，${action.description}${cost ? `消耗 ${cost} 点真元` : "不消耗真元"}`} onClick={() => onAction(action.id)}><span>{action.name}</span><small>{cost ? `${cost} 真元` : "调息"}</small></button>;
+      })}
+    </nav>
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button autoFocus className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
       <p>月光蛊与甲衣蛊需以真元催动；夺得血刃蛊或血甲蛊后，它们会替换初始蛊。真元耗尽时，只能调息回气，敌人仍会行动。</p>
       <p>敌人的异样动作只是征兆，不会直接告诉你下一击是什么。留意其姿态、气息与周围变化。</p>
     </section></div> : null}
-  </section>;
+  </>;
 }
 
 function EndingScreen({ game, seenEndings, onReplay, onChangeRole, onMenu }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void; onMenu: () => void }) {

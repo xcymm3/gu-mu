@@ -103,9 +103,15 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
 
   assert.match(game, /linearRouteChoice/);
   assert.match(game, /function BattleStageActor/);
+  assert.match(game, /function BattleScene/);
   assert.match(game, /battleActor=\{battle && !battleResult/);
+  assert.match(game, /className="status-bar battle-status-bar"/);
+  assert.match(game, /className="choice-panel battle-choice-panel"/);
+  assert.doesNotMatch(game, /敌方异动|敌方状态：/);
+  assert.doesNotMatch(game, /<section className="battle-panel"/);
   assert.match(css, /\.vn-battle-actor-layer/);
   assert.match(css, /@keyframes vn-battle-recoil/);
+  assert.match(css, /battle remains inside the visual-novel stage/);
 });
 
 test("对话推进只显示无边框箭头，不再渲染继续按钮", () => {
@@ -127,5 +133,5 @@ test("快捷功能栏始终占用独立底部安全区", () => {
   assert.match(css, /reserve a dedicated bottom utility lane/);
   assert.match(css, /--vn-utility-clearance:/);
   assert.match(css, /\.vn-story-core \.scene\s*\{\s*bottom:\s*var\(--vn-utility-clearance\)/);
-  assert.match(css, /\.story-frame\.is-battling \.intent-copy,[\s\S]*bottom:\s*var\(--vn-utility-clearance\)/);
+  assert.match(css, /\.story-frame\.is-battling \.vn-story-core \.battle-scene\s*\{[\s\S]*?bottom:\s*var\(--vn-utility-clearance\)/);
 });

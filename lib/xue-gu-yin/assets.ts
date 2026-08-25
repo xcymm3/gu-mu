@@ -39,6 +39,8 @@ export const visualAssetManifest = {
   "character.su-yan.placeholder": { kind: "image", src: "/characters/su-yan-v1.webp", alt: "苏衍基础立绘" },
   "character.su-yan.neutral": { kind: "image", src: "/characters/su-yan-v1.webp", alt: "苏衍冷漠表情" },
   "character.su-yan.awakened": { kind: "image", src: "/characters/su-yan-v1.webp", alt: "苏衍苏醒表情" },
+  "character.enemy.tong-pi-kui-lei": { kind: "image", src: "/characters/tong-pi-kui-lei-v1.webp", alt: "铜皮傀儡战斗立绘" },
+  "character.enemy.xue-kui-lei": { kind: "image", src: "/characters/xue-kui-lei-v1.webp", alt: "血傀儡战斗立绘" },
 } as const satisfies Record<string, VisualAssetDescriptor>;
 
 export type VisualAssetKey = keyof typeof visualAssetManifest;

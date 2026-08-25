@@ -106,3 +106,15 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   assert.match(css, /\.vn-battle-actor-layer/);
   assert.match(css, /@keyframes vn-battle-recoil/);
 });
+
+test("快捷功能栏始终占用独立底部安全区", () => {
+  const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
+
+  assert.doesNotMatch(game, /!battle\s*\?\s*<QuickMenu/);
+  assert.match(game, /<QuickMenu autoMode=\{autoMode\}/);
+  assert.match(css, /reserve a dedicated bottom utility lane/);
+  assert.match(css, /--vn-utility-clearance:/);
+  assert.match(css, /\.vn-story-core \.scene\s*\{\s*bottom:\s*var\(--vn-utility-clearance\)/);
+  assert.match(css, /\.story-frame\.is-battling \.intent-copy,[\s\S]*bottom:\s*var\(--vn-utility-clearance\)/);
+});

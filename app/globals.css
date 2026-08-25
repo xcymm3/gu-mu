@@ -3786,3 +3786,79 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     padding: .38rem 1.9rem .35rem .45rem;
   }
 }
+
+/* Hallmark · reserve a dedicated bottom utility lane so controls never cover story or battle UI. */
+@media (min-width: 60rem),
+  (orientation: landscape) and (max-width: 59.99rem) {
+  .story-frame {
+    --vn-utility-clearance: calc(var(--space-8) + var(--space-6));
+    --vn-choice-clearance: calc(var(--space-10) + var(--space-6) + var(--space-1));
+    --vn-continue-clearance: calc(var(--space-10) + var(--space-8) + var(--space-1));
+  }
+
+  .vn-quick-menu {
+    bottom: var(--space-2);
+  }
+
+  .vn-story-core .scene {
+    bottom: var(--vn-utility-clearance);
+    padding-bottom: var(--space-5);
+  }
+
+  .vn-story-core .scene-copy {
+    padding-bottom: var(--space-1);
+  }
+
+  .vn-story-core .choice-panel {
+    bottom: calc(clamp(15rem, 29vh, 18.5rem) + var(--vn-choice-clearance));
+  }
+
+  .vn-story-core .choice-panel:not(:has(.choice-button)) {
+    bottom: var(--vn-continue-clearance);
+  }
+
+  .story-frame.is-battling .intent-copy,
+  .story-frame.is-battling .battle-commands,
+  .story-frame.is-battling .battle-panel > .primary-button {
+    bottom: var(--vn-utility-clearance);
+  }
+}
+
+@media (orientation: landscape) and (max-width: 59.99rem) {
+  .story-frame {
+    --vn-utility-clearance: max(
+      calc(var(--space-8) + var(--space-3)),
+      calc(env(safe-area-inset-bottom) + var(--space-10))
+    );
+    --vn-choice-clearance: max(
+      calc(var(--space-10) + var(--space-3)),
+      calc(env(safe-area-inset-bottom) + var(--space-8) + var(--space-4))
+    );
+    --vn-continue-clearance: max(
+      calc(var(--space-8) + var(--space-6)),
+      calc(env(safe-area-inset-bottom) + var(--space-8) + var(--space-5))
+    );
+  }
+
+  .vn-quick-menu {
+    bottom: max(var(--space-1), env(safe-area-inset-bottom));
+  }
+
+  .vn-story-core .scene {
+    bottom: var(--vn-utility-clearance);
+  }
+
+  .vn-story-core .choice-panel {
+    bottom: calc(clamp(9.2rem, 44dvh, 11rem) + var(--vn-choice-clearance));
+  }
+
+  .vn-story-core .choice-panel:not(:has(.choice-button)) {
+    bottom: var(--vn-continue-clearance);
+  }
+
+  .story-frame.is-battling .intent-copy,
+  .story-frame.is-battling .battle-commands,
+  .story-frame.is-battling .battle-panel > .primary-button {
+    bottom: var(--vn-utility-clearance);
+  }
+}

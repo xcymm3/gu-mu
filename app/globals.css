@@ -527,6 +527,8 @@ button:focus-visible {
   min-height: 0;
   max-height: 52rem;
   overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .opening-card,
@@ -1947,7 +1949,7 @@ h1 {
 .vn-backlog > header { display: flex; align-items: start; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--color-vn-rule, var(--color-rule)); }
 .vn-backlog h2 { margin: .25rem 0 0; font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.4rem); }
 .vn-backlog > header button { width: 2.6rem; height: 2.6rem; border: 1px solid var(--color-vn-rule, var(--color-rule)); background: transparent; color: inherit; cursor: pointer; font-size: 1.4rem; }
-.vn-backlog-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 1rem clamp(.25rem, 2vw, 1.5rem) 2rem 0; scrollbar-color: var(--color-accent) transparent; }
+.vn-backlog-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 1rem clamp(.25rem, 2vw, 1.5rem) 2rem 0; scrollbar-color: var(--color-accent) transparent; -webkit-user-select: text; user-select: text; }
 .vn-backlog-list article { display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr); gap: 1.5rem; padding: 1.25rem 0; border-bottom: 1px solid var(--color-vn-rule, var(--color-rule)); }
 .vn-backlog-list article > p { display: grid; align-content: start; gap: .35rem; margin: 0; }
 .vn-backlog-list article > p span { color: var(--color-faint); font-size: var(--text-xs); }

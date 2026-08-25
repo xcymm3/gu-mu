@@ -107,9 +107,14 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   assert.match(game, /battleActor=\{battle && !battleResult/);
   assert.match(game, /className="status-bar battle-status-bar"/);
   assert.match(game, /className="choice-panel battle-choice-panel"/);
+  assert.match(game, /<small>{action\.description}<\/small>/);
+  assert.match(game, /className="battle-essence"[\s\S]*?<i style=/);
+  assert.match(game, /<small>状态<\/small>{enemyCondition}/);
   assert.doesNotMatch(game, /敌方异动|敌方状态：/);
   assert.doesNotMatch(game, /<section className="battle-panel"/);
   assert.match(css, /\.vn-battle-actor-layer/);
+  assert.match(css, /\.story-frame\.is-battling \.battle-choice-panel \{[\s\S]*?right: 5vw;[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);
+  assert.match(css, /\.story-frame\.is-battling \.vn-battle-actor \{[\s\S]*?left: 3vw;/);
   assert.match(css, /@keyframes vn-battle-recoil/);
   assert.match(css, /battle remains inside the visual-novel stage/);
 });

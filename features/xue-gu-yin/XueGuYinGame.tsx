@@ -290,13 +290,14 @@ function BattleStageActor({ enemyCondition, enemyName, reacting }: { enemyCondit
   const actor = battleActorAssets[enemyName as keyof typeof battleActorAssets];
   const asset = actor ? getVisualAsset(actor.asset) : null;
   const construct = enemyName.includes("傀儡");
+  const conditionTone = enemyCondition === "健康" ? "is-healthy" : enemyCondition === "重伤" ? "is-critical" : "is-wounded";
   return <div className={`vn-battle-actor-layer${reacting ? " is-reacting" : ""}`} aria-hidden="true">
     <div className={`vn-battle-actor${construct ? " is-construct" : " is-cultivator"}`} data-enemy={enemyName}>
       {asset?.kind === "image"
         ? <CharacterImage label={actor.label} src={asset.src} />
         : <div className="vn-battle-construct"><i /><i /><i /><span /></div>}
     </div>
-    <p className="vn-battle-nameplate"><span>{enemyName}</span><strong>{enemyCondition}</strong></p>
+    <p className={`vn-battle-nameplate ${conditionTone}`}><span>{enemyName}</span><strong><small>状态</small>{enemyCondition}</strong></p>
   </div>;
 }
 
@@ -1046,8 +1047,8 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
   return <>
     <header className="status-bar battle-status-bar">
       <div><span>修士</span><strong>{role.name}</strong></div>
-      <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
-      <div className="battle-essence"><span>真元</span><strong>{game.essence}/{game.maxEssence}</strong></div>
+      <div className="health-stat"><span>生命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
+      <div className="battle-essence"><span>真元</span><strong>{game.essence}/{game.maxEssence}</strong><i style={{ width: `${(game.essence / game.maxEssence) * 100}%` }} /></div>
       <nav className="battle-status-actions" aria-label="战斗辅助功能"><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" onClick={onOpenMenu}>菜单</button></nav>
     </header>
     <section className={`scene battle-scene${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
@@ -1058,7 +1059,8 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
     <nav className="choice-panel battle-choice-panel" aria-label="选择本回合蛊术">
       {guActions.map((action) => {
         const cost = actionCosts[action.id];
-        return <button className="choice-button battle-choice-button" key={action.id} disabled={game.essence < cost} aria-label={`${action.name}，${action.description}${cost ? `消耗 ${cost} 点真元` : "不消耗真元"}`} onClick={() => onAction(action.id)}><span>{action.name}</span><small>{cost ? `${cost} 真元` : "调息"}</small></button>;
+        const lacksEssence = game.essence < cost;
+        return <button className="choice-button battle-choice-button" key={action.id} disabled={lacksEssence} aria-label={`${action.name}，${action.description}${lacksEssence ? "，当前真元不足" : ""}`} onClick={() => onAction(action.id)}><span><strong>{action.name}</strong><small>{action.description}</small></span>{lacksEssence ? <em>真元不足</em> : null}</button>;
       })}
     </nav>
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>

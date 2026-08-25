@@ -3840,10 +3840,10 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     position: absolute;
     z-index: 6;
     top: var(--space-6);
-    right: auto;
-    left: 4vw;
-    grid-template-columns: minmax(5rem, 1fr) minmax(7rem, 1.2fr) minmax(5rem, .8fr) auto;
-    width: min(34rem, 50vw);
+    right: 5vw;
+    left: auto;
+    grid-template-columns: minmax(4.5rem, .7fr) minmax(7rem, 1fr) minmax(7rem, 1fr) auto;
+    width: min(34rem, 43vw);
     padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-vn-rule);
     background: var(--color-vn-chrome);
@@ -3863,6 +3863,39 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
 
   .story-frame.is-battling .battle-status-bar span {
     opacity: .72;
+  }
+
+  .story-frame.is-battling .battle-status-bar > div {
+    min-width: 0;
+  }
+
+  .story-frame.is-battling .battle-status-bar .health-stat,
+  .story-frame.is-battling .battle-status-bar .battle-essence {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .story-frame.is-battling .battle-status-bar .health-stat strong,
+  .story-frame.is-battling .battle-status-bar .battle-essence strong {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: 1;
+  }
+
+  .story-frame.is-battling .battle-status-bar .health-stat i,
+  .story-frame.is-battling .battle-status-bar .battle-essence i {
+    grid-column: 1 / -1;
+    height: var(--space-2);
+    border: 1px solid var(--color-vn-rule);
+    border-radius: 0;
+    box-shadow: 0 0 var(--space-3) color-mix(in srgb, var(--color-danger) 34%, transparent);
+  }
+
+  .story-frame.is-battling .battle-status-bar .battle-essence i {
+    display: block;
+    background: var(--color-accent);
+    box-shadow: 0 0 var(--space-3) color-mix(in srgb, var(--color-accent) 34%, transparent);
   }
 
   .battle-status-actions {
@@ -3905,53 +3938,130 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   }
 
   .story-frame.is-battling .battle-choice-panel {
-    right: auto;
-    left: 5vw;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: min(38rem, 56vw);
+    right: 5vw;
+    left: auto;
+    grid-template-columns: minmax(0, 1fr);
+    width: min(31rem, 38vw);
   }
 
   .story-frame.is-battling .battle-choice-button {
+    align-items: stretch;
     min-width: 0;
+    min-height: 4.75rem;
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
   }
 
-  .story-frame.is-battling .battle-choice-button small {
+  .story-frame.is-battling .battle-choice-button > span {
+    display: grid;
+    flex: 1 1 auto;
+    gap: var(--space-1);
+    min-width: 0;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .story-frame.is-battling .battle-choice-button > span strong {
     color: var(--color-vn-choice-ink);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    letter-spacing: .08em;
+  }
+
+  .story-frame.is-battling .battle-choice-button > span small {
+    color: var(--color-vn-choice-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    line-height: 1.5;
     opacity: .66;
+    white-space: normal;
+  }
+
+  .story-frame.is-battling .battle-choice-button > em {
+    align-self: center;
+    flex: 0 0 auto;
+    color: var(--color-danger);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-style: normal;
+  }
+
+  .story-frame.is-battling .vn-battle-actor {
+    right: auto;
+    left: 3vw;
   }
 
   .story-frame.is-battling .vn-battle-nameplate {
     top: 7vh;
-    right: 6vw;
-    gap: var(--space-1);
-    padding: 0;
-    border: 0;
-    background: transparent;
+    right: auto;
+    left: 5vw;
+    justify-items: start;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-vn-rule);
+    border-inline-start: var(--space-1) solid var(--color-danger);
+    background: var(--color-vn-chrome);
     color: var(--color-vn-chrome-ink);
     text-shadow: 0 .2rem .8rem var(--color-vn-shadow);
-    backdrop-filter: none;
+    backdrop-filter: blur(.55rem);
   }
 
   .story-frame.is-battling .vn-battle-nameplate strong {
-    padding-top: var(--space-1);
-    border-top: 1px solid var(--color-vn-rule);
-    opacity: .84;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    min-width: 7rem;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-danger);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    font-size: var(--text-base);
+    opacity: 1;
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate strong small {
+    color: var(--color-danger);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 650;
+    opacity: .72;
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate.is-healthy strong {
+    border-color: var(--color-accent);
+    background: var(--color-success-soft);
+    color: var(--color-accent);
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate.is-healthy strong small {
+    color: var(--color-accent);
   }
 }
 
 @media (orientation: landscape) and (max-width: 59.99rem) {
   .story-frame.is-battling .vn-story-core .battle-status-bar {
     top: max(var(--space-2), env(safe-area-inset-top));
-    left: max(var(--space-3), env(safe-area-inset-left));
-    grid-template-columns: minmax(3.8rem, 1fr) minmax(5.5rem, 1.2fr) minmax(4rem, .8fr) auto;
-    width: min(58vw, 29rem);
+    right: max(var(--space-3), env(safe-area-inset-right));
+    left: auto;
+    grid-template-columns: minmax(3.4rem, .6fr) minmax(5rem, 1fr) minmax(5rem, 1fr) auto;
+    width: min(54vw, 29rem);
     padding: var(--space-2) var(--space-3);
   }
 
   .story-frame.is-battling .battle-status-bar span,
-  .story-frame.is-battling .battle-status-bar strong,
   .story-frame.is-battling .battle-status-actions button {
     font-size: .62rem;
+  }
+
+  .story-frame.is-battling .battle-status-bar .health-stat strong,
+  .story-frame.is-battling .battle-status-bar .battle-essence strong {
+    font-size: var(--text-sm);
+  }
+
+  .story-frame.is-battling .battle-status-bar .health-stat i,
+  .story-frame.is-battling .battle-status-bar .battle-essence i {
+    height: var(--space-1);
   }
 
   .story-frame.is-battling .battle-status-actions {
@@ -3967,11 +4077,11 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   }
 
   .story-frame.is-battling .vn-story-core .battle-scene {
-    right: max(var(--space-3), env(safe-area-inset-right));
+    right: 43vw;
     bottom: var(--vn-utility-clearance);
     left: max(var(--space-3), env(safe-area-inset-left));
     height: clamp(9.2rem, 44dvh, 11rem);
-    padding: var(--space-4) var(--space-6) var(--space-3);
+    padding: var(--space-4) var(--space-5) var(--space-3);
   }
 
   .story-frame.is-battling .battle-scene .scene-copy p {
@@ -3980,19 +4090,45 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   }
 
   .story-frame.is-battling .battle-choice-panel {
-    left: max(var(--space-4), env(safe-area-inset-left));
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: min(55vw, 30rem);
+    top: max(4.75rem, calc(env(safe-area-inset-top) + 4.25rem));
+    right: max(var(--space-3), env(safe-area-inset-right));
+    bottom: var(--vn-utility-clearance);
+    left: auto;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    width: min(39vw, 21rem);
   }
 
   .story-frame.is-battling .battle-choice-button {
-    min-height: 2.35rem;
+    min-height: 3rem;
     padding: var(--space-2) var(--space-3);
+  }
+
+  .story-frame.is-battling .battle-choice-button > span {
+    gap: 0;
+  }
+
+  .story-frame.is-battling .battle-choice-button > span strong {
+    font-size: .78rem;
+  }
+
+  .story-frame.is-battling .battle-choice-button > span small,
+  .story-frame.is-battling .battle-choice-button > em {
+    font-size: .62rem;
+    line-height: 1.35;
+  }
+
+  .story-frame.is-battling .vn-battle-actor {
+    right: auto;
+    left: max(var(--space-2), env(safe-area-inset-left));
+    width: 36vw;
   }
 
   .story-frame.is-battling .vn-battle-nameplate {
     top: 8vh;
-    right: max(var(--space-3), env(safe-area-inset-right));
+    right: auto;
+    left: max(var(--space-3), env(safe-area-inset-left));
+    padding: var(--space-2) var(--space-3);
   }
 
   .story-frame.is-battling .vn-battle-nameplate span {
@@ -4000,7 +4136,13 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   }
 
   .story-frame.is-battling .vn-battle-nameplate strong {
-    font-size: .56rem;
+    min-width: 5rem;
+    padding: var(--space-1) var(--space-2);
+    font-size: .68rem;
+  }
+
+  .story-frame.is-battling .vn-battle-nameplate strong small {
+    font-size: .54rem;
   }
 }
 

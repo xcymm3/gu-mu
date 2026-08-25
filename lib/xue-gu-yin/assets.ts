@@ -11,7 +11,7 @@ export const visualAssetManifest = {
   "background.tomb-corridor": { kind: "css", className: "vn-placeholder-tomb-corridor", alt: "阴暗狭长的蛊墓甬道" },
   "background.fog-passage": { kind: "image", src: "/backgrounds/fog-passage-v1.webp", alt: "被蛊雾吞没的古墓甬道" },
   "background.trap-passage": { kind: "image", src: "/backgrounds/trap-passage-v1.webp", alt: "坍塌断裂的机关陷道" },
-  "background.control-room": { kind: "image", src: "/backgrounds/control-room-v1.webp", alt: "遍布活蛊线的机关控制暗室" },
+  "background.control-room": { kind: "image", src: "/backgrounds/control-room-v1.webp", alt: "遍布牵机丝的机关控制暗室" },
   "background.blood-chamber": { kind: "image", src: "/backgrounds/blood-chamber-v1.webp", alt: "血魔蛊卵悬于血池上方的五转蛊室" },
   "background.dawn-exit": { kind: "image", src: "/backgrounds/dawn-exit-v1.webp", alt: "雨后天光中的蛊墓出口" },
   "background.blood-ruin": { kind: "image", src: "/backgrounds/blood-ruin-v1.webp", alt: "血光下崩塌的蛊室废墟" },

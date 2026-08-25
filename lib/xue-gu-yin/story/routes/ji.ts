@@ -20,7 +20,7 @@ const jiBurdenEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
   { type: "narration", text: "岔道中传来苏莹短促的呼声，另一侧却有成群傀儡逼近。纪清寒本可趁机直奔主墓室，却转身与你一同斩开机关门，把困在石缝后的苏莹拖出死地。" },
-  { type: "narration", text: "救人耽误了时间，也让乔无咎布置的活蛊线追上来。纪清寒的残剑再添一道裂口；她仍站在最前面，仿佛自己的命从来不在需要权衡的那一边。" },
+  { type: "narration", text: "救人耽误了时间，也让乔无咎放出的傀儡追了上来。纪清寒的残剑再添一道裂口；她仍站在最前面，仿佛自己的命从来不在需要权衡的那一边。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "既然伸了手，就别在半途松开。", expression: "softened", position: "right" },
 ];
 
@@ -34,7 +34,7 @@ const jiThresholdEvents: VisualNovelEvent[] = [
 
 const jiBloodGateEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "血门开启，祭殿里散落着尚未死去的同行者。乔无咎从暗处启动血祭，活蛊线拖着伤者向血池滑去。纪清寒没有看中央的蛊茧，她先把断剑插进地面，替最近的人截住一根线。" },
+  { type: "narration", text: "血门开启，祭殿里散落着尚未死去的同行者。乔无咎从暗处启动血祭，牵机丝拖着伤者向血池滑去。纪清寒没有看中央的蛊茧，她先把断剑插进地面，替最近的人截住一根。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "先把人带回来。蛊可以稍后再毁。", expression: "alert", position: "right" },
 ];
 
@@ -45,19 +45,19 @@ const jiBloodGuardEvents: VisualNovelEvent[] = [
 
 const jiRescueEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "傀儡倒下后，你与纪清寒逐一斩断活蛊线。她把最后一粒疗伤药喂给伤势最重的人，自己握剑的手却已经被血纹灼得发黑。你接过她的剑，让她腾出双手救下仍在血池边挣扎的苏莹。" },
+  { type: "narration", text: "傀儡倒下后，你与纪清寒逐一斩断丝线。她把最后一粒疗伤药喂给伤势最重的人，自己握剑的手却已经被血纹灼得发黑。你接过她的剑，让她腾出双手救下仍在血池边挣扎的苏莹。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "你还记得我说过的话。伸了手，就不能半途松开。", expression: "softened", position: "right" },
 ];
 
 const jiArrayTruthEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
-  { type: "narration", text: "被斩断的活蛊线全都通向墙后的控制台。乔无咎并非临时起意，他早已熟悉墓中七成机关，只等合适的人替他填满祭阵。纪清寒将断剑横在蛊茧与伤者之间，你则循着活线逼他现身。" },
+  { type: "narration", text: "被斩断的丝线全都通向墙后的控制台。乔无咎并非临时起意，他早已熟悉墓中七成机关，只等合适的人替他填满祭阵。纪清寒将断剑横在蛊茧与伤者之间，你则循线逼他现身。" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "为几个将死之人舍掉五转机缘，你们才是真正的蠢货。", expression: "smug", position: "left" },
 ];
 
 const jiQiaoDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "cut" },
-  { type: "narration", text: "乔无咎亲手拉动整座墓的机关。纪清寒守住你的背后，以断剑截断每一根绕向伤者的活蛊线；你只需向前，把这位自称执棋者的乔家之主从控制台上斩下来。" },
+  { type: "narration", text: "乔无咎亲手拉动整座墓的机关。纪清寒守住你的背后，以断剑截断每一根绕向伤者的丝线；你只需向前，把这位自称执棋者的乔家之主从控制台上斩下来。" },
 ];
 
 const jiDestroyGuEvents: VisualNovelEvent[] = [

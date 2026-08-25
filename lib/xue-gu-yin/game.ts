@@ -50,11 +50,11 @@ export function sceneText(state: GameState, scene: Scene) { return resolveSceneP
 export function getEnemyCondition(health: number, maximum: number) { return health >= maximum ? "健康" : health <= maximum * 0.3 ? "重伤" : "受伤"; }
 
 const patterns: Record<string, EnemyAction[]> = {
-  "铜皮傀儡": [{ id: "pounce", damage: 2, cue: "铜皮傀儡周身齿轮嘎吱作响，庞大的躯干猛然一沉，周身活蛊线绷紧如弓弦，宛如一头被铁链死死锁住颈项的绝世凶兽，杀机毕露，正在蓄势待发。" }, { id: "wire", damage: 3, cue: "傀儡那冰冷硕大的铜拳裹挟着撕裂空气的剧烈破风声，带着万钧重压，轰然朝你当头砸来！" }, { id: "crush", damage: 5, cue: "傀儡双臂缓缓抬起，庞大的阴影如塌陷的泰山般沉甸甸压下，无形的劲力封锁了周遭数尺退路，逼得你必须全神贯注全力抵御。" }],
+  "铜皮傀儡": [{ id: "pounce", damage: 2, cue: "铜皮傀儡周身齿轮嘎吱作响，躯干猛地一沉，背后的牵机丝随之绷紧。" }, { id: "wire", damage: 3, cue: "傀儡的铜拳带起尖锐风声，直奔你的面门。" }, { id: "crush", damage: 5, cue: "傀儡缓缓抬起双臂，沉重阴影压住了周围的退路。" }],
   "血傀儡": [{ id: "lash", damage: 4, cue: "血傀儡胸前的血光一亮，一条血色锁链破空抽来。" }, { id: "smash", damage: 6, cue: "血傀儡抬起磨盘大的拳头，带起一阵腥风，似要当头砸下。" }, { id: "roar", damage: 8, cue: "血傀儡胸腔里的血核剧烈鼓动，一圈血浪自它脚下炸开，直逼面门。" }],
   "苏衍": [{ id: "mist", damage: 4, cue: "苏衍抬手时，血池中升起一层沉重血雾，连呼吸都像被人攥住。" }, { id: "seal", damage: 6, cue: "黑石棺上的蛊印逐一亮起，整座墓室都在回应苏衍的心跳。" }, { id: "feast", damage: 9, cue: "苏衍张开五指，血池中的残魂齐齐尖啸，似要将所有活人的气血一口吞尽。" }, { id: "rest", damage: 0, heal: 5, cue: "苏衍闭目吸纳血池余烬，散开的威压正在重新凝实。" }, { id: "blooddemon", damage: 6, heal: 6, cue: "苏衍掌心的血魔蛊舒展开来，一线猩红吸走你的血气，反哺回他干瘪的躯壳。" }],
   "赵黎": [{ id: "thread", damage: 4, cue: "赵黎指尖垂下一缕血丝，细得几乎融入石室阴影。" }, { id: "palm", damage: 6, cue: "赵黎袖袍无风自鼓，掌前血气压得灯火偏向一侧。" }, { id: "mirror", damage: 0, invulnerable: true, reflect: true, cue: "赵黎身前浮起一层薄薄血幕，幕中倒映出你的身影，暗流正反向涌动。" }, { id: "thread2", damage: 4, cue: "赵黎的血丝再次垂落，这一次缠上了石缝里未熄的火星。" }, { id: "palm2", damage: 7, cue: "赵黎掌前血气压得更低，连你的呼吸都跟着一沉。" }, { id: "mirror2", damage: 0, invulnerable: true, reflect: true, cue: "血幕再起，你的倒影在幕中冷冷笑了一声。" }, { id: "thread3", damage: 4, cue: "赵黎的血丝已染红了半截衣袖，杀意凝如实质。" }, { id: "palm3", damage: 8, cue: "赵黎掌前血浪翻涌到极致，整座墓室的灯火齐齐一暗。" }, { id: "mirror3", damage: 0, invulnerable: true, reflect: true, cue: "血幕几乎吞没了你，幕中映出的身影正缓缓抬起与你相同的手。" }],
-  "乔无咎": [{ id: "wire", damage: 3, essenceDrain: 1, cue: "乔无咎十指勾动，暗室里的活蛊线如蛛网般绷紧，数枚傀儡蛊核齐齐亮起。" }, { id: "puppets", damage: 6, essenceDrain: 1, cue: "乔无咎一声低笑，成排铜皮傀儡自石壁后转出，向你围拢而来。" }, { id: "trap", damage: 9, essenceDrain: 2, cue: "乔无咎猛地一拽，你脚下的石砖寸寸崩裂，脚下机关几乎要将你吞进去。" }],
+  "乔无咎": [{ id: "wire", damage: 3, essenceDrain: 1, cue: "乔无咎十指勾动，暗室里的牵机丝骤然绷紧，数枚傀儡蛊核同时亮起。" }, { id: "puppets", damage: 6, essenceDrain: 1, cue: "乔无咎一声低笑，成排铜皮傀儡自石壁后转出，向你围拢而来。" }, { id: "trap", damage: 9, essenceDrain: 2, cue: "乔无咎猛地一拽，你脚下的石砖寸寸崩裂，脚下机关几乎要将你吞进去。" }],
 };
 function configFor(state: GameState, scene: Scene) { return typeof scene.battle === "function" ? scene.battle(state) : scene.battle; }
 function patternFor(name: string) { return patterns[name] ?? patterns["铜皮傀儡"]; }

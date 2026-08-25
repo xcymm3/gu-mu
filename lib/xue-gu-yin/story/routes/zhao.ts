@@ -64,7 +64,7 @@ const zhaoClaimEvents: VisualNovelEvent[] = [
 const zhaoQiaoDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "right", expression: "smug" },
-  { type: "narration", text: "乔无咎打开所有暗门，亲自带着活蛊线与傀儡群杀入祭殿。他仍把你当作可回收的祭品，却没有料到血魔蛊每一次撕开他的防御，都会把夺来的气血补回你的身体。" },
+  { type: "narration", text: "乔无咎打开所有暗门，带着傀儡群亲自杀入祭殿。他仍把你当作可回收的祭品，却没有料到血魔蛊每一次撕开他的防御，都会把夺来的气血补回你的身体。" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "那是乔家的蛊！你也配据为己有？", expression: "smug", position: "right" },
 ];
 

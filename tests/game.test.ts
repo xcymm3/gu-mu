@@ -545,15 +545,10 @@ test("纪清寒温脉符与包扎只提升生命上限", () => {
   assert.equal(bound.health, wounded.health);
 });
 
-test("五个关怀选项都通过纪清寒积累关系", () => {
-  const commonChoiceSceneIds = ["gate", "rainMark", "bloodThreshold", "swarm", "shadow", "chamber", "illusion", "stoneBridge"] as const;
-  const compassionChoices = commonChoiceSceneIds
-    .flatMap((sceneId) => scenes[sceneId].choices ?? [])
-    .filter((choice) => choice.effect?.personality?.compassion);
-  assert.equal(compassionChoices.length, 5);
-  for (const choice of compassionChoices) {
-    assert.match(`${choice.label}${choice.result ?? ""}`, /纪清寒/, `${choice.id} 没有与纪清寒建立关系`);
-  }
+test("机关暗室关怀选项不强行点名纪清寒", () => {
+  const choice = scenes.chamber.choices?.find((item) => item.id === "chamber-compassion");
+  assert.ok(choice);
+  assert.doesNotMatch(`${choice.label}${choice.result ?? ""}`, /纪清寒/);
 });
 
 test("第一、二幕态度选项对所有主角可见", () => {
@@ -585,19 +580,19 @@ test("苏莹线固定推进会补齐血钥与存活事实", () => {
 test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），result 写明所得蛊", () => {
   const choice = scenes.chamber.choices?.find((item) => item.id === "chamber-insight");
   assert.ok(choice);
-  assert.deepEqual(choice.effect?.flags, ["活符低语"]);
+  assert.deepEqual(choice.effect?.flags, ["蛊卵认血"]);
   // roll=0 → 血甲蛊
   const armor = resolveRandomChoice(choice, () => 0);
   assert.ok(armor.effect?.flags?.includes("血甲蛊"));
-  assert.ok(armor.effect?.flags?.includes("活符低语"));
+  assert.ok(armor.effect?.flags?.includes("蛊卵认血"));
   assert.ok(armor.result?.includes("甲纹森森"));
   // roll 接近 1 → 血刃蛊
   const blade = resolveRandomChoice(choice, () => 0.99);
   assert.ok(blade.effect?.flags?.includes("血刃蛊"));
   assert.ok(blade.result?.includes("血芒吞吐"));
-  // 应用后状态同时携带活符低语与随机蛊 flag
+  // 应用后状态同时携带蛊卵认血与随机蛊 flag
   const next = applyChoice(chooseRole(), armor);
-  assert.ok(next.flags.includes("活符低语"));
+  assert.ok(next.flags.includes("蛊卵认血"));
   assert.ok(next.flags.includes("血甲蛊") || next.flags.includes("血刃蛊"));
   assert.equal(next.personality.insight, 1);
 });

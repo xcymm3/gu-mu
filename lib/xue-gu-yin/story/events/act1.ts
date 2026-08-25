@@ -43,8 +43,8 @@ export const rainMarkEvents: VisualNovelEvent[] = [
 
 export const bloodThresholdEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-gate", transition: "fade" },
-  { type: "narration", text: "众人刚穿过门洞，沉寂多年的机关突然醒了。两扇石门自左右合拢，门框上的活符垂落下来，见人便缠。" },
+  { type: "narration", text: "众人刚穿过门洞，沉寂多年的机关突然醒了。两扇石门自左右合拢，门框石孔里钻出数条赤褐蛊虫。它们身躯细长，嗅到血气便往人身上缠。" },
   { type: "character", action: "show", character: "ji-qinghan", position: "left", expression: "alert" },
-  { type: "narration", text: "纪清寒一剑削断三道符线，赵黎则只护住自己的血纹蛊。第四道活符从门框后绕出，缠上纪清寒受伤的剑腕，将她的剑锋猛地拖低。" },
+  { type: "narration", text: "纪清寒一剑削断三条蛊虫，赵黎则只护住自己的血纹蛊。第四条从门框后绕出，缠上纪清寒受伤的剑腕，将她的剑锋猛地拖低。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "门要合了。", expression: "alert", position: "left" },
 ];

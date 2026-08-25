@@ -99,7 +99,7 @@ export const endings: Record<string, Ending> = {
   true: { id: "true", name: "血脉归位", epitaph: "五人出墓，天光未负。", text: "苏衍败亡，乔无咎化为枯骨，血室崩塌。赵黎留下未竟之战，薛逢发誓改邪，纪清寒将寒蚕丝系在你腕上；苏莹红着眼问你以后会不会丢下她。你说，不丢了。", background: "background.dawn-exit" },
   deathByZhao: { id: "deathByZhao", name: "血蛊反噬", epitaph: "血蛊相争，败者无坟。", text: "赵黎掌中血线穿透你的蛊种。旧玉落地，被他一脚踏碎。血魔蛊在池中发出一声低鸣——它已认主，却不是认你。", background: "background.blood-ruin" },
   deathByMaster: { id: "deathByMaster", name: "命丧墓主", epitaph: "五转之下，皆为祭品。", text: "苏衍的五转威压碾碎了你最后的蛊息。血池倒灌，你看见自己的血汇入那具黑石棺椁，成为它下一场沉睡的养分。", background: "background.blood-chamber" },
-  deathByQiao: { id: "deathByQiao", name: "命丧执棋者", epitaph: "机关尽出，活线锁魂。", text: "乔无咎拉紧整座蛊墓的活蛊线。你避开了第一重机关，却最终被无数傀儡拖入血池，成为他自以为能够掌控的最后一份血食。", background: "background.control-room" },
+  deathByQiao: { id: "deathByQiao", name: "命丧执棋者", epitaph: "机关尽出，牵丝锁魂。", text: "乔无咎发动整座蛊墓的机关。你避开了第一重埋伏，却最终被无数傀儡拖入血池，成为他自以为能够掌控的最后一份血食。", background: "background.control-room" },
   deathByBloodGuard: { id: "deathByBloodGuard", name: "命丧守墓傀儡", epitaph: "未见五转蛊，先成池中血。", text: "血傀儡的重拳砸碎了你最后的防御。石门之后的五转蛊仍在跳动，而你的气血已经沿祭纹汇入它尚未睁开的复眼。", background: "background.blood-chamber" },
   trapped: { id: "trapped", name: "困于蛊墓", epitaph: "迟疑太久，墓门已合。", text: "你们在机关与伤势中耗尽时间。血雾封死所有退路，墓门外的夜雨仍在下，却再也落不到你身上。", background: "background.fog-passage" },
   traitor: { id: "traitor", name: "叛徒", epitaph: "为虎作伥，终被虎噬。", text: "你为虎作伥，助乔无咎杀尽同伴，却先被乔无咎弃子，再死于化魔的赵黎之手。连“背叛”都没能救你的命。", background: "background.control-room" },

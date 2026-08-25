@@ -70,10 +70,10 @@ Use case: stylized-concept. Create a polished 2D anime visual-novel environment 
 Use case: stylized-concept. Create a polished 2D anime visual-novel environment background for a dark Chinese xianxia mystery game. An underground trap passage inside an ancient Gu tomb: the stone floor has collapsed into a deep chasm, broken slabs and a narrow surviving ledge cross the scene, damaged bronze mechanisms and dormant puppet fragments lie in shadow, a single distant corpse-oil lamp gives dim amber light. Dangerous, cold, uncanny, clear spatial depth. Leave the lower 30 percent visually quiet and low-contrast for a dialogue box. Wide 16:9 cinematic composition, painterly anime background art, restrained jade-green, charcoal, stone gray and muted amber palette, no people, no characters, no text, no logo, no UI, no watermark.
 ```
 
-### 活蛊线控制暗室
+### 牵机丝控制暗室
 
 ```text
-Use case: stylized-concept. Create a polished 2D anime visual-novel environment background for a dark Chinese xianxia mystery game. A secret control chamber hidden inside an ancient Gu tomb. Black stone walls are threaded with thousands of hair-thin dim blood-red living Gu lines, converging on suspended puppet cores and a central stone control altar. A blood-written ledger rests beside old mechanism plates. The room reveals that someone has secretly controlled the tomb for years. Ominous, precise, restrained rather than gory. Leave the lower 30 percent visually quiet and low-contrast for a dialogue box. Wide 16:9 cinematic composition, painterly anime background art, deep ink green, black stone and controlled blood-red accents, no people, no characters, no text, no logo, no UI, no watermark.
+Use case: stylized-concept. Create a polished 2D anime visual-novel environment background for a dark Chinese xianxia mystery game. A secret control chamber hidden inside an ancient Gu tomb. Black stone walls are crossed by thousands of hair-thin dim blood-red control threads spun from Gu silk, converging on suspended puppet cores and a central stone control altar. A blood-written ledger rests beside old mechanism plates. The room reveals that someone has secretly controlled the tomb for years. Ominous, precise, restrained rather than gory. Leave the lower 30 percent visually quiet and low-contrast for a dialogue box. Wide 16:9 cinematic composition, painterly anime background art, deep ink green, black stone and controlled blood-red accents, no people, no characters, no text, no logo, no UI, no watermark.
 ```
 
 ### 苏衍

@@ -46,9 +46,9 @@ export const bloodThresholdChoices: Choice[] = [
   },
   {
     id: "threshold-compassion",
-    label: "回身替纪清寒斩断缠住剑腕的活符",
+    label: "回身替纪清寒斩断缠住剑腕的蛊虫",
     next: "swarm",
-    result: "你折回纪清寒身侧，在活符锁紧前将它斩断。她随即抬剑替你架住落下的门闸，两人一前一后掠进甬道。",
+    result: "你折回纪清寒身侧，在蛊虫锁紧前将它斩断。她随即抬剑替你架住落下的门闸，两人一前一后掠进甬道。",
     effect: { personality: { compassion: 1 } },
   },
 ];
@@ -97,16 +97,16 @@ export const chamberChoices: Choice[] = [
   },
   {
     id: "chamber-compassion",
-    label: "替纪清寒试一试甲纹蛊卵是否藏有禁制",
+    label: "先取甲纹蛊卵，免得旁人贸然触碰",
     next: "illusion",
-    result: "纪清寒正提剑戒备四壁的活血纹，你先一步按住甲纹蛊卵。卵壳裂开，血甲蛊顺势认主。她看了你一眼，低声道：“下次不必替我试险。”",
+    result: "你没让旁人替自己试险，先一步按住甲纹蛊卵。卵壳安静裂开，血甲蛊顺势认主，并未触发暗藏的机关。",
     effect: { personality: { compassion: 1 }, flag: "血甲蛊" },
   },
   {
     id: "chamber-insight",
     label: "让苏莹先选",
     next: "illusion",
-    effect: { personality: { insight: 1 }, flags: ["活符低语"], randomFlags: ["血甲蛊", "血刃蛊"] },
+    effect: { personality: { insight: 1 }, flags: ["蛊卵认血"], randomFlags: ["血甲蛊", "血刃蛊"] },
   },
 ];
 

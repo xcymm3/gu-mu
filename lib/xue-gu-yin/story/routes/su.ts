@@ -19,15 +19,15 @@ const suInscriptionEvents: VisualNovelEvent[] = [
 const suLineageEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-  { type: "narration", text: "尽头石壁没有门，只有一道需要苏氏血脉与旧玉同时回应的活符。苏莹割破指尖时，四周机关立刻转向，显然乔无咎一直在等待她走到这里。" },
-  { type: "narration", text: "你没有让她独自承受阵法。旧玉压入符眼，血光将两个人一并护住；追来的傀儡撞上光幕，像被墓中某个仍然清醒的意志拒之门外。" },
+  { type: "narration", text: "尽头石壁没有门，只有一道以苏氏血脉封住的古禁，阵眼旁恰好留着与旧玉同形的凹槽。苏莹割破指尖时，四周机关立刻转向，显然乔无咎一直在等待她走到这里。" },
+  { type: "narration", text: "你没有让她独自承受阵法。旧玉嵌入阵眼，血光将两个人一并护住；追来的傀儡撞上光幕，像被墓中某个仍然清醒的意志拒之门外。" },
   { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "若门后真是苏衍，你要先记住——血脉不是命令。我不会替他害人。", expression: "wary", position: "right" },
 ];
 
 const suThresholdEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "sad" },
-  { type: "narration", text: "活符解开后，血色石门露出一道缝隙。门后传来的心跳与苏莹的脉搏逐渐重合；她终于明白，自己既是乔无咎需要的钥匙，也是苏衍等待多年的后人。" },
+  { type: "narration", text: "血脉禁制解开后，石门露出一道缝隙。门后传来的心跳与苏莹的脉搏逐渐重合；她终于明白，自己既是乔无咎需要的钥匙，也是苏衍等待多年的后人。" },
   { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "我会把门打开，也会亲眼看清祖上留下的究竟是传承，还是一场罪。", expression: "wary", position: "right" },
   { type: "narration", text: "你与她一同按下血钥。石门开启的瞬间，深处有人缓慢吸了一口气；沉睡多年的墓主，似乎已经知道你们来了。" },
 ];
@@ -40,7 +40,7 @@ const suBloodGateEvents: VisualNovelEvent[] = [
 
 const suBloodGuardEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
-  { type: "narration", text: "黑棺前的守墓血傀儡被血脉唤醒。它不受乔无咎的活蛊线控制，只遵从棺中人的命令。苏莹解读阵纹，为你指出通往棺椁的唯一道路；你必须先从傀儡身上打出一道缺口。" },
+  { type: "narration", text: "黑棺前的守墓血傀儡被血脉唤醒。它不听乔无咎号令，只遵从棺中人的命令。苏莹解读阵纹，为你指出通往棺椁的唯一道路；你必须先从傀儡身上打出一道缺口。" },
 ];
 
 const suCoffinEvents: VisualNovelEvent[] = [
@@ -68,7 +68,7 @@ const suCollapseEvents: VisualNovelEvent[] = [
 
 const suAftermathEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.dawn-exit", transition: "fade" },
-  { type: "narration", text: "纪清寒、赵黎与其余幸存者沿开启的生门汇合。赵黎看了一眼苏衍的残骸，难得没有争抢已经化灰的五转蛊；乔无咎则被倒卷的活蛊线拖入控制室，再也没能出来。" },
+  { type: "narration", text: "纪清寒、赵黎与其余幸存者沿开启的生门汇合。赵黎看了一眼苏衍的残骸，难得没有争抢已经化灰的五转蛊；乔无咎则被失控的机关拖回控制室，再也没能出来。" },
 ];
 
 const suEpilogueEvents: VisualNovelEvent[] = [
@@ -88,12 +88,12 @@ export const suActThreeScenes: Record<string, Scene> = {
   suInscription: {
     id: "suInscription", act: 3, node: 2, chapter: "第三幕 · 苏莹线 · 节点 2 / 4", title: "未死之人",
     events: suInscriptionEvents,
-    choices: [{ id: "su-answer-jade", label: "让旧玉回应苏氏旧印", next: "suLineage", result: "旧玉泛起血光，失落的活符在你们面前重新连成一线。", effect: { flags: ["旧玉发烫", "活符低语"] } }],
+    choices: [{ id: "su-answer-jade", label: "让旧玉回应苏氏旧印", next: "suLineage", result: "旧玉泛起血光，阵盘上残缺的苏氏旧印一笔笔补全。", effect: { flags: ["旧玉发烫", "苏氏旧印"] } }],
   },
   suLineage: {
     id: "suLineage", act: 3, node: 3, chapter: "第三幕 · 苏莹线 · 节点 3 / 4", title: "血脉之钥",
     events: suLineageEvents,
-    choices: [{ id: "su-share-burden", label: "与她共同承受活符反噬", next: "suThreshold", result: "血光散去时，苏莹仍站在你身侧。你们已经成为彼此进入主墓室的另一半钥匙。", effect: { flags: ["苏莹存活", "苏氏血钥"] } }],
+    choices: [{ id: "su-share-burden", label: "与她共同承受血脉禁制的反噬", next: "suThreshold", result: "血光散去时，苏莹仍站在你身侧。你们已经成为彼此进入主墓室的另一半钥匙。", effect: { flags: ["苏莹存活", "苏氏血钥"] } }],
   },
   suThreshold: {
     id: "suThreshold", act: 3, node: 4, chapter: "第三幕 · 苏莹线 · 节点 4 / 4", title: "血门认主",

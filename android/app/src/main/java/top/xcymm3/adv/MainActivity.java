@@ -1,7 +1,6 @@
 package top.xcymm3.adv;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -31,10 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public final class MainActivity extends Activity {
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
+
+public final class MainActivity extends ComponentActivity {
     private static final String HOME_HOST = "adv.xcymm3.top";
     private static final String HOME_URL = "https://adv.xcymm3.top/";
-    private static final int BACK_INVOKED_API = 33;
 
     private FrameLayout root;
     private WebView webView;
@@ -203,9 +204,12 @@ public final class MainActivity extends Activity {
     }
 
     private void registerBackNavigation() {
-        if (Build.VERSION.SDK_INT >= BACK_INVOKED_API) {
-            Api33BackNavigation.register(this);
-        }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
     }
 
     private void handleBackNavigation() {
@@ -213,16 +217,6 @@ public final class MainActivity extends Activity {
             webView.goBack();
         } else {
             finish();
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onBackPressed() {
-        if (Build.VERSION.SDK_INT < BACK_INVOKED_API) {
-            handleBackNavigation();
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -350,12 +344,4 @@ public final class MainActivity extends Activity {
         }
     }
 
-    @android.annotation.TargetApi(33)
-    private static final class Api33BackNavigation {
-        private static void register(MainActivity activity) {
-            activity.getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
-                    android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-                    activity::handleBackNavigation);
-        }
-    }
 }

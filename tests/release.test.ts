@@ -152,5 +152,7 @@ test("Android 外壳锁定横屏并仅通过 HTTPS 加载游戏", () => {
   assert.match(activity, /HOME_URL = "https:\/\/adv\.xcymm3\.top\/"/);
   assert.match(activity, /setDomStorageEnabled\(true\)/);
   assert.match(activity, /WindowInsetsController\.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE/);
+  assert.match(activity, /getOnBackPressedDispatcher\(\)\.addCallback/);
+  assert.doesNotMatch(activity, /public void onBackPressed\(\)/);
   assert.match(gradle, /targetSdk = 36/);
 });

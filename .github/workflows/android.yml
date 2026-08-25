@@ -22,7 +22,10 @@ jobs:
           distribution: temurin
           java-version: "17"
       - name: Install Android SDK 36
-        run: "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
       - uses: gradle/actions/setup-gradle@v5
         with:
           gradle-version: "9.5.0"

@@ -794,10 +794,9 @@ export function XueGuYinGame() {
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">旁白</p><p className="eyebrow">战斗结束</p>
             <div className="scene-copy vn-text-reveal" key={`battle-result-${battleResult.text}`} ref={copyRef}><NarrativePage text={battleResult.text} /></div>
-            <span className="vn-continue-indicator" aria-hidden="true" />
+            <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
-          <div className="choice-panel"><button className="primary-button" onClick={confirmBattleResult}>继续</button></div>
-        </> : battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onContinue={continueBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
+        </> : battle ? <BattlePanel battleFeedback={battleFeedback} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
           <header className="status-bar">
             <div><span>修士</span><strong>{role.name}</strong></div>
             <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
@@ -807,25 +806,20 @@ export function XueGuYinGame() {
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">{pendingLinearChoice ? "剧情推进" : "抉择已定"}</p>
             <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}`} ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
-            <span className="vn-continue-indicator" aria-hidden="true" />
+            <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
-          <div className="choice-panel"><button className="primary-button" onClick={confirmChoice}>继续</button></div>
           </> : <>
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">{scene.chapter}</p>
             <h1>{scene.title}</h1>
             <div className={`scene-copy vn-text-reveal${activeFrame?.transition === "fade" ? " is-scene-fade" : ""}`} key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
             <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
-            {!isLastNarrativePage ? <span className="vn-continue-indicator" aria-hidden="true" /> : null}
+            {!isLastNarrativePage || linearRouteChoice ? <span className="vn-continue-indicator" aria-hidden="true">⌄</span> : null}
           </section>
-          {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={advanceNarrative}>继续</button></div> : null}
           {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={beginBattle}>放出本命蛊</button></div> : null}
-          {isLastNarrativePage && linearRouteChoice ? <div className="choice-panel"><button className="primary-button" onClick={advanceNarrative}>继续</button></div> : null}
           {isLastNarrativePage && visibleChoices.length > 0 && !linearRouteChoice ? (
             <nav className="choice-panel" aria-label="剧情选项">
-              {visibleChoices.map((choice) => choice.id === "continue"
-                ? <button className="primary-button" key={choice.id} onClick={() => chooseWithHistory(choice)}>继续</button>
-                : <button className="choice-button" key={choice.id} onClick={() => chooseWithHistory(choice)}><span>{choice.label}</span></button>)}
+              {visibleChoices.map((choice) => <button className="choice-button" key={choice.id} onClick={() => chooseWithHistory(choice)}><span>{choice.label}</span></button>)}
             </nav>
           ) : null}
           </>}
@@ -1027,7 +1021,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
   </section></main>;
 }
 
-function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onContinue: () => void; onOpenMenu: () => void }) {
+function BattlePanel({ battleFeedback, game, onAction, onOpenMenu }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onOpenMenu: () => void }) {
   const battle = game.battle;
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
@@ -1053,7 +1047,7 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
     <div className={`intent-copy${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
       {battleFeedback ? <><span className="battle-report-label">本回合结果</span><p>{battleFeedback.result}</p>{battleFeedback.nextCue ? <><span className="battle-report-label">敌方异动</span><p>{battleFeedback.nextCue}</p></> : null}</> : <><span className="battle-report-label">敌方异动</span><p>{enemyCue}</p></>}
     </div>
-    {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="battle-commands"><p>选择本回合蛊术</p><div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span><em>{actionCosts[action.id]} 真元</em></button>)}</div></div>}
+    <div className="battle-commands"><p>选择本回合蛊术</p><div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span><em>{actionCosts[action.id]} 真元</em></button>)}</div></div>
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button autoFocus className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>

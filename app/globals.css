@@ -2750,8 +2750,8 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 }
 
 @keyframes vn-wait-pulse {
-  0%, 100% { opacity: .42; transform: rotate(45deg) translate(0, 0); }
-  50% { opacity: 1; transform: rotate(45deg) translate(.15rem, .15rem); }
+  0%, 100% { opacity: .42; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(.18rem); }
 }
 
 .vn-effect-layer { position: absolute; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
@@ -2786,11 +2786,18 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 .vn-continue-indicator {
   position: absolute;
   right: 1.3rem;
-  bottom: 1rem;
-  width: .62rem;
-  height: .62rem;
-  border-right: 2px solid var(--color-accent);
-  border-bottom: 2px solid var(--color-accent);
+  bottom: .72rem;
+  display: grid;
+  width: 1.2rem;
+  height: 1.2rem;
+  place-items: center;
+  border: 0;
+  color: var(--color-accent);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
   animation: vn-wait-pulse 1.15s ease-in-out infinite;
 }
 

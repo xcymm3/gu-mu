@@ -108,6 +108,16 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   assert.match(css, /@keyframes vn-battle-recoil/);
 });
 
+test("对话推进只显示无边框箭头，不再渲染继续按钮", () => {
+  const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
+
+  assert.doesNotMatch(game, />\s*继续\s*<\/button>/);
+  assert.match(game, /className="vn-continue-indicator"[^>]*>⌄<\/span>/);
+  assert.match(css, /\.vn-continue-indicator\s*\{[\s\S]*?border:\s*0;/);
+  assert.match(css, /\.vn-continue-indicator\s*\{[\s\S]*?pointer-events:\s*none;/);
+});
+
 test("快捷功能栏始终占用独立底部安全区", () => {
   const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");

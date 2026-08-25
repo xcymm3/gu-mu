@@ -286,6 +286,7 @@ test("第二幕条件事件仍会响应旧旗标", () => {
 });
 
 test("第三幕四条路线各自拥有四个独立固定节点", () => {
+  const binarySceneIds = new Set(["zhaoPrice", "jiPromise", "suTrail", "traitorTrail"]);
   const allSceneIds = Object.values(actThreeRouteSceneIds).flat();
   assert.equal(new Set(allSceneIds).size, 16);
   for (const [route, sceneIds] of Object.entries(actThreeRouteSceneIds)) {
@@ -297,11 +298,38 @@ test("第三幕四条路线各自拥有四个独立固定节点", () => {
       assert.equal(scene.node, index + 1);
       assert.equal(scene.text, undefined);
       assert.ok(resolveScenePresentation({ ...chooseRole(), route: route as "zhao" | "ji" | "su" | "traitor" }, scene).beats.length > 0);
-      assert.equal(scene.choices?.length, 1, `${sceneId} 应保持线性推进`);
+      assert.equal(scene.choices?.length, binarySceneIds.has(sceneId) ? 2 : 1, `${sceneId} 的选项数量不符合设计`);
     });
   }
   for (const removed of ["routeTrial", "routeTruth", "routeCost", "bloodGate", "shadowQiao", "shadowTruth", "shadowBargain", "shadowBetrayal"]) {
     assert.equal(scenes[removed], undefined, `${removed} 旧共用节点仍未移除`);
+  }
+});
+
+test("每条个人线固定包含两个只改变对话的二选一节点", () => {
+  const expectedBinaryScenes = {
+    zhao: ["zhaoPrice", "zhaoAwakening"],
+    ji: ["jiPromise", "jiArrayTruth"],
+    su: ["suTrail", "suMasterTruth"],
+    traitor: ["traitorTrail", "traitorQiaoTriumph"],
+  } as const;
+
+  for (const route of ["zhao", "ji", "su", "traitor"] as const) {
+    const routeSceneIds = [
+      ...actThreeRouteSceneIds[route],
+      ...actFourRouteSceneIds[route],
+      ...actFiveRouteSceneIds[route],
+    ];
+    const binaryScenes = routeSceneIds.filter((sceneId) => scenes[sceneId].choices?.length === 2);
+    assert.deepEqual(binaryScenes, [...expectedBinaryScenes[route]]);
+
+    for (const sceneId of binaryScenes) {
+      const choices = scenes[sceneId].choices ?? [];
+      assert.equal(choices[0].next, choices[1].next, `${sceneId} 的两个选项必须汇入同一节点`);
+      assert.equal(choices[0].effect, undefined, `${sceneId} 的选项不应改变状态`);
+      assert.equal(choices[1].effect, undefined, `${sceneId} 的选项不应改变状态`);
+      assert.notEqual(choices[0].result, choices[1].result, `${sceneId} 应提供不同的专属对话`);
+    }
   }
 });
 

@@ -82,7 +82,10 @@ export const traitorActThreeScenes: Record<string, Scene> = {
   traitorTrail: {
     id: "traitorTrail", act: 3, node: 1, chapter: "第三幕 · 乔无咎线 · 节点 1 / 4", title: "挟住棋子",
     events: traitorTrailEvents,
-    choices: [{ id: "traitor-use-xue", label: "逼薛逢继续带路", next: "traitorKnife", result: "你扣住薛逢的命门，让他亲自带你去见真正的执棋者。" }],
+    choices: [
+      { id: "traitor-break-finger", label: "折断薛逢一根手指，逼他说实话", next: "traitorKnife", result: "第一声惨叫过后，薛逢果然想起了伪墙后的暗门。你松开他的手：“早些想起来，就不用受这一下。”" },
+      { id: "traitor-promise-life", label: "许他一条生路，换乔家的暗门", next: "traitorKnife", result: "“带我见乔无咎，我保你活着出去。”薛逢盯着你的眼睛，明知未必可信，仍赔笑着推开了伪墙。" },
+    ],
   },
   traitorKnife: {
     id: "traitorKnife", act: 3, node: 2, chapter: "第三幕 · 乔无咎线 · 节点 2 / 4", title: "无用之人",
@@ -105,7 +108,13 @@ export const traitorActFourScenes: Record<string, Scene> = {
   traitorControlRoom: { id: "traitorControlRoom", act: 4, node: 1, chapter: "第四幕 · 乔无咎线 · 节点 1 / 6", title: "第二位执棋者", events: traitorControlRoomEvents, choices: [{ id: "traitor-find-ji", label: "以求救信号引纪清寒入局", next: "traitorTrapJi", result: "一根活蛊线穿过石壁，替你送出足以乱真的求救声。" }] },
   traitorTrapJi: { id: "traitorTrapJi", act: 4, node: 2, chapter: "第四幕 · 乔无咎线 · 节点 2 / 6", title: "断剑入阵", events: traitorTrapJiEvents, choices: [{ id: "traitor-close-ji", label: "合拢献祭甬道", next: "traitorSacrificeSu", result: "石门在纪清寒面前闭合，断剑声被祭阵彻底吞没。" }] },
   traitorSacrificeSu: { id: "traitorSacrificeSu", act: 4, node: 3, chapter: "第四幕 · 乔无咎线 · 节点 3 / 6", title: "血钥献祭", events: traitorSacrificeSuEvents, choices: [{ id: "traitor-send-su", label: "将苏莹送入血祭", next: "traitorQiaoTriumph", result: "苏氏血钥落入阵心，整座蛊墓的血纹同时亮起。" }] },
-  traitorQiaoTriumph: { id: "traitorQiaoTriumph", act: 4, node: 4, chapter: "第四幕 · 乔无咎线 · 节点 4 / 6", title: "各怀杀心", events: traitorQiaoTriumphEvents, choices: [{ id: "traitor-wait-awakening", label: "握住逆流蛊线，等待血魔蛊破茧", next: "traitorZhaoArrives", result: "你与乔无咎并肩站在控制台前，心里都已选好对方的死法。" }] },
+  traitorQiaoTriumph: {
+    id: "traitorQiaoTriumph", act: 4, node: 4, chapter: "第四幕 · 乔无咎线 · 节点 4 / 6", title: "各怀杀心", events: traitorQiaoTriumphEvents,
+    choices: [
+      { id: "traitor-call-master", label: "称他一声家主，暂且低头", next: "traitorZhaoArrives", result: "“家主算无遗策。”你接过副印，顺势垂下目光，不让乔无咎看见你指间扣住的逆流蛊线。" },
+      { id: "traitor-warn-qiao", label: "掂量副印，提醒他别急着庆功", next: "traitorZhaoArrives", result: "“蛊还没认主，乔家主就开始分位置了？”乔无咎笑意不减，藏在袖中的手却按住了认主阵。" },
+    ],
+  },
   traitorZhaoArrives: { id: "traitorZhaoArrives", act: 4, node: 5, chapter: "第四幕 · 乔无咎线 · 节点 5 / 6", title: "局外之人", events: traitorZhaoArrivesEvents, choices: [{ id: "traitor-stop-zhao", label: "与乔无咎同时启动全部机关", next: "traitorBloodTaken", result: "傀儡与活蛊线尽数扑向赵黎，血幕却先一步覆盖祭殿。" }] },
   traitorBloodTaken: { id: "traitorBloodTaken", act: 4, node: 6, chapter: "第四幕 · 乔无咎线 · 节点 6 / 6", title: "血蛊易主", events: traitorBloodTakenEvents, choices: [{ id: "traitor-abandon-qiao", label: "舍弃乔无咎，独自寻找退路", next: "traitorDiscarded", result: "你踢开乔无咎伸来的手，转身冲向薛逢曾提过的密道。" }] },
 };

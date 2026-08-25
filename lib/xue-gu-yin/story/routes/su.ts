@@ -80,7 +80,10 @@ export const suActThreeScenes: Record<string, Scene> = {
   suTrail: {
     id: "suTrail", act: 3, node: 1, chapter: "第三幕 · 苏莹线 · 节点 1 / 4", title: "雾中古文",
     events: suTrailEvents,
-    choices: [{ id: "su-read-signs", label: "不催促她，先把阵盘上的古文看完", next: "suInscription", result: "你记下完整的苏氏旧印，也等到苏莹愿意开口。" }],
+    choices: [
+      { id: "su-ask-lineage", label: "直问她与苏氏是什么关系", next: "suInscription", result: "苏莹的指尖停在旧印上：“等我确认墓里那个人还活着，再告诉你该叫我什么。”她没有继续赶你走。" },
+      { id: "su-read-in-silence", label: "收起疑问，陪她看完古文", next: "suInscription", result: "你替她挡住雾里游走的蛊影，直到最后一枚古字被描清。苏莹低声说：“现在你有资格知道了。”" },
+    ],
   },
   suInscription: {
     id: "suInscription", act: 3, node: 2, chapter: "第三幕 · 苏莹线 · 节点 2 / 4", title: "未死之人",
@@ -103,7 +106,13 @@ export const suActFourScenes: Record<string, Scene> = {
   suBloodGate: { id: "suBloodGate", act: 4, node: 1, chapter: "第四幕 · 苏莹线 · 节点 1 / 6", title: "祖阵深处", events: suBloodGateEvents, choices: [{ id: "su-follow-inscription", label: "随苏莹追查祖阵", next: "suBloodGuard", result: "你们绕过五转蛊茧，走向守在黑棺前的血傀儡。" }] },
   suBloodGuard: { id: "suBloodGuard", act: 4, node: 2, chapter: "第四幕 · 苏莹线 · 节点 2 / 6", title: "守墓之物", events: suBloodGuardEvents, battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "suCoffin", defeatNext: "ending", victoryFlag: "苏莹线血傀儡已毁", defeatFlag: "死于守门血傀儡", defeatEnding: "deathByBloodGuard" } },
   suCoffin: { id: "suCoffin", act: 4, node: 3, chapter: "第四幕 · 苏莹线 · 节点 3 / 6", title: "空棺遗文", events: suCoffinEvents, choices: [{ id: "su-restore-text", label: "与苏莹复原棺上铭文", next: "suMasterTruth", result: "被刮去的古字重新亮起，墓主未死的真相随之浮现。" }] },
-  suMasterTruth: { id: "suMasterTruth", act: 4, node: 4, chapter: "第四幕 · 苏莹线 · 节点 4 / 6", title: "血脉拒命", events: suMasterTruthEvents, choices: [{ id: "su-stand-together", label: "站到苏莹身侧，迎战苏衍", next: "suMasterDuel", result: "苏莹折断血钥，你替她接下墓主压来的第一道蛊威。" }] },
+  suMasterTruth: {
+    id: "suMasterTruth", act: 4, node: 4, chapter: "第四幕 · 苏莹线 · 节点 4 / 6", title: "血脉拒命", events: suMasterTruthEvents,
+    choices: [
+      { id: "su-deny-debt", label: "告诉苏衍，她不欠苏氏任何东西", next: "suMasterDuel", result: "苏衍冷笑：“外人也配谈苏氏的债？”苏莹折断血钥：“他说得对。这笔债，到你这里就该断了。”" },
+      { id: "su-name-herself", label: "告诉苏莹，她只需留下自己的名字", next: "suMasterDuel", result: "苏莹看着掌中的血钥，忽然笑了一下：“那就记住苏莹，别记什么苏氏后人。”血钥应声折断。" },
+    ],
+  },
   suMasterDuel: { id: "suMasterDuel", act: 4, node: 5, chapter: "第四幕 · 苏莹线 · 节点 5 / 6", title: "五转墓主", events: suMasterDuelEvents, battle: { enemyName: "苏衍", enemyHealth: 28, victoryNext: "suCollapse", defeatNext: "ending", victoryFlag: "墓主已灭", defeatFlag: "墓主吞尽血食", defeatEnding: "deathByMaster" } },
   suCollapse: { id: "suCollapse", act: 4, node: 6, chapter: "第四幕 · 苏莹线 · 节点 6 / 6", title: "祖阵崩塌", events: suCollapseEvents, choices: [{ id: "su-open-exits", label: "用旧钥开启全部生门", next: "suAftermath", result: "封闭多年的生门逐一开启，幸存者的呼喊从甬道深处传来。" }] },
 };

@@ -85,7 +85,10 @@ export const jiActThreeScenes: Record<string, Scene> = {
   jiPromise: {
     id: "jiPromise", act: 3, node: 2, chapter: "第三幕 · 纪清寒线 · 节点 2 / 4", title: "未尽之约",
     events: jiPromiseEvents,
-    choices: [{ id: "ji-share-medicine", label: "收下半瓶药，与她继续寻找生路", next: "jiBurden", result: "你收下疗伤散，也记住了她不肯舍弃的那缕魂丝。" }],
+    choices: [
+      { id: "ji-urge-living", label: "劝她先顾好还活着的人", next: "jiBurden", result: "纪清寒沉默片刻，把魂丝收回袖中：“所以我才不能让墓里的祸事出去。”她仍把半瓶药推给了你。" },
+      { id: "ji-see-the-end", label: "答应陪她找到最后", next: "jiBurden", result: "“我不保证能救回谁，但会陪你把结果看清。”纪清寒看了你一会儿，把半瓶药放进你手里。" },
+    ],
   },
   jiBurden: {
     id: "jiBurden", act: 3, node: 3, chapter: "第三幕 · 纪清寒线 · 节点 3 / 4", title: "不可松手",
@@ -103,7 +106,13 @@ export const jiActFourScenes: Record<string, Scene> = {
   jiBloodGate: { id: "jiBloodGate", act: 4, node: 1, chapter: "第四幕 · 纪清寒线 · 节点 1 / 6", title: "先救活人", events: jiBloodGateEvents, choices: [{ id: "ji-cut-lines", label: "与纪清寒一同斩断祭线", next: "jiBloodGuard", result: "你越过蛊茧，径直冲向被血傀儡拦住的伤者。" }] },
   jiBloodGuard: { id: "jiBloodGuard", act: 4, node: 2, chapter: "第四幕 · 纪清寒线 · 节点 2 / 6", title: "血池救援", events: jiBloodGuardEvents, battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "jiRescue", defeatNext: "ending", victoryFlag: "纪清寒线血傀儡已毁", defeatFlag: "死于守门血傀儡", defeatEnding: "deathByBloodGuard" } },
   jiRescue: { id: "jiRescue", act: 4, node: 3, chapter: "第四幕 · 纪清寒线 · 节点 3 / 6", title: "一个不落", events: jiRescueEvents, choices: [{ id: "ji-finish-rescue", label: "带回最后一名伤者", next: "jiArrayTruth", result: "最后一根祭线断开，乔无咎藏身的方向也随之暴露。" }] },
-  jiArrayTruth: { id: "jiArrayTruth", act: 4, node: 4, chapter: "第四幕 · 纪清寒线 · 节点 4 / 6", title: "线后之人", events: jiArrayTruthEvents, choices: [{ id: "ji-face-qiao", label: "沿活蛊线杀入控制室", next: "jiQiaoDuel", result: "纪清寒守住祭殿，你踏着活蛊线走向乔无咎。" }] },
+  jiArrayTruth: {
+    id: "jiArrayTruth", act: 4, node: 4, chapter: "第四幕 · 纪清寒线 · 节点 4 / 6", title: "线后之人", events: jiArrayTruthEvents,
+    choices: [
+      { id: "ji-guard-the-wounded", label: "让纪清寒留下守住伤者", next: "jiQiaoDuel", result: "“这里交给你，乔无咎交给我。”纪清寒没有逞强，只将断剑横在伤者身前：“活着回来。”" },
+      { id: "ji-promise-return", label: "与她约定两个人都要回来", next: "jiQiaoDuel", result: "你让纪清寒守住祭殿，自己循线追向控制室。她在身后说道：“你若失约，我就进去把你拖回来。”" },
+    ],
+  },
   jiQiaoDuel: { id: "jiQiaoDuel", act: 4, node: 5, chapter: "第四幕 · 纪清寒线 · 节点 5 / 6", title: "斩断执线者", events: jiQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "jiDestroyGu", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },
   jiDestroyGu: { id: "jiDestroyGu", act: 4, node: 6, chapter: "第四幕 · 纪清寒线 · 节点 6 / 6", title: "破蛊断脉", events: jiDestroyGuEvents, choices: [{ id: "ji-break-gu", label: "与纪清寒一同自毁蛊种", next: "jiAftermath", result: "两枚蛊种同时崩碎，血魔蛊在灰白蛊尘中停止心跳。" }] },
 };

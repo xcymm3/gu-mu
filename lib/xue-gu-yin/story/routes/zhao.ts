@@ -93,7 +93,10 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
   zhaoPrice: {
     id: "zhaoPrice", act: 3, node: 3, chapter: "第三幕 · 赵黎线 · 节点 3 / 4", title: "力量的价钱",
     events: zhaoPriceEvents,
-    choices: [{ id: "zhao-leave-weak", label: "不为身后的求救停步", next: "zhaoThreshold", result: "求救声被合拢的石壁截断。你和赵黎都没有回头。" }],
+    choices: [
+      { id: "zhao-dismiss-xue", label: "告诉赵黎，你只救还有用的人", next: "zhaoThreshold", result: "“我不是不救人，只是不救已经没用的人。”赵黎低笑一声：“那你最好一直有用。”" },
+      { id: "zhao-mark-xue", label: "记下薛逢遇险的位置", next: "zhaoThreshold", result: "赵黎瞥见你在石壁上留下暗记：“还想回来救他？”你摇头：“他知道乔家的路。”赵黎这才笑了。" },
+    ],
   },
   zhaoThreshold: {
     id: "zhaoThreshold", act: 3, node: 4, chapter: "第三幕 · 赵黎线 · 节点 4 / 4", title: "同盟尽头",
@@ -105,7 +108,13 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
 export const zhaoActFourScenes: Record<string, Scene> = {
   zhaoBloodGate: { id: "zhaoBloodGate", act: 4, node: 1, chapter: "第四幕 · 赵黎线 · 节点 1 / 6", title: "血祭真相", events: zhaoBloodGateEvents, choices: [{ id: "zhao-enter", label: "踏入祭殿", next: "zhaoBloodGuard", result: "你越过血纹，走向守在蛊茧前的血傀儡。" }] },
   zhaoBloodGuard: { id: "zhaoBloodGuard", act: 4, node: 2, chapter: "第四幕 · 赵黎线 · 节点 2 / 6", title: "资格之战", events: zhaoBloodGuardEvents, battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "zhaoAwakening", defeatNext: "ending", victoryFlag: "赵黎线血傀儡已毁", defeatFlag: "死于守门血傀儡", defeatEnding: "deathByBloodGuard" } },
-  zhaoAwakening: { id: "zhaoAwakening", act: 4, node: 3, chapter: "第四幕 · 赵黎线 · 节点 3 / 6", title: "五转蛊醒", events: zhaoAwakeningEvents, choices: [{ id: "zhao-answer-duel", label: "按住冰寒蛊简，接受决斗", next: "zhaoDuel", result: "冰霜沿血纹蔓延，你与赵黎之间再无退路。" }] },
+  zhaoAwakening: {
+    id: "zhaoAwakening", act: 4, node: 3, chapter: "第四幕 · 赵黎线 · 节点 3 / 6", title: "五转蛊醒", events: zhaoAwakeningEvents,
+    choices: [
+      { id: "zhao-question-trust", label: "问他是否从未打算让你活着", next: "zhaoDuel", result: "赵黎坦然答道：“若你连老夫都胜不过，活着出去又有何用？”你按住袖中的冰寒蛊简，向他走去。" },
+      { id: "zhao-welcome-duel", label: "告诉他，你等这一刻很久了", next: "zhaoDuel", result: "“正合我意。”你抽出冰寒蛊简。赵黎咧嘴一笑，血线随之封死所有退路。" },
+    ],
+  },
   zhaoDuel: { id: "zhaoDuel", act: 4, node: 4, chapter: "第四幕 · 赵黎线 · 节点 4 / 6", title: "血蛊相争", events: zhaoDuelEvents, battle: { enemyName: "赵黎", enemyHealth: 22, victoryNext: "zhaoClaim", defeatNext: "ending", victoryFlag: "赵黎已败", defeatFlag: "赵黎夺蛊", defeatEnding: "deathByZhao" } },
   zhaoClaim: { id: "zhaoClaim", act: 4, node: 5, chapter: "第四幕 · 赵黎线 · 节点 5 / 6", title: "血魔认主", events: zhaoClaimEvents, choices: [{ id: "zhao-take-gu", label: "炼化血魔蛊", next: "zhaoQiaoDuel", result: "血魔蛊钻入蛊窍，旧有攻蛊在血光中崩散。", effect: { flag: "血魔蛊" } }] },
   zhaoQiaoDuel: { id: "zhaoQiaoDuel", act: 4, node: 6, chapter: "第四幕 · 赵黎线 · 节点 6 / 6", title: "执棋者末路", events: zhaoQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "zhaoFall", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },

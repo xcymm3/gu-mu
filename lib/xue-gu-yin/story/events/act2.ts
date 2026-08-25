@@ -127,12 +127,12 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
     { type: "narration", text: "乔无咎只说这是墓主留下的守墓机关。他所站的位置看似随意，却恰好堵住了最像生门的岔道。腰间旧玉再次灼热起来，这一次你没有遮掩。" },
     { type: "character", action: "hide", character: "qiao-wujiu" },
   ];
-  if (state.flags.includes("苏莹低语")) {
+  if (state.flags.includes("纪清寒回护")) {
     events.push(
-      { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-      { type: "narration", text: "苏莹悄然挪到你身旁，将一枚折成三角的暗红蛊符塞进你掌心。" },
-      { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "贴在腕上。傀儡循血气索敌，这道符能替你压住脉门。", expression: "wary", position: "right" },
-      { type: "narration", text: "蛊符贴上手腕便化作一圈浅红纹路。经脉随之收紧，足以承受比平日更重的冲击。" },
+      { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
+      { type: "narration", text: "傀儡合围前，纪清寒忽然扣住你的手腕，把墓门前那枚温脉符压回你掌心。符面上多了一道寒白剑痕。" },
+      { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我不欠人。贴好，它能替你稳住经脉。", expression: "alert", position: "right" },
+      { type: "narration", text: "温脉符贴上手腕，寒意沿经络散开。原本承受不住的冲击，如今也有了回旋余地。" },
     );
   }
   return events;

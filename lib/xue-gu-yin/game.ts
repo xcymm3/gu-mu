@@ -61,7 +61,7 @@ function patternFor(name: string) { return patterns[name] ?? patterns["铜皮傀
 export function startBattle(state: GameState, scene: Scene): GameState {
   const config = configFor(state, scene); const role = getRole(state.roleId); if (!config || !role) return state;
   const pattern = patternFor(config.enemyName);
-  const gift = config.enemyName === "铜皮傀儡" && state.flags.includes("苏莹低语") ? 4 : 0;
+  const gift = config.enemyName === "铜皮傀儡" && state.flags.includes("纪清寒回护") ? 4 : 0;
   const maxHealth = state.maxHealth + gift;
   return { ...state, maxHealth, essence: state.maxEssence, battle: { ...config, enemyMaxHealth: config.enemyHealth, turn: 0, intent: pattern[0] } };
 }

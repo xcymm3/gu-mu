@@ -276,11 +276,11 @@ test("第二幕七个固定节点均已迁移为原生阅读事件", () => {
   assert.equal(resolveScenePresentation(chooseRole(), scenes.puppets).battle?.enemyName, "铜皮傀儡");
 });
 
-test("第二幕条件事件仍会响应旧旗标", () => {
+test("第二幕条件事件会响应前置选择旗标", () => {
   const base = chooseRole();
-  const aided = { ...base, flags: [...base.flags, "苏莹低语"] };
-  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("暗红蛊符"), false);
-  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("暗红蛊符"), true);
+  const aided = { ...base, flags: [...base.flags, "纪清寒回护"] };
+  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("温脉符"), false);
+  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("温脉符"), true);
 
   const insightful = { ...base, flags: [...base.flags, "识破棋局"] };
   assert.equal(resolveScenePresentation(base, scenes.fog).text.includes("拐入一条"), false);
@@ -532,9 +532,9 @@ test("所有剧情选择都不再直接恢复当前生命", () => {
   }
 });
 
-test("苏莹蛊符与纪清寒包扎只提升生命上限", () => {
+test("纪清寒温脉符与包扎只提升生命上限", () => {
   const wounded = { ...chooseRole("healer"), health: 5 };
-  const aided = startBattle({ ...wounded, flags: [...wounded.flags, "苏莹低语"] }, scenes.puppets);
+  const aided = startBattle({ ...wounded, flags: [...wounded.flags, "纪清寒回护"] }, scenes.puppets);
   assert.equal(aided.maxHealth, wounded.maxHealth + 4);
   assert.equal(aided.health, wounded.health);
 
@@ -543,6 +543,17 @@ test("苏莹蛊符与纪清寒包扎只提升生命上限", () => {
   const bound = applyChoice(wounded, binding);
   assert.equal(bound.maxHealth, wounded.maxHealth + 4);
   assert.equal(bound.health, wounded.health);
+});
+
+test("五个关怀选项都通过纪清寒积累关系", () => {
+  const commonChoiceSceneIds = ["gate", "rainMark", "bloodThreshold", "swarm", "shadow", "chamber", "illusion", "stoneBridge"] as const;
+  const compassionChoices = commonChoiceSceneIds
+    .flatMap((sceneId) => scenes[sceneId].choices ?? [])
+    .filter((choice) => choice.effect?.personality?.compassion);
+  assert.equal(compassionChoices.length, 5);
+  for (const choice of compassionChoices) {
+    assert.match(`${choice.label}${choice.result ?? ""}`, /纪清寒/, `${choice.id} 没有与纪清寒建立关系`);
+  }
 });
 
 test("第一、二幕态度选项对所有主角可见", () => {

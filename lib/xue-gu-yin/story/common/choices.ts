@@ -22,10 +22,10 @@ export const gateChoices: Choice[] = [
 export const rainMarkChoices: Choice[] = [
   {
     id: "rain-compassion",
-    label: "停半步，把苏莹从湿滑的石阶边拉回来",
+    label: "把温脉符递给纪清寒，让她先护住执剑的手",
     next: "bloodThreshold",
-    result: "你拉住苏莹的手腕，将她带离塌陷的石阶。她站稳后没有立刻松手，只在你身侧低声念出一段短促古咒，提醒你进门后不要踩那几道暗红蛊纹。",
-    effect: { personality: { compassion: 1 }, flag: "苏莹低语" },
+    result: "冷雨把纪清寒虎口的旧伤泡得发白。你递过温脉符，她本想推辞，石门深处却恰好涌来一阵阴风。她最后还是接了，只说：“入墓后还你。”",
+    effect: { personality: { compassion: 1 }, flag: "纪清寒回护" },
   },
   {
     id: "rain-scheme",
@@ -46,9 +46,9 @@ export const bloodThresholdChoices: Choice[] = [
   },
   {
     id: "threshold-compassion",
-    label: "回身扯断缠住苏莹脚踝的活符",
+    label: "回身替纪清寒斩断缠住剑腕的活符",
     next: "swarm",
-    result: "活符像细蛇一样越缠越紧。你没有独自抢过门缝，而是回身斩断符线，与苏莹一同在石门落下前扑进甬道。",
+    result: "你折回纪清寒身侧，在活符锁紧前将它斩断。她随即抬剑替你架住落下的门闸，两人一前一后掠进甬道。",
     effect: { personality: { compassion: 1 } },
   },
 ];
@@ -97,9 +97,9 @@ export const chamberChoices: Choice[] = [
   },
   {
     id: "chamber-compassion",
-    label: "取走甲纹蛊卵，先为接下来的同行准备护身手段",
+    label: "替纪清寒试一试甲纹蛊卵是否藏有禁制",
     next: "illusion",
-    result: "你取走甲纹森森的蛊卵。血甲蛊与护体真元相合，足以在危急时替你挡下一次完整攻势。",
+    result: "纪清寒正提剑戒备四壁的活血纹，你先一步按住甲纹蛊卵。卵壳裂开，血甲蛊顺势认主。她看了你一眼，低声道：“下次不必替我试险。”",
     effect: { personality: { compassion: 1 }, flag: "血甲蛊" },
   },
   {
@@ -137,9 +137,9 @@ export const stoneBridgeChoices: Choice[] = [
   },
   {
     id: "bridge-compassion",
-    label: "留在最后稳住石梁，等众人全部过去",
+    label: "留下来与纪清寒一同稳住石梁，接应其他人",
     next: "puppets",
-    result: "你把真元压进摇摇欲坠的石梁，直到最后一人越过墓沟才撤手。梁身随即崩断，你踏着坠石跃上对岸，手臂已被震得发麻。",
+    result: "你与纪清寒分守石梁两端，直到最后一人越过墓沟。她说了声“走”，两人才同时撤力；落到对岸时，你发麻的手臂被她稳稳托住。",
     effect: { personality: { compassion: 1 } },
   },
 ];

@@ -141,7 +141,7 @@ function useNarrativeLimit() {
   useEffect(() => {
     function fitToViewport() {
       const { innerHeight: height, innerWidth: width } = window;
-      const isCompactLandscape = width < 960 && width >= 560 && width > height;
+      const isCompactLandscape = width < 960 && width > height;
       if (isCompactLandscape) {
         setLimit(height >= 480 ? 84 : height >= 390 ? 64 : 52);
         return;
@@ -246,7 +246,7 @@ function VisualNovelCharacters({ activeSpeaker, characters }: { activeSpeaker: s
 function CharacterImage({ label, src }: { label: string; src: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) return <div className="vn-character-placeholder vn-asset-fallback-character"><span>{label}</span></div>;
-  return <Image alt="" className="vn-character" height={1536} priority sizes="(min-width: 960px) 36vw, 0px" src={src} unoptimized width={1024} onError={() => setFailed(true)} />;
+  return <Image alt="" className="vn-character" height={1536} priority sizes="36vw" src={src} unoptimized width={1024} onError={() => setFailed(true)} />;
 }
 
 function StageImage({ alt, className, src }: { alt: string; className: string; src: string }) {
@@ -278,7 +278,27 @@ function SceneAudioCue({ act, audio, background, inBattle }: { act: number; audi
   return null;
 }
 
-function VisualNovelStage({ activeSpeaker, background, characters, effects, effectToken }: { activeSpeaker: string; background: BackgroundAssetKey; characters: PresentedCharacter[]; effects: StageEffect[]; effectToken: string }) {
+const battleActorAssets = {
+  "赵黎": { asset: "character.zhao-li.wary", label: "赵黎" },
+  "乔无咎": { asset: "character.qiao-wujiu.smug", label: "乔无咎" },
+  "苏衍": { asset: "character.su-yan.awakened", label: "苏衍" },
+} as const;
+
+function BattleStageActor({ enemyCondition, enemyName, reacting }: { enemyCondition: string; enemyName: string; reacting: boolean }) {
+  const actor = battleActorAssets[enemyName as keyof typeof battleActorAssets];
+  const asset = actor ? getVisualAsset(actor.asset) : null;
+  const construct = enemyName.includes("傀儡");
+  return <div className={`vn-battle-actor-layer${reacting ? " is-reacting" : ""}`} aria-hidden="true">
+    <div className={`vn-battle-actor${construct ? " is-construct" : " is-cultivator"}`} data-enemy={enemyName}>
+      {asset?.kind === "image"
+        ? <CharacterImage label={actor.label} src={asset.src} />
+        : <div className="vn-battle-construct"><i /><i /><i /><span /></div>}
+    </div>
+    <p className="vn-battle-nameplate"><span>{enemyName}</span><strong>{enemyCondition}</strong></p>
+  </div>;
+}
+
+function VisualNovelStage({ activeSpeaker, background, battleActor, characters, effects, effectToken }: { activeSpeaker: string; background: BackgroundAssetKey; battleActor?: { enemyCondition: string; enemyName: string; reacting: boolean }; characters: PresentedCharacter[]; effects: StageEffect[]; effectToken: string }) {
   const asset = getVisualAsset(background);
   return <>
     <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} key={background} role="img" aria-label={asset.alt}>
@@ -286,6 +306,7 @@ function VisualNovelStage({ activeSpeaker, background, characters, effects, effe
       <span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" />
     </div>
     <VisualNovelCharacters activeSpeaker={activeSpeaker} characters={characters} />
+    {battleActor ? <BattleStageActor {...battleActor} /> : null}
     <VisualNovelEffects effects={effects} token={effectToken} />
   </>;
 }
@@ -395,6 +416,7 @@ export function XueGuYinGame() {
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
   const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
+  const [pendingLinearChoice, setPendingLinearChoice] = useState(false);
   const [battleResult, setBattleResult] = useState<{ won: boolean; text: string } | null>(null);
   const [showGameMenu, setShowGameMenu] = useState(false);
   const [showBacklog, setShowBacklog] = useState(false);
@@ -479,6 +501,7 @@ export function XueGuYinGame() {
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
+    setPendingLinearChoice(false);
     setBattleResult(null);
     setShowGameMenu(false);
     setShowBacklog(false);
@@ -505,6 +528,7 @@ export function XueGuYinGame() {
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
+    setPendingLinearChoice(false);
     setBattleResult(null);
     setShowGameMenu(false);
     setShowBacklog(false);
@@ -519,6 +543,7 @@ export function XueGuYinGame() {
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
+    setPendingLinearChoice(false);
     setBattleResult(null);
     setShowGameMenu(false);
     setShowBacklog(false);
@@ -542,6 +567,7 @@ export function XueGuYinGame() {
   function selectChoice(raw: Choice) {
     const choice = resolveRandomChoice(raw);
     if (choice.result) {
+      setPendingLinearChoice(false);
       setPendingChoice(choice);
       return;
     }
@@ -551,6 +577,7 @@ export function XueGuYinGame() {
     if (!pendingChoice) return;
     const choice = pendingChoice;
     setPendingChoice(null);
+    setPendingLinearChoice(false);
     applyAndAdvance(choice);
   }
 
@@ -619,6 +646,7 @@ export function XueGuYinGame() {
   const activeFrame = narrativeFrames[pageIndex] ?? presentation.beats[0];
   const narrativeParts: string[] = [activeFrame?.text ?? sourceText];
   const visibleChoices = presentation.choices.filter((choice) => canChoose(game, choice));
+  const linearRouteChoice = game.routeLocked && visibleChoices.length === 1 ? visibleChoices[0] : null;
   const presentedText = battleResult?.text ?? pendingChoice?.result ?? narrativeParts[0] ?? sourceText;
   const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : activeFrame?.displayName ?? inferSpeaker(presentedText);
   const stageBackground = activeFrame?.background ?? presentation.background;
@@ -627,8 +655,8 @@ export function XueGuYinGame() {
   const stageEffects: StageEffect[] = [...(activeFrame?.effects ?? []), ...(combatEffect ? [{ effect: combatEffect.effect, tone: combatEffect.tone } satisfies StageEffect] : [])];
   const stageEffectClasses = stageEffects.map((effect) => ` is-stage-${effect.effect}`).join("");
   const effectToken = `${currentFrameKey}-${combatEffect?.id ?? 0}`;
-  const hasBlockingAction = isLastNarrativePage && Boolean(presentation.battle || visibleChoices.length);
-  const canAdvanceReading = !battle && !pendingChoice && !battleResult && !hasBlockingAction;
+  const hasBlockingAction = isLastNarrativePage && Boolean(presentation.battle || (visibleChoices.length && !linearRouteChoice));
+  const canAdvanceReading = !battle && !battleResult && (pendingLinearChoice || (!pendingChoice && (!isLastNarrativePage || Boolean(linearRouteChoice))));
 
   function rememberCurrentFrame() {
     setReadFrames((current) => current.includes(currentFrameKey) ? current : [...current, currentFrameKey]);
@@ -645,14 +673,23 @@ export function XueGuYinGame() {
     if (uiHidden) { setUiHidden(false); return; }
     if (!canAdvanceReading) return;
     rememberCurrentFrame();
+    if (isLastNarrativePage && linearRouteChoice) {
+      const choice = resolveRandomChoice(linearRouteChoice);
+      if (choice.result) {
+        setPendingLinearChoice(true);
+        setPendingChoice(choice);
+      } else applyAndAdvance(choice);
+      return;
+    }
     setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) });
   }
 
   function advanceInteraction() {
     if (uiHidden) { setUiHidden(false); return; }
-    if (showGameMenu || showBacklog || battle) return;
+    if (showGameMenu || showBacklog) return;
     if (battleResult) { rememberCurrentFrame(); confirmBattleResult(); return; }
     if (pendingChoice) { rememberCurrentFrame(); confirmChoice(); return; }
+    if (battle) return;
     advanceNarrative();
   }
 
@@ -693,7 +730,7 @@ export function XueGuYinGame() {
   const readingModeAllowed = canRunReadingMode({
     hasOverlay: showGameMenu || showBacklog,
     inBattle: Boolean(battle),
-    hasPendingResult: Boolean(pendingChoice || battleResult),
+    hasPendingResult: Boolean((pendingChoice && !pendingLinearChoice) || battleResult),
     hasBlockingAction,
   });
 
@@ -733,7 +770,18 @@ export function XueGuYinGame() {
       >
         <SceneAudioCue act={scene.act} audio={audio} background={stageBackground} inBattle={Boolean(battle)} />
         <SceneSoundCue audio={audio} cueKey={currentFrameKey} sounds={activeFrame?.sounds ?? []} />
-        <VisualNovelStage activeSpeaker={speaker} background={stageBackground} characters={battle ? [] : stageCharacters} effectToken={effectToken} effects={stageEffects} />
+        <VisualNovelStage
+          activeSpeaker={speaker}
+          background={stageBackground}
+          battleActor={battle && !battleResult ? {
+            enemyCondition: battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth),
+            enemyName: battle.enemyName,
+            reacting: Boolean(combatEffect),
+          } : undefined}
+          characters={battle ? [] : stageCharacters}
+          effectToken={effectToken}
+          effects={stageEffects}
+        />
         <div className="vn-play-layout">
         <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
         <div className="vn-story-core">
@@ -757,7 +805,7 @@ export function XueGuYinGame() {
           </header>
           {pendingChoice ? <>
           <section className="scene" aria-live="polite">
-            <p className="vn-speaker">{speaker}</p><p className="eyebrow">抉择已定</p>
+            <p className="vn-speaker">{speaker}</p><p className="eyebrow">{pendingLinearChoice ? "剧情推进" : "抉择已定"}</p>
             <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}`} ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
             <span className="vn-continue-indicator" aria-hidden="true" />
           </section>
@@ -772,19 +820,20 @@ export function XueGuYinGame() {
           </section>
           {!isLastNarrativePage ? <div className="choice-panel"><button className="primary-button" onClick={advanceNarrative}>继续</button></div> : null}
           {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={beginBattle}>放出本命蛊</button></div> : null}
-          {isLastNarrativePage && presentation.choices.length > 0 ? (
-          <nav className="choice-panel" aria-label="剧情选项">
-            {visibleChoices.map((choice) => choice.id === "continue"
-              ? <button className="primary-button" key={choice.id} onClick={() => chooseWithHistory(choice)}>继续</button>
-              : <button className="choice-button" key={choice.id} onClick={() => chooseWithHistory(choice)}><span>{choice.label}</span></button>)}
-          </nav>
+          {isLastNarrativePage && linearRouteChoice ? <div className="choice-panel"><button className="primary-button" onClick={advanceNarrative}>继续</button></div> : null}
+          {isLastNarrativePage && visibleChoices.length > 0 && !linearRouteChoice ? (
+            <nav className="choice-panel" aria-label="剧情选项">
+              {visibleChoices.map((choice) => choice.id === "continue"
+                ? <button className="primary-button" key={choice.id} onClick={() => chooseWithHistory(choice)}>继续</button>
+                : <button className="choice-button" key={choice.id} onClick={() => chooseWithHistory(choice)}><span>{choice.label}</span></button>)}
+            </nav>
           ) : null}
           </>}
         </>}
         </div>
         <VisualNovelLedger title={battle ? battle.enemyName : scene.title} />
         </div>
-        <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} skipMode={skipMode} />
+        {!battle ? <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} skipMode={skipMode} /> : null}
         {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
         {showBacklog ? <BacklogOverlay entries={backlog} onClose={() => setShowBacklog(false)} /> : null}
@@ -999,12 +1048,12 @@ function BattlePanel({ battleFeedback, game, onAction, onContinue, onOpenMenu }:
   const enemyCondition = battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth);
   return <section className="battle-panel" aria-label="蛊斗">
     <header className="battle-player-bar"><div><span>修士</span><strong>{role.name}</strong></div><div className="battle-health"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" onClick={onOpenMenu}>菜单</button></header>
-    <div className="battle-heading"><div className="enemy-row"><span>{battle.enemyName}</span><strong>敌方状态：{enemyCondition}</strong></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
-    <p className="essence-stat">真元 <strong>{game.essence}/{game.maxEssence}</strong></p>
+    <div className="battle-heading"><div className="enemy-row"><span>蛊斗对象</span><strong>{battle.enemyName}</strong><small>敌方状态：{enemyCondition}</small></div><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button></div>
+    <p className="essence-stat"><span>真元</span><strong>{game.essence}/{game.maxEssence}</strong></p>
     <div className={`intent-copy${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
       {battleFeedback ? <><span className="battle-report-label">本回合结果</span><p>{battleFeedback.result}</p>{battleFeedback.nextCue ? <><span className="battle-report-label">敌方异动</span><p>{battleFeedback.nextCue}</p></> : null}</> : <><span className="battle-report-label">敌方异动</span><p>{enemyCue}</p></>}
     </div>
-    {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span></button>)}</div>}
+    {battleFeedback?.hasEnded ? <button className="primary-button" onClick={onContinue}>继续</button> : <div className="battle-commands"><p>选择本回合蛊术</p><div className="gu-list">{guActions.map((action) => <button key={action.id} disabled={game.essence < actionCosts[action.id]} onClick={() => onAction(action.id)}><strong>{action.name}</strong><span>{action.description}</span><em>{actionCosts[action.id]} 真元</em></button>)}</div></div>}
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
       <button autoFocus className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>

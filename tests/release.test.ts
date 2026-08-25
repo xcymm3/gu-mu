@@ -87,10 +87,22 @@ test("手机端使用横屏视觉小说舞台并在竖屏提示旋转", () => {
   const layout = readFileSync(path.join(process.cwd(), "app", "layout.tsx"), "utf8");
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
 
-  assert.match(css, /orientation:\s*landscape[\s\S]*min-width:\s*35rem[\s\S]*max-width:\s*59\.99rem/);
+  assert.match(css, /@media\s*\(orientation:\s*landscape\)\s*and\s*\(max-width:\s*59\.99rem\)/);
+  assert.doesNotMatch(css, /orientation:\s*landscape[\s\S]{0,80}min-width:\s*35rem/);
   assert.match(css, /orientation:\s*portrait[\s\S]*max-width:\s*48rem/);
   assert.match(page, /className="orientation-prompt"/);
   assert.match(page, /请旋转设备/);
   assert.match(layout, /viewportFit:\s*"cover"/);
   assert.match(game, /isCompactLandscape/);
+});
+
+test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
+  const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
+
+  assert.match(game, /linearRouteChoice/);
+  assert.match(game, /function BattleStageActor/);
+  assert.match(game, /battleActor=\{battle && !battleResult/);
+  assert.match(css, /\.vn-battle-actor-layer/);
+  assert.match(css, /@keyframes vn-battle-recoil/);
 });

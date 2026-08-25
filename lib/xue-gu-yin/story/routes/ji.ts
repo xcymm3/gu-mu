@@ -80,7 +80,7 @@ export const jiActThreeScenes: Record<string, Scene> = {
   jiTrail: {
     id: "jiTrail", act: 3, node: 1, chapter: "第三幕 · 纪清寒线 · 节点 1 / 4", title: "断剑回声",
     events: jiTrailEvents,
-    choices: [{ id: "ji-bind-wound", label: "坦然承认伤势，让她替你重新包扎", next: "jiPromise", result: "纪清寒替你压住伤口，动作比语气温和得多。", effect: { health: 4, maxHealth: 4 } }],
+    choices: [{ id: "ji-bind-wound", label: "坦然承认伤势，让她替你重新包扎", next: "jiPromise", result: "纪清寒替你压住伤口，动作比语气温和得多。", effect: { maxHealth: 4 } }],
   },
   jiPromise: {
     id: "jiPromise", act: 3, node: 2, chapter: "第三幕 · 纪清寒线 · 节点 2 / 4", title: "未尽之约",

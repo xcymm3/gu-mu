@@ -113,25 +113,27 @@ test("高神识仅世家之子具备", () => {
   assert.equal(chooseRole("heir").flags.includes("高神识"), true);
 });
 
-test("五幕节点合同固定为共通线一、六与分线四、六、二", () => {
-  assert.deepEqual(storyMeta.acts.map((act) => act.nodes), [1, 6, "每线 4", "每线 6", "每线 2"]);
+test("五幕节点合同固定为共通线三、七与分线四、六、二", () => {
+  assert.deepEqual(storyMeta.acts.map((act) => act.nodes), [3, 7, "每线 4", "每线 6", "每线 2"]);
   const counts = [1, 2, 3, 4, 5].map((act) => [...new Set(Object.values(scenes).filter((scene) => scene.act === act).map((scene) => scene.node))]);
-  assert.deepEqual(counts[0], [1]);
-  assert.deepEqual(counts[1], [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(counts[0], [1, 2, 3]);
+  assert.deepEqual(counts[1], [1, 2, 3, 4, 5, 6, 7]);
   assert.deepEqual(counts[2], [1, 2, 3, 4]);
   assert.deepEqual(counts[3], [1, 2, 3, 4, 5, 6]);
   assert.deepEqual(counts[4], [1, 2]);
 });
 
-test("第一幕已迁移为原生事件且保留全部选择", () => {
-  const presentation = resolveScenePresentation(chooseRole(), scenes.gate);
-  assert.equal(presentation.background, "background.tomb-gate");
-  assert.equal(scenes.gate.text, undefined);
-  assert.ok(presentation.text.includes("诸位道友，此地荒原之下"));
-  assert.equal(presentation.choices.length, scenes.gate.choices?.length);
-  assert.ok(presentation.events.some((event) => event.type === "narration"));
-  assert.ok(presentation.events.some((event) => event.type === "dialogue"));
-  assert.ok(presentation.events.some((event) => event.type === "choice"));
+test("第一幕三个节点均使用原生阅读事件", () => {
+  for (const sceneId of ["gate", "rainMark", "bloodThreshold"] as const) {
+    const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
+    assert.equal(presentation.background, "background.tomb-gate");
+    assert.equal(scenes[sceneId].text, undefined);
+    assert.equal(presentation.choices.length, scenes[sceneId].choices?.length);
+    assert.ok(presentation.events.some((event) => event.type === "narration"));
+    assert.ok(presentation.events.some((event) => event.type === "dialogue"));
+    assert.ok(presentation.events.some((event) => event.type === "choice"));
+  }
+  assert.ok(resolveScenePresentation(chooseRole(), scenes.gate).text.includes("诸位道友，此地荒原之下"));
 });
 
 test("战斗节点会生成结构化 battle 事件而不改变战斗配置", () => {
@@ -261,8 +263,8 @@ test("资源键全部从统一清单解析，纪清寒占位立绘指向现有�
   if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-v1.webp");
 });
 
-test("第二幕六个固定节点均已迁移为原生阅读事件", () => {
-  const actTwoIds = ["swarm", "shadow", "chamber", "illusion", "puppets", "fog"] as const;
+test("第二幕七个固定节点均已迁移为原生阅读事件", () => {
+  const actTwoIds = ["swarm", "shadow", "chamber", "illusion", "stoneBridge", "puppets", "fog"] as const;
   for (const sceneId of actTwoIds) {
     const scene = scenes[sceneId];
     const presentation = resolveScenePresentation(chooseRole(), scene);
@@ -277,8 +279,8 @@ test("第二幕六个固定节点均已迁移为原生阅读事件", () => {
 test("第二幕条件事件仍会响应旧旗标", () => {
   const base = chooseRole();
   const aided = { ...base, flags: [...base.flags, "苏莹低语"] };
-  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("暗红丹丸"), false);
-  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("暗红丹丸"), true);
+  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("暗红蛊符"), false);
+  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("暗红蛊符"), true);
 
   const insightful = { ...base, flags: [...base.flags, "识破棋局"] };
   assert.equal(resolveScenePresentation(base, scenes.fog).text.includes("拐入一条"), false);
@@ -418,6 +420,17 @@ test("战斗结算使用场景声明的失败结局而非敌人名硬编码", ()
   assert.equal(defeated.sceneId, "ending");
   assert.ok(defeated.flags.includes("结局:deathByZhao"));
   assert.equal(resolveEnding(defeated), "deathByZhao");
+  assert.equal(defeated.health, defeated.maxHealth);
+});
+
+test("每场战斗结束后无论胜败都会回满生命", () => {
+  let victorious = startBattle(chooseRole("swordsman"), scenes.puppets);
+  victorious = resolveBattleTurn(victorious, "sword");
+  assert.ok(victorious.battle);
+  assert.ok(victorious.health < victorious.maxHealth);
+  victorious = resolveBattleTurn(victorious, "sword");
+  assert.equal(victorious.battle, null);
+  assert.equal(victorious.health, victorious.maxHealth);
 });
 
 test("终局背景与每个结局的视觉舞台资源均已登记", () => {
@@ -494,22 +507,55 @@ test("权谋人格经薛逢切入乔无咎叛徒暗线", () => {
   assert.equal(next.routeLocked, true);
 });
 
-test("第一、二幕选项统一累积隐藏人格而不再改动好感度", () => {
-  for (const sceneId of ["gate", "swarm", "shadow", "chamber", "illusion"] as const) {
-    const choices = scenes[sceneId].choices ?? [];
-    assert.equal(choices.length, 4, `${sceneId} 应提供四种人格行动`);
-    for (const choice of choices) {
-      assert.ok(choice.effect?.personality, `${choice.id} 未累积人格`);
-      assert.equal("trust" in (choice.effect ?? {}), false, `${choice.id} 仍在改动好感度`);
+test("共通线八次选择共17项，并按关怀5、力量5、权谋4、洞察3分布", () => {
+  const commonChoiceSceneIds = ["gate", "rainMark", "bloodThreshold", "swarm", "shadow", "chamber", "illusion", "stoneBridge"] as const;
+  const choices = commonChoiceSceneIds.flatMap((sceneId) => scenes[sceneId].choices ?? []);
+  assert.equal(choices.length, 17);
+  assert.deepEqual(commonChoiceSceneIds.map((sceneId) => scenes[sceneId].choices?.length), [2, 2, 2, 2, 2, 3, 2, 2]);
+
+  const totals = { power: 0, compassion: 0, insight: 0, scheme: 0 };
+  for (const choice of choices) {
+    assert.ok(choice.effect?.personality, `${choice.id} 未累积人格`);
+    for (const personality of Object.keys(totals) as Array<keyof typeof totals>) {
+      totals[personality] += choice.effect?.personality?.[personality] ?? 0;
+    }
+    assert.equal("trust" in (choice.effect ?? {}), false, `${choice.id} 仍在改动好感度`);
+  }
+  assert.deepEqual(totals, { power: 5, compassion: 5, insight: 3, scheme: 4 });
+});
+
+test("所有剧情选择都不再直接恢复当前生命", () => {
+  for (const scene of Object.values(scenes)) {
+    for (const choice of scene.choices ?? []) {
+      assert.equal(choice.effect?.health, undefined, `${choice.id} 仍在恢复当前生命`);
     }
   }
 });
 
-test("四种人格行动对所有主角可见且正确累计对应分数", () => {
-  for (const roleId of ["healer", "swordsman", "heir"] as const) {
-    assert.equal(resolveScenePresentation(chooseRole(roleId), scenes.gate).choices.length, 4);
+test("苏莹蛊符与纪清寒包扎只提升生命上限", () => {
+  const wounded = { ...chooseRole("healer"), health: 5 };
+  const aided = startBattle({ ...wounded, flags: [...wounded.flags, "苏莹低语"] }, scenes.puppets);
+  assert.equal(aided.maxHealth, wounded.maxHealth + 4);
+  assert.equal(aided.health, wounded.health);
+
+  const binding = scenes.jiTrail.choices?.find((choice) => choice.id === "ji-bind-wound");
+  assert.ok(binding);
+  const bound = applyChoice(wounded, binding);
+  assert.equal(bound.maxHealth, wounded.maxHealth + 4);
+  assert.equal(bound.health, wounded.health);
+});
+
+test("第一、二幕态度选项对所有主角可见", () => {
+  for (const sceneId of ["gate", "rainMark", "bloodThreshold", "swarm", "shadow", "chamber", "illusion", "stoneBridge"] as const) {
+    const choices = scenes[sceneId].choices ?? [];
+    for (const roleId of ["healer", "swordsman", "heir"] as const) {
+      assert.equal(resolveScenePresentation(chooseRole(roleId), scenes[sceneId]).choices.length, choices.length);
+    }
   }
-  const choice = scenes.gate.choices?.find((item) => item.id === "gate-scheme");
+});
+
+test("权谋选择会正确累计分数并保留识破棋局旗标", () => {
+  const choice = scenes.rainMark.choices?.find((item) => item.id === "rain-scheme");
   assert.ok(choice);
   const next = applyChoice(chooseRole("healer"), choice);
   assert.equal(next.personality.scheme, 1);
@@ -542,6 +588,7 @@ test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），re
   const next = applyChoice(chooseRole(), armor);
   assert.ok(next.flags.includes("活符低语"));
   assert.ok(next.flags.includes("血甲蛊") || next.flags.includes("血刃蛊"));
+  assert.equal(next.personality.insight, 1);
 });
 
 test("赵黎线固定以冰寒蛊简进入专属决战", () => {

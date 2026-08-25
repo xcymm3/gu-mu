@@ -1,7 +1,7 @@
 import type { Ending, Role, RoleId, Scene } from "../model.ts";
-import { chamberChoices, fogRouteChoices, gateChoices, illusionChoices, shadowChoices, swarmChoices } from "./common/choices.ts";
-import { gateEvents } from "./events/act1.ts";
-import { chamberEvents, fogEvents, illusionEvents, puppetsEvents, shadowEvents, swarmEvents } from "./events/act2.ts";
+import { bloodThresholdChoices, chamberChoices, fogRouteChoices, gateChoices, illusionChoices, rainMarkChoices, shadowChoices, stoneBridgeChoices, swarmChoices } from "./common/choices.ts";
+import { bloodThresholdEvents, gateEvents, rainMarkEvents } from "./events/act1.ts";
+import { chamberEvents, fogEvents, illusionEvents, puppetsEvents, shadowEvents, stoneBridgeEvents, swarmEvents } from "./events/act2.ts";
 import { jiRouteScenes } from "./routes/ji.ts";
 import { suRouteScenes } from "./routes/su.ts";
 import { traitorRouteScenes } from "./routes/traitor.ts";
@@ -11,8 +11,8 @@ export const storyMeta = {
   title: "血蛊引",
   subtitle: "夜雨蛊市 · 五人入墓",
   acts: [
-    { act: 1, name: "聚", nodes: 1 },
-    { act: 2, name: "入", nodes: 6 },
+    { act: 1, name: "聚", nodes: 3 },
+    { act: 2, name: "入", nodes: 7 },
     { act: 3, name: "离", nodes: "每线 4" },
     { act: 4, name: "决", nodes: "每线 6" },
     { act: 5, name: "归", nodes: "每线 2" },
@@ -32,42 +32,57 @@ export const roles: Role[] = [
 
 export const scenes: Record<string, Scene> = {
   gate: {
-    id: "gate", act: 1, node: 1, chapter: "第一幕 · 聚 · 节点 1 / 1", title: "夜雨墓门",
+    id: "gate", act: 1, node: 1, chapter: "第一幕 · 聚 · 节点 1 / 3", title: "夜雨墓门",
     events: gateEvents,
     choices: gateChoices,
   },
+  rainMark: {
+    id: "rainMark", act: 1, node: 2, chapter: "第一幕 · 聚 · 节点 2 / 3", title: "雨洗蛊纹",
+    events: rainMarkEvents,
+    choices: rainMarkChoices,
+  },
+  bloodThreshold: {
+    id: "bloodThreshold", act: 1, node: 3, chapter: "第一幕 · 聚 · 节点 3 / 3", title: "血门将合",
+    events: bloodThresholdEvents,
+    choices: bloodThresholdChoices,
+  },
   swarm: {
-    id: "swarm", act: 2, node: 1, chapter: "第二幕 · 入 · 节点 1 / 6", title: "甬道蛊潮",
+    id: "swarm", act: 2, node: 1, chapter: "第二幕 · 入 · 节点 1 / 7", title: "甬道蛊潮",
     events: swarmEvents,
 
     choices: swarmChoices,
   },
   shadow: {
-    id: "shadow", act: 2, node: 2, chapter: "第二幕 · 入 · 节点 2 / 6", title: "血影示警",
+    id: "shadow", act: 2, node: 2, chapter: "第二幕 · 入 · 节点 2 / 7", title: "血影示警",
     events: shadowEvents,
 
     choices: shadowChoices,
   },
   chamber: {
-    id: "chamber", act: 2, node: 3, chapter: "第二幕 · 入 · 节点 3 / 6", title: "机关暗室",
+    id: "chamber", act: 2, node: 3, chapter: "第二幕 · 入 · 节点 3 / 7", title: "机关暗室",
     events: chamberEvents,
 
     choices: chamberChoices,
   },
   illusion: {
-    id: "illusion", act: 2, node: 4, chapter: "第二幕 · 入 · 节点 4 / 6", title: "迷魂阵",
+    id: "illusion", act: 2, node: 4, chapter: "第二幕 · 入 · 节点 4 / 7", title: "迷魂阵",
     events: illusionEvents,
 
     choices: illusionChoices,
   },
+  stoneBridge: {
+    id: "stoneBridge", act: 2, node: 5, chapter: "第二幕 · 入 · 节点 5 / 7", title: "断梁墓沟",
+    events: stoneBridgeEvents,
+    choices: stoneBridgeChoices,
+  },
   puppets: {
-    id: "puppets", act: 2, node: 5, chapter: "第二幕 · 入 · 节点 5 / 6", title: "铜皮傀儡",
+    id: "puppets", act: 2, node: 6, chapter: "第二幕 · 入 · 节点 6 / 7", title: "铜皮傀儡",
     events: puppetsEvents,
 
     battle: { enemyName: "铜皮傀儡", enemyHealth: 12, victoryNext: "fog", defeatNext: "fog", victoryFlag: "傀儡已毁", defeatFlag: "傀儡重伤" },
   },
   fog: {
-    id: "fog", act: 2, node: 6, chapter: "第二幕 · 入 · 节点 6 / 6", title: "大雾迷踪",
+    id: "fog", act: 2, node: 7, chapter: "第二幕 · 入 · 节点 7 / 7", title: "大雾迷踪",
     events: fogEvents,
 
     choices: fogRouteChoices,

@@ -106,6 +106,15 @@ export const illusionEvents: VisualNovelEvent[] = [
   { type: "narration", text: "纪清寒没有理会他。她终于抽回被你握住的手，偏过头，只留下泛红的侧脸。\n\n幻境虽破，众人的猜忌却已推到顶点。你按紧袖中旧玉：这一环扣一环的死局，究竟是谁在执子？" },
 ];
 
+export const stoneBridgeEvents: VisualNovelEvent[] = [
+  { type: "background", asset: "background.tomb-corridor", transition: "fade" },
+  { type: "narration", text: "迷魂阵后是一道深不见底的墓沟。唯一的去路，是横在沟上的半截石梁；梁面窄得只能容一人侧身，底下不时传来铜铁拖行的沉响。" },
+  { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "石梁撑不了多久。一次过一个，别停。", expression: "calm", position: "center" },
+  { type: "character", action: "hide", character: "qiao-wujiu" },
+  { type: "narration", text: "话音刚落，对岸石壁便亮起一枚机关蛊核。石梁开始向下倾斜，身后的退路也被幻雾重新吞没。" },
+];
+
 export function puppetsEvents(state: GameState): VisualNovelEvent[] {
   const events: VisualNovelEvent[] = [
     { type: "background", asset: "background.tomb-corridor", transition: "fade" },
@@ -121,9 +130,9 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
   if (state.flags.includes("苏莹低语")) {
     events.push(
       { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-      { type: "narration", text: "苏莹悄然挪到你身旁，递来一枚暗红丹丸。" },
-      { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "含在舌下。你若殒命于此……我欠下的那些债，便再无人替我还了。", expression: "wary", position: "right" },
-      { type: "narration", text: "你将丹丸含入口中，温热药力沿四肢百骸流开，连旧玉的灼痛也被压下几分。" },
+      { type: "narration", text: "苏莹悄然挪到你身旁，将一枚折成三角的暗红蛊符塞进你掌心。" },
+      { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "贴在腕上。傀儡循血气索敌，这道符能替你压住脉门。", expression: "wary", position: "right" },
+      { type: "narration", text: "蛊符贴上手腕便化作一圈浅红纹路。经脉随之收紧，足以承受比平日更重的冲击。" },
     );
   }
   return events;

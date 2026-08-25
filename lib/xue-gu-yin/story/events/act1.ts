@@ -32,3 +32,19 @@ export const gateEvents: VisualNovelEvent[] = [
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
   { type: "narration", text: "赵黎迈步前，隔着雨幕斜斜打量了你一眼。那目光看似随和，却夹杂着几分看猎物般的阴鸷。\n\n你按紧掌心发烫的旧玉，暗自运转真元，抬脚跟了上去。" },
 ];
+
+export const rainMarkEvents: VisualNovelEvent[] = [
+  { type: "background", asset: "background.tomb-gate", transition: "fade" },
+  { type: "narration", text: "你刚踏上墓门石阶，脚下便传来一声闷响。雨水冲开泥浆，露出几道被人刻意遮住的暗红蛊纹。\n\n乔无咎已经跨过蛊纹，苏莹却仍低头辨认符路；薛逢脚下一滑，伸手便要抓住离他最近的人。" },
+  { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "石阶年久失修，诸位当心脚下。", expression: "calm", position: "center" },
+  { type: "narration", text: "他说得随意，鞋底却始终没有碰到任何一道红纹。雨势越来越急，石阶边缘又塌下去一角。" },
+];
+
+export const bloodThresholdEvents: VisualNovelEvent[] = [
+  { type: "background", asset: "background.tomb-gate", transition: "fade" },
+  { type: "narration", text: "众人刚穿过门洞，沉寂多年的机关突然醒了。两扇石门自左右合拢，门框上的活符垂落下来，见人便缠。" },
+  { type: "character", action: "show", character: "ji-qinghan", position: "left", expression: "alert" },
+  { type: "narration", text: "纪清寒一剑削断三道符线，赵黎则护住自己的血纹蛊，谁也没有停步。门缝只剩一人宽，苏莹的脚踝偏在这时被活符扣住。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "门要合了。", expression: "alert", position: "left" },
+];

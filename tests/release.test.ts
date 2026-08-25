@@ -65,6 +65,7 @@ test("损坏或旧格式存档不会进入六个有效槽位", () => {
   assert.equal(isSaveSlot({ version: 2 }), false);
   assert.equal(isSaveSlot({ version: 3 }), false);
   assert.equal(isSaveSlot({ version: 4 }), false);
+  assert.equal(isSaveSlot({ version: 5 }), false);
   assert.deepEqual(normalizeSaveSlots("bad"), Array.from({ length: SAVE_SLOT_COUNT }, () => null));
 });
 

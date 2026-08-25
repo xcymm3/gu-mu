@@ -72,9 +72,9 @@ events: [
 - `ScenePresentation.background` 驱动背景层，`characters` 驱动多角色立绘层；不得在组件里写死某个节点只显示纪清寒。
 - 正式美术替换占位资源时，只修改 `assets.ts` 对应资源键的描述，剧情事件与 React 组件不需要改路径。
 
-当前迁移结构：第一幕 `gate` 位于 `story/events/act1.ts`；第二幕六个节点位于 `story/events/act2.ts`；第三至第五幕按路线拆分到 `story/routes/zhao.ts`、`ji.ts`、`su.ts`、`traitor.ts`，固定 ID 全部登记在 `story/routes/contract.ts`。路线正文不得重新堆回 `data.ts`。
+当前迁移结构：第一幕三个节点位于 `story/events/act1.ts`；第二幕七个节点位于 `story/events/act2.ts`；共通线态度选项集中在 `story/common/choices.ts`。第三至第五幕按路线拆分到 `story/routes/zhao.ts`、`ji.ts`、`su.ts`、`traitor.ts`，固定 ID 全部登记在 `story/routes/contract.ts`。路线正文不得重新堆回 `data.ts`。
 
-第二幕中的 `puppetsEvents(state)` 与 `fogEvents(state)` 是条件演出样板：函数只根据现有旗标增减阅读事件，选择条件、状态效果和战斗配置仍留在 `data.ts`。不要在事件函数中直接修改 `GameState`。
+第二幕中的 `puppetsEvents(state)` 与 `fogEvents(state)` 是条件演出样板：函数只根据现有旗标增减阅读事件，选择条件与状态效果留在 `story/common/choices.ts`，战斗配置留在 `data.ts`。不要在事件函数中直接修改 `GameState`。
 
 第三至第五幕采用四组完全独立的固定场景：赵黎线表现追逐力量，纪清寒线表现主动关怀，苏莹线表现洞察真相，乔无咎线表现冷酷权谋。每组必须拥有 4／6／2 个线性节点，路线内部只保留推进剧情的固定行动，不得设置能够改变主结局的态度选项。薛逢只是乔无咎叛徒线中的棋子，不得恢复成第五条路线。
 
@@ -101,7 +101,7 @@ events: [
 
 ## 存档兼容
 
-- 当前存档版本为 5，并保存隐藏人格与锁定路线；版本 4 的存档可能指向已删除的公共高潮节点，因此会被安全丢弃。
+- 当前存档版本为 6，并保存隐藏人格与锁定路线；版本 5 以前的存档可能指向已改接的共通线节点，因此会被安全丢弃。
 - 不要在无迁移方案时修改 `GameState` 的基础字段含义；如必须修改，提升 `SaveSlot.version` 并更新 `isSaveSlot`。
 
 ## 每次修改后的验证

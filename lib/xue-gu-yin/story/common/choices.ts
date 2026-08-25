@@ -5,49 +5,55 @@ import { actThreeRouteEntries } from "../routes/contract.ts";
 export const gateChoices: Choice[] = [
   {
     id: "gate-power",
-    label: "留意赵黎手中的血纹蛊，暗记他的控蛊手法",
-    next: "swarm",
+    label: "靠近赵黎半步，看清他如何收住血纹蛊",
+    next: "rainMark",
     result: "赵黎指间的血纹蛊只显露了片刻威势，你却把真元流转的轨迹牢牢记下。五转遗藏尚未露面，眼前这名邪修的手段已经值得一观。",
     effect: { personality: { power: 1 } },
   },
   {
-    id: "gate-compassion",
-    label: "替苏莹遮住斜落的冷雨，提醒她墓门将开",
-    next: "swarm",
-    result: "你替苏莹挡去迎面的冷雨。她怔了一下，收回描摹蛊纹的手，在你身侧低声念完最后几个古怪音节。",
-    effect: { personality: { compassion: 1 }, flag: "苏莹低语" },
-  },
-  {
     id: "gate-insight",
-    label: "按住发烫的旧玉，观察墓门与苏莹的细微反应",
-    next: "swarm",
+    label: "按住发烫的旧玉，等墓门蛊纹再亮一次",
+    next: "rainMark",
     result: "旧玉的热意与墓门蛊纹遥相呼应，苏莹的指尖也在同一刻停顿。你没有声张，只把两处异常一并记在心里。",
     effect: { personality: { insight: 1 }, flag: "旧玉发烫" },
   },
+];
+
+export const rainMarkChoices: Choice[] = [
   {
-    id: "gate-scheme",
-    label: "不急着入墓，先记下乔无咎避开的每一处蛊纹",
-    next: "swarm",
-    result: "乔无咎嘴上说只来过一次，脚步却从未踏错。你记住他的落脚位置，也记住了哪几道蛊纹从始至终没有亮起。",
+    id: "rain-compassion",
+    label: "停半步，把苏莹从湿滑的石阶边拉回来",
+    next: "bloodThreshold",
+    result: "你拉住苏莹的手腕，将她带离塌陷的石阶。她站稳后没有立刻松手，只在你身侧低声念出一段短促古咒，提醒你进门后不要踩那几道暗红蛊纹。",
+    effect: { personality: { compassion: 1 }, flag: "苏莹低语" },
+  },
+  {
+    id: "rain-scheme",
+    label: "借着扶薛逢站稳，把他引向乔无咎避开的落脚处",
+    next: "bloodThreshold",
+    result: "薛逢以为你只是随手扶了他一把。等他的鞋底压过蛊纹，乔无咎下意识回头，你也由此确认：他从一开始就知道哪些地方不能碰。",
     effect: { personality: { scheme: 1 }, flag: "识破棋局" },
   },
 ];
 
-export const swarmChoices: Choice[] = [
+export const bloodThresholdChoices: Choice[] = [
   {
-    id: "swarm-power",
-    label: "迎着蛊潮逼近赵黎，看清血纹蛊如何焚虫",
-    next: "shadow",
-    result: "你冒险贴近血环，终于看清血纹蛊吞噬血气、反燃虫潮的法门。赵黎瞥见你的目光，只意味不明地笑了一声。",
+    id: "threshold-power",
+    label: "催动本命蛊，正面撑住正在闭合的石门",
+    next: "swarm",
+    result: "你将真元尽数压入本命蛊，硬生生顶住万斤石门。门轴深处传来刺耳崩响，待最后一人掠过门槛，你才收力闪身入内。",
     effect: { personality: { power: 1 } },
   },
   {
-    id: "swarm-compassion",
-    label: "与纪清寒错身换位，堵住她身侧的空当",
-    next: "shadow",
-    result: "你替纪清寒挡住侧后方的蛊虫。她没有道谢，只将剑锋向你身侧偏了几寸，与你共同撕开虫潮。",
+    id: "threshold-compassion",
+    label: "回身扯断缠住苏莹脚踝的活符",
+    next: "swarm",
+    result: "活符像细蛇一样越缠越紧。你没有独自抢过门缝，而是回身斩断符线，与苏莹一同在石门落下前扑进甬道。",
     effect: { personality: { compassion: 1 } },
   },
+];
+
+export const swarmChoices: Choice[] = [
   {
     id: "swarm-insight",
     label: "收敛真元，观察噬魂蛊为何主动避开苏莹",
@@ -71,20 +77,6 @@ export const shadowChoices: Choice[] = [
     next: "chamber",
     result: "你没有藏玉，只平静地迎上赵黎的目光。赵黎先是一怔，随即大笑，第一次把你当成了可能争夺机缘的对手。",
     effect: { personality: { power: 1 } },
-  },
-  {
-    id: "shadow-compassion",
-    label: "替纪清寒挡开赵黎的追问，再询问她所说的生门",
-    next: "chamber",
-    result: "你接过纪清寒的话，让赵黎暂时移开视线。纪清寒沉默片刻，低声补上关于生门的一句提醒。",
-    effect: { personality: { compassion: 1 }, flag: "生门低语" },
-  },
-  {
-    id: "shadow-insight",
-    label: "不理会赵黎，转而追问苏莹为何认识墙上的血影",
-    next: "chamber",
-    result: "苏莹没有正面回答，但她脱口而出的“活符”已经暴露了太多。你记下这个称呼，也记下她望向墓门深处时的恐惧。",
-    effect: { personality: { insight: 1 }, flag: "活符低语" },
   },
   {
     id: "shadow-scheme",
@@ -112,47 +104,43 @@ export const chamberChoices: Choice[] = [
   },
   {
     id: "chamber-insight",
-    label: "让苏莹先挑，观察哪一枚蛊卵会回应她的血脉",
+    label: "让苏莹先选",
     next: "illusion",
     effect: { personality: { insight: 1 }, flags: ["活符低语"], randomFlags: ["血甲蛊", "血刃蛊"] },
-  },
-  {
-    id: "chamber-scheme",
-    label: "逼薛逢先触碰蛊卵，确认无禁制后夺下血甲蛊",
-    next: "illusion",
-    result: "薛逢提心吊胆地试过蛊卵，刚松一口气，你便越过他将血甲蛊收入囊中。他不敢争抢，只把这笔账藏进笑脸后面。",
-    effect: { personality: { scheme: 1 }, flag: "血甲蛊" },
   },
 ];
 
 export const illusionChoices: Choice[] = [
   {
-    id: "illusion-power",
-    label: "以蛊力正面震碎幻境，不给阵法继续窥探识海",
-    next: "puppets",
-    result: "你强行催动蛊力，任经脉震痛也要将幻境正面撕开。虚假的人影尽数破碎，只剩阵眼在远处闪烁。",
-    effect: { personality: { power: 1 } },
-  },
-  {
     id: "illusion-compassion",
     label: "先扶住仍困在幻境中的纪清寒，替她稳住气血",
-    next: "puppets",
+    next: "stoneBridge",
     result: "你没有追击阵眼，而是先替纪清寒稳住紊乱气血。她从幻境中醒来时，握剑的手仍在轻微发抖。",
     effect: { personality: { compassion: 1 } },
   },
   {
-    id: "illusion-insight",
-    label: "压住心神，记下幻境每次重复时出现的细微偏差",
-    next: "puppets",
-    result: "幻境重复到第三遍时，你终于找出不属于自身记忆的那道影子。顺着它回望，操阵者留下的活蛊线一闪而逝。",
-    effect: { personality: { insight: 1 }, flag: "识破迷魂阵" },
-  },
-  {
     id: "illusion-scheme",
     label: "假装仍受幻境控制，静看薛逢和乔无咎各自露出破绽",
-    next: "puppets",
+    next: "stoneBridge",
     result: "你故意维持失神模样。薛逢第一时间摸向退路，乔无咎却看向阵眼深处；两个人显然都比自己声称的更熟悉此地。",
     effect: { personality: { scheme: 1 }, flag: "乔薛有旧" },
+  },
+];
+
+export const stoneBridgeChoices: Choice[] = [
+  {
+    id: "bridge-power",
+    label: "先踏上石梁，趁机关未醒抢到对岸",
+    next: "puppets",
+    result: "石梁在脚下剧烈下沉。你借势跃到对岸，一掌震碎刚刚亮起的机关蛊核，为身后众人争出片刻空隙。",
+    effect: { personality: { power: 1 } },
+  },
+  {
+    id: "bridge-compassion",
+    label: "留在最后稳住石梁，等众人全部过去",
+    next: "puppets",
+    result: "你把真元压进摇摇欲坠的石梁，直到最后一人越过墓沟才撤手。梁身随即崩断，你踏着坠石跃上对岸，手臂已被震得发麻。",
+    effect: { personality: { compassion: 1 } },
   },
 ];
 

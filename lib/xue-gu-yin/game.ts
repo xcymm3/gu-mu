@@ -39,10 +39,10 @@ export function resolveRandomChoice(choice: Choice, roll: () => number = Math.ra
   const effect = choice.effect;
   if (!effect?.randomFlags?.length) return choice;
   const flag = effect.randomFlags[Math.min(effect.randomFlags.length - 1, Math.floor(roll() * effect.randomFlags.length))];
-  const picked = "你收回手，侧过身，示意苏莹先挑。苏莹娇躯一震，眼中满是不可思议，半晌才微不可察地说了句“多谢”。她缓缓上前，纤细的指尖在五只蛊卵上逐一抚过，动作轻柔得如同抚摸旧友。最终，她停在最边缘一枚毫不起眼的黑斑蛊卵前，小心翼翼地将它收进怀中。";
+  const picked = "你没有碰石龛，只朝苏莹让开一步。她怔了怔，随后走到五只蛊卵前，指尖依次掠过卵壳。最边缘那枚黑斑蛊卵轻轻一颤，她便将它收进怀里。";
   const result = flag === "血甲蛊"
-    ? `${picked}剩下的蛊卵里，你顺理成章地伸出手，将那枚与你真元呼应、甲纹森森的蛊卵收入囊中，腰间的“甲衣蛊”微微震颤。苏莹抬头看你，轻声呢喃：“……多谢。”`
-    : `${picked}剩下的蛊卵里，你顺理成章地伸出手，将那枚与你真元呼应、血芒吞吐的蛊卵收入囊中，囊中的“月光蛊”光芒顿暗。苏莹抬头看你，轻声呢喃：“……多谢。”`;
+    ? `${picked}剩下的蛊卵中，甲纹森森的那枚自行滚到你手边。你将血甲蛊收入蛊囊，苏莹这才低声说了句“多谢”。`
+    : `${picked}剩下的蛊卵中，血芒吞吐的那枚自行滚到你手边。你将血刃蛊收入蛊囊，苏莹这才低声说了句“多谢”。`;
   return { ...choice, result, effect: { ...effect, flags: [...(effect.flags ?? []), flag] } };
 }
 /** @deprecated 新界面应读取 resolveScenePresentation；保留该门面以兼容旧调用。 */
@@ -63,16 +63,15 @@ export function startBattle(state: GameState, scene: Scene): GameState {
   const pattern = patternFor(config.enemyName);
   const gift = config.enemyName === "铜皮傀儡" && state.flags.includes("苏莹低语") ? 4 : 0;
   const maxHealth = state.maxHealth + gift;
-  const health = state.health + gift;
-  return { ...state, maxHealth, health, essence: state.maxEssence, battle: { ...config, enemyMaxHealth: config.enemyHealth, turn: 0, intent: pattern[0] } };
+  return { ...state, maxHealth, essence: state.maxEssence, battle: { ...config, enemyMaxHealth: config.enemyHealth, turn: 0, intent: pattern[0] } };
 }
-function finishBattle(state: GameState, battle: Battle, won: boolean, health: number) {
+function finishBattle(state: GameState, battle: Battle, won: boolean) {
   const next = won ? battle.victoryNext : battle.defeatNext;
   const flag = won ? battle.victoryFlag : battle.defeatFlag;
   const final = won ? battle.victoryEnding : battle.defeatEnding;
   const maxEssence = battle.enemyName === "血傀儡" && won ? state.maxEssence + 4 : state.maxEssence;
   const essence = battle.enemyName === "血傀儡" && won ? Math.min(maxEssence, state.essence + 4) : state.essence;
-  return { ...state, maxEssence, essence, health: won ? Math.min(state.maxHealth, Math.max(1, health) + 2) : 1, time: won ? state.time : state.time + 1, sceneId: next, battle: null, flags: unique(unique(state.flags, flag), final ? `结局:${final}` : undefined) };
+  return { ...state, maxEssence, essence, health: state.maxHealth, time: won ? state.time : state.time + 1, sceneId: next, battle: null, flags: unique(unique(state.flags, flag), final ? `结局:${final}` : undefined) };
 }
 export function resolveBattleTurn(state: GameState, action: GuAction): GameState {
   const battle = state.battle; const role = getRole(state.roleId); if (!battle || !role) return state;
@@ -95,8 +94,8 @@ export function resolveBattleTurn(state: GameState, action: GuAction): GameState
   if (!result.valid) return state;
 
   const flags = action === "blooddemon" ? unique(state.flags, "血魔蛊已用") : state.flags;
-  if (result.status === "won") return finishBattle({ ...state, essence: result.essence, flags }, battle, true, result.health);
-  if (result.status === "lost") return finishBattle({ ...state, essence: result.essence, flags }, battle, false, result.health);
+  if (result.status === "won") return finishBattle({ ...state, essence: result.essence, flags }, battle, true);
+  if (result.status === "lost") return finishBattle({ ...state, essence: result.essence, flags }, battle, false);
 
   const pattern = patternFor(battle.enemyName);
   return {

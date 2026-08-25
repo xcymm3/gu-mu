@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="game_background">#071A17</color>
+    <color name="game_text">#E9F2ED</color>
+    <color name="game_text_muted">#AEC6BC</color>
+    <color name="game_accent">#2F725F</color>
+    <color name="game_accent_pressed">#225E4E</color>
+    <color name="game_button_text">#F6FBF8</color>
+    <color name="launcher_background">#E9F2ED</color>
+    <color name="launcher_foreground">#225E4E</color>
+</resources>

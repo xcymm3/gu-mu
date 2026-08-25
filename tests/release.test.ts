@@ -140,3 +140,17 @@ test("快捷功能栏始终占用独立底部安全区", () => {
   assert.match(css, /\.vn-story-core \.scene\s*\{\s*bottom:\s*var\(--vn-utility-clearance\)/);
   assert.match(css, /\.story-frame\.is-battling \.vn-story-core \.battle-scene\s*\{[\s\S]*?bottom:\s*var\(--vn-utility-clearance\)/);
 });
+
+test("Android 外壳锁定横屏并仅通过 HTTPS 加载游戏", () => {
+  const manifest = readFileSync(path.join(process.cwd(), "android", "app", "src", "main", "AndroidManifest.xml"), "utf8");
+  const activity = readFileSync(path.join(process.cwd(), "android", "app", "src", "main", "java", "top", "xcymm3", "adv", "MainActivity.java"), "utf8");
+  const gradle = readFileSync(path.join(process.cwd(), "android", "app", "build.gradle.kts"), "utf8");
+
+  assert.match(manifest, /android\.permission\.INTERNET/);
+  assert.match(manifest, /android:screenOrientation="sensorLandscape"/);
+  assert.match(manifest, /android:usesCleartextTraffic="false"/);
+  assert.match(activity, /HOME_URL = "https:\/\/adv\.xcymm3\.top\/"/);
+  assert.match(activity, /setDomStorageEnabled\(true\)/);
+  assert.match(activity, /WindowInsetsController\.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE/);
+  assert.match(gradle, /targetSdk = 36/);
+});

@@ -34,10 +34,10 @@ export const gateEvents: VisualNovelEvent[] = [
 
 export const rainMarkEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-gate", transition: "fade" },
-  { type: "narration", text: "石门之后，是一道向下延伸的狭长石阶。雨水从门外灌入，冲开阶面泥浆，露出几道若隐若现的暗红蛊纹。" },
+  { type: "narration", text: "跨过那道幽暗如墨的石门后，一条曲折蜿蜒的狭长石阶赫然呈现在眼前，斜斜通往湿冷阴森的地底深处。\n\n洞内空气沉闷湿腐，夹杂着一股令人作呕的腥膻恶臭。门外倾泻而下的暴雨顺着陡峭的阶梯蜿蜒流淌，不断冲刷着地面上堆积不知多少年岁月的黑黏浮泥。\n\n借着洞壁上偶尔闪烁的微弱磷光，隐约可见石阶表面显露出几道盘曲交错、若隐若现的暗红纹路。那纹路形如蜈蚣百足，隐隐散发着说不出的诡异与阴森。" },
   { type: "character", action: "show", character: "ji-qinghan", asset: "character.ji-qinghan.neutral", position: "right", expression: "alert" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我先过去。", expression: "alert", position: "right" },
-  { type: "narration", text: "纪清寒提气掠过石阶，靴底从蛊纹上方一带而过，没有引发任何异状。\n\n待她走出数丈，雨水又冲掉一层浮泥。你这才看清，暗红蛊纹之间藏着一圈细如牛毛的针孔。纪清寒方才落脚极轻，尚未真正压下机关。\n\n薛逢跟在后面，正要踩上同一块石阶。" },
+  { type: "narration", text: "白衣女修纪清寒美眸微凝，显然对此地颇具戒备。她周身灵气微微一荡，施展出某种极为高明的轻身法门，娇躯化作一道白虹迎风掠出。其靴底仅在数块石阶上如蜻蜓点水般轻轻一蹭，便毫发无损地落在了数丈之外的拐弯处。\n\n然而，就在她身形掠过、带起的风劲将阶面泥沙再次吹散了几分时，走在队伍后方的你凝神细看，眼角余光骤然捕捉到了极其细微的异样。\n\n那被雨水冲刷干净的暗红蛊纹交汇处，竟隐蔽地分布着一圈圈针眼大小的密集细孔，孔洞内部隐隐泛着幽绿色的冷光，显然淬有见血封喉的剧毒。" },
+  { type: "narration", text: "纪清寒刚才之所以未曾引发异状，全凭其飘逸非凡的身法与极轻的落脚分寸，并未真正触及那隐藏在暗处的机关陷阱。\n\n此时，走在前面的圆脸汉子薛逢正满面堆笑地跟在后头，步履沉重，大摇大摆地抬起右脚，眼看就要结结实实地踩向那块布满毒针暗孔的致命石阶……\n\n你目光微闪，袖中的指尖微微收紧，心中瞬间转过数条计较。" },
 ];
 
 export const bloodThresholdEvents: VisualNovelEvent[] = [

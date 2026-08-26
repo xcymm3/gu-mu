@@ -130,7 +130,6 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     assert.equal(scenes[sceneId].text, undefined);
     assert.equal(presentation.choices.length, scenes[sceneId].choices?.length);
     assert.ok(presentation.events.some((event) => event.type === "narration"));
-    assert.ok(presentation.events.some((event) => event.type === "dialogue"));
     assert.ok(presentation.events.some((event) => event.type === "choice"));
   }
   const gate = resolveScenePresentation(chooseRole(), scenes.gate);
@@ -140,6 +139,13 @@ test("第一幕三个节点均使用原生阅读事件", () => {
   assert.deepEqual(gate.choices.map((choice) => choice.label), [
     "落后赵黎半步进入石门，暗中观察其血纹蛊",
     "按紧发烫的旧玉，静待墓门蛊纹下一次微光闪烁",
+  ]);
+  const rainMark = resolveScenePresentation(chooseRole(), scenes.rainMark);
+  assert.ok(rainMark.text.includes("跨过那道幽暗如墨的石门后"));
+  assert.ok(!rainMark.text.includes("远超同阶"));
+  assert.deepEqual(rainMark.choices.map((choice) => choice.label), [
+    "突然出声喊住薛逢，指明蛊纹下隐藏的剧毒针孔，劝众人贴着石壁边缘绕行",
+    "佯装不知，冷眼旁观薛逢踩中机关，借此探明这暗器禁制的具体威力与范围",
   ]);
 });
 
@@ -598,8 +604,8 @@ test("第一、二幕态度选项对所有主角可见", () => {
 test("权谋选择会累计分数且不写入无后续用途的记录", () => {
   const choice = scenes.rainMark.choices?.find((item) => item.id === "rain-scheme");
   assert.ok(choice);
-  assert.match(choice.label, /故意不作声/);
-  assert.match(choice.result ?? "", /纪清寒.*剑幕.*毒针尽数挡下/);
+  assert.match(choice.label, /佯装不知/);
+  assert.match(choice.result ?? "", /纪清寒凌空折返.*剑幕.*毒针尽数击飞/);
   const next = applyChoice(chooseRole("healer"), choice);
   assert.equal(next.personality.scheme, 1);
   assert.deepEqual(next.flags, []);

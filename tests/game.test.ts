@@ -147,6 +147,13 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     "突然出声喊住薛逢，指明蛊纹下隐藏的剧毒针孔，劝众人贴着石壁边缘绕行",
     "佯装不知，冷眼旁观薛逢踩中机关，借此探明这暗器禁制的具体威力与范围",
   ]);
+  const bloodThreshold = resolveScenePresentation(chooseRole(), scenes.bloodThreshold);
+  assert.ok(bloodThreshold.text.includes("狭长石阶在数十丈后到了尽头"));
+  assert.doesNotMatch(bloodThreshold.text, /受伤的剑腕|虎口旧伤|嗅到血气/);
+  assert.deepEqual(bloodThreshold.choices.map((choice) => choice.label), [
+    "催动本命蛊，正面撑住轰然落下的石闸",
+    "抢在石闸落下前，替纪清寒震断缠腕的蛊虫",
+  ]);
 });
 
 test("战斗节点会生成结构化 battle 事件而不改变战斗配置", () => {

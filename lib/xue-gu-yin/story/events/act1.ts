@@ -42,8 +42,8 @@ export const rainMarkEvents: VisualNovelEvent[] = [
 
 export const bloodThresholdEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-gate", transition: "fade" },
-  { type: "narration", text: "众人刚穿过门洞，沉寂多年的机关突然醒了。两扇石门自左右合拢，门框石孔里钻出数条赤褐蛊虫。它们身躯细长，嗅到血气便往人身上缠。" },
+  { type: "narration", text: "狭长石阶在数十丈后到了尽头。前方悬着一道厚重石闸，门后是一条低矮甬道。乔无咎等人已经先后穿过，只有你与纪清寒还落在队伍最后。\n\n纪清寒刚踏上门槛，脚下禁纹骤然亮起。石阶深处传来一声闷响，悬在上方的石闸随即向下坠落。门框两侧的石孔同时弹开，数条赤褐蛊虫从中窜出，直扑离闸门最近的纪清寒。" },
   { type: "character", action: "show", character: "ji-qinghan", position: "left", expression: "alert" },
-  { type: "narration", text: "纪清寒一剑削断三条蛊虫，赵黎则只护住自己的血纹蛊。第四条从门框后绕出，缠上纪清寒受伤的剑腕，将她的剑锋猛地拖低。" },
+  { type: "narration", text: "纪清寒回身出剑，寒光接连削断三条蛊虫。第四条却贴着门框绕至她身后，猛地缠上执剑的手腕，将她的剑锋拖向地面。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "门要合了。", expression: "alert", position: "left" },
 ];

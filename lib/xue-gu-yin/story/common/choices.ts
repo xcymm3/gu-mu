@@ -39,16 +39,16 @@ export const rainMarkChoices: Choice[] = [
 export const bloodThresholdChoices: Choice[] = [
   {
     id: "threshold-power",
-    label: "催动本命蛊，正面撑住正在闭合的石门",
+    label: "催动本命蛊，正面撑住轰然落下的石闸",
     next: "swarm",
-    result: "你将真元尽数压入本命蛊，硬生生顶住万斤石门。门轴深处传来刺耳崩响，待最后一人掠过门槛，你才收力闪身入内。",
+    result: "你将真元尽数压入本命蛊，迎着轰鸣托住下坠的石闸。纪清寒趁机反转剑锋，寒光沿着手腕掠过，将缠身的蛊虫绞得粉碎。待她替你扫清门槛内的残虫，你才骤然收力，在石闸砸落前闪身滚入甬道。",
     effect: { personality: { power: 1 } },
   },
   {
     id: "threshold-compassion",
-    label: "回身替纪清寒斩断缠住剑腕的蛊虫",
+    label: "抢在石闸落下前，替纪清寒震断缠腕的蛊虫",
     next: "swarm",
-    result: "你折回纪清寒身侧，在蛊虫锁紧前将它斩断。她随即抬剑替你架住落下的门闸，两人一前一后掠进甬道。",
+    result: "你没有去撑石闸，而是抢步逼近门槛，一道真元震断纪清寒腕上的蛊虫。她夺回长剑，反手刺入石闸侧面的缝隙，硬生生令下坠之势停了一瞬。你先掠入甬道，她紧随其后抽剑脱身。石闸贴着两人的背影轰然砸落。",
     effect: { personality: { compassion: 1 } },
   },
 ];

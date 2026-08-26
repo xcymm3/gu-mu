@@ -3,11 +3,11 @@ import { resolveFogRouteChoices } from "../common/choices.ts";
 
 export const swarmEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-corridor", transition: "fade" },
-  { type: "narration", text: "深入墓穴不过百余步，石道便骤然收窄。火折子只能驱散三丈内的黑暗，石壁上密密麻麻的潮湿凿痕，像是困死于此的人用指甲撕出的血痕。\n\n走在最前方的乔无咎步步分毫不差，绝不像初次入墓。其余人挤在阴冷甬道中，摇曳火光将影子拉扯成一团。" },
+  { type: "narration", text: "深入墓穴不过百余步，石道便骤然收窄。火折子只能驱散三丈内的黑暗，石壁上密密麻麻的潮湿凿痕，像是困死于此的人用指甲撕出的血痕。\n\n乔无咎举着兽皮地图走在最前，每到岔口便借火光辨认上面模糊的标记。其余人挤在阴冷甬道中，摇曳火光将影子拉扯成一团。" },
   { type: "narration", text: "咔嗒，咔嗒。\n\n头顶接缝传来令人牙酸的摩擦声。拇指大小、通体漆黑的蛊虫从石缝中争相挤出，不过弹指便化作滔天黑浪，振翅声震得众人耳膜发胀。" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "此乃噬魂蛊，极喜血腥之气。诸位若不想沦为食粮，便收敛气血，切莫教真元外泄。", expression: "calm", position: "center" },
-  { type: "narration", text: "话音未落，乔无咎已负手退开，径直将前路让给虫潮。" },
+  { type: "narration", text: "众人依言收束气血，各自贴向甬道两侧。乔无咎卷起地图护住口鼻，虫潮转眼已经压到近前。" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "amused" },
   { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "乔道友说得倒轻巧。", expression: "amused", position: "left" },
   { type: "narration", text: "血纹蛊自赵黎袖中呼啸而出，绕身划成微弱血环。虫潮触及血光便燃起幽绿火焰，他脚下方圆三尺干净得如同惊涛中的孤岛。" },
@@ -48,7 +48,7 @@ export const shadowEvents: VisualNovelEvent[] = [
   { type: "character", action: "hide", character: "su-ying" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "好了，诸位道友莫要疑神疑鬼。一道残存的血影禁制罢了，还是抓紧探墓为妙。", expression: "calm", position: "center" },
-  { type: "narration", text: "他劝得从容，像是一切仍在掌握。火光半明半暗，赵黎、纪清寒与苏莹的目光都落到你身上；袖中旧玉的温度，又骤然升高了几分。" },
+  { type: "narration", text: "一时无人能确认那道血影究竟是什么。火光半明半暗，赵黎、纪清寒与苏莹的目光都落到你身上；袖中旧玉的温度，又骤然升高了几分。" },
 ];
 
 export const chamberEvents: VisualNovelEvent[] = [
@@ -91,7 +91,7 @@ export const illusionEvents: VisualNovelEvent[] = [
   { type: "narration", text: "清冷喝声如剑鸣炸开，温情幻象寸寸崩裂。你猛然清醒，手里握着的并非故人，而是纪清寒冰凉的手掌。\n\n她显然也才脱离心魔，耳根瞬间泛红，另一只手却已按住长剑，寒芒指向数步外的薛逢。" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "left", expression: "calm" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "诸位道友，速速收摄心神。", expression: "calm", position: "left" },
-  { type: "narration", text: "乔无咎已退到阵眼边缘，熟练地将暗红蛊印扣入枢纽。幻境应声瓦解。他破阵之快，像在照本宣科，周身真元甚至没有波动。" },
+  { type: "narration", text: "乔无咎退到阵眼边缘，翻开兽皮地图背面的残图，依照上面的标记连试数处，终于将暗红蛊印扣入枢纽。幻境应声瓦解，他踉跄半步才重新站稳。" },
   { type: "character", action: "hide", character: "qiao-wujiu" },
   { type: "character", action: "hide", character: "ji-qinghan" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
@@ -124,7 +124,7 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
     { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "这是牵机蛊吐出的丝。要隔空御使四具傀儡，操纵它们的人不会离得太远。", expression: "wary", position: "left" },
     { type: "character", action: "hide", character: "zhao-li" },
     { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
-    { type: "narration", text: "乔无咎只说这是墓主留下的守墓机关。他所站的位置看似随意，却恰好堵住了最像生门的岔道。腰间旧玉再次灼热起来，这一次你没有遮掩。" },
+    { type: "narration", text: "乔无咎只说这是墓主留下的守墓机关，随即催动护身蛊挡住傀儡踏落时飞起的碎石。腰间旧玉再次灼热起来，这一次你没有遮掩。" },
     { type: "character", action: "hide", character: "qiao-wujiu" },
   ];
   if (state.flags.includes("纪清寒回护")) {
@@ -146,9 +146,6 @@ export function fogEvents(state: GameState): VisualNovelEvent[] {
     { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "我绕后封住追兵，诸位先走。", expression: "calm", position: "center" },
     { type: "character", action: "hide", character: "qiao-wujiu" },
   ];
-  if (state.flags.includes("识破棋局")) {
-    events.push({ type: "narration", text: "雾起刹那，你看见乔无咎没有奔向追兵。他贴着石壁拐入一条连火光都照不进的岔道，脚步极轻，像早就在等待这一刻。" });
-  }
   events.push(
     { type: "narration", text: "十二具更沉重的傀儡自雾中逼出，脚步碾过碎石，一声比一声近。地面骤然裂开，所有人都被陷道吞没。\n\n下坠的混乱里，你只来得及抓住一只手。" },
     { type: "choice", choices: resolveFogRouteChoices(state) },

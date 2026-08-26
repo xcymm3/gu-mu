@@ -88,7 +88,7 @@ export const suActThreeScenes: Record<string, Scene> = {
   suInscription: {
     id: "suInscription", act: 3, node: 2, chapter: "第三幕 · 苏莹线 · 节点 2 / 4", title: "未死之人",
     events: suInscriptionEvents,
-    choices: [{ id: "su-answer-jade", label: "让旧玉回应苏氏旧印", next: "suLineage", result: "旧玉泛起血光，阵盘上残缺的苏氏旧印一笔笔补全。", effect: { flags: ["旧玉发烫", "苏氏旧印"] } }],
+    choices: [{ id: "su-answer-jade", label: "让旧玉回应苏氏旧印", next: "suLineage", result: "旧玉泛起血光，阵盘上残缺的苏氏旧印一笔笔补全。", effect: { flag: "苏氏旧印" } }],
   },
   suLineage: {
     id: "suLineage", act: 3, node: 3, chapter: "第三幕 · 苏莹线 · 节点 3 / 4", title: "血脉之钥",

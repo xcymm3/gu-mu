@@ -281,10 +281,6 @@ test("第二幕条件事件会响应前置选择旗标", () => {
   const aided = { ...base, flags: [...base.flags, "纪清寒回护"] };
   assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("温脉符"), false);
   assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("温脉符"), true);
-
-  const insightful = { ...base, flags: [...base.flags, "识破棋局"] };
-  assert.equal(resolveScenePresentation(base, scenes.fog).text.includes("拐入一条"), false);
-  assert.equal(resolveScenePresentation(insightful, scenes.fog).text.includes("拐入一条"), true);
 });
 
 test("第三幕四条路线各自拥有四个独立固定节点", () => {
@@ -544,6 +540,18 @@ test("共通线八次选择共17项，并按关怀5、力量5、权谋4、洞察
   assert.deepEqual(totals, { power: 5, compassion: 5, insight: 3, scheme: 4 });
 });
 
+test("共通线不保留无用途记录且不过早坐实乔无咎的嫌疑", () => {
+  const choiceData = JSON.stringify(Object.values(scenes).flatMap((scene) => scene.choices ?? []));
+  for (const record of ["旧玉发烫", "识破棋局", "乔无咎知情", "蛊卵认血", "乔薛有旧"]) {
+    assert.equal(choiceData.includes(record), false, `${record} 仍被写入选择记录`);
+  }
+
+  const commonText = ["gate", "rainMark", "bloodThreshold", "swarm", "shadow", "chamber", "illusion", "stoneBridge", "puppets", "fog"]
+    .map((sceneId) => resolveScenePresentation(chooseRole(), scenes[sceneId]).text)
+    .join("\n");
+  assert.doesNotMatch(commonText, /绝不像初次入墓|像在照本宣科|堵住了最像生门|拐入一条连火光都照不进的岔道/);
+});
+
 test("所有剧情选择都不再直接恢复当前生命", () => {
   for (const scene of Object.values(scenes)) {
     for (const choice of scene.choices ?? []) {
@@ -580,12 +588,12 @@ test("第一、二幕态度选项对所有主角可见", () => {
   }
 });
 
-test("权谋选择会正确累计分数并保留识破棋局旗标", () => {
+test("权谋选择会累计分数且不写入无后续用途的记录", () => {
   const choice = scenes.rainMark.choices?.find((item) => item.id === "rain-scheme");
   assert.ok(choice);
   const next = applyChoice(chooseRole("healer"), choice);
   assert.equal(next.personality.scheme, 1);
-  assert.ok(next.flags.includes("识破棋局"));
+  assert.deepEqual(next.flags, []);
 });
 
 test("苏莹线固定推进会补齐血钥与存活事实", () => {
@@ -600,19 +608,18 @@ test("苏莹线固定推进会补齐血钥与存活事实", () => {
 test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），result 写明所得蛊", () => {
   const choice = scenes.chamber.choices?.find((item) => item.id === "chamber-insight");
   assert.ok(choice);
-  assert.deepEqual(choice.effect?.flags, ["蛊卵认血"]);
+  assert.equal(choice.effect?.flags, undefined);
   // roll=0 → 血甲蛊
   const armor = resolveRandomChoice(choice, () => 0);
   assert.ok(armor.effect?.flags?.includes("血甲蛊"));
-  assert.ok(armor.effect?.flags?.includes("蛊卵认血"));
+  assert.deepEqual(armor.effect?.flags, ["血甲蛊"]);
   assert.ok(armor.result?.includes("甲纹森森"));
   // roll 接近 1 → 血刃蛊
   const blade = resolveRandomChoice(choice, () => 0.99);
   assert.ok(blade.effect?.flags?.includes("血刃蛊"));
   assert.ok(blade.result?.includes("血芒吞吐"));
-  // 应用后状态同时携带蛊卵认血与随机蛊 flag
+  // 应用后状态只携带实际取得的随机蛊 flag
   const next = applyChoice(chooseRole(), armor);
-  assert.ok(next.flags.includes("蛊卵认血"));
   assert.ok(next.flags.includes("血甲蛊") || next.flags.includes("血刃蛊"));
   assert.equal(next.personality.insight, 1);
 });

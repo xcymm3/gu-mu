@@ -15,7 +15,7 @@ export const gateChoices: Choice[] = [
     label: "按住发烫的旧玉，等墓门蛊纹再亮一次",
     next: "rainMark",
     result: "旧玉的热意与墓门蛊纹遥相呼应，苏莹的指尖也在同一刻停顿。你没有声张，只把两处异常一并记在心里。",
-    effect: { personality: { insight: 1 }, flag: "旧玉发烫" },
+    effect: { personality: { insight: 1 } },
   },
 ];
 
@@ -29,10 +29,10 @@ export const rainMarkChoices: Choice[] = [
   },
   {
     id: "rain-scheme",
-    label: "借着扶薛逢站稳，把他引向乔无咎避开的落脚处",
+    label: "借着扶薛逢站稳，顺势让他先探过暗红蛊纹",
     next: "bloodThreshold",
-    result: "薛逢以为你只是随手扶了他一把。等他的鞋底压过蛊纹，乔无咎下意识回头，你也由此确认：他从一开始就知道哪些地方不能碰。",
-    effect: { personality: { scheme: 1 }, flag: "识破棋局" },
+    result: "薛逢以为你只是随手扶了他一把，借力便跨过石阶。暗红蛊纹被他的鞋底擦过，只渗出一缕腥气，并未立刻发作。你记下纹路明暗的变化，这才跟了上去。",
+    effect: { personality: { scheme: 1 } },
   },
 ];
 
@@ -80,10 +80,10 @@ export const shadowChoices: Choice[] = [
   },
   {
     id: "shadow-scheme",
-    label: "故意说血影只是旧禁残痕，观察乔无咎是否放松",
+    label: "顺着残禁的说法带过血影，先把发烫的旧玉藏好",
     next: "chamber",
-    result: "你替血影给出一个轻描淡写的解释。众人尚未反应，乔无咎绷紧的肩背已经松了半分——这点变化足以证明他知道血影是什么。",
-    effect: { personality: { scheme: 1 }, flag: "乔无咎知情" },
+    result: "你称那道血影不过是年深日久的残禁，借众人移开视线的空当，将旧玉压进贴身暗袋。赵黎扫了你一眼，没有当场追问。",
+    effect: { personality: { scheme: 1 } },
   },
 ];
 
@@ -106,7 +106,7 @@ export const chamberChoices: Choice[] = [
     id: "chamber-insight",
     label: "让苏莹先选",
     next: "illusion",
-    effect: { personality: { insight: 1 }, flags: ["蛊卵认血"], randomFlags: ["血甲蛊", "血刃蛊"] },
+    effect: { personality: { insight: 1 }, randomFlags: ["血甲蛊", "血刃蛊"] },
   },
 ];
 
@@ -120,10 +120,10 @@ export const illusionChoices: Choice[] = [
   },
   {
     id: "illusion-scheme",
-    label: "假装仍受幻境控制，静看薛逢和乔无咎各自露出破绽",
+    label: "装作仍未完全清醒，避开众人对你心魔的探问",
     next: "stoneBridge",
-    result: "你故意维持失神模样。薛逢第一时间摸向退路，乔无咎却看向阵眼深处；两个人显然都比自己声称的更熟悉此地。",
-    effect: { personality: { scheme: 1 }, flag: "乔薛有旧" },
+    result: "你任由目光继续涣散，直到众人各自收拾好失态才缓缓回神。没有人追问你在幻境中看见了什么，你也没有给他们开口的机会。",
+    effect: { personality: { scheme: 1 } },
   },
 ];
 

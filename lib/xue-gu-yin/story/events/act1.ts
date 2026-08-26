@@ -35,10 +35,10 @@ export const gateEvents: VisualNovelEvent[] = [
 
 export const rainMarkEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-gate", transition: "fade" },
-  { type: "narration", text: "你刚踏上墓门石阶，脚下便传来一声闷响。雨水冲开泥浆，露出几道被人刻意遮住的暗红蛊纹。\n\n乔无咎已经跨了过去。纪清寒执剑跟在后面，冷雨正顺着她虎口的一道旧伤往下淌；薛逢则脚下一滑，伸手便要抓住离他最近的人。" },
+  { type: "narration", text: "你刚踏上墓门石阶，脚下便传来一声闷响。雨水冲开泥浆，露出几道被人刻意遮住的暗红蛊纹。\n\n乔无咎已经走到石阶中段。纪清寒执剑跟在后面，冷雨正顺着她虎口的一道旧伤往下淌；薛逢则脚下一滑，伸手便要抓住离他最近的人。" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "石阶年久失修，诸位当心脚下。", expression: "calm", position: "center" },
-  { type: "narration", text: "他说得随意，鞋底却始终没有碰到任何一道红纹。雨势越来越急，石阶边缘又塌下去一角。" },
+  { type: "narration", text: "众人闻言各自放慢脚步。雨势越来越急，石阶边缘又塌下去一角。" },
 ];
 
 export const bloodThresholdEvents: VisualNovelEvent[] = [

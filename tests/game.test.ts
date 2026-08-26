@@ -286,8 +286,8 @@ test("第二幕七个固定节点均已迁移为原生阅读事件", () => {
 test("第二幕条件事件会响应前置选择旗标", () => {
   const base = chooseRole();
   const aided = { ...base, flags: [...base.flags, "纪清寒回护"] };
-  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("温脉符"), false);
-  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("温脉符"), true);
+  assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("墓门前，你替众人省了一场麻烦"), false);
+  assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("墓门前，你替众人省了一场麻烦"), true);
 });
 
 test("第三幕四条路线各自拥有四个独立固定节点", () => {
@@ -567,7 +567,7 @@ test("所有剧情选择都不再直接恢复当前生命", () => {
   }
 });
 
-test("纪清寒温脉符与包扎只提升生命上限", () => {
+test("纪清寒剑意回护与包扎只提升生命上限", () => {
   const wounded = { ...chooseRole("healer"), health: 5 };
   const aided = startBattle({ ...wounded, flags: [...wounded.flags, "纪清寒回护"] }, scenes.puppets);
   assert.equal(aided.maxHealth, wounded.maxHealth + 4);
@@ -598,6 +598,8 @@ test("第一、二幕态度选项对所有主角可见", () => {
 test("权谋选择会累计分数且不写入无后续用途的记录", () => {
   const choice = scenes.rainMark.choices?.find((item) => item.id === "rain-scheme");
   assert.ok(choice);
+  assert.match(choice.label, /故意不作声/);
+  assert.match(choice.result ?? "", /纪清寒.*剑幕.*毒针尽数挡下/);
   const next = applyChoice(chooseRole("healer"), choice);
   assert.equal(next.personality.scheme, 1);
   assert.deepEqual(next.flags, []);

@@ -22,16 +22,16 @@ export const gateChoices: Choice[] = [
 export const rainMarkChoices: Choice[] = [
   {
     id: "rain-compassion",
-    label: "把温脉符递给纪清寒，让她先护住执剑的手",
+    label: "出声提醒众人避开蛊纹，从石阶边缘绕行",
     next: "bloodThreshold",
-    result: "冷雨把纪清寒虎口的旧伤泡得发白。你递过温脉符，她本想推辞，石门深处却恰好涌来一阵阴风。她最后还是接了，只说：“入墓后还你。”",
+    result: "你叫住薛逢，指出阶面下藏着机关。纪清寒闻声折返，一剑削去石阶边缘的碎石，替众人清出一条窄路。众人贴着石壁依次绕过蛊纹。她经过你身旁时看了你一眼：“看得不错。”",
     effect: { personality: { compassion: 1 }, flag: "纪清寒回护" },
   },
   {
     id: "rain-scheme",
-    label: "借着扶薛逢站稳，顺势让他先探过暗红蛊纹",
+    label: "故意不作声，让薛逢替众人踩明机关",
     next: "bloodThreshold",
-    result: "薛逢以为你只是随手扶了他一把，借力便跨过石阶。暗红蛊纹被他的鞋底擦过，只渗出一缕腥气，并未立刻发作。你记下纹路明暗的变化，这才跟了上去。",
+    result: "你没有开口。薛逢一脚踏实，阶面上的暗红蛊纹骤然亮起，成排毒针从两侧石孔射出。纪清寒听见机括声，回身挥出一道剑幕，将毒针尽数挡下。薛逢惊出一身冷汗，众人也看清了机关的位置，贴着石壁绕了过去。",
     effect: { personality: { scheme: 1 } },
   },
 ];

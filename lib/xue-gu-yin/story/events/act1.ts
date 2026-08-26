@@ -34,10 +34,10 @@ export const gateEvents: VisualNovelEvent[] = [
 
 export const rainMarkEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-gate", transition: "fade" },
-  { type: "narration", text: "你刚踏上墓门石阶，脚下便传来一声闷响。雨水冲开泥浆，露出几道被人刻意遮住的暗红蛊纹。\n\n乔无咎已经走到石阶中段。纪清寒执剑跟在后面，冷雨正顺着她虎口的一道旧伤往下淌；薛逢则脚下一滑，伸手便要抓住离他最近的人。" },
-  { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "石阶年久失修，诸位当心脚下。", expression: "calm", position: "center" },
-  { type: "narration", text: "众人闻言各自放慢脚步。雨势越来越急，石阶边缘又塌下去一角。" },
+  { type: "narration", text: "石门之后，是一道向下延伸的狭长石阶。雨水从门外灌入，冲开阶面泥浆，露出几道若隐若现的暗红蛊纹。" },
+  { type: "character", action: "show", character: "ji-qinghan", asset: "character.ji-qinghan.neutral", position: "right", expression: "alert" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我先过去。", expression: "alert", position: "right" },
+  { type: "narration", text: "纪清寒提气掠过石阶，靴底从蛊纹上方一带而过，没有引发任何异状。\n\n待她走出数丈，雨水又冲掉一层浮泥。你这才看清，暗红蛊纹之间藏着一圈细如牛毛的针孔。纪清寒方才落脚极轻，尚未真正压下机关。\n\n薛逢跟在后面，正要踩上同一块石阶。" },
 ];
 
 export const bloodThresholdEvents: VisualNovelEvent[] = [

@@ -130,9 +130,9 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
   if (state.flags.includes("纪清寒回护")) {
     events.push(
       { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
-      { type: "narration", text: "傀儡合围前，纪清寒忽然扣住你的手腕，把墓门前那枚温脉符压回你掌心。符面上多了一道寒白剑痕。" },
-      { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我不欠人。贴好，它能替你稳住经脉。", expression: "alert", position: "right" },
-      { type: "narration", text: "温脉符贴上手腕，寒意沿经络散开。原本承受不住的冲击，如今也有了回旋余地。" },
+      { type: "narration", text: "傀儡合围前，纪清寒忽然以剑鞘点在你肩上。一缕寒白剑意随之没入经络，替你护住几处要害。" },
+      { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "墓门前，你替众人省了一场麻烦。现在还你。", expression: "alert", position: "right" },
+      { type: "narration", text: "寒意在体内流转一周，你的气血随之稳固下来。" },
     );
   }
   return events;

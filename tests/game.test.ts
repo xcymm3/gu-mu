@@ -423,6 +423,14 @@ test("战斗结算使用场景声明的失败结局而非敌人名硬编码", ()
   assert.equal(defeated.health, defeated.maxHealth);
 });
 
+test("共通线铜皮傀儡战败后也直接进入死亡结局", () => {
+  const battle = startBattle({ ...chooseRole("healer"), health: 1 }, scenes.puppets);
+  const defeated = resolveBattleTurn(battle, "blood");
+  assert.equal(defeated.sceneId, "ending");
+  assert.ok(defeated.flags.includes("结局:deathByBloodGuard"));
+  assert.equal(resolveEnding(defeated), "deathByBloodGuard");
+});
+
 test("每场战斗结束后无论胜败都会回满生命", () => {
   let victorious = startBattle(chooseRole("swordsman"), scenes.puppets);
   victorious = resolveBattleTurn(victorious, "sword");

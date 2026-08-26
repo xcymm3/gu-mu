@@ -104,10 +104,13 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   assert.match(game, /linearRouteChoice/);
   assert.match(game, /function BattleStageActor/);
   assert.match(game, /function BattleScene/);
-  assert.match(game, /battleActor=\{battle && !battleResult/);
+  assert.match(game, /battleActor=\{battle && \(!battleResult \|\| battleResult\.won\)/);
   assert.match(game, /className="status-bar battle-status-bar"/);
   assert.match(game, /className="choice-panel battle-choice-panel"/);
   assert.match(game, /<small>{action\.description}<\/small>/);
+  assert.match(game, /const cost = actionCost\(action\.id\)/);
+  assert.match(game, /`消耗 \$\{cost\} 真元`/);
+  assert.match(game, /className=\{lacksEssence \? "is-insufficient" : ""\}/);
   assert.match(game, /className="battle-essence"[\s\S]*?<i style=/);
   assert.match(game, /<small>状态<\/small>{enemyCondition}/);
   assert.doesNotMatch(game, /敌方异动|敌方状态：/);
@@ -116,6 +119,10 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   assert.match(css, /\.story-frame\.is-battling \.battle-choice-panel \{[\s\S]*?right: 5vw;[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);
   assert.match(css, /\.story-frame\.is-battling \.vn-battle-actor \{[\s\S]*?left: 3vw;/);
   assert.match(css, /@keyframes vn-battle-recoil/);
+  assert.match(css, /@keyframes vn-battle-defeated[\s\S]*?opacity:\s*0;[\s\S]*?transform:/);
+  assert.match(css, /\.vn-battle-actor-layer\.is-defeated \.vn-battle-actor/);
+  assert.match(css, /prefers-reduced-motion:[\s\S]*?vn-battle-defeated-reduced/);
+  assert.doesNotMatch(game, /const savers: Record<PersonalityId, string>/);
   assert.match(css, /battle remains inside the visual-novel stage/);
 });
 

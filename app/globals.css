@@ -62,6 +62,19 @@ body {
   48% { transform: translateX(-.45rem); }
 }
 
+@keyframes vn-battle-defeated {
+  0% { opacity: 1; transform: translate3d(0, 0, 0); }
+  14% { transform: translate3d(.75rem, 0, 0); }
+  28% { transform: translate3d(-.55rem, 0, 0); }
+  42% { opacity: 1; transform: translate3d(.3rem, 0, 0); }
+  55% { transform: translate3d(0, 0, 0); }
+  100% { opacity: 0; transform: translate3d(0, 1.5rem, 0) scale(.98); }
+}
+
+@keyframes vn-battle-defeated-reduced {
+  to { opacity: 0; transform: none; }
+}
+
 @media (min-width: 60rem),
   (orientation: landscape) and (max-width: 59.99rem) {
   .vn-quick-menu {
@@ -115,6 +128,12 @@ body {
 
   .vn-battle-actor-layer.is-reacting .vn-battle-actor {
     animation: vn-battle-recoil 440ms var(--ease-out) both;
+  }
+
+  .vn-battle-actor-layer.is-defeated .vn-battle-actor {
+    right: auto;
+    left: 3vw;
+    animation: vn-battle-defeated 760ms var(--ease-in-out) both;
   }
 
   .vn-battle-nameplate {
@@ -482,10 +501,18 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .vn-battle-actor,
   .vn-battle-actor-layer.is-reacting .vn-battle-actor { animation: none !important; }
+
+  .vn-battle-actor-layer.is-defeated .vn-battle-actor {
+    animation: vn-battle-defeated-reduced 150ms var(--ease-in) both !important;
+  }
 }
 
 html[data-reduce-motion="true"] .vn-battle-actor,
 html[data-reduce-motion="true"] .vn-battle-actor-layer.is-reacting .vn-battle-actor { animation: none !important; }
+
+html[data-reduce-motion="true"] .vn-battle-actor-layer.is-defeated .vn-battle-actor {
+  animation: vn-battle-defeated-reduced 150ms var(--ease-in) both !important;
+}
 
 * { box-sizing: border-box; }
 
@@ -3981,10 +4008,14 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   .story-frame.is-battling .battle-choice-button > em {
     align-self: center;
     flex: 0 0 auto;
-    color: var(--color-danger);
+    color: var(--color-vn-rule);
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-style: normal;
+  }
+
+  .story-frame.is-battling .battle-choice-button > em.is-insufficient {
+    color: var(--color-danger);
   }
 
   .story-frame.is-battling .vn-battle-actor {
@@ -4129,6 +4160,11 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     right: auto;
     left: max(var(--space-3), env(safe-area-inset-left));
     padding: var(--space-2) var(--space-3);
+  }
+
+  .vn-battle-actor-layer.is-defeated .vn-battle-actor {
+    left: max(var(--space-2), env(safe-area-inset-left));
+    width: 36vw;
   }
 
   .story-frame.is-battling .vn-battle-nameplate span {

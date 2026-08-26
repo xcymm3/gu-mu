@@ -7,6 +7,7 @@ import { XueGuYinMark } from "@/components/XueGuYinMark";
 import { useVisualNovelAudio, type VisualNovelAudioEngine } from "@/features/xue-gu-yin/audio/VisualNovelAudio";
 import { getVisualAsset, visualAssetManifest, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
 import { defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile, type AudioAssetKey, type AudioSettings, type SfxAssetKey } from "@/lib/xue-gu-yin/audio";
+import { actionCost } from "@/lib/xue-gu-yin/combat";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey, type BacklogEntry } from "@/lib/xue-gu-yin/reading";
 import { releaseMeta } from "@/lib/xue-gu-yin/release";
 import { createSaveSlot, emptySaveSlots, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT, type SaveSlot, type SaveSlots } from "@/lib/xue-gu-yin/save";
@@ -19,7 +20,6 @@ import {
   getEnemyCondition,
   getRole,
   initialGame,
-  resolveDominantPersonalities,
   resolveBattleTurn,
   resolveEnding,
   resolveRandomChoice,
@@ -32,7 +32,6 @@ import {
   type Choice,
   type GameState,
   type GuAction,
-  type PersonalityId,
   type PresentedCharacter,
   type RoleId,
   type SceneBeat,
@@ -286,22 +285,22 @@ const battleActorAssets = {
   "苏衍": { asset: "character.su-yan.awakened", label: "苏衍" },
 } as const;
 
-function BattleStageActor({ enemyCondition, enemyName, reacting }: { enemyCondition: string; enemyName: string; reacting: boolean }) {
+function BattleStageActor({ defeated, enemyCondition, enemyName, reacting }: { defeated: boolean; enemyCondition: string; enemyName: string; reacting: boolean }) {
   const actor = battleActorAssets[enemyName as keyof typeof battleActorAssets];
   const asset = actor ? getVisualAsset(actor.asset) : null;
   const construct = enemyName.includes("傀儡");
   const conditionTone = enemyCondition === "健康" ? "is-healthy" : enemyCondition === "重伤" ? "is-critical" : "is-wounded";
-  return <div className={`vn-battle-actor-layer${reacting ? " is-reacting" : ""}`} aria-hidden="true">
+  return <div className={`vn-battle-actor-layer${reacting ? " is-reacting" : ""}${defeated ? " is-defeated" : ""}`} aria-hidden="true">
     <div className={`vn-battle-actor${construct ? " is-construct" : " is-cultivator"}`} data-enemy={enemyName}>
       {asset?.kind === "image"
         ? <CharacterImage label={actor.label} src={asset.src} />
         : <div className="vn-battle-construct"><i /><i /><i /><span /></div>}
     </div>
-    <p className={`vn-battle-nameplate ${conditionTone}`}><span>{enemyName}</span><strong><small>状态</small>{enemyCondition}</strong></p>
+    {!defeated ? <p className={`vn-battle-nameplate ${conditionTone}`}><span>{enemyName}</span><strong><small>状态</small>{enemyCondition}</strong></p> : null}
   </div>;
 }
 
-function VisualNovelStage({ activeSpeaker, background, battleActor, characters, effects, effectToken }: { activeSpeaker: string; background: BackgroundAssetKey; battleActor?: { enemyCondition: string; enemyName: string; reacting: boolean }; characters: PresentedCharacter[]; effects: StageEffect[]; effectToken: string }) {
+function VisualNovelStage({ activeSpeaker, background, battleActor, characters, effects, effectToken }: { activeSpeaker: string; background: BackgroundAssetKey; battleActor?: { defeated: boolean; enemyCondition: string; enemyName: string; reacting: boolean }; characters: PresentedCharacter[]; effects: StageEffect[]; effectToken: string }) {
   const asset = getVisualAsset(background);
   return <>
     <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} key={background} role="img" aria-label={asset.alt}>
@@ -395,14 +394,14 @@ function buildBattleResultText(game: GameState, won: boolean): string {
       : `的身躯轰然倒下，溅起满地尘埃，再无半点动静。`;
     return `你缓缓收势站定，胸口剧烈起伏，掌心沉浮的真元余温尚未散去。${enemyName}${corpse}四下里顿时陷入一片死寂，唯余你沉重的喘息声在耳畔回荡。这一战，终究是你笑到了最后。`;
   }
-  const dominant = resolveDominantPersonalities(game.personality)[0];
-  const savers: Record<PersonalityId, string> = {
-    power: `就在${enemyName}那足以致命的攻势即将把你吞没的刹那，一道残影横插而入——赵黎面无表情地大袖一挥，狂暴的血影翻涌而出，那记致命杀招顿时如泥牛入海般消弭无形。他负手而立，头也不回，语气依旧阴鸷而漫不经心：“小子，若死在这种破铜烂铁手里，太便宜你了。”`,
-    compassion: `就在${enemyName}的攻势即将把你吞没的刹那，一道清冷剑芒掠过！纪清寒横剑伫立在你身前，硬生生接下了这万钧一击。寒铁长剑嗡鸣震颤，她纤细的虎口崩裂出血痕，却连眉头都不曾皱上一皱，只头也不回地低声道：“退后，交给我。”`,
-    insight: `就在那股狂暴劲力即将碾碎你的瞬息，苏莹不知从哪迸发出一股巨力，发疯般将你狠狠推开！她自己却被${enemyName}的余劲扫中，娇躯倒飞而出，唇角溢出一缕鲜血。然而她顾不得伤势，只定定地凝望着你，确认你平安无事后才松了口气。`,
-    scheme: `就在${enemyName}的铁拳即将落下之际，薛逢忽然尖声喝破机关活线的位置。你顺势拧身避过致命一击，他却已经退回阴影里，脸上挂着算计得逞般的讨好笑容：“道友若死了，薛某后面的买卖可就没人照应了。”`,
+  const defeatText: Record<string, string> = {
+    铜皮傀儡: "铜皮傀儡的铁臂砸穿护体蛊息，你的本命蛊在识海中发出最后一声哀鸣。墓砖贴上脸侧时，你已经无法再聚起半缕真元。沉重脚步停在身前，下一击彻底吞没了视野。",
+    血傀儡: "血傀儡的重拳碾碎最后一层蛊甲。血池里的祭纹沿着你的伤口逐一点亮，气血与真元被拖向墓室深处；你试图撑起身体，指尖却再也没有回应。",
+    赵黎: "赵黎掌中的血线贯入你的蛊种，反噬顷刻蔓过全身。旧玉从指间滑落，你听见它在石地上碎裂，却已没有力气回头。",
+    乔无咎: "牵机丝从四面收紧，将你的经脉与本命蛊一并锁死。乔无咎没有再靠近，只轻轻拨动阵枢；脚下墓砖随即裂开，你被傀儡拖入无光的血池。",
+    苏衍: "五转威压压碎你最后的蛊息。血池倒卷而来，周身气血沿祭纹离体而去；黑石棺中传出重新变得有力的心跳，而你的意识沉入死寂。",
   };
-  return savers[dominant];
+  return defeatText[enemyName] ?? `${enemyName}击溃了你最后的护体蛊息。真元散尽，意识也随墓室里摇晃的灯火一同熄灭。`;
 }
 
 export function XueGuYinGame() {
@@ -775,7 +774,8 @@ export function XueGuYinGame() {
         <VisualNovelStage
           activeSpeaker={speaker}
           background={stageBackground}
-          battleActor={battle && !battleResult ? {
+          battleActor={battle && (!battleResult || battleResult.won) ? {
+            defeated: Boolean(battleResult?.won),
             enemyCondition: battleFeedback?.enemyCondition ?? getEnemyCondition(battle.enemyHealth, battle.enemyMaxHealth),
             enemyName: battle.enemyName,
             reacting: Boolean(combatEffect),
@@ -1039,7 +1039,6 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
   const guActions: { id: GuAction; name: string; description: string }[] = game.essence === 0
     ? [{ id: "rest" as const, name: "调息", description: "收束真元，调息回气。" }]
     : [attackAction, defenseAction, signatureAction, ...bloodDemonAction];
-  const actionCosts: Record<GuAction, number> = { blood: 1, armor: 1, blooddemon: 2, rest: 0, heal: 2, sword: 4, charm: 3 };
   const enemyCue = enemyCueFor(battle);
   const narration = battleFeedback ? [battleFeedback.result, battleFeedback.nextCue].filter(Boolean) as string[] : [enemyCue];
   const narrationKey = narration.join("|");
@@ -1057,9 +1056,10 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
     </section>
     <nav className="choice-panel battle-choice-panel" aria-label="选择本回合蛊术">
       {guActions.map((action) => {
-        const cost = actionCosts[action.id];
+        const cost = actionCost(action.id);
         const lacksEssence = game.essence < cost;
-        return <button className="choice-button battle-choice-button" key={action.id} disabled={lacksEssence} aria-label={`${action.name}，${action.description}${lacksEssence ? "，当前真元不足" : ""}`} onClick={() => onAction(action.id)}><span><strong>{action.name}</strong><small>{action.description}</small></span>{lacksEssence ? <em>真元不足</em> : null}</button>;
+        const resourceText = action.id === "rest" ? "恢复 3 真元" : lacksEssence ? `真元不足 · 需 ${cost}` : `消耗 ${cost} 真元`;
+        return <button className="choice-button battle-choice-button" key={action.id} disabled={lacksEssence} aria-label={`${action.name}，${action.description}，${resourceText}`} onClick={() => onAction(action.id)}><span><strong>{action.name}</strong><small>{action.description}</small></span><em className={lacksEssence ? "is-insufficient" : ""}>{resourceText}</em></button>;
       })}
     </nav>
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>

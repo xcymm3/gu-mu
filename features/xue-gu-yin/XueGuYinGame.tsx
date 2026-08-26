@@ -830,7 +830,7 @@ export function XueGuYinGame() {
         </div>
         <VisualNovelLedger title={battle ? battle.enemyName : scene.title} />
         </div>
-        <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} skipMode={skipMode} />
+        <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} onSkip={() => setSkipMode((current) => !current)} skipMode={skipMode} />
         {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
         {showBacklog ? <BacklogOverlay entries={backlog} onClose={() => setShowBacklog(false)} /> : null}
@@ -893,7 +893,7 @@ function ReadingController({ autoMode, canAdvance, currentRead, onAdvance, onAut
   return null;
 }
 
-function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide, onQuickLoad, onQuickSave, skipMode }: {
+function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide, onQuickLoad, onQuickSave, onSkip, skipMode }: {
   autoMode: boolean;
   canQuickLoad: boolean;
   disabled: boolean;
@@ -902,12 +902,13 @@ function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide
   onHide: () => void;
   onQuickLoad: () => void;
   onQuickSave: () => void;
+  onSkip: () => void;
   skipMode: boolean;
 }) {
   return <nav className="vn-quick-menu" aria-label="阅读快捷菜单">
     <button type="button" onClick={onBacklog}>历史 <kbd>B</kbd></button>
     <button aria-pressed={autoMode} className={autoMode ? "is-active" : ""} disabled={disabled} type="button" onClick={onAuto}>自动 <kbd>A</kbd></button>
-    <span className={skipMode ? "is-active" : ""}>快进 <kbd>Ctrl</kbd></span>
+    <button aria-pressed={skipMode} className={skipMode ? "is-active" : ""} disabled={disabled} type="button" onClick={onSkip}>快进 <kbd>Ctrl</kbd></button>
     <button type="button" onClick={onQuickSave}>快存 <kbd>Q</kbd></button>
     <button disabled={!canQuickLoad} type="button" onClick={onQuickLoad}>快读 <kbd>L</kbd></button>
     <button type="button" onClick={onHide}>隐藏 <kbd>H</kbd></button>

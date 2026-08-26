@@ -4160,6 +4160,21 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
       calc(var(--space-8) + var(--space-6)),
       calc(env(safe-area-inset-bottom) + var(--space-8) + var(--space-5))
     );
+    --vn-character-top-clearance: max(
+      var(--space-10),
+      calc(env(safe-area-inset-top) + var(--space-6))
+    );
+  }
+
+  .menu-character {
+    bottom: -5dvh;
+    height: calc(100dvh - max(var(--space-4), env(safe-area-inset-top)));
+  }
+
+  .vn-character-slot,
+  .story-frame.is-battling .vn-battle-actor {
+    bottom: -4dvh;
+    height: min(76dvh, calc(100dvh - var(--vn-character-top-clearance)));
   }
 
   .vn-quick-menu {

@@ -141,13 +141,16 @@ test("快捷功能栏始终占用独立底部安全区", () => {
   assert.match(css, /\.story-frame\.is-battling \.vn-story-core \.battle-scene\s*\{[\s\S]*?bottom:\s*var\(--vn-utility-clearance\)/);
 });
 
-test("手机端可点按切换快进且立绘避开顶部安全区", () => {
+test("手机端可点按高速快进全部剧情且立绘避开顶部安全区", () => {
   const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
 
   assert.match(game, /onSkip=\{\(\) => setSkipMode\(\(current\) => !current\)\}/);
   assert.match(game, /<button aria-pressed=\{skipMode\}[\s\S]*?onClick=\{onSkip\}>快进/);
   assert.doesNotMatch(game, /<span className=\{skipMode \? "is-active" : ""\}>快进/);
+  assert.match(game, /if \(!canAdvance \|\| \(!autoMode && !skipMode\)\) return;/);
+  assert.match(game, /const delay = skipMode \? 90 : autoAdvanceDelay\(text\);/);
+  assert.doesNotMatch(game, /currentRead/);
   assert.match(css, /--vn-character-top-clearance:[\s\S]*?env\(safe-area-inset-top\)/);
   assert.match(css, /\.vn-character-slot,[\s\S]*?height:\s*min\(76dvh, calc\(100dvh - var\(--vn-character-top-clearance\)\)\)/);
 });

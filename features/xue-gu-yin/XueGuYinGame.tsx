@@ -742,7 +742,6 @@ export function XueGuYinGame() {
       <ReadingController
         autoMode={autoMode}
         canAdvance={readingModeAllowed && canAdvanceReading}
-        currentRead={readFrames.includes(currentFrameKey)}
         onAdvance={advanceInteraction}
         onAuto={() => setAutoMode((current) => !current)}
         onBacklog={() => showBacklog ? setShowBacklog(false) : openBacklog()}
@@ -839,10 +838,9 @@ export function XueGuYinGame() {
   );
 }
 
-function ReadingController({ autoMode, canAdvance, currentRead, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip, skipMode, text }: {
+function ReadingController({ autoMode, canAdvance, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip, skipMode, text }: {
   autoMode: boolean;
   canAdvance: boolean;
-  currentRead: boolean;
   onAdvance: () => void;
   onAuto: () => void;
   onBacklog: () => void;
@@ -884,11 +882,11 @@ function ReadingController({ autoMode, canAdvance, currentRead, onAdvance, onAut
   }, [onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip]);
 
   useEffect(() => {
-    if (!canAdvance || (!autoMode && !(skipMode && currentRead))) return;
-    const delay = skipMode && currentRead ? 110 : autoAdvanceDelay(text);
+    if (!canAdvance || (!autoMode && !skipMode)) return;
+    const delay = skipMode ? 90 : autoAdvanceDelay(text);
     const timer = window.setTimeout(onAdvance, delay);
     return () => window.clearTimeout(timer);
-  }, [autoMode, canAdvance, currentRead, onAdvance, skipMode, text]);
+  }, [autoMode, canAdvance, onAdvance, skipMode, text]);
 
   return null;
 }

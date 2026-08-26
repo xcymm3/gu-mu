@@ -133,7 +133,14 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     assert.ok(presentation.events.some((event) => event.type === "dialogue"));
     assert.ok(presentation.events.some((event) => event.type === "choice"));
   }
-  assert.ok(resolveScenePresentation(chooseRole(), scenes.gate).text.includes("诸位道友，此地荒原之下"));
+  const gate = resolveScenePresentation(chooseRole(), scenes.gate);
+  assert.ok(gate.text.includes("黑风呼啸，暴雨倾盆"));
+  assert.ok(gate.text.includes("老夫耗费数载方才查实"));
+  assert.ok(!gate.text.includes("**"));
+  assert.deepEqual(gate.choices.map((choice) => choice.label), [
+    "落后赵黎半步进入石门，暗中观察其血纹蛊",
+    "按紧发烫的旧玉，静待墓门蛊纹下一次微光闪烁",
+  ]);
 });
 
 test("战斗节点会生成结构化 battle 事件而不改变战斗配置", () => {

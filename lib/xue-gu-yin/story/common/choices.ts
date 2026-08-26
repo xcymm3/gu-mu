@@ -5,14 +5,14 @@ import { actThreeRouteEntries } from "../routes/contract.ts";
 export const gateChoices: Choice[] = [
   {
     id: "gate-power",
-    label: "靠近赵黎半步，看清他如何收住血纹蛊",
+    label: "落后赵黎半步进入石门，暗中观察其血纹蛊",
     next: "rainMark",
     result: "赵黎指间的血纹蛊只显露了片刻威势，你却把真元流转的轨迹牢牢记下。五转遗藏尚未露面，眼前这名邪修的手段已经值得一观。",
     effect: { personality: { power: 1 } },
   },
   {
     id: "gate-insight",
-    label: "按住发烫的旧玉，等墓门蛊纹再亮一次",
+    label: "按紧发烫的旧玉，静待墓门蛊纹下一次微光闪烁",
     next: "rainMark",
     result: "旧玉的热意与墓门蛊纹遥相呼应，苏莹的指尖也在同一刻停顿。你没有声张，只把两处异常一并记在心里。",
     effect: { personality: { insight: 1 } },

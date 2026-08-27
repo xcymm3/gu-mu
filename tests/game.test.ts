@@ -659,11 +659,11 @@ test("观察苏莹挑蛊后随机获得一种蛊（血甲蛊或血刃蛊），re
   const armor = resolveRandomChoice(choice, () => 0);
   assert.ok(armor.effect?.flags?.includes("血甲蛊"));
   assert.deepEqual(armor.effect?.flags, ["血甲蛊"]);
-  assert.ok(armor.result?.includes("甲纹森森"));
+  assert.ok(armor.result?.includes("甲纹蛊卵却仍在轻轻震动"));
   // roll 接近 1 → 血刃蛊
   const blade = resolveRandomChoice(choice, () => 0.99);
   assert.ok(blade.effect?.flags?.includes("血刃蛊"));
-  assert.ok(blade.result?.includes("血芒吞吐"));
+  assert.ok(blade.result?.includes("血纹蛊卵内部却传出一声清晰的裂响"));
   // 应用后状态只携带实际取得的随机蛊 flag
   const next = applyChoice(chooseRole(), armor);
   assert.ok(next.flags.includes("血甲蛊") || next.flags.includes("血刃蛊"));

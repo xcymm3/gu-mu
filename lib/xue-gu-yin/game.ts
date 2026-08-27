@@ -39,10 +39,10 @@ export function resolveRandomChoice(choice: Choice, roll: () => number = Math.ra
   const effect = choice.effect;
   if (!effect?.randomFlags?.length) return choice;
   const flag = effect.randomFlags[Math.min(effect.randomFlags.length - 1, Math.floor(roll() * effect.randomFlags.length))];
-  const picked = "你没有碰石龛，只朝苏莹让开一步。她怔了怔，随后走到五只蛊卵前，指尖依次掠过卵壳。最边缘那枚黑斑蛊卵轻轻一颤，她便将它收进怀里。";
+  const picked = "你收回探向石龛的手，侧身给苏莹让出位置。\n\n苏莹微微一怔，抬头看了你一眼。见你没有改变主意，她才走到那枚黑斑蛊卵前。\n\n她并未贸然注入真元，而是伸出手指，沿着石龛边缘的残缺阵纹依次轻触。几息之后，苏莹低声念出数个晦涩音节。黑斑蛊卵内部原本杂乱的摩擦声逐渐平息，卵壳上的斑纹也随之收缩。\n\n苏莹小心地将蛊卵收入怀中。\n\n你记下了她触碰阵纹的顺序，也终于看出石龛中的蛊卵并非自行选择主人。真正产生反应的，是石龛下方尚未完全失效的残阵。它会根据靠近者的气息，唤醒其能够承受的蛊卵。\n\n黑斑蛊卵离开石龛后，残阵顿时变得极不稳定。所剩药力已不足以同时维持另外两枚蛊卵，甲纹与血纹之间只能有一枚继续保持生机。\n\n";
   const result = flag === "血甲蛊"
-    ? `${picked}剩下的蛊卵中，甲纹森森的那枚自行滚到你手边。你将血甲蛊收入蛊囊，苏莹这才低声说了句“多谢”。`
-    : `${picked}剩下的蛊卵中，血芒吞吐的那枚自行滚到你手边。你将血刃蛊收入蛊囊，苏莹这才低声说了句“多谢”。`;
+    ? `${picked}血纹蛊卵表面的暗红光芒迅速熄灭，甲纹蛊卵却仍在轻轻震动。\n\n你赶在残阵彻底消散前将其取出。卵壳沿着甲纹裂开，一只背甲暗红的血甲蛊从碎壳中爬出，顺着你的手臂进入蛊囊。\n\n苏莹收好黑斑蛊卵，低声向你道了一句谢。`
+    : `${picked}甲纹蛊卵很快变得灰暗，血纹蛊卵内部却传出一声清晰的裂响。\n\n你抬手将其接住。一只薄翼如刃的血色蛊虫破壳而出，在昏暗的火光下绕行一周，随后落入你的蛊囊。\n\n苏莹收好黑斑蛊卵，低声向你道了一句谢。`;
   return { ...choice, result, effect: { ...effect, flags: [...(effect.flags ?? []), flag] } };
 }
 /** @deprecated 新界面应读取 resolveScenePresentation；保留该门面以兼容旧调用。 */

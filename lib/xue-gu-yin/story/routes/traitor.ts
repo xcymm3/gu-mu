@@ -118,7 +118,13 @@ const traitorBloodTakenEvents: VisualNovelEvent[] = [
 
 const traitorDiscardedEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-ruin", transition: "fade" },
-  { type: "narration", text: "乔无咎倒下前抓住你的衣角，仍命令你替他拖住赵黎。你踢开这枚已经无用的棋子，想用密道独自逃生；然而薛逢死后，最后一条真正通往墓外的退路也随他埋进了无人知晓的石缝。" },
+  { type: "narration", text: "维护夹道一路向外抬升，尽头仍是先前的检修龛与伪墙。你以副印依次触碰沿途凹槽，暂缓几段翻板，重新回到外围机关区。副印对这些门栓仍有反应，却无法触及苏氏祖阵的旧路。" },
+  { type: "narration", text: "机关轮次已经改变。原先通往大雾石厅的道路被重新分隔，外侧墙面只剩一座总枢。总枢上排着五处门位，旁边另有一道副印槽；必须依照正确次序转动门位，才能把外围通路接向墓门方向。" },
+  { type: "narration", text: "门位附近的刻字早已磨损，只留下深浅不一的转动痕迹。乔无咎的兽皮残图仍在内层控制室，薛逢临死前也没有说出这套次序。副印只能压住总枢，使门位暂时可动，无法告诉你该先转哪一处。" },
+  { type: "narration", text: "你依据磨痕、牵机丝张力与入墓时记下的方向接连试过几组。每转动一次，墙内便有数根细线发出明显震动，片刻后又回到原位。错误组合或是只打开一段维护小道，或是让远处某扇石门响过便再无动静。" },
+  { type: "narration", text: "血池回弹的新线已经与外围牵机丝缠在一处，这些震动也沿石壁传向内层。远处渐渐响起脚步，间或夹着血纹蛊口器触碰石面的轻响。赵黎尚未现身，却正循着一次次试门留下的动静接近总枢。" },
+  { type: "narration", text: "袖中旧玉仍在发热，热意指向的却是身后祖阵与血池深处。你换过几个方向，玉上的律动始终不变，对墓门所在没有半点提示。" },
+  { type: "narration", text: "五处门位只剩最后一组未曾尝试。身后的脚步已经越过上一道伪墙，留给你的时间只够再转动一次总枢。" },
 ];
 
 const traitorDeathEvents: VisualNovelEvent[] = [
@@ -235,7 +241,15 @@ export const traitorActFourScenes: Record<string, Scene> = {
 };
 
 export const traitorActFiveScenes: Record<string, Scene> = {
-  traitorDiscarded: { id: "traitorDiscarded", act: 5, node: 1, chapter: "第五幕 · 乔无咎线 · 节点 1 / 2", title: "弃子无路", events: traitorDiscardedEvents, choices: [{ id: "traitor-last-door", label: "推开最后一道石门", next: "traitorDeath", result: "石门之后没有出口，只有追来的血光。" }] },
+  traitorDiscarded: {
+    id: "traitorDiscarded", act: 5, node: 1, chapter: "第五幕 · 乔无咎线 · 节点 1 / 2", title: "副印止步", events: traitorDiscardedEvents,
+    choices: [{
+      id: "traitor-last-door",
+      label: "以副印压住总枢，转动最后一组门位",
+      next: "traitorDeath",
+      result: "你将副印压入总枢，依次转过最后一组门位。墙内传来连续的卡齿声，一扇石门终于向侧方退开。门后没有通往地面的长阶，只有一间勉强容人转身的缓冲室；对面那道石门平整无缝，看不见任何内侧机括。\n\n脚步声已到上一处转角。你拔出副印，石门随即开始回落，只得在缝隙闭合前闪身进入缓冲室。身后的门彻底合拢，室内既没有副印槽，也没有可供拨动的门位。副印仍在手中，却已无处可用。\n\n片刻之后，追来的脚步停在门外。",
+    }],
+  },
   traitorDeath: { id: "traitorDeath", act: 5, node: 2, chapter: "第五幕 · 乔无咎线 · 节点 2 / 2", title: "为虎所噬", events: traitorDeathEvents, choices: [{ id: "traitor-end", label: "在血光中闭眼", next: "ending", result: "你最终成为赵黎炼化血魔蛊的最后一份血食。", effect: { ending: "traitor" } }] },
 };
 

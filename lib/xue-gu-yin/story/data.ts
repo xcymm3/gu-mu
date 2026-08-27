@@ -102,7 +102,7 @@ export const endings: Record<string, Ending> = {
   deathByQiao: { id: "deathByQiao", name: "命丧执棋者", epitaph: "机关尽出，牵丝锁魂。", text: "乔无咎发动整座蛊墓的机关。你避开了第一重埋伏，却最终被无数傀儡拖入血池，成为他自以为能够掌控的最后一份血食。", background: "background.control-room" },
   deathByBloodGuard: { id: "deathByBloodGuard", name: "命丧守墓傀儡", epitaph: "未见五转蛊，先成池中血。", text: "守墓傀儡的重拳砸碎了你最后的防御。墓道深处的五转蛊仍在跳动，而你的气血已经沿祭纹汇入它尚未睁开的复眼。", background: "background.blood-chamber" },
   trapped: { id: "trapped", name: "困于蛊墓", epitaph: "迟疑太久，墓门已合。", text: "你们在机关与伤势中耗尽时间。血雾封死所有退路，墓门外的夜雨仍在下，却再也落不到你身上。", background: "background.fog-passage" },
-  traitor: { id: "traitor", name: "叛徒", epitaph: "为虎作伥，终被虎噬。", text: "你为虎作伥，助乔无咎杀尽同伴，却先被乔无咎弃子，再死于化魔的赵黎之手。连“背叛”都没能救你的命。", background: "background.control-room" },
+  traitor: { id: "traitor", name: "副印止步", epitaph: "副印能开外门，却认不得归途。", text: "你杀死薛逢夺取副印，又借乔无咎的机关困住纪清寒、利用苏莹的血钥印记。血池失控后，你独自撤回外围，却因缺少门位次序被困在缓冲室，最终被循牵机反馈追来的赵黎用作稳定血魔蛊反噬的活气。", background: "background.control-room" },
 };
 
 const allEndingIds = Object.keys(endings);

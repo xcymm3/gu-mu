@@ -130,8 +130,11 @@ const traitorDiscardedEvents: VisualNovelEvent[] = [
 const traitorDeathEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-ruin", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "center", expression: "amused" },
-  { type: "narration", text: "血光从背后贯穿心脉。赵黎甚至没有询问你为何背叛，只把你的气血当作血魔蛊苏醒后的第一份补物。你看破乔无咎的阴谋，杀死薛逢并亲手送走所有可能救你的人，最终仍死在一场不需要你的胜局里。" },
-  { type: "effect", effect: "darken", tone: "danger" },
+  { type: "narration", text: "缓冲室本就是供控制室从外部隔离故障的地方。你沿两侧石壁摸索一遍，既没有副印槽，也找不到暗扣；前后两道门的机括都设在室外，手中副印无法隔着石墙触及。" },
+  { type: "narration", text: "后门外的脚步停了片刻，随后渐渐远去。血纹蛊触碰石面的细响却没有消失，而是沿侧墙向前移动。赵黎没有在原地破门，而是顺着祖阵底层的旧检修支路，绕向缓冲室另一端。那条支路同样不在外围简图之中。" },
+  { type: "narration", text: "十余息后，前门外传来机括回正的轻响。门栓被人从外侧抬起，沉重石门缓缓退开。赵黎出现在门缝之后，手臂与肩侧仍缠着几道从蛊茧牵来的暗红细线，周身气息时稳时乱；他只是暂时接住了供血，尚未令血魔蛊真正认主。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "副印在你手里。右侧回声廊与下方旧侧道，也是你关的？", expression: "amused", position: "center" },
+  { type: "narration", text: "你没有回答。赵黎能循牵机反馈追到此处，已经不需要再听解释。缓冲室狭窄得无法绕行，唯一出口就在他身后；趁石门尚未完全敞开，仍有一次强行冲出的机会。你将真元沉入经脉，暗中催起本命蛊。" },
 ];
 
 export const traitorActThreeScenes: Record<string, Scene> = {
@@ -250,7 +253,16 @@ export const traitorActFiveScenes: Record<string, Scene> = {
       result: "你将副印压入总枢，依次转过最后一组门位。墙内传来连续的卡齿声，一扇石门终于向侧方退开。门后没有通往地面的长阶，只有一间勉强容人转身的缓冲室；对面那道石门平整无缝，看不见任何内侧机括。\n\n脚步声已到上一处转角。你拔出副印，石门随即开始回落，只得在缝隙闭合前闪身进入缓冲室。身后的门彻底合拢，室内既没有副印槽，也没有可供拨动的门位。副印仍在手中，却已无处可用。\n\n片刻之后，追来的脚步停在门外。",
     }],
   },
-  traitorDeath: { id: "traitorDeath", act: 5, node: 2, chapter: "第五幕 · 乔无咎线 · 节点 2 / 2", title: "为虎所噬", events: traitorDeathEvents, choices: [{ id: "traitor-end", label: "在血光中闭眼", next: "ending", result: "你最终成为赵黎炼化血魔蛊的最后一份血食。", effect: { ending: "traitor" } }] },
+  traitorDeath: {
+    id: "traitorDeath", act: 5, node: 2, chapter: "第五幕 · 乔无咎线 · 节点 2 / 2", title: "归途无门", events: traitorDeathEvents,
+    choices: [{
+      id: "traitor-end",
+      label: "催动本命蛊，抢在石门完全开启前突围",
+      next: "ending",
+      result: "你先一步扑向门缝，本命蛊截断最先伸入室内的一根暗红细线。阵光从断处散开，赵黎受牵连退了半步，门外也短暂露出一线空隙。\n\n你正要越过门槛，余下细线已在血纹蛊牵引下从两侧交错而来。缓冲室无处侧移，你只能再次催动本命蛊挡住正面阵线，却无法同时清开门口与身后。赵黎借转来的活气压制自身反噬，缠在他肩侧的细线逐渐稳定；你的气血则被一层层抽离，动作越来越慢。\n\n副印仍握在掌中，本命蛊也没有停止抵抗，但这两样都打不开身后的石门。最后一缕意识沉下去时，前门依旧只开着不足一人宽的缝隙。",
+      effect: { ending: "traitor" },
+    }],
+  },
 };
 
 export const traitorRouteScenes: Record<string, Scene> = { ...traitorActThreeScenes, ...traitorActFourScenes, ...traitorActFiveScenes };

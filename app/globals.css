@@ -2482,6 +2482,25 @@ html[data-reduce-motion="true"] *::after {
   min-height: 0;
 }
 
+.archive-card:not(.save-archive) .ending-list {
+  align-content: start;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--color-rule-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.archive-card:not(.save-archive) .ending-list::-webkit-scrollbar {
+  width: 0.35rem;
+}
+
+.archive-card:not(.save-archive) .ending-list::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-sm);
+  background: var(--color-rule-strong);
+}
+
 .settings-card {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);

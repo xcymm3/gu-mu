@@ -97,6 +97,13 @@ test("手机端使用横屏视觉小说舞台并在竖屏提示旋转", () => {
   assert.match(game, /isCompactLandscape/);
 });
 
+test("主页结局图鉴在固定视口内提供独立纵向滚动", () => {
+  const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
+
+  assert.match(css, /\.archive-card:not\(\.save-archive\) \.ending-list\s*\{[\s\S]*?overflow-y:\s*auto;/);
+  assert.match(css, /\.archive-card:not\(\.save-archive\) \.ending-list::\-webkit-scrollbar-thumb/);
+});
+
 test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");

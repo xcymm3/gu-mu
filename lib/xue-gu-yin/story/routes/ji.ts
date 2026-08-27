@@ -2,10 +2,9 @@ import type { Scene, VisualNovelEvent } from "../../model.ts";
 
 const jiTrailEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
-  { type: "narration", text: "断剑声从陷道下方传来。你跃入黑暗，在纪清寒被机关锁链拖走前抓住她的手。她借你的肩翻身斩断锁链，落地时却把你护在远离暗箭的一侧。" },
+  { type: "narration", text: "你跃入黑暗，一把扣住纪清寒的手腕。两个人的重量同时坠在手臂上，几乎将你整条肩膀扯脱。\\n\\n第二条机关锁链紧随而至，贴着井壁横扫过来。纪清寒听声转身，以剑脊迎上链身。铁链被撞偏数寸，擦着你们头顶砸进石壁，震落大片碎屑。\\n\\n她趁这一瞬反手将长剑刺入井壁石缝。剑锋刮过青石，火星沿着下坠的轨迹一闪而逝，两人的坠势也随之慢了下来。数丈下方恰有一处凸出的检修石台，你借力荡近井壁，与她先后落了上去。\\n\\n双脚踏上石台时，承受了两人重量的剑身终于从中折断。剑尖留在石缝里，纪清寒只来得及收回半截残剑。你落地时用前臂撑住台沿，一块锐利的碎石划破衣袖，血很快洇了出来。\\n\\n纪清寒先抬头确认锁链没有再次落下，随后才看向你的手臂。她从行囊里取出疗伤散和一卷干净的布带，放在身旁的石面上。" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我没有求你下来。", expression: "alert", position: "right" },
-  { type: "narration", text: "她说得冷，握住你手腕查看伤势的动作却很轻。你们都没有再提是谁救了谁，只背靠背等下一轮机关停歇。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "手臂给我看。方才落得太重，经脉受了震，再拖下去，等机关重启，你未必还能稳住蛊。", expression: "alert", position: "right" },
 ];
 
 const jiPromiseEvents: VisualNovelEvent[] = [
@@ -80,7 +79,7 @@ export const jiActThreeScenes: Record<string, Scene> = {
   jiTrail: {
     id: "jiTrail", act: 3, node: 1, chapter: "第三幕 · 纪清寒线 · 节点 1 / 4", title: "断剑回声",
     events: jiTrailEvents,
-    choices: [{ id: "ji-bind-wound", label: "坦然承认伤势，让她替你重新包扎", next: "jiPromise", result: "纪清寒替你压住伤口，动作比语气温和得多。", effect: { maxHealth: 4 } }],
+    choices: [{ id: "ji-bind-wound", label: "坦然承认伤势，让她替你重新包扎", next: "jiPromise", result: "你不再遮掩，卷起被血浸湿的衣袖。纪清寒将疗伤散敷在伤处，又沿着前臂按住几处受震的经脉，这才用布带一圈圈缠紧。\\n\\n“伤口一时好不了。照我按过的次序运转真元，别让气血再冲开布结。”\\n\\n你依言调息，落地时散乱的气机渐渐归于平稳。伤势并未消失，牵动手臂时依旧作痛，但几条相互冲撞的经脉已经重新畅通，往后再遇险境，也能多承受几分冲击。\\n\\n包扎完毕，纪清寒持着残剑守住石台上方。机关转动的声响逐渐远去，你们终于有了片刻喘息。", effect: { maxHealth: 4 } }],
   },
   jiPromise: {
     id: "jiPromise", act: 3, node: 2, chapter: "第三幕 · 纪清寒线 · 节点 2 / 4", title: "未尽之约",

@@ -107,7 +107,13 @@ const traitorZhaoArrivesEvents: VisualNovelEvent[] = [
 
 const traitorBloodTakenEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-ruin", transition: "fade" },
-  { type: "narration", text: "赵黎一击撕开乔无咎准备的认主阵，又以血瓶强行唤醒血魔蛊。乔无咎启动全部傀儡仍被血浪碾碎；你试图逆转血祭，却发现副印从一开始便没有控制真正核心的资格。" },
+  { type: "narration", text: "乔无咎先转动主印，血池周围几根后来添入的细线立即收紧，从左右两侧压向旧检修口。你同时以副印升起外围石板，封住赵黎退向控制室的空隙。两套机关各自推进，试图把他的活动范围压在池边。" },
+  { type: "narration", text: "赵黎没有迎着细线硬闯。他一路循这些新凿线路而来，早已看清它们与祖阵旧纹的交接位置。血纹蛊贴着血气掠向池沿，他本人则侧移数步，隔空击中固定交接处的一枚石扣。" },
+  { type: "narration", text: "石扣碎开，数根新增细线顿时失去约束，沿原路猛然回弹。主台两处线槽被绞在一起，乔无咎双手压住主印，仍试图将它们重新分开；副台上的外围石板也因牵机丝错位，开始断续起落。" },
+  { type: "narration", text: "交接点断开后，原本藏在下方、通往蛊茧的供血细线露了出来。赵黎让血纹蛊附上断口，再将自身血道真元渡入其中。祭阵先前聚集的阵光随之改变去向，经血纹蛊传向池中蛊茧。" },
+  { type: "narration", text: "蛊茧的收缩骤然加快，数道暗红细线从池中抬起，缠向赵黎与血纹蛊。那并非认主完成后的顺从；细线每收紧一次，赵黎周身气息便乱上一分。他只能不断调整血纹蛊的位置，勉强维持这条临时接起的供血路线。" },
+  { type: "narration", text: "乔无咎趁机将主印推向内环槽，想从新断口夺回控制。纠缠在主台上的牵机丝却同时回弹，带动台侧石板骤然翻起。乔无咎被掀倒在地，主印脱出半寸。他撑着台沿试图起身，呼吸尚在，却已无法立即回到原位。" },
+  { type: "narration", text: "你以副印逐道尝试截断供血，回应却都止在祭阵外环。断口之后的蛊茧与祖阵不在副印权限之内。与此同时，错位石板牵动检修夹道的门栓，来时那道窄门正在缓缓合拢。" },
 ];
 
 const traitorDiscardedEvents: VisualNovelEvent[] = [
@@ -217,7 +223,15 @@ export const traitorActFourScenes: Record<string, Scene> = {
       result: "你以副印合拢石盘上仍有刻度的几处外围侧门，乔无咎则用主印关住尚未开启的祭阵内门。沉重门响接连从血池四周传来，已知通路相继闭合。\n\n赵黎已经站在血池之内，身后的旧检修口也没有半点变化。他抬手让血纹蛊飞到身前，自己仍停在原处，注视着主副台即将引动的下一轮机关。",
     }],
   },
-  traitorBloodTaken: { id: "traitorBloodTaken", act: 4, node: 6, chapter: "第四幕 · 乔无咎线 · 节点 6 / 6", title: "血蛊易主", events: traitorBloodTakenEvents, choices: [{ id: "traitor-abandon-qiao", label: "舍弃乔无咎，独自寻找退路", next: "traitorDiscarded", result: "你踢开乔无咎伸来的手，转身冲向薛逢曾提过的密道。" }] },
+  traitorBloodTaken: {
+    id: "traitorBloodTaken", act: 4, node: 6, chapter: "第四幕 · 乔无咎线 · 节点 6 / 6", title: "血蛊易主", events: traitorBloodTakenEvents,
+    choices: [{
+      id: "traitor-abandon-qiao",
+      label: "舍下乔无咎，从检修夹道撤回外围",
+      next: "traitorDiscarded",
+      result: "你从副台取回牵机副印，转身赶向尚未闭合的窄门。乔无咎抬手指向歪斜的主印，嘶声让你将它扶回内环槽；你没有停步，只在经过时避开他伸来的手。\n\n石门落定前，你侧身挤入维护夹道。这里正是先前押着薛逢走过的来路，只能返回外围机关区，从来不是已经查明的墓外出口。身后仍有牵机丝连续回弹，血池方向的争夺也远未停止。",
+    }],
+  },
 };
 
 export const traitorActFiveScenes: Record<string, Scene> = {

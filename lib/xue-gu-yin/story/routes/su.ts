@@ -89,7 +89,12 @@ const suMasterDuelEvents: VisualNovelEvent[] = [
 
 const suCollapseEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-ruin", transition: "fade" },
-  { type: "narration", text: "苏衍死去的瞬间，祖阵失去主人，乔无咎的祭线也随之反噬。血魔蛊尚未完整孵化便在崩塌中碎裂。你从黑棺旁找到通往控制室的旧钥，与苏莹一同打开所有封死的生门。" },
+  { type: "narration", text: "苏衍断气后，黑棺与窄井之间的旧纹一段段熄灭。失去墓主维持，承担石殿重量的祖阵也开始松脱。井壁先传来连续裂响，随后有碎石落入下层，许久才听见回声。" },
+  { type: "narration", text: "战斗中落入苏衍掌心的血魔蛊从他指间爬出，试图沿新凿阵线退回石殿中央。细线此时正在反向收紧，送来的血气也变成向远端回抽。血魔蛊刚爬到棺沿，背部血光便逐渐暗下，最终停在一处断开的线槽旁，再没有振翅。" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+  { type: "narration", text: "苏莹仍按着祖阵主路。旧阵熄灭以后，新凿细线失去约束，纷纷绷向墙内牵机孔。远处控制机关的人还在强行收线，反而使细线切断数处已经开裂的承重阵纹。石殿顶部开始落下石块，血门方向也传来门板错位的摩擦声。" },
+  { type: "narration", text: "黑棺侧面随震动脱落一块薄石板，露出藏在下方的生门总枢。总枢中央嵌着一枚石制转钥，周围刻有五处门位；墓图残角正好记录着开启次序。苏衍在世时，转钥被主纹锁住，如今锁纹已经随他死亡而熄灭。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "只开眼前这道门会快些，其余阵区却仍是死路。照墓图转完五处门位，所有生门才会一同解锁。我压住外圈，你来转钥。", expression: "wary", position: "right" },
 ];
 
 const suAftermathEvents: VisualNovelEvent[] = [
@@ -140,7 +145,7 @@ export const suActFourScenes: Record<string, Scene> = {
     ],
   },
   suMasterDuel: { id: "suMasterDuel", act: 4, node: 5, chapter: "第四幕 · 苏莹线 · 节点 5 / 6", title: "五转墓主", events: suMasterDuelEvents, battle: { enemyName: "苏衍", enemyHealth: 28, victoryNext: "suCollapse", defeatNext: "ending", victoryFlag: "墓主已灭", defeatFlag: "墓主吞尽血食", defeatEnding: "deathByMaster" } },
-  suCollapse: { id: "suCollapse", act: 4, node: 6, chapter: "第四幕 · 苏莹线 · 节点 6 / 6", title: "祖阵崩塌", events: suCollapseEvents, choices: [{ id: "su-open-exits", label: "用旧钥开启全部生门", next: "suAftermath", result: "封闭多年的生门逐一开启，幸存者的呼喊从甬道深处传来。" }] },
+  suCollapse: { id: "suCollapse", act: 4, node: 6, chapter: "第四幕 · 苏莹线 · 节点 6 / 6", title: "祖阵崩塌", events: suCollapseEvents, choices: [{ id: "su-open-exits", label: "取出棺侧总枢石钥，依次开启全部生门", next: "suAftermath", result: "你将石制转钥向外拔出半寸，按照墓图次序依次转过五处门位。每到一位，墓穴不同方向便传来一道沉重门响。新凿细线数次缠上转钥，苏莹以掌心断开的血钥印记压住总枢外圈，使后来添上的细纹无法越过苏氏主路。第四处门位开启时，远处控制室传来一阵急促的机括声。反向绷紧的牵机丝彼此缠结，随后成束断开；墙后之人仍在试图重新合门，却已无法越过解锁的总枢。你将转钥推入第五处门位，五条生路随即依次亮起。石殿中央残余的茧壳被下落石梁压入浅池，新凿阵线也随石面断裂，再不能向血魔蛊供血。黑棺后的侧门完全升起，较为干燥的外层墓道出现在门后，更远处也传来数道幸存者的呼喊。你取下石制转钥，苏莹从总枢上收回手。棺底窄井正在塌陷，你们立即沿新开的生门离开石殿，循着人声接应仍在墓中的同伴。" }] },
 };
 
 export const suActFiveScenes: Record<string, Scene> = {

@@ -55,7 +55,7 @@ const suBloodGateEvents: VisualNovelEvent[] = [
 
 const suBloodGuardEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
-  { type: "narration", text: "黑棺前的守墓血傀儡被血脉唤醒。它不听乔无咎号令，只遵从棺中人的命令。苏莹解读阵纹，为你指出通往棺椁的唯一道路；你必须先从傀儡身上打出一道缺口。" },
+  { type: "narration", text: "血傀儡从半圆旧阵中完全站起，身量接近常人两倍。粗重骨架外覆着早已失去生机的皮肉，左腕拖着一条暗沉锁链，右臂则被炼得格外粗壮。胸骨中央没有心脏，只有一枚拳头大小的暗红血核，正将阵槽送来的血气分往双肩与右膝。\n\n苏莹留在半圆阵线之外，依照棺前残文按住两处旧阵节点，使傀儡无法继续从祖阵抽取更多血气。新凿阵线仍在从远处输送血光，她无法同时切断两套阵纹，也不能让已经醒来的守墓旧物重新伏下。\n\n血傀儡转向你，左腕锁链从石面缓缓抬起。它守住黑棺前唯一的缺口。苏莹看着血光流向，迅速指出双肩、右膝与旧阵相接的位置：“我压住阵路。你截断三处连接，再破胸口血核。”\n\n你停在半圆阵内，血傀儡已经举起锁链。" },
 ];
 
 const suCoffinEvents: VisualNovelEvent[] = [

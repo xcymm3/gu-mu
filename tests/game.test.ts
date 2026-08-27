@@ -101,7 +101,7 @@ test("三种无姓名男性身份沿用原有属性", () => {
   assert.deepEqual([heir.maxHealth, heir.maxEssence], [12, 10]);
 });
 
-test("游方蛊医的结局一览不包含击败苏衍的真结局", () => {
+test("游方蛊医的实际可达结局不包含击败苏衍的真结局", () => {
   assert.equal(endingAccess.healer.includes("true"), false);
   assert.equal(endingAccess.swordsman.includes("true"), true);
   assert.equal(endingAccess.heir.includes("true"), true);

@@ -15,7 +15,6 @@ import {
   applyChoice,
   canChoose,
   chooseRole,
-  endingAccess,
   endings,
   getEnemyCondition,
   getRole,
@@ -410,7 +409,6 @@ export function XueGuYinGame() {
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
   const [saveSlots, setSaveSlots] = useState<SaveSlots>(emptySaveSlots);
   const [homeView, setHomeView] = useState<HomeView>("menu");
-  const [archiveRoleId, setArchiveRoleId] = useState<RoleId>("healer");
   const [reduceMotion, setReduceMotion] = useState(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>("system");
   const [audioSettings, setAudioSettings] = useState<AudioSettings>(defaultAudioSettings);
@@ -628,7 +626,7 @@ export function XueGuYinGame() {
 
 
   if (!role) {
-    if (homeView === "archive") return <EndingArchive archiveRoleId={archiveRoleId} onBack={() => setHomeView("menu")} onSelectRole={setArchiveRoleId} seenEndings={seenEndings} />;
+    if (homeView === "archive") return <EndingArchive onBack={() => setHomeView("menu")} seenEndings={seenEndings} />;
     if (homeView === "saves") return <SaveArchive onBack={() => setHomeView("menu")} onLoad={loadFromSlot} saveSlots={saveSlots} />;
     if (homeView === "settings") return <GameSettings audioSettings={audioSettings} onAudioChange={setAudioSettings} onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
     if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSaves={() => setHomeView("saves")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} saveSlots={saveSlots} unlockedCount={seenEndings.length} />;
@@ -965,17 +963,15 @@ function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () 
   </section></div>;
 }
 
-function EndingArchive({ archiveRoleId, onBack, onSelectRole, seenEndings }: { archiveRoleId: RoleId; onBack: () => void; onSelectRole: (id: RoleId) => void; seenEndings: string[] }) {
-  const availableEndingIds = endingAccess[archiveRoleId];
-  const unlockedForRole = availableEndingIds.filter((id) => seenEndings.includes(id)).length;
+function EndingArchive({ onBack, seenEndings }: { onBack: () => void; seenEndings: string[] }) {
+  const endingEntries = Object.values(endings);
+  const unlockedCount = endingEntries.filter((ending) => seenEndings.includes(ending.id)).length;
   return <main className="game-shell archive-shell"><section className="game-frame archive-card" aria-labelledby="archive-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">命数卷宗</p><h1 id="archive-title">结局一览</h1></div></header>
-    <div className="archive-tabs" role="tablist" aria-label="选择修士">{roles.map((candidate) => <button aria-selected={candidate.id === archiveRoleId} className="archive-tab" key={candidate.id} onClick={() => onSelectRole(candidate.id)} role="tab">{candidate.name}</button>)}</div>
-    <p className="archive-summary"><strong>{unlockedForRole} / {availableEndingIds.length}</strong><span>{roles.find((candidate) => candidate.id === archiveRoleId)?.name}可触及的命数</span></p>
-    <ul className="ending-list">{Object.values(endings).map((ending) => {
-      const reachable = availableEndingIds.includes(ending.id);
+    <p className="archive-summary"><strong>{unlockedCount} / {endingEntries.length}</strong><span>已收录的命数</span></p>
+    <ul className="ending-list">{endingEntries.map((ending) => {
       const unlocked = seenEndings.includes(ending.id);
-      return <li className={`ending-entry${unlocked ? " is-unlocked" : ""}${reachable ? "" : " is-unavailable"}`} key={ending.id}><div><strong>{ending.name}</strong><span>{unlocked ? "已解锁" : reachable ? "尚未解锁" : "此身份无法抵达"}</span></div><p>{unlocked ? ending.epitaph : reachable ? "此命数仍藏在蛊墓深处。" : "换一位修士，才可能走到这里。"}</p></li>;
+      return <li className={`ending-entry${unlocked ? " is-unlocked" : ""}`} key={ending.id}><div><strong>{ending.name}</strong><span>{unlocked ? "已解锁" : "尚未解锁"}</span></div><p>{unlocked ? ending.epitaph : "此命数仍藏在蛊墓深处。"}</p></li>;
     })}</ul>
   </section></main>;
 }

@@ -2478,7 +2478,7 @@ html[data-reduce-motion="true"] *::after {
 /* Archive and settings: header/tab controls are always visible, records scroll beneath them. */
 .archive-card:not(.save-archive) {
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
   min-height: 0;
 }
 

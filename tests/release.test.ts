@@ -25,7 +25,7 @@ test("四条正式分线发布基准路线保持首尾连通", () => {
   assert.deepEqual(validateCanonicalPaths(scenes, probeStates), []);
 });
 
-test("三个身份的结局图鉴没有无效引用", () => {
+test("三个身份的结局可达配置没有无效引用", () => {
   assert.deepEqual(validateEndingAccess(Object.keys(endings), endingAccess), []);
 });
 
@@ -99,9 +99,14 @@ test("手机端使用横屏视觉小说舞台并在竖屏提示旋转", () => {
 
 test("主页结局图鉴在固定视口内提供独立纵向滚动", () => {
   const css = readFileSync(path.join(process.cwd(), "app", "globals.css"), "utf8");
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
 
   assert.match(css, /\.archive-card:not\(\.save-archive\) \.ending-list\s*\{[\s\S]*?overflow-y:\s*auto;/);
   assert.match(css, /\.archive-card:not\(\.save-archive\) \.ending-list::\-webkit-scrollbar-thumb/);
+  assert.doesNotMatch(game, /archiveRoleId|onSelectRole|className="archive-tabs"/);
+  assert.match(game, /const endingEntries = Object\.values\(endings\)/);
+  assert.match(game, /已收录的命数/);
+  assert.doesNotMatch(game, /此身份无法抵达|换一位修士/);
 });
 
 test("分线后使用自然推进且战斗复用视觉小说舞台", () => {

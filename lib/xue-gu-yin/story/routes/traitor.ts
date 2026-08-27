@@ -63,8 +63,13 @@ const traitorControlRoomEvents: VisualNovelEvent[] = [
 const traitorTrapJiEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
-  { type: "narration", text: "纪清寒循着你故意留下的求救信号赶来。她认出你的身影后没有迟疑，直到脚下阵纹亮起，才明白被救之人正是启动机关的人。你按下副印，将她与断剑一同锁入献祭甬道。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "原来你看见了所有陷阱，只是选择让别人踩下去。", expression: "alert", position: "right" },
+  { type: "narration", text: "回声廊内，纪清寒停在半开的外门前。外门之后是一段短直的检修过道，尽头另有一道通往献祭甬道的内门。控制室里的你看不见她，只能从右侧牵机丝停止移动，判断她已经抵达门外。" },
+  { type: "narration", text: "她没有立即进门。先是一枚碎石滚过门槛，在过道中撞了几下；随后一道剑气贴着地面扫过门缝与两侧墙角。她又放开神识，逐寸探查石砖下方的气息。你与乔无咎都没有碰动锁闩，两套机关始终保持原位，这些试探自然引不出任何变化。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "你在里面？", expression: "alert", position: "right" },
+  { type: "narration", text: "她的声音沿传声孔回到控制室。你隔着空心石道答道：“门栓被卡住了。”说完便不再出声，也没有制造新的动静。" },
+  { type: "narration", text: "纪清寒又等了片刻，确认门缝、墙面与脚下都没有自动禁制，这才持剑跨过外门。她每走一步都会停下查探，身形始终侧对来路，只要机关稍有异动便可立即退出。" },
+  { type: "narration", text: "副台上，右侧那组牵机丝先后传来两次极轻的下沉，随后停在外门与内门之间的中段刻度。你无从知道她此刻如何站立，却能确认她已经越过外门，正接近那道所谓卡住的内门。" },
+  { type: "narration", text: "外门归副台控制，内门则连着乔无咎的主印。只有两边同时动作，才能在纪清寒退出以前封住这段过道。乔无咎的手已经扣住主台机括，只等你先拉紧右侧线路。" },
 ];
 
 const traitorSacrificeSuEvents: VisualNovelEvent[] = [
@@ -164,7 +169,15 @@ export const traitorActFourScenes: Record<string, Scene> = {
       result: "你先松开通往外圈的门栓，又将回声廊一侧的暗门推开。门栓依照你的控制故意停顿了一瞬，远处随之传出石门受阻的闷响。\n\n你俯近传声孔，只说了一句：“纪道友，右侧石门卡住了。”\n\n石盘上，右侧那组牵机丝先是骤然停住，许久没有移动。数息以后，细线才带着极轻的震动缓慢偏向回声廊。纪清寒没有贸然赶来，却仍选择走近确认声音的来处。\n\n乔无咎在主台转动主印，开始校准献祭甬道的第一重内门。",
     }],
   },
-  traitorTrapJi: { id: "traitorTrapJi", act: 4, node: 2, chapter: "第四幕 · 乔无咎线 · 节点 2 / 6", title: "断剑入阵", events: traitorTrapJiEvents, choices: [{ id: "traitor-close-ji", label: "合拢献祭甬道", next: "traitorSacrificeSu", result: "石门在纪清寒面前闭合，断剑声被祭阵彻底吞没。" }] },
+  traitorTrapJi: {
+    id: "traitorTrapJi", act: 4, node: 2, chapter: "第四幕 · 乔无咎线 · 节点 2 / 6", title: "双门合困", events: traitorTrapJiEvents,
+    choices: [{
+      id: "traitor-close-ji",
+      label: "待她越过中段，与乔无咎同时合拢前后石门",
+      next: "traitorSacrificeSu",
+      result: "你骤然拉紧副台右侧的牵机丝，外门沿石槽急速落下；同一瞬间，乔无咎转动主印，尽头的内门也向检修过道合拢。\n\n纪清寒察觉机括异动，立即转身后撤，剑光先一步斩向外门。锋刃只在即将闭合的石面上留下一道深痕，她本人则在门前停住，没有受伤，长剑也仍完整握在手中。\n\n前后石门先后落定，将她困在献祭甬道前的隔室。片刻之后，她的声音沿传声孔隐约传回：“方才两次都是你的声音，外门也是你关的。你就在控制室里。”\n\n你没有回答。右侧牵机丝已停在隔室刻度，乔无咎也将内门锁死；在后续祭阵启动以前，她暂时无法离开。",
+    }],
+  },
   traitorSacrificeSu: { id: "traitorSacrificeSu", act: 4, node: 3, chapter: "第四幕 · 乔无咎线 · 节点 3 / 6", title: "血钥献祭", events: traitorSacrificeSuEvents, choices: [{ id: "traitor-send-su", label: "将苏莹送入血祭", next: "traitorQiaoTriumph", result: "苏氏血钥落入阵心，整座蛊墓的血纹同时亮起。" }] },
   traitorQiaoTriumph: {
     id: "traitorQiaoTriumph", act: 4, node: 4, chapter: "第四幕 · 乔无咎线 · 节点 4 / 6", title: "各怀杀心", events: traitorQiaoTriumphEvents,

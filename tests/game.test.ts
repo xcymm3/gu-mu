@@ -140,6 +140,10 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     "落后赵黎半步进入石门，暗中观察其血纹蛊",
     "按紧发烫的旧玉，静待墓门蛊纹下一次微光闪烁",
   ]);
+  const [gatePowerResult, gateInsightResult] = gate.choices.map((choice) => choice.result ?? "");
+  assert.match(gatePowerResult, /少年模样的血修.*本命蛊能压过他一头/s);
+  assert.match(gateInsightResult, /苏莹也在同一时刻察觉到了蛊纹的变化.*眼下还无法判断/s);
+  assert.doesNotMatch(`${gatePowerResult}${gateInsightResult}`, /赵黎指间的血纹蛊只显露了片刻威势|你没有声张，只把两处异常一并记在心里/);
   const rainMark = resolveScenePresentation(chooseRole(), scenes.rainMark);
   assert.ok(rainMark.text.includes("跨过那道幽暗如墨的石门后"));
   assert.ok(!rainMark.text.includes("远超同阶"));

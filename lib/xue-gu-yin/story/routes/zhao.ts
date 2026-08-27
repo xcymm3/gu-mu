@@ -61,7 +61,7 @@ const zhaoAwakeningEvents: VisualNovelEvent[] = [
 
 const zhaoDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
-  { type: "narration", text: "赵黎不再隐藏四转巅峰的修为。血线封住石门，反噬血幕映出你的每一次出手；你袖中的冰寒蛊简则将血气一层层冻住。这一战不为同伴或正邪，只为决定谁有资格成为血魔蛊的新主。" },
+  { type: "narration", text: "环形血池上方，刚刚出茧的血魔蛊仍由数根血丝牵在残茧之间。薄翼偶尔轻颤一下，池中血水便随之荡开一圈细纹。\n\n赵黎沿池沿退至另一侧，直到你们之间隔开十余丈，才将血纹蛊托到掌前。他体内一直压住的真元随之放开，沉重气机贴着池面铺来，显出的正是四转巅峰修为。\n\n血纹蛊振动薄翅，分出数股暗红血线。两股钉入身后的石门与侧壁，将仅有的出口交错封住；余下一缕却伏低贴近地面，借着池中血光掩护，悄然游向你脚边。\n\n你没有去碰尚未认主的血魔蛊，只把冰寒蛊简扣紧在掌心。简中寒意沿指节散开，恰可帮助你分辨周围血气的细微流动。\n\n那缕血线绕过一块碎石，骤然抬起尖端，直刺你小腿经脉。" },
 ];
 
 const zhaoClaimEvents: VisualNovelEvent[] = [

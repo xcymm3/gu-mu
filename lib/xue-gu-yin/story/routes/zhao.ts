@@ -66,7 +66,7 @@ const zhaoDuelEvents: VisualNovelEvent[] = [
 
 const zhaoClaimEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "赵黎的血线终于断裂。你从他掌中夺下血魔蛊，任由猩红蛊纹沿手臂爬向心口。力量涌入经脉的瞬间，你听见乔无咎在控制室里失态怒吼；他精心准备的五转蛊，竟认了另一个主人。" },
+  { type: "narration", text: "你绕过赵黎，沿着环形血池边缘走向中央石台。身后那些封锁出口的血线已经失去牵引，正从石壁上逐根滑落；赵黎仍以一手撑地，没有再驱使血纹蛊。\n\n石台上方，血魔蛊仍被数根残茧血丝吊在半空。你刚踏入三尺之内，那些血丝便骤然绷直，尖端齐齐转向你手腕与颈侧。血魔蛊的复眼也随之张开，口器微微探出。\n\n它感应到的不是主人，只是一具仍有气血可取的活人。\n\n你将冰寒蛊简抵住最靠近的一根血丝，引出一缕寒意。冷意沿着残茧迅速传开，几根血丝的动作顿时慢了下来。你趁机并指斩过，将它们与蛊茧一一震断。\n\n失去支撑的血魔蛊落入掌中。它立即用细足扣住你的指节，口器贴向掌心；一股微弱却蛮横的牵引力随即探入经脉，试图抽走血气。你收紧五指，以真元封住腕脉，才没有让它得逞。\n\n仅凭这次接触，你已经明白了它的用处。此蛊可以夺取对手血气，再将其中一部分反哺蛊主；同样，它对任何近在咫尺的活物都怀有毫无分别的饥渴。\n\n若要动用这份力量，便必须先将这头五转凶物纳入自己的蛊窍。" },
   { type: "effect", effect: "flash", tone: "danger" },
 ];
 
@@ -125,7 +125,7 @@ export const zhaoActFourScenes: Record<string, Scene> = {
     ],
   },
   zhaoDuel: { id: "zhaoDuel", act: 4, node: 4, chapter: "第四幕 · 赵黎线 · 节点 4 / 6", title: "血蛊相争", events: zhaoDuelEvents, battle: { enemyName: "赵黎", enemyHealth: 22, victoryNext: "zhaoClaim", defeatNext: "ending", victoryFlag: "赵黎已败", defeatFlag: "赵黎夺蛊", defeatEnding: "deathByZhao" } },
-  zhaoClaim: { id: "zhaoClaim", act: 4, node: 5, chapter: "第四幕 · 赵黎线 · 节点 5 / 6", title: "血魔认主", events: zhaoClaimEvents, choices: [{ id: "zhao-take-gu", label: "炼化血魔蛊", next: "zhaoQiaoDuel", result: "血魔蛊钻入蛊窍，旧有攻蛊在血光中崩散。", effect: { flag: "血魔蛊" } }] },
+  zhaoClaim: { id: "zhaoClaim", act: 4, node: 5, chapter: "第四幕 · 赵黎线 · 节点 5 / 6", title: "血魔认主", events: zhaoClaimEvents, choices: [{ id: "zhao-take-gu", label: "炼化血魔蛊", next: "zhaoQiaoDuel", result: "你没有松开封住腕脉的真元，反而引出一线蛊息，主动送入血魔蛊体内。\n\n血魔蛊先将这缕蛊息吞得干干净净，随即咬破掌心，带着一点精血钻入你的经脉。它所过之处传来灼热刺痛，最终在蛊窍中伏下。原有几只蛊虫的气息仍各守原处，只是都与这股新来的五转威压拉开了距离。\n\n地面几滴尚未凝固的血液忽然逆势滑动，向你脚边聚来。你立刻收束心神，强行截断血魔蛊向外伸出的牵引。蛊窍中的躁动暂时平息，那股饥渴却没有消失。\n\n几乎同一刻，祭殿深处传来沉重的齿轮咬合声。一道藏在石壁后的机关正在开启。", effect: { flag: "血魔蛊" } }] },
   zhaoQiaoDuel: { id: "zhaoQiaoDuel", act: 4, node: 6, chapter: "第四幕 · 赵黎线 · 节点 6 / 6", title: "执棋者末路", events: zhaoQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "zhaoFall", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },
 };
 

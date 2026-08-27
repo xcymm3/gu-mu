@@ -35,10 +35,12 @@ const suLineageEvents: VisualNovelEvent[] = [
 
 const suThresholdEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
-  { type: "character", action: "show", character: "su-ying", position: "right", expression: "sad" },
-  { type: "narration", text: "血脉禁制解开后，石门露出一道缝隙。门后传来的心跳与苏莹的脉搏逐渐重合；她终于明白，自己既是乔无咎需要的钥匙，也是苏衍等待多年的后人。" },
-  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "我会把门打开，也会亲眼看清祖上留下的究竟是传承，还是一场罪。", expression: "wary", position: "right" },
-  { type: "narration", text: "你与她一同按下血钥。石门开启的瞬间，深处有人缓慢吸了一口气；沉睡多年的墓主，似乎已经知道你们来了。" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+  { type: "narration", text: "石桥尽头的暗红石门没有门环，门心只留着一方掌印。掌印上方刻着两行古字：同脉者入，承蛊者奉主。门侧另有一道与先前旁枢相连的玉槽，桥下缓慢流动的阵光正由此汇入门框。" },
+  { type: "narration", text: "苏莹走近后，门上血纹随她的脉息明灭，却没有立刻向她索取气血。血纹沿掌印向外展开，依次连上“同脉”与“奉主”两行字。若完全照着门上阵路开启，开门之人除了被认作血钥，还会被祖阵记入墓主一侧的承蛊阵位。" },
+  { type: "narration", text: "她将墓图上那句“蛊不可祭，蛊只可承”与门文反复对照，终于看出师父留下的警告所指。所谓传承并非只有一道门，门后还藏着祖阵强加给后人的位置。" },
+  { type: "narration", text: "你检查门侧玉槽，确认它只连接门框外层的稳定阵纹，并不通向掌印中央。旧玉置入其中，可以压住开门时向外收拢的牵引，却无法代替苏莹通过血脉识别，也不能替她决定是否开门。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "我会把门打开。认出我是苏氏后人，是这座阵的事；要不要认里面的人为主，是我的事。", expression: "wary", position: "right" },
 ];
 
 const suBloodGateEvents: VisualNovelEvent[] = [
@@ -107,7 +109,7 @@ export const suActThreeScenes: Record<string, Scene> = {
   suThreshold: {
     id: "suThreshold", act: 3, node: 4, chapter: "第三幕 · 苏莹线 · 节点 4 / 4", title: "血门认主",
     events: suThresholdEvents,
-    choices: [{ id: "su-open-gate", label: "与苏莹共同按下血钥", next: "suBloodGate", result: "血色石门向两侧退开，沉睡者的呼吸从黑暗深处传来。" }],
+    choices: [{ id: "su-open-gate", label: "以旧玉稳住门侧旁枢，让苏莹亲手开启血门", next: "suBloodGate", result: "你将旧玉嵌入门侧玉槽，玉光沿门框外缘铺成一圈稳定的细纹。苏莹确认旁枢没有越过掌印，才将手放入门心。血纹沿她掌缘亮起，依次核验三重石环留下的血钥印记。“同脉者入”四字先行亮起，通往“奉主”二字的阵光却数次被门框支纹截回。苏莹没有向门后行礼，只按照墓图所载的开门次序，逐一按下掌印中的阵点。片刻后，第一行古字隐去，第二行则从中裂开。血门承认了她的血脉，却没能替她定下承蛊阵位。石门在沉重的摩擦声中向两侧退开，门后没有灯火，只有带着陈旧血腥气的冷风涌出。黑暗深处先传来阵枢运转的低响，随后混入一次极长、极缓的吸气声，分不清来自活人，还是某处仍在运转的阵腔。苏莹收回完好无损的手掌，看了一眼门上断开的“奉主”二字：“门开了。里面是谁，进去看过再说。”你取回旧玉，与她一同跨过门槛；身后的血门没有立即闭合。" }],
   },
 };
 

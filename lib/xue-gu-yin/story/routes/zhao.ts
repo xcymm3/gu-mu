@@ -73,8 +73,9 @@ const zhaoClaimEvents: VisualNovelEvent[] = [
 const zhaoQiaoDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "right", expression: "smug" },
-  { type: "narration", text: "乔无咎打开所有暗门，带着傀儡群亲自杀入祭殿。他仍把你当作可回收的祭品，却没有料到血魔蛊每一次撕开他的防御，都会把夺来的气血补回你的身体。" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "那是乔家的蛊！你也配据为己有？", expression: "smug", position: "right" },
+  { type: "narration", text: "祭殿正前方的石壁缓缓退开，露出藏在后方的机关控制室。数以百计的牵机丝从穹顶垂落，分别接入一方布满扳杆与阵盘的石台。\n\n乔无咎就站在石台后。他的灰袍已经被渗入控制室的血气染湿，双手却仍稳稳扣在两处阵枢上。暗门刚一开到容人通过的宽度，他便压下左侧扳杆。两边侧门同时转动，几具铜皮傀儡踏着沉重脚步挡到石台前方。\n\n你蛊窍中的血魔蛊感应到活人气血，立刻躁动起来。你没有任它自行扑出，只收紧蛊息，沿着牵机丝的走向寻找乔无咎与机关之间的主线。\n\n乔无咎看见你的动作，目光在你染血的掌心停了一瞬。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "老夫费尽心力把你们引到这里，不是为了让你摘走最后的果子。蛊留下，你还能死得快些。", expression: "smug", position: "right" },
+  { type: "narration", text: "话音未落，他十指向外一分。控制室内的牵机丝骤然绷紧，细线从石梁与傀儡之间交错压下，连你体内运转的真元也被扯得微微一滞。" },
 ];
 
 const zhaoFallEvents: VisualNovelEvent[] = [

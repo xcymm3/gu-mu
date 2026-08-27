@@ -340,8 +340,10 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
           : `诡异的血幕将你全力的蛊力原样倒卷轰回！胸口如遭万斤重锤轰击，周身经脉剧痛，分明是被自己的杀招所伤，眼前一黑倒飞而出。`
         : enemyName === "赵黎"
           ? `${actionText[action]}赵黎趁你真元运转未定，指尖血线穿过最后一层护体蛊息。你尚未来得及封住经脉，身形已失去支撑。`
+          : enemyName === "乔无咎"
+            ? `${actionText[action]}四周牵机丝趁着蛊息回落一齐收紧，锁住你的关节与经脉。蛊窍中的真元骤然断流，你再也支撑不住身体。`
           : `${actionText[action]}${enemyName}狂暴的攻势如泰山压顶般轰然砸下。你再也无法压制体内翻涌的气血，眼前黑蒙一片，剧痛袭来，身体踉跄着栽倒在地。`
-      : `${actionText[action]}${enemyName === "铜皮傀儡" ? "铜皮傀儡胸前的蛊核骤然暗下，挥到一半的铁拳也停在半空。" : enemyName === "血傀儡" ? "血傀儡胸腔里的血核应声裂开，腕间锁链失去牵引，重重坠回池边。" : enemyName === "赵黎" ? "余劲截断了他指间牵引血纹蛊的主线。血纹蛊失去控制，从半空跌落；赵黎脚步一乱，护体血光也随之散去。" : `${enemyName}的动作猛地一滞，随即轰然倒下，再没有余力还击。`}`,
+      : `${actionText[action]}${enemyName === "铜皮傀儡" ? "铜皮傀儡胸前的蛊核骤然暗下，挥到一半的铁拳也停在半空。" : enemyName === "血傀儡" ? "血傀儡胸腔里的血核应声裂开，腕间锁链失去牵引，重重坠回池边。" : enemyName === "赵黎" ? "余劲截断了他指间牵引血纹蛊的主线。血纹蛊失去控制，从半空跌落；赵黎脚步一乱，护体血光也随之散去。" : enemyName === "乔无咎" ? "余劲斩断了控制台前的主牵机丝。阵枢中蓄积的真元失去去处，沿剩余细线倒冲回去；乔无咎双手脱离扳杆，踉跄撞上身后石台。" : `${enemyName}的动作猛地一滞，随即轰然倒下，再没有余力还击。`}`,
     enemyCondition: after.sceneId === battle.defeatNext ? "你已落败" : enemyName === "赵黎" ? "已落败" : "已伏诛",
     hasEnded: true,
     emphasis: after.sceneId === battle.defeatNext ? "danger" : "success",
@@ -374,6 +376,15 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
       : battle.intent.id.startsWith("thread")
         ? "细血丝贴着你的防守缝隙掠过，带走一线气血后立即缩回赵黎指间。"
         : "赵黎紧随蛊息之后逼近，血掌余劲透过仓促架起的防御，震得你胸中发闷。";
+  const qiaoResponse = immune
+    ? "乔无咎指诀一乱，原本绷紧的牵机丝先后松脱，这一轮机关没能完成合拢。"
+    : defended
+      ? "护体蛊力挡住了迎面压来的机关与傀儡，牵机丝却仍贴着蛊息游走，从经脉中扯去一缕真元。"
+      : battle.intent.id === "wire"
+        ? "牵机丝从两侧擦过身体，细线震入经脉，带走一缕真元后才重新缩回梁间。"
+        : battle.intent.id === "puppets"
+          ? "铜皮傀儡循着主线轮番撞来，沉重拳势逼得你退向控制室边缘，蛊息也被阵枢牵走一缕。"
+          : "塌落的墓砖使你脚下失衡，收束而来的牵机丝趁势抽走更多真元，随后才被你挣断。";
   const enemyResponse = battle.intent.reflect
     ? action === "armor"
         ? `你看出血幕正在借力反噬，并未贸然攻入，只催动护体蛊力守住经脉。幕中血光空自倒卷，始终找不到可以反送的外力。`
@@ -382,6 +393,8 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
       ? `${enemyName}仰头饮下玉瓶中的赤红液体，周身原本萎靡的气血与真元以肉眼可见的速度重新凝实暴涨。`
       : enemyName === "赵黎"
         ? zhaoResponse
+      : enemyName === "乔无咎"
+        ? qiaoResponse
       : immune
         ? `${enemyName}的攻势被扰乱，刚凝成的杀意无声散去。`
         : defended
@@ -413,6 +426,9 @@ function buildBattleResultText(game: GameState, won: boolean): string {
     if (enemyName === "赵黎") {
       return "赵黎退到池沿，单膝抵住石面。他数次勾动手指，跌落在旁的血纹蛊都没有重新飞起，封锁出口的血线也一根根松脱。你没有立即靠近，只隔着尚未散尽的血气确认他已无法再战。环形血池中央，血魔蛊仍由残茧血丝悬在半空，尚未接纳任何人的真元。";
     }
+    if (enemyName === "乔无咎") {
+      return "倒冲的真元穿过乔无咎胸腹，他扶住石台的手很快失去力气，整个人顺着控制台缓缓滑坐在地。你等了片刻，确认他已经断气。失去操纵的傀儡停在原处，牵机丝也从梁间成片垂落；乔无咎的尸身仍留在散乱阵枢旁。";
+    }
     const corpse = enemyName === "铜皮傀儡"
       ? "的庞大躯壳轰然倒塌，彻底沦为一堆失去牵引的废铁。"
       : enemyName === "血傀儡"
@@ -424,7 +440,7 @@ function buildBattleResultText(game: GameState, won: boolean): string {
     铜皮傀儡: "最后一缕护体蛊息在铁拳下溃散。你摔落在碎裂的墓砖间，几次试图催动本命蛊，都没有得到回应。铜皮傀儡胸前的蛊核重新亮起，沉重脚步穿过烟尘，停在了你的面前。",
     血傀儡: "最后一层护体蛊息在接连不断的攻势中溃散。血池里的祭纹沿着你的伤口逐一点亮，气血与真元被拖向中央蛊茧；你试图撑起身体，指尖却再也聚不起半点真元。",
     赵黎: "赵黎没有再补第二击，只从你身侧越过，走向池中尚未认主的血魔蛊。旧玉从松开的指间滑落，在石地上裂成数片。你听见血纹蛊重新振翅，却已经分不清那声音来自何处。",
-    乔无咎: "牵机丝从四面收紧，将你的经脉与本命蛊一并锁死。乔无咎没有再靠近，只轻轻拨动阵枢；脚下墓砖随即裂开，你被傀儡拖入无光的血池。",
+    乔无咎: "乔无咎没有离开控制台，只抬手拨动最后一处阵枢。你身下的墓砖随即向两侧退开，几具铜皮傀儡踏过垂落的牵机丝，将失去反抗之力的你拖向祭殿血池。",
     苏衍: "五转威压压碎你最后的蛊息。血池倒卷而来，周身气血沿祭纹离体而去；黑石棺中传出重新变得有力的心跳，而你的意识沉入死寂。",
   };
   return defeatText[enemyName] ?? `${enemyName}击溃了你最后的护体蛊息。真元散尽，意识也随墓室里摇晃的灯火一同熄灭。`;

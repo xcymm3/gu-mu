@@ -80,7 +80,7 @@ const zhaoQiaoDuelEvents: VisualNovelEvent[] = [
 
 const zhaoFallEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-ruin", transition: "fade" },
-  { type: "narration", text: "乔无咎的尸身迅速干瘪，血魔蛊却仍不肯停下。祭殿里每一滴尚有温度的血都在呼唤你，连曾与你并肩的人也逐渐变成可以补足修为的血食。你曾以为自己追逐的是不受任何人摆布的力量，如今力量反过来替你决定一切。" },
+  { type: "narration", text: "乔无咎的尸身仍倚在控制台旁。你尚未催动血魔蛊，掌心伤口便自行裂开一线，细细血芒从中探出，落在尸身胸口。\n\n残存的温热血气顺着红芒流入经脉。方才被牵机丝扯得滞涩的真元很快恢复流转，连几处尚在作痛的伤势也随之缓和。与此同时，乔无咎裸露在外的手背迅速失去血色，皮肉贴着骨节干瘪下去。\n\n你立刻封住腕脉，试图截断牵引。血芒却只停顿了一瞬，蛊窍中的血魔蛊便再次振动薄翼，牵引力转而沿着地下祭线向外扩散。\n\n借着彼此间刚刚建立的蛊息联系，你清楚感觉到相邻祭殿里仍有一道衰弱却未曾断绝的气血。那是倒在环形血池边的赵黎。更远处的几条墓道中，也各有强弱不一的脉动透过祭线传来。\n\n血魔蛊辨不出其中任何人的身份。对它而言，那些只是尚未取尽的血气。\n\n你以真元压回血芒，控制室外刚刚亮起的祭线随之暗了下去。然而蛊窍中的躁动并未平息。每压制一次，血魔蛊都会反过来牵扯你的经脉，迫使你分出更多真元维持约束。\n\n乔无咎的气血只被它吞去一部分，带来的反哺便足以消去恶战后的疲惫。若放任它沿整座血祭阵继续吞噬，能够得到多少，你已经不难估量；若要一直把它锁在蛊窍中，则迟早要在维持压制与舍弃这只五转蛊之间作出选择。\n\n你看着脚下贯通墓穴的暗红祭线，按在腕脉上的手指慢慢松开。" },
 ];
 
 const zhaoEpilogueEvents: VisualNovelEvent[] = [
@@ -131,7 +131,7 @@ export const zhaoActFourScenes: Record<string, Scene> = {
 };
 
 export const zhaoActFiveScenes: Record<string, Scene> = {
-  zhaoFall: { id: "zhaoFall", act: 5, node: 1, chapter: "第五幕 · 赵黎线 · 节点 1 / 2", title: "蛊食其主", events: zhaoFallEvents, choices: [{ id: "zhao-embrace", label: "不再压制血魔蛊", next: "zhaoEpilogue", result: "你放开最后一道心防，任由血浪席卷整座蛊墓。" }] },
+  zhaoFall: { id: "zhaoFall", act: 5, node: 1, chapter: "第五幕 · 赵黎线 · 节点 1 / 2", title: "蛊食其主", events: zhaoFallEvents, choices: [{ id: "zhao-embrace", label: "撤去蛊窍禁制，任血魔蛊沿祭线继续进食", next: "zhaoEpilogue", result: "你收回封住腕脉的真元，也撤去了蛊窍中压制血魔蛊的最后一层约束。\n\n掌心血芒骤然明亮。控制室外的祭线由近及远逐一点燃，原本流向中央蛊茧的阵纹随之倒转。散落在墓穴各处的气血开始沿着五条祭线回流，在地面汇成一道道向你脚下逼近的暗红细流。\n\n蛊窍中的躁动终于安静下来。取而代之的，是不断涌入经脉的温热血气。" }] },
   zhaoEpilogue: { id: "zhaoEpilogue", act: 5, node: 2, chapter: "第五幕 · 赵黎线 · 节点 2 / 2", title: "血月出墓", events: zhaoEpilogueEvents, choices: [{ id: "zhao-end", label: "走入血色天光", next: "ending", result: "从此世间多了一位血蛊魔君。", effect: { ending: "demon" } }] },
 };
 

@@ -22,9 +22,9 @@ const zhaoLessonEvents: VisualNovelEvent[] = [
 const zhaoPriceEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "amused" },
-  { type: "narration", text: "前路传来薛逢的求救声。石壁正在合拢，他伸出半只染血的手，许诺把乔家给他的所有好处都交出来。赵黎没有停步，你也只是记下机关闭合的规律，从另一侧穿了过去。" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "很好。想拿五转蛊，便不能总想着救下每一个废物。", expression: "amused", position: "left" },
-  { type: "narration", text: "这句赞许没有令你安心。赵黎看你的眼神，和看方才那片可供炼蛊的枯骨并无区别。你越接近他所认可的强者，也越接近必须与他分出生死的那一刻。" },
+  { type: "narration", text: "石门升至一人高时，你与赵黎先后俯身穿过。先前听见的撞击声立刻清晰起来，其间还夹着薛逢嘶哑的呼救。\n\n前方甬道被一排粗重石栅分成两路。主路仍向深处延伸，另一条支道却已经向下沉了数尺。薛逢被困在支道中央，两面石墙正沿着地面的凹槽缓慢合拢。他把那面黄铜小盾横卡在墙缝间，盾面已经被压得向内弯曲，勉强替自己撑出一小块空隙。\n\n见到你们，薛逢急忙从石栅间伸出手。\n\n“二位道友，拉我一把！乔家给我的副印，还有后面几道暗门的走法，我全都交出来！”\n\n你没有立刻答应。连接支道的入口已经塌陷，若想过去，只能退回方才走过的那块松动石板，再从石板下方破坏传动石齿。这样做未必救得出薛逢，却很可能重新封死刚刚开启的石门。\n\n赵黎站在主路一侧，以血纹蛊探了探石栅后的缝隙。确认无法隔空将人拖出来后，他收回血线，看向你。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "人是与你一同进来的。救不救，你自己定。", expression: "amused", position: "left" },
+  { type: "narration", text: "他没有催促，也没有走远。主路前方的空气正变得越来越冷，隐约透来的蛊息却让体内气血阵阵发热。继续耽搁下去，后面的人或许会先一步找到通往主墓室的路。\n\n石墙又向内推进了一寸。黄铜小盾发出一声刺耳的呻吟。" },
 ];
 
 const zhaoThresholdEvents: VisualNovelEvent[] = [
@@ -97,8 +97,8 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
     id: "zhaoPrice", act: 3, node: 3, chapter: "第三幕 · 赵黎线 · 节点 3 / 4", title: "力量的价钱",
     events: zhaoPriceEvents,
     choices: [
-      { id: "zhao-dismiss-xue", label: "告诉赵黎，你只救还有用的人", next: "zhaoThreshold", result: "“我不是不救人，只是不救已经没用的人。”赵黎低笑一声：“那你最好一直有用。”" },
-      { id: "zhao-mark-xue", label: "记下薛逢遇险的位置", next: "zhaoThreshold", result: "赵黎瞥见你在石壁上留下暗记：“还想回来救他？”你摇头：“他知道乔家的路。”赵黎这才笑了。" },
+      { id: "zhao-dismiss-xue", label: "连这道机关都过不了的人，不值得你冒险折返", next: "zhaoThreshold", result: "你看了一眼正在变形的黄铜小盾，没有踏回那块松动石板。\n\n“他若连这道机关都闯不过去，我没必要拿自己的退路换他的命。”\n\n薛逢的求救顿时变成咒骂。赵黎却只是转过身，沿主路继续前行。\n\n“记住你今日说的话。”他头也不回地说道，“哪天你跟不上，老夫同样不会停。”\n\n你越过石栅，没有再看身后的支道。随着那阵金铁挤压声逐渐远去，甬道尽头的血光也变得越来越清晰。" },
+      { id: "zhao-mark-xue", label: "记下薛逢的位置，等他自行脱困后再取乔家路线", next: "zhaoThreshold", result: "你仍未退回救人，只以指尖在主路石壁的暗处刻下一道浅痕，将支道方位记了下来。\n\n赵黎瞥见你的动作。\n\n“还准备回来捞他？”\n\n“他若能靠自己活下来，手里的乔家路线便还有用。若出不来，我也只多留了一道记号。”\n\n赵黎低笑一声，没有评价这笔打算。你们沿主路继续深入，薛逢的呼喊很快便被石壁阻断。\n\n前方的蛊息越来越强。绕过最后一处弯道时，一层暗红微光从甬道尽头照了过来。" },
     ],
   },
   zhaoThreshold: {

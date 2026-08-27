@@ -56,8 +56,11 @@ const jiRescueEvents: VisualNovelEvent[] = [
 
 const jiArrayTruthEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
-  { type: "narration", text: "被斩断的丝线全都通向墙后的控制台。乔无咎并非临时起意，他早已熟悉墓中七成机关，只等合适的人替他填满祭阵。纪清寒将断剑横在蛊茧与伤者之间，你则循线逼他现身。" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "为几个将死之人舍掉五转机缘，你们才是真正的蠢货。", expression: "smug", position: "left" },
+  { type: "narration", text: "你来到祭殿西侧，沿墙缝向上摸索。方才缩回来的细线穿过一块略微凹陷的石板，没入墙后。你以真元压住线身，再顺着它收缩的方向推动石板，里面随即传来一声轻响。\n\n石板向侧面退开尺许，露出一条狭窄的检修夹道。夹道只有数丈长，尽头接着一间高出血池半层的石室。几根控制线从夹道两侧穿过，分别缠在室内的石轮与扳杆上。即使站在石室入口，仍能透过身后的墙缝看见祭殿里的石柱，也能听见蛊茧收缩时带起的水声。\n\n乔无咎站在控制台前，正试图转动其中一只石轮。连接血池的细线随着他的动作逐寸绷紧，可外侧祭线已经断开，石轮转过半圈便被卡住。\n\n第一幕中用来带路的泛黄兽皮残图，此刻就摊在他手边。图上原有的猩红标记正与环形血池的位置相合；标记周围又添了许多细小墨线，分别指向沿途经过的石闸、幻阵与祭殿控制槽。那些线条深浅不一，显然不是同时画上去的。\n\n乔无咎松开石轮，转身看向夹道。到了这一步，他已不再遮掩，也没有急着收起那张残图。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "带你们进来，本就是要有人把这些阵位走活。几条散修的命换一只五转蛊，原算不得亏。可你们偏要回头救人，倒让我白等了这许多年。", expression: "smug", position: "left" },
+  { type: "narration", text: "身后传来轻微的脚步声。纪清寒只走到西墙入口便停了下来。从这里回望，地面的几处断口已经重新泛起暗红微光；赵黎等人还在石柱后方，中央蛊茧也没有停止收缩。\n\n她看清控制台上的残图，又看了一眼仍在缓慢转动的石轮，残剑随即横在身前。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "这里必须有人守住。控制线若再接上一根，外面的人便会重新被拖回去。", expression: "alert", position: "right" },
+  { type: "narration", text: "乔无咎身后的几根扳杆已经开始自行下沉。你站在控制室入口，再向前一步便会进入他的攻击范围。纪清寒没有催促，只等着你的回答。" },
 ];
 
 const jiQiaoDuelEvents: VisualNovelEvent[] = [
@@ -114,8 +117,8 @@ export const jiActFourScenes: Record<string, Scene> = {
   jiArrayTruth: {
     id: "jiArrayTruth", act: 4, node: 4, chapter: "第四幕 · 纪清寒线 · 节点 4 / 6", title: "线后之人", events: jiArrayTruthEvents,
     choices: [
-      { id: "ji-guard-the-wounded", label: "让纪清寒留下守住伤者", next: "jiQiaoDuel", result: "“这里交给你，乔无咎交给我。”纪清寒没有逞强，只将断剑横在伤者身前：“活着回来。”" },
-      { id: "ji-promise-return", label: "与她约定两个人都要回来", next: "jiQiaoDuel", result: "你让纪清寒守住祭殿，自己循线追向控制室。她在身后说道：“你若失约，我就进去把你拖回来。”" },
+      { id: "ji-guard-the-wounded", label: "请她守住祭殿与断线，自己去切断控制机关", next: "jiQiaoDuel", result: "“断口和伤者交给你。”你看向乔无咎身后的控制台，“我进去截住他。”\n\n纪清寒没有因这一句托付再作争执。她退到西墙入口，残剑贴着最先亮起的线槽压下，将墙内外的血光再次隔开。\n\n“身后不会有祭线追上你。”她说道，“去吧。”\n\n你将祭殿里的水声留在身后，侧身穿过夹道，踏上控制室的石台。乔无咎松开最后一根扳杆，缓缓转过身来。" },
+      { id: "ji-promise-return", label: "告诉她自己会回来，余下的路还要一起走", next: "jiQiaoDuel", result: "你没有立刻迈进控制室，而是回头看向纪清寒。\n\n“守住外面。我会回来，剩下的路还要一起走。”\n\n纪清寒握着残剑，目光在你脸上停了片刻。祭殿中的断线又亮起一道，她转身以剑锋将血光截住，这才应道：“那便说定了。你回来，我们一起带他们出去。”\n\n你点了点头，穿过最后几步夹道，独自踏入控制室。身后剑锋落入线槽的轻响传来，乔无咎也在此时松开扳杆，正面挡住了你。" },
     ],
   },
   jiQiaoDuel: { id: "jiQiaoDuel", act: 4, node: 5, chapter: "第四幕 · 纪清寒线 · 节点 5 / 6", title: "斩断执线者", events: jiQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "jiDestroyGu", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },

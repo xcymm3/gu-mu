@@ -74,8 +74,12 @@ const traitorTrapJiEvents: VisualNovelEvent[] = [
 
 const traitorSacrificeSuEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "苏莹凭苏氏血脉避开前两道机关，却在血门前被你亲手改写的阵纹截住。她看懂了控制室方向残留的旧玉气息，也看懂了你的选择。你没有与她对视，只把血钥连同她一并送入祭阵。" },
-  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "你不是没能救我们。你只是想站在最后活着的那个人身边。", expression: "sad", position: "right" },
+  { type: "narration", text: "副台下方那组牵机丝走走停停，最终停在一处没有刻入石盘简图的旧侧道。那里的石门不受副印控制，只有几根后来添入的细线从旧道边缘接回控制室。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "那是苏氏祖阵的旧路。我们动不了门，但她若触发血脉禁制，后来接入的细线自然会有回应。", expression: "smug", position: "right" },
+  { type: "narration", text: "旧侧道尽头，苏莹独自停在三重青石环枢前。她展开那半张墓图，将残存的线条与石环逐一比对，直到从破损处辨出“血钥入阵”四字，才把手背缓缓靠近阵心。" },
+  { type: "narration", text: "相隔尚有半尺，最内层石环便随她的脉息一明一暗。她退开一步，光芒随即减弱；换过两处方位，反应仍旧相同。反复确认石环只对自身血脉起意后，她才将掌心贴上阵心，准备依照墓图开启旧路。" },
+  { type: "narration", text: "三重石环依次转动，暗红阵光沿掌缘亮起，将她的脉息扣在阵心。苏莹立即逆转墓图上尚能辨认的几处阵点，内环随之松动，外环却始终无法归位。门侧另有一道旁枢凹槽，此刻空无一物；缺少稳定外层阵纹的那一步，她无法将手掌完整抽离。她没有受伤，掌心也仍旧完好。" },
+  { type: "narration", text: "祖阵确认血脉以后，横切旧纹的几根新凿细线才逐一亮起。控制室内相应的线槽猛然绷紧，证明乔无咎后来添入的祭阵接口已经能够承接这部分阵光。你们仍不能转动苏氏石环，却可以关闭旧侧道外的外围石门，再把新增接口接向祭阵。" },
 ];
 
 const traitorQiaoTriumphEvents: VisualNovelEvent[] = [
@@ -178,7 +182,15 @@ export const traitorActFourScenes: Record<string, Scene> = {
       result: "你骤然拉紧副台右侧的牵机丝，外门沿石槽急速落下；同一瞬间，乔无咎转动主印，尽头的内门也向检修过道合拢。\n\n纪清寒察觉机括异动，立即转身后撤，剑光先一步斩向外门。锋刃只在即将闭合的石面上留下一道深痕，她本人则在门前停住，没有受伤，长剑也仍完整握在手中。\n\n前后石门先后落定，将她困在献祭甬道前的隔室。片刻之后，她的声音沿传声孔隐约传回：“方才两次都是你的声音，外门也是你关的。你就在控制室里。”\n\n你没有回答。右侧牵机丝已停在隔室刻度，乔无咎也将内门锁死；在后续祭阵启动以前，她暂时无法离开。",
     }],
   },
-  traitorSacrificeSu: { id: "traitorSacrificeSu", act: 4, node: 3, chapter: "第四幕 · 乔无咎线 · 节点 3 / 6", title: "血钥献祭", events: traitorSacrificeSuEvents, choices: [{ id: "traitor-send-su", label: "将苏莹送入血祭", next: "traitorQiaoTriumph", result: "苏氏血钥落入阵心，整座蛊墓的血纹同时亮起。" }] },
+  traitorSacrificeSu: {
+    id: "traitorSacrificeSu", act: 4, node: 3, chapter: "第四幕 · 乔无咎线 · 节点 3 / 6", title: "血钥献祭", events: traitorSacrificeSuEvents,
+    choices: [{
+      id: "traitor-send-su",
+      label: "待祖阵认出血钥，封死侧道并接通后来添入的祭阵细线",
+      next: "traitorQiaoTriumph",
+      result: "你压下副台对应的门栓，苏莹来路上的外围石门随即闭合。乔无咎同时在主台打开新增接口，横切旧纹的几根细线相继张紧，将血钥印记引出的部分阵光导向祭阵。\n\n苏莹仍被三重石环扣住脉息，却没有流血，也未受伤。她沿着亮起的纹路看去，很快分辨出旧阵磨钝的凿口与后来细线之间的差别，知道有人正从远处利用祖阵的回应。隔着重重石壁，她看不见控制室，更无法确认操纵机关的是谁，只能继续按墓图寻找中断新线的办法。\n\n控制室主台上，原本暗淡的一段祭阵刻度随之亮起。",
+    }],
+  },
   traitorQiaoTriumph: {
     id: "traitorQiaoTriumph", act: 4, node: 4, chapter: "第四幕 · 乔无咎线 · 节点 4 / 6", title: "各怀杀心", events: traitorQiaoTriumphEvents,
     choices: [

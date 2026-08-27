@@ -46,7 +46,10 @@ const zhaoBloodGateEvents: VisualNovelEvent[] = [
 
 const zhaoBloodGuardEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
-  { type: "narration", text: "蛊茧前的血池轰然裂开，一具由旧日祭品缝成的血傀儡撑地而起。赵黎退到阵边，不肯替你出手；这是他对同行者最后一次衡量，也是你向五转蛊证明自己有资格靠近的第一战。" },
+  { type: "narration", text: "那只按住石台的手掌骤然收紧，指节将石面压出数道裂纹。血池中的躯体借力站起，粘稠血水顺着肩背不断淌落。\n\n它足有常人两倍高，体内以粗重骨架支撑，骨架外则缝着早已失去生机的皮肉。左腕缠着一条浸透血水的锁链，右臂被炼得格外粗壮。胸骨中央没有心脏，只有一枚拳头大小的暗红血核，正随着蛊茧的收缩频率缓慢跳动。\n\n你脚下那道祭线亮了起来。一缕血光沿石面爬到傀儡脚边，它随即抬起头，空洞眼眶牢牢朝向最先越线的你。\n\n赵黎在血光合拢前退回阵线外。傀儡的头颅跟着他偏转半寸，又很快重新转向你。只要他不越过祭线，这具守墓之物便不会更换目标。" },
+  { type: "character", action: "show", character: "zhao-li", position: "left", expression: "amused" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "血门已经打开，老夫没有再替你出手的理由。若你过不了它，方才的争蛊之约自然也不必再提。", expression: "amused", position: "left" },
+  { type: "narration", text: "赵黎停在阵线外，血纹蛊悬于身侧，没有半点出手的迹象。\n\n血傀儡拖动左腕锁链，从池中踏上石台。胸腔血核骤然亮起，铁链随即离地，带着湿重的破风声朝你扬来。" },
 ];
 
 const zhaoAwakeningEvents: VisualNovelEvent[] = [

@@ -94,11 +94,24 @@ export const illusionEvents: VisualNovelEvent[] = [
 
 export const stoneBridgeEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-corridor", transition: "fade" },
-  { type: "narration", text: "迷魂阵后是一道深不见底的墓沟。唯一的去路，是横在沟上的半截石梁；梁面窄得只能容一人侧身，底下不时传来铜铁拖行的沉响。" },
+  { type: "narration", text: "迷魂阵彻底停下后，石殿后方传来一阵沉闷的摩擦声。\n\n原本严丝合缝的石壁缓缓向两侧退开，露出一条向下延伸的狭窄墓道。冷风从黑暗中迎面吹来，带着潮湿石壁特有的阴寒气息。\n\n众人沿墓道走出不远，前方的路便骤然断开。\n\n一道宽逾十丈的墓沟横在眼前。沟底漆黑不见尽头，隐约能听见铁链拖过石面的声音。乔无咎踢落一块碎石，过了数息，深处才传来一声微不可闻的碰撞。\n\n墓沟上方只横着一条狭窄石梁。\n\n梁身由数块长石拼接而成，宽度仅容一人侧身通过，表面遍布裂纹。石梁两端各有一道弧形锁槽，沟对面的石壁上则嵌着一枚拳头大小的暗红蛊核。几道黯淡蛊纹从蛊核中延伸出来，没入梁下的转轴。" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "石梁撑不了多久。一次过一个，别停。", expression: "calm", position: "center" },
+  { type: "narration", text: "乔无咎在沟边观察片刻，捡起一块碎石抛上石梁。\n\n碎石才滚出数尺，梁下便响起一声机括咬合的轻响。整条石梁随之向右倾斜少许，积灰从接缝间簌簌落下。对岸那枚暗红蛊核也亮起一瞬。\n\n乔无咎脸色微沉。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "石梁受力便会带动下方转轴。人在上面停得越久，倾斜得越快。", expression: "calm", position: "center" },
+  { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
+  { type: "narration", text: "赵黎盯着对岸的蛊核看了片刻，冷笑一声。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "机关的真元都汇在那里。毁了它，这条石梁自然不会再翻。", expression: "wary", position: "left" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+  { type: "narration", text: "薛逢探头看了一眼深沟，很快又向后退去。苏莹则蹲在石梁近端，用指尖拂去锁槽上的积灰，露出几道残缺蛊纹。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "锁槽还能暂时卡住转轴，但两端必须同时受力。只压住一边，石梁还是会翻下去。", expression: "wary", position: "right" },
+  { type: "character", action: "hide", character: "zhao-li" },
+  { type: "character", action: "hide", character: "su-ying" },
   { type: "character", action: "hide", character: "qiao-wujiu" },
-  { type: "narration", text: "话音刚落，对岸石壁便亮起一枚机关蛊核。石梁开始向下倾斜，身后的退路也被幻雾重新吞没。" },
+  { type: "narration", text: "她话音未落，对岸的暗红蛊核再次亮起。\n\n方才用于试探的碎石已经触发机关。蛊纹中的红光非但没有熄灭，反而沿着转轴一寸寸向石梁两端蔓延。\n\n沉重的机括声从墓沟下方传来。\n\n石梁开始缓缓侧倾，近处锁槽中的石齿也在震动中逐渐松脱。照这个速度，用不了多久，整条石梁便会翻入沟底。" },
+  { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
+  { type: "narration", text: "纪清寒拔剑出鞘，目光在石梁两端扫过。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我可以先到对岸压住另一处锁槽。近端还要留下一人，否则其他人过不了这座墓沟。", expression: "alert", position: "right" },
+  { type: "narration", text: "对岸蛊核的光芒越来越亮。\n\n若有人能够抢在石梁彻底翻转前抵达对岸，直接击碎蛊核，机关便会停止；若要让所有人稳妥通过，则必须有人分别守住两端锁槽。\n\n留给众人的时间已经不多。" },
 ];
 
 export function puppetsEvents(state: GameState): VisualNovelEvent[] {

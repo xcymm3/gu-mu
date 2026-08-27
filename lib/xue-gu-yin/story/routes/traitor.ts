@@ -39,10 +39,15 @@ const traitorBargainEvents: VisualNovelEvent[] = [
   { type: "narration", text: "这句约定没有任何约束。乔无咎的手仍压在主印上，你也始终站在副台印槽之外。可若不借副台理清外围路线，你随时可能被主台封死在控制室与夹道之间；而乔无咎少了副台配合，也无法按时将三路人引入祭阵。至少在阵门打开以前，谁都不能先动手。" },
 ];
 
-const traitorOathEvents: VisualNovelEvent[] = [
+const traitorInterlockEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
-  { type: "narration", text: "乔无咎将副印扣上你的手腕，又以双方蛊息立下短暂血誓。他不信你的忠心，你也不信他的许诺；这份盟约唯一可信之处，是你们都准备在血魔蛊醒后除掉对方。" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "从现在起，你替我执线。让墓里那些自命不凡的蛊修，亲手走进自己的棺材。", expression: "smug", position: "right" },
+  { type: "narration", text: "第一道祭阵内门开启后，乔无咎转动主印，准备接续第二道机关。主印刚过半圈，两座石台之间便响起一阵低沉的摩擦声。一根横向牵机杆从石座内部缓缓伸出，两端各露出一道锁闩，分别扣住主台与副台的印槽。" },
+  { type: "narration", text: "乔无咎对此并不意外。他检查过主台刻度，随即压下自己一侧的锁闩。数枚卡齿相继咬合，主印被固定在当前位置，方才开启的内门也停稳下来。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "主副两台需同时落闩，后面的门才会接着开。机关这一轮走完以前，谁强拔印牌，内外两路都会卡死。", expression: "smug", position: "right" },
+  { type: "narration", text: "你沿着横杆看了一遍。两端齿槽彼此牵连，主台这边若擅自退印，副台的引路线会立刻锁住；副台若单独逆转，祭阵内门也无法继续开启。它不会拘束人的手脚，更不能阻止任何一方突然出手，只会让先毁约的人同时毁掉眼前这套安排。" },
+  { type: "narration", text: "乔无咎的另一只手仍停在关闭内门的机括旁，你也没有离开副台半步。互锁只能维持当前一轮机关，血魔蛊现世后的归属、控制室之后的退路，仍旧各凭手段。可在三组牵机丝汇入祭阵以前，双方都没有理由先让石台停摆。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "先校准三条外路。待第二道内门到位，再逐一改道。", expression: "smug", position: "right" },
+  { type: "narration", text: "石盘上，三组细线仍在缓慢移动。副台锁闩横在你手边，只差最后一次按压，主副两套机关便会暂时连成一体。" },
 ];
 
 const traitorControlRoomEvents: VisualNovelEvent[] = [
@@ -133,9 +138,14 @@ export const traitorActThreeScenes: Record<string, Scene> = {
     }],
   },
   traitorOath: {
-    id: "traitorOath", act: 3, node: 4, chapter: "第三幕 · 乔无咎线 · 节点 4 / 4", title: "血誓同谋",
-    events: traitorOathEvents,
-    choices: [{ id: "traitor-take-lines", label: "扣上乔无咎交出的副印", next: "traitorControlRoom", result: "血誓落成，你坐上控制室里的第二把石椅。" }],
+    id: "traitorOath", act: 3, node: 4, chapter: "第三幕 · 乔无咎线 · 节点 4 / 4", title: "牵机互锁",
+    events: traitorInterlockEvents,
+    choices: [{
+      id: "traitor-lock-lines",
+      label: "压下副台锁闩，与主台完成牵机互锁",
+      next: "traitorControlRoom",
+      result: "你扣住副台锁闩，将它压入齿槽。最后几枚卡齿依次咬合，主副印同时固定，两台之间的牵机杆也随之绷紧。当前机关运转结束以前，乔无咎无法单独撤走主印，你同样不能带着副印离开。\n\n控制室内杂乱的震动逐渐平复。你依照石盘刻度调直外围三组牵机丝，乔无咎则在主台校准第二道内门。两套机关开始按同一节奏运转，临时合作也有了第一道看得见的限制。",
+    }],
   },
 };
 

@@ -10,9 +10,11 @@ const jiTrailEvents: VisualNovelEvent[] = [
 const jiPromiseEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "softened" },
-  { type: "narration", text: "短暂休整时，纪清寒取出一缕早已失去光泽的魂丝。她入墓不是为五转血蛊，而是想寻找能替至亲续命的蛊材；魂丝每暗一分，留给她的时间便少一日。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "若墓中只有害人的东西，我会毁掉它。空手回去，总好过带一场祸事回去。", expression: "softened", position: "right" },
-  { type: "narration", text: "你替她重新包好裂开的虎口。她没有道谢，只把仅剩的半瓶疗伤散推到你这一边。" },
+  { type: "narration", text: "井壁深处的机括声渐渐低下去。纪清寒确认上方的锁链一时不会再动，这才在石台内侧坐下，将残剑横放在膝前。\\n\\n她把方才用过的疗伤散收回行囊，又从贴身处取出一方折了数层的白绢。白绢展开，里面躺着一缕细若发丝的银线，末端只剩一点极淡的微光。\\n\\n纪清寒以指腹托住魂丝，渡入一线真元。过了近十息，那点微光才沿着银线向前挪动少许，随即又暗了下去。她静静等到光芒彻底停住，才把真元收回。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "这是我离家前留下的一缕魂丝。那边的气息越弱，它亮得便越慢。一个月前，还不必等这么久。", expression: "softened", position: "right" },
+  { type: "narration", text: "她没有说明魂丝另一端系着哪位至亲，只将白绢四角重新拢起，却没有立刻收回去。\\n\\n纪清寒入墓并非为了五转蛊物本身。她打听到墓主生前曾搜集过能够温养神魂、延续生机的蛊材，这才随乔无咎来到荒原。只是沿途所见的血纹与禁制都在抽取入墓者的气血，那件所谓的续命蛊材究竟从何而来，已经不像传闻中那般干净。\\n\\n石台后方忽然传来一声轻响。一块原本嵌死在井壁里的窄石板向内退开，露出仅容一人侧身通过的检修通道。纪清寒看了一眼那道缝隙，又低头看向掌中的魂丝。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "我会找到它，也会先弄清它是如何炼成的。若墓里所谓的生机只能从旁人身上夺来……", expression: "softened", position: "right" },
+  { type: "narration", text: "她没有把后半句话说完。魂丝末端的微光又颤了一下，很快归于暗淡。" },
 ];
 
 const jiBurdenEvents: VisualNovelEvent[] = [
@@ -85,8 +87,8 @@ export const jiActThreeScenes: Record<string, Scene> = {
     id: "jiPromise", act: 3, node: 2, chapter: "第三幕 · 纪清寒线 · 节点 2 / 4", title: "未尽之约",
     events: jiPromiseEvents,
     choices: [
-      { id: "ji-urge-living", label: "劝她先顾好还活着的人", next: "jiBurden", result: "纪清寒沉默片刻，把魂丝收回袖中：“所以我才不能让墓里的祸事出去。”她仍把半瓶药推给了你。" },
-      { id: "ji-see-the-end", label: "答应陪她找到最后", next: "jiBurden", result: "“我不保证能救回谁，但会陪你把结果看清。”纪清寒看了你一会儿，把半瓶药放进你手里。" },
+      { id: "ji-urge-living", label: "提醒她：若蛊材以活人祭炼，带回去便是拿别人的命续命", next: "jiBurden", result: "你的目光停在魂丝上，没有避开她方才未能说完的话。\\n\\n“若那件蛊材要用活人祭炼，拿它回去，不过是把一条命换成另一条。”\\n\\n纪清寒指间的白绢慢慢收紧。片刻后，她将魂丝重新包好，收入衣襟。\\n\\n“我知道。”她看向已经开启的检修通道，“所以更要亲眼确认。若真是如此，我会亲手毁了它。我要救的人，也不会肯用别人的命换。”\\n\\n她拿起残剑，先一步侧身进入通道。经过你身旁时，她脚步稍停：“你若看见我迟疑，便再说一遍。”" },
+      { id: "ji-see-the-end", label: "告诉她：先找到蛊材查清代价，无论取舍，都陪她到最后", next: "jiBurden", result: "“先找到它。”你说道，“若能用，便设法带回去；若不能用，也要看清它究竟害过多少人。无论最后带走还是毁掉，我陪你走到那里。”\\n\\n纪清寒抬眼看了你一会儿。井壁里又传来一阵遥远的转轴声，她却没有立刻移开视线。\\n\\n“这未必是一条能回头的路。”\\n\\n“我知道。”\\n\\n她将魂丝仔细收回衣襟，起身拿起残剑。走进检修通道前，她把原本准备独自守住前方的剑势略微收窄，为你留出了并肩通行的位置。\\n\\n“那便一起看清。”" },
     ],
   },
   jiBurden: {

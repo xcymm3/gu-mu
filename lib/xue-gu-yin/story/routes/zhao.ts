@@ -30,9 +30,9 @@ const zhaoPriceEvents: VisualNovelEvent[] = [
 const zhaoThresholdEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
-  { type: "narration", text: "血色石门后的蛊息已经压得人气血翻涌。赵黎停在门前，第一次不再以“老夫”自居，只平静地与你约定：门开启之前共同破局，血魔蛊现世之后，各凭本事。" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "若你死在别人手里，我会觉得可惜。若你死在我手里，那便正好。", expression: "wary", position: "left" },
-  { type: "narration", text: "你收紧藏在袖中的冰寒蛊简，与他一同推开石门。所谓同行到此为止；门后的每一步，都会把你们推向同一只蛊，也推向彼此。" },
+  { type: "narration", text: "甬道尽头是一扇高大的血色石门。门扉上布满血管般的凸纹，暗红微光沿着纹路缓慢流动。你们尚未靠近，门后透出的蛊息便已压得体内气血阵阵翻涌。\n\n石门两侧各嵌着一处阵枢，相距数丈。左边是一枚凹陷的掌印，边缘凝着尚未干透的血垢；右边则刻满细密的引气纹，附近石面散落着几截被真元烧焦的指骨。\n\n赵黎驱使血纹蛊靠近左侧。血线刚刚探入掌印，右侧阵枢便骤然亮起，一道失控真元擦着他的肩头射入石壁。赵黎侧身避过，立即截断血线。\n\n他又隔空打出一块碎石。碎石触及右侧引气纹时，左边掌印随即涌出数根血刺。\n\n两处阵枢必须同时压住。凭一人之力，根本来不及在相隔数丈的两端往返。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "左边交给老夫，右边归你。门开启之前，彼此都别动旁的心思。", expression: "wary", position: "left" },
+  { type: "narration", text: "你看了一眼他肩侧被真元削开的衣料，走向右侧阵枢。藏在袖中的冰寒蛊简已经被移到掌边，只要赵黎中途收回血线，你便能立刻以寒气截断门内涌来的反噬。\n\n赵黎注意到你的动作，并未点破。他将血纹蛊悬在掌印上方，随后说道：\n\n“见到血魔蛊后，谁先得手便算谁的。另一人若不服，自己来抢。”\n\n“可以。”\n\n你把手按在引气纹上，赵黎也抬起了指尖。两人隔着整扇石门各守一端，谁也没有把后背留给对方。" },
 ];
 
 const zhaoBloodGateEvents: VisualNovelEvent[] = [
@@ -104,7 +104,7 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
   zhaoThreshold: {
     id: "zhaoThreshold", act: 3, node: 4, chapter: "第三幕 · 赵黎线 · 节点 4 / 4", title: "同盟尽头",
     events: zhaoThresholdEvents,
-    choices: [{ id: "zhao-open-gate", label: "与赵黎一同推开血色石门", next: "zhaoBloodGate", result: "石门洞开，血光将两个人的影子拉向同一座血池。" }],
+    choices: [{ id: "zhao-open-gate", label: "与赵黎一同推开血色石门", next: "zhaoBloodGate", result: "你将真元灌入右侧阵枢。几乎同一刻，赵黎催动血纹蛊，把数道血线压进左边掌印。\n\n门内传出一连串沉重的咬合声，两处阵枢先后亮起，随即趋于平稳。紧闭的石门终于向内退开。\n\n浓重血气从门缝涌出，暗红光芒铺过门槛，将你与赵黎隔在各自的一侧。你们同时收回手，却都没有立刻向前。" }],
   },
 };
 

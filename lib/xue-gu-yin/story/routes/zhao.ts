@@ -37,8 +37,11 @@ const zhaoThresholdEvents: VisualNovelEvent[] = [
 
 const zhaoBloodGateEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "石门之后并非藏宝室，而是一座被血色阵纹填满的祭殿。乔无咎的声音从机关深处传来，承认五名蛊修从踏进墓门起便是唤蛊的血食。你与赵黎没有惊慌，只同时望向祭殿中央仍在跳动的蛊茧。" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "看来老夫没有看错。真正值钱的东西，果然要拿命来换。", expression: "amused", position: "left" },
+  { type: "narration", text: "石门后并非藏宝室，而是一座二十余丈见方的地下祭殿。数根石柱撑住低沉穹顶，地面则被纵横交错的暗红阵纹分割开来。\n\n祭殿中央悬着一枚丈许高的半透明蛊茧。茧壳每隔数息便收缩一次，下方的环形血池也随之泛起波纹。\n\n你很快看见，地面共有五条较粗的祭线，分别从五处封闭墓道延伸而来，最后全部汇入蛊茧下方。每条祭线残留的气息都不相同：其中一道带着纪清寒的寒锐剑意，另一道还粘着苏氏旧印留下的微弱波动；距离你最近的那一道，则有血纹蛊才会留下的腥甜气息。\n\n沿途那些被触发的禁制，不只是在阻拦入墓者。每个人催动真元、受伤流血时，都会有一部分气血被埋在地下的阵纹带走。\n\n穹顶上方忽然传来齿轮转动声。藏在石壁内的中空铜管轻轻震动，乔无咎的声音随之传遍祭殿。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "你们既已替老夫打开最后一道血门，也该知道自己为何能一路走到这里。除老夫之外，入墓的五个人既是破禁的钥匙，也是喂养五转蛊的血食。如今祭线已成，再知道也迟了。", expression: "smug", position: "right" },
+  { type: "narration", text: "铜管里的声音戛然而止。你没有向空处质问，只沿着五条祭线重新估量退路。赵黎也没有动怒。他催使血纹蛊靠近中央蛊茧，放出一根极细的血线贴上茧壳。\n\n血线很快被茧内的东西吸去一截。赵黎立即将其斩断，盯着断口看了片刻。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "还差最后一轮供血。乔无咎若真已大功告成，就不会躲在机关后面等着。", expression: "amused", position: "left" },
+  { type: "narration", text: "你按住袖中的冰寒蛊简，从祭殿右侧向前；赵黎则沿左侧石阶移动。血门前的约定已经履行完毕，两人都把中央蛊茧留在视线内，也都没有踏进对方伸手可及的距离。" },
 ];
 
 const zhaoBloodGuardEvents: VisualNovelEvent[] = [
@@ -109,7 +112,7 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
 };
 
 export const zhaoActFourScenes: Record<string, Scene> = {
-  zhaoBloodGate: { id: "zhaoBloodGate", act: 4, node: 1, chapter: "第四幕 · 赵黎线 · 节点 1 / 6", title: "血祭真相", events: zhaoBloodGateEvents, choices: [{ id: "zhao-enter", label: "踏入祭殿", next: "zhaoBloodGuard", result: "你越过血纹，走向守在蛊茧前的血傀儡。" }] },
+  zhaoBloodGate: { id: "zhaoBloodGate", act: 4, node: 1, chapter: "第四幕 · 赵黎线 · 节点 1 / 6", title: "血祭真相", events: zhaoBloodGateEvents, choices: [{ id: "zhao-enter", label: "踏入祭殿", next: "zhaoBloodGuard", result: "你跨过外围第一道祭线。靴底落下的瞬间，原本平静的环形血池骤然鼓起，粘稠血水沿池沿向外漫出。\n\n池底传来锁链拖过石面的声音。紧接着，一只肿胀发白的手掌穿出水面，重重按在蛊茧前方的石台上。水下那道沉重身影正借力缓缓起身。" }] },
   zhaoBloodGuard: { id: "zhaoBloodGuard", act: 4, node: 2, chapter: "第四幕 · 赵黎线 · 节点 2 / 6", title: "资格之战", events: zhaoBloodGuardEvents, battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "zhaoAwakening", defeatNext: "ending", victoryFlag: "赵黎线血傀儡已毁", defeatFlag: "死于守门血傀儡", defeatEnding: "deathByBloodGuard" } },
   zhaoAwakening: {
     id: "zhaoAwakening", act: 4, node: 3, chapter: "第四幕 · 赵黎线 · 节点 3 / 6", title: "五转蛊醒", events: zhaoAwakeningEvents,

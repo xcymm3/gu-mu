@@ -17,9 +17,13 @@ const traitorTrailConvergence = "暗门后没有外界风声，只有牵机丝�
 const traitorKnifeEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
   { type: "character", action: "show", character: "xue-feng", position: "left", expression: "panicked" },
-  { type: "narration", text: "控制室外，薛逢终于承认自己替乔无咎看守机关，还随身带着一枚牵机副印。他跪得很快，许诺替你作证、分出暗庄、甚至反过来暗算乔无咎，只求你把他当作仍有用的狗。" },
-  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "薛某知道乔家所有退路！留我一命，我能替道友做很多事！", expression: "panicked", position: "left" },
-  { type: "narration", text: "你已经从他口中得到最后一条路。他看见你抬手时仍在笑，似乎相信每个人都会为利益留下他。下一瞬，月白蛊刃贯穿了他的心口。" },
+  { type: "narration", text: "夹道尽头比来路稍宽，石壁内嵌着一处半人高的检修龛。数根牵机丝从龛中穿墙而过，门边另有一道形如印齿的凹槽。薛逢走到这里以后，右手始终拢在袖中，脚步也比先前慢了许多。" },
+  { type: "narration", text: "你没有催促，只盯着龛内的牵机丝。薛逢袖口微动时，其中一根细丝也跟着轻颤，显然不是脚步震动所致。你骤然扣住他的手腕向外一带，一枚牵机副印随之落在石面上。" },
+  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "道友莫急！这东西只能开几道外门，碰不得墓里的核心禁制。", expression: "panicked", position: "left" },
+  { type: "narration", text: "你拾起副印，抵近门边凹槽。印齿尚未完全嵌入，龛内一根牵机丝便自行松开，墙后的门栓也向内退了半寸。副印与此处机关确实同出一套，薛逢再难用听声辨位搪塞过去。" },
+  { type: "narration", text: "追问之下，他只得承认自己收了乔无咎的好处，事先进入墓中维护外围翻板与暗门，此番又负责把同行之人引到预定路径。至于墓穴核心如何运转、控制室后还有哪些道路，乔无咎从未让他知晓。这枚副印能打开眼前内门，也仅此而已。" },
+  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "薛某可以带你去见他，也能当面对质。留我一命，门后还有什么安排，我替道友问个清楚。", expression: "panicked", position: "left" },
+  { type: "narration", text: "他说话时上身未动，右脚却贴着石面悄然向后挪去。检修龛最下方，一根原本松垂的牵机丝被他的脚跟一点点压紧，墙后随即传来一声极轻的机括咬合。只要再落下半寸，这道警线便会把夹道里的变故传入控制室。" },
 ];
 
 const traitorBargainEvents: VisualNovelEvent[] = [
@@ -106,7 +110,12 @@ export const traitorActThreeScenes: Record<string, Scene> = {
   traitorKnife: {
     id: "traitorKnife", act: 3, node: 2, chapter: "第三幕 · 乔无咎线 · 节点 2 / 4", title: "无用之人",
     events: traitorKnifeEvents,
-    choices: [{ id: "traitor-kill-xue", label: "杀死薛逢，夺走他的副印", next: "traitorBargain", result: "薛逢的笑僵在脸上。你抽出蛊刃，带着染血的副印走向控制室。", effect: { flag: "薛逢已灭口" } }],
+    choices: [{
+      id: "traitor-kill-xue",
+      label: "在他踩实警线前催动本命蛊灭口，夺走牵机副印",
+      next: "traitorBargain",
+      result: "你先一步踢开薛逢的脚跟，同时催动本命蛊截断他的心脉。薛逢尚未来得及踩实警线，身形便贴着石壁软倒下去。那句尚未说完的退路，也就此断在喉间。\n\n你取走牵机副印，将它压入检修龛旁的凹槽。印齿嵌合，龛内数根牵机丝依次松开，内门随之向后退去。门后透出微弱的灯火，你越过薛逢的尸身，独自走向控制室。",
+    }],
   },
   traitorBargain: {
     id: "traitorBargain", act: 3, node: 3, chapter: "第三幕 · 乔无咎线 · 节点 3 / 4", title: "第二双手",

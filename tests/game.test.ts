@@ -366,7 +366,7 @@ test("第三幕四条路线保持各自的人物主旨", () => {
     ["zhao", "zhaoLesson", "赵黎", "力量"],
     ["ji", "jiPromise", "纪清寒", "至亲"],
     ["su", "suInscription", "苏莹", "蛊不可祭"],
-    ["traitor", "traitorKnife", "薛逢", "月白蛊刃"],
+    ["traitor", "traitorKnife", "薛逢", "本命蛊"],
   ] as const;
   for (const [route, sceneId, name, phrase] of expectations) {
     const presentation = resolveScenePresentation({ ...chooseRole(), route }, scenes[sceneId]);

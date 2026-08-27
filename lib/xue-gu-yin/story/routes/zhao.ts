@@ -2,10 +2,12 @@ import type { Scene, VisualNovelEvent } from "../../model.ts";
 
 const zhaoTrailEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
-  { type: "narration", text: "你迎着雾中最浓烈的血气跃下陷道。赵黎反手扣住你的手腕，借下坠之势踏碎两具追来的傀儡；落地之后，他没有松手，只像打量一件新得的蛊材般打量你。" },
+  { type: "narration", text: "头顶的机关石板轰然闭合，最后一线雾光也被石缝切断。\n\n你与赵黎沿着倾斜的甬道急坠而下，脚下尽是被机关震松的碎石。那些石块擦过衣袍，争先恐后地滚向前方。借着血纹蛊散出的暗红微光，你看见甬道尽头横着数排锈黑铁刺。照这个势头滑下去，护体真元未必挡得住。\n\n赵黎比你早半息出手。血纹蛊从他袖中飞出，数道血线钉入侧壁石缝，生生将他的身形扯得一顿。可那处石壁早已酥脆，血线刚刚绷紧，整片岩层便向外崩落。\n\n你从他身侧滑过，反手扣住他的手腕，同时一脚踏上侧壁凸起的石梁。赵黎也在此时抓住你的前臂，借着这处短暂的支点收回血线。两人各借对方一次力，越过铁刺，翻进上方一处狭窄侧洞。\n\n双脚落地后，你们同时松手，各自退开半步。赵黎掸去袖口的碎屑，先看了一眼已经封死的来路，随后才将目光落到你身上。" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "amused" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "别人逃命，你却往老夫这里追。小子，你想要的是活路，还是力量？", expression: "amused", position: "left" },
-  { type: "narration", text: "你没有回答。赵黎从你的目光里得到了答案，松手转身，示意你跟上。你们的同行没有信任，只有两个都不肯把机缘让给旁人的蛊修。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "方才有四条路，你偏挑了老夫这一条。", expression: "amused", position: "left" },
+  { type: "narration", text: "你活动了一下被攥得发麻的手腕，平静答道：\n\n“雾中看不清路，血光却看得很清楚。能在这里毫不遮掩地催动血蛊，赵道友总比一条不知通往何处的暗道可靠。”\n\n赵黎听罢，目光在你脸上停留片刻。他自然听得出这句话没有多少信任可言。你追来的原因很简单：他有破开机关的手段，也有争夺五转蛊的资格。跟着这样的强者，既能少走一些冤路，也能提前看清一个迟早要面对的对手。\n\n赵黎低笑一声，转身走向侧洞深处。血纹蛊没有被收入袖中，仍悬在数丈之外探查石缝。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "跟得上便来。若还要老夫回头拉你，你就留在这里。", expression: "amused", position: "left" },
+  { type: "narration", text: "他说完便不再理会你。血纹蛊投下的一小片红光在前方缓缓移动，既替你照出脚下的机关，也始终与你保持着一段随时可以翻脸的距离。\n\n更深处传来细碎的碰撞声，像是许多干枯骨节被穿堂风吹得彼此摩擦。\n\n这还算不上结盟。你们只是暂时认定，对方活着比死在这里更有用。" },
 ];
 
 const zhaoLessonEvents: VisualNovelEvent[] = [
@@ -83,7 +85,7 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
   zhaoTrail: {
     id: "zhaoTrail", act: 3, node: 1, chapter: "第三幕 · 赵黎线 · 节点 1 / 4", title: "逐血而行",
     events: zhaoTrailEvents,
-    choices: [{ id: "zhao-keep-up", label: "不问退路，跟上赵黎", next: "zhaoLesson", result: "你踏过碎裂傀儡，跟着赵黎走入更深的陷道。" }],
+    choices: [{ id: "zhao-keep-up", label: "不问退路，跟上赵黎", next: "zhaoLesson", result: "你踏过松动的碎石，跟上前方那点若隐若现的血光。赵黎没有回头，只让血纹蛊在两人之间留下了一段不远不近的距离。侧洞越走越冷，前方逐渐露出一片横倒在地的惨白枯骨。" }],
   },
   zhaoLesson: {
     id: "zhaoLesson", act: 3, node: 2, chapter: "第三幕 · 赵黎线 · 节点 2 / 4", title: "强者之法",

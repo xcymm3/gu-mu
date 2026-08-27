@@ -25,9 +25,12 @@ const suInscriptionEvents: VisualNovelEvent[] = [
 const suLineageEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-  { type: "narration", text: "尽头石壁没有门，只有一道以苏氏血脉封住的古禁，阵眼旁恰好留着与旧玉同形的凹槽。苏莹割破指尖时，四周机关立刻转向，显然乔无咎一直在等待她走到这里。" },
-  { type: "narration", text: "你没有让她独自承受阵法。旧玉嵌入阵眼，血光将两个人一并护住；追来的傀儡撞上光幕，像被墓中某个仍然清醒的意志拒之门外。" },
-  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "若门后真是苏衍，你要先记住——血脉不是命令。我不会替他害人。", expression: "wary", position: "right" },
+  { type: "narration", text: "断碑后的侧道尽头没有门户，整面石壁只嵌着三重青石环枢。一路延伸至此的导血槽在最外层汇合，中央凹处刻着苏氏旧印；斜下方另有一处方形辅槽，尺寸恰与旧玉相合，槽内积灰未动。" },
+  { type: "narration", text: "苏莹展开墓图。关于此处的部分已经残破，只能辨出“血钥入阵”与“玉镇旁枢”几字。她没有贸然落手，先以手背靠近阵心。相隔尚有半尺，最内层石环便随她的脉息一明一暗；她退开一步，光芒也随之减弱。" },
+  { type: "narration", text: "苏莹反复试了两次，才将掌心贴上阵心。三重石环依次转动，暗红阵光沿她的手腕缓慢上行，阵内的牵引也随之压住她的气血。她刚要收手，内圈石环已经扣住掌缘，外层导血槽同时亮了起来。" },
+  { type: "narration", text: "来路方向传来牵机丝绷紧的细响，后方石板开始一寸寸合拢。远处操纵机关的人应当察觉了阵枢变化，正试图截断这条侧道。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "别硬拉。石环已经扣住我的脉息，强行扯开只会带动外层一起闭合。墓图缺了反转那一段，只剩旁枢还能试。", expression: "wary", position: "right" },
+  { type: "narration", text: "你看向覆着积灰的方槽。旧玉先前能够补全苏氏旧印，“玉镇旁枢”所指的或许正是这里。" },
 ];
 
 const suThresholdEvents: VisualNovelEvent[] = [
@@ -99,7 +102,7 @@ export const suActThreeScenes: Record<string, Scene> = {
   suLineage: {
     id: "suLineage", act: 3, node: 3, chapter: "第三幕 · 苏莹线 · 节点 3 / 4", title: "血脉之钥",
     events: suLineageEvents,
-    choices: [{ id: "su-share-burden", label: "与她共同承受血脉禁制的反噬", next: "suThreshold", result: "血光散去时，苏莹仍站在你身侧。你们已经成为彼此进入主墓室的另一半钥匙。", effect: { flags: ["苏莹存活", "苏氏血钥"] } }],
+    choices: [{ id: "su-share-burden", label: "将旧玉嵌入辅槽，与她共同稳住血脉禁制", next: "suThreshold", result: "你拂去槽中积灰，将旧玉稳稳压入其中，只渡入一线真元。温热玉光沿石环支纹铺开，与缠在苏莹手腕上的暗红阵光相接，原本只向她一人收拢的牵引随之分入旁枢。苏莹没有急着抽手，而是依照墓图尚能辨认的次序，逐一按下石环上的归位点；你则维持旧玉与辅槽的联系，不让外层阵纹再次锁死。最后一重石环回到原位时，阵心浮出一行短暂古字：苏氏后人，血钥可入。字迹隐去后，扣住她掌缘的力量也松开。石壁从中央向两侧退去，露出一条架在深沟上的狭窄石桥，桥尽头立着一道尚未开启的暗红石门。苏莹收回手，看着你取下旧玉，低声道：“师父不肯把苏氏旧事尽数告诉我，或许正是怕我把‘后人’二字当成必须听从的命令。”身后的石板仍在合拢，你们没有停留，赶在侧道封死前踏上石桥。", effect: { flags: ["苏莹存活", "苏氏血钥"] } }],
   },
   suThreshold: {
     id: "suThreshold", act: 3, node: 4, chapter: "第三幕 · 苏莹线 · 节点 4 / 4", title: "血门认主",

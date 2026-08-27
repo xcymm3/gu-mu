@@ -542,7 +542,7 @@ test("大雾节点在人格并列时展示多个确认行动", () => {
   assert.ok(choices.every((choice) => canChoose(state, choice)));
 });
 
-test("权谋人格经薛逢切入乔无咎叛徒暗线", () => {
+test("权谋人格经薛逢切入乔无咎权谋线", () => {
   const state = { ...chooseRole(), personality: { power: 0, compassion: 0, insight: 0, scheme: 4 } };
   const [choice] = resolveScenePresentation(state, scenes.fog).choices;
   assert.ok(choice);

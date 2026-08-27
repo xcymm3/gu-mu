@@ -141,12 +141,12 @@ export const zhaoActFourScenes: Record<string, Scene> = {
   },
   zhaoDuel: { id: "zhaoDuel", act: 4, node: 4, chapter: "第四幕 · 赵黎线 · 节点 4 / 6", title: "血蛊相争", events: zhaoDuelEvents, battle: { enemyName: "赵黎", enemyHealth: 22, victoryNext: "zhaoClaim", defeatNext: "ending", victoryFlag: "赵黎已败", defeatFlag: "赵黎夺蛊", defeatEnding: "deathByZhao" } },
   zhaoClaim: { id: "zhaoClaim", act: 4, node: 5, chapter: "第四幕 · 赵黎线 · 节点 5 / 6", title: "血魔认主", events: zhaoClaimEvents, choices: [{ id: "zhao-take-gu", label: "炼化血魔蛊", next: "zhaoQiaoDuel", result: "你没有松开封住腕脉的真元，反而引出一线蛊息，主动送入血魔蛊体内。\n\n血魔蛊先将这缕蛊息吞得干干净净，随即咬破掌心，带着一点精血钻入你的经脉。它所过之处传来灼热刺痛，最终在蛊窍中伏下。原有几只蛊虫的气息仍各守原处，只是都与这股新来的五转威压拉开了距离。\n\n地面几滴尚未凝固的血液忽然逆势滑动，向你脚边聚来。你立刻收束心神，强行截断血魔蛊向外伸出的牵引。蛊窍中的躁动暂时平息，那股饥渴却没有消失。\n\n几乎同一刻，祭殿深处传来沉重的齿轮咬合声。一道藏在石壁后的机关正在开启。", effect: { flag: "血魔蛊" } }] },
-  zhaoQiaoDuel: { id: "zhaoQiaoDuel", act: 4, node: 6, chapter: "第四幕 · 赵黎线 · 节点 6 / 6", title: "执棋者末路", events: zhaoQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "zhaoFall", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },
+  zhaoQiaoDuel: { id: "zhaoQiaoDuel", act: 4, node: 6, chapter: "第四幕 · 赵黎线 · 节点 6 / 6", title: "牵机尽断", events: zhaoQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "zhaoFall", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },
 };
 
 export const zhaoActFiveScenes: Record<string, Scene> = {
   zhaoFall: { id: "zhaoFall", act: 5, node: 1, chapter: "第五幕 · 赵黎线 · 节点 1 / 2", title: "蛊食其主", events: zhaoFallEvents, choices: [{ id: "zhao-embrace", label: "撤去蛊窍禁制，任血魔蛊沿祭线继续进食", next: "zhaoEpilogue", result: "你收回封住腕脉的真元，也撤去了蛊窍中压制血魔蛊的最后一层约束。\n\n掌心血芒骤然明亮。控制室外的祭线由近及远逐一点燃，原本流向中央蛊茧的阵纹随之倒转。散落在墓穴各处的气血开始沿着五条祭线回流，在地面汇成一道道向你脚下逼近的暗红细流。\n\n蛊窍中的躁动终于安静下来。取而代之的，是不断涌入经脉的温热血气。" }] },
-  zhaoEpilogue: { id: "zhaoEpilogue", act: 5, node: 2, chapter: "第五幕 · 赵黎线 · 节点 2 / 2", title: "血月出墓", events: zhaoEpilogueEvents, choices: [{ id: "zhao-end", label: "跨过失效的墓门，走入清晨荒原", next: "ending", result: `你推开失去阵力的石门，跨过门槛。藏在近处石缝中的虫兽感受到血魔蛊气息，纷纷避向更深的荒草；除此之外，清晨的荒原与入墓前并无不同。
+  zhaoEpilogue: { id: "zhaoEpilogue", act: 5, node: 2, chapter: "第五幕 · 赵黎线 · 节点 2 / 2", title: "一人出墓", events: zhaoEpilogueEvents, choices: [{ id: "zhao-end", label: "跨过失效的墓门，走入清晨荒原", next: "ending", result: `你推开失去阵力的石门，跨过门槛。藏在近处石缝中的虫兽感受到血魔蛊气息，纷纷避向更深的荒草；除此之外，清晨的荒原与入墓前并无不同。
 
 此后数年，你不断催动血魔蛊夺取对手气血。每当那道暗红蛊光出现，总有人在争斗之后只剩一具干瘪躯壳。相似的消息渐渐从不同地方汇到一起，修士们终于为那名无人知晓来历的蛊修取了同一个称号。
 

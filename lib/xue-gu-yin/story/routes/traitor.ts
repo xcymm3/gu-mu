@@ -139,7 +139,7 @@ const traitorDeathEvents: VisualNovelEvent[] = [
 
 export const traitorActThreeScenes: Record<string, Scene> = {
   traitorTrail: {
-    id: "traitorTrail", act: 3, node: 1, chapter: "第三幕 · 乔无咎线 · 节点 1 / 4", title: "挟住棋子",
+    id: "traitorTrail", act: 3, node: 1, chapter: "第三幕 · 乔无咎线 · 节点 1 / 4", title: "雾中识路",
     events: traitorTrailEvents,
     choices: [
       {

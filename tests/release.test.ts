@@ -126,6 +126,9 @@ test("分线后使用自然推进且战斗复用视觉小说舞台", () => {
   assert.match(game, /className="battle-essence"[\s\S]*?<i style=/);
   assert.match(game, /<small>状态<\/small>{enemyCondition}/);
   assert.doesNotMatch(game, /敌方异动|敌方状态：/);
+  assert.match(game, /const immune = action === "charm"/);
+  assert.match(game, /最后一击贯穿铜皮傀儡胸前的蛊核/);
+  assert.doesNotMatch(game, /这一战，终究是你笑到了最后/);
   assert.doesNotMatch(game, /<section className="battle-panel"/);
   assert.match(css, /\.vn-battle-actor-layer/);
   assert.match(css, /\.story-frame\.is-battling \.battle-choice-panel \{[\s\S]*?right: 5vw;[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);

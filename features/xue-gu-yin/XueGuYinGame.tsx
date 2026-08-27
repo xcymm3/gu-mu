@@ -322,12 +322,14 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
       : `你指尖真元暴涨，催动月光蛊！一线清冷如雪的月白光芒凝作锋锐刃芒，划破黑暗，直贯${enemyName}要害！`,
     blooddemon: `血魔蛊自你掌心呼啸跃出，猩红血芒既撕开${enemyName}的防御，又牵引回一缕精纯血气反哺你的周身经脉！`,
     armor: before.flags.includes("血甲蛊")
-      ? `血甲蛊受真元感应瞬间激活，猩红如血的凝实甲纹覆满周身，硬生生顶住了这势大力沉的轰然一击！`
+      ? `血甲蛊受真元感应瞬间激活，猩红甲纹覆满周身，与护体真元紧密相合。`
       : `甲衣蛊受真元感应贴身而起，细密如钢鳞般的甲纹沿着全身经脉迅速铺开，正面迎向逼近的沉重阴影！`,
     rest: `你强行收束体内纷乱的真元，压下胸口翻涌的气血，趁着战斗的短暂空隙吐故纳新，迅速回气。`,
     heal: `你催动回春蛊，一股温润绵长的治愈蛊息沿着四肢百骸浸润伤处，周身七分火辣辣的剧痛转瞬间化作三分微热升腾。`,
     sword: `你咬破舌尖逼出一口精血催发剑鸣蛊！胸前衣衫撕裂、绽开一道血口——剑蛊汲取精血杀气清啸长鸣，化作一线惊天寒光直贯${enemyName}！`,
-    charm: `惑心蛊化作一缕诡异粉烟悄然渗出。${enemyName}的动作猛然一滞，挥至半途的万钧攻势竟硬生生僵在了半空！`,
+    charm: enemyName.includes("傀儡")
+      ? `惑心蛊化作一缕粉烟，沿着牵机丝渗入${enemyName}体内。原本流转有序的真元顿时变得紊乱。`
+      : `惑心蛊化作一缕粉烟悄然渗出。${enemyName}眼神短暂失焦，凝聚的气机也随之一乱。`,
   };
   const nextBattle = after.battle;
   if (!nextBattle || after.sceneId !== before.sceneId) return {
@@ -340,7 +342,7 @@ function describeBattleTurn(before: GameState, after: GameState, action: GuActio
     hasEnded: true,
     emphasis: after.sceneId === battle.defeatNext ? "danger" : "success",
   };
-  const immune = false;
+  const immune = action === "charm";
   const defended = action === "armor";
   const corpseResponse = battle.intent.id === "corpse-claw"
     ? immune
@@ -388,13 +390,16 @@ function enemyCueFor(battle: NonNullable<GameState["battle"]>) {
 function buildBattleResultText(game: GameState, won: boolean): string {
   const enemyName = game.battle?.enemyName ?? "那具躯体";
   if (won) {
+    if (enemyName === "铜皮傀儡") {
+      return "最后一击贯穿铜皮傀儡胸前的蛊核。暗红光芒在裂缝中闪烁两下，随即彻底熄灭。失去真元支撑的牵机丝纷纷垂落，铜皮傀儡保持着挥拳的姿势僵立片刻，最终单膝砸在石坪上，再没有动静。身后的石门缓缓升起，乔无咎等人的身影重新出现在烟尘之后。";
+    }
     const corpse = enemyName === "铜皮傀儡" || enemyName === "血傀儡"
       ? `的庞大躯壳轰然倒塌，溅起满地尘埃，彻底沦为一摊废铁。`
       : `的身躯轰然倒下，溅起满地尘埃，再无半点动静。`;
-    return `你缓缓收势站定，胸口剧烈起伏，掌心沉浮的真元余温尚未散去。${enemyName}${corpse}四下里顿时陷入一片死寂，唯余你沉重的喘息声在耳畔回荡。这一战，终究是你笑到了最后。`;
+    return `你缓缓收势站定，胸口剧烈起伏，掌心沉浮的真元余温尚未散去。${enemyName}${corpse}四下里只剩尚未散尽的真元余波。`;
   }
   const defeatText: Record<string, string> = {
-    铜皮傀儡: "铜皮傀儡的铁臂砸穿护体蛊息，你的本命蛊在识海中发出最后一声哀鸣。墓砖贴上脸侧时，你已经无法再聚起半缕真元。沉重脚步停在身前，下一击彻底吞没了视野。",
+    铜皮傀儡: "最后一缕护体蛊息在铁拳下溃散。你摔落在碎裂的墓砖间，几次试图催动本命蛊，都没有得到回应。铜皮傀儡胸前的蛊核重新亮起，沉重脚步穿过烟尘，停在了你的面前。",
     血傀儡: "血傀儡的重拳碾碎最后一层蛊甲。血池里的祭纹沿着你的伤口逐一点亮，气血与真元被拖向墓室深处；你试图撑起身体，指尖却再也没有回应。",
     赵黎: "赵黎掌中的血线贯入你的蛊种，反噬顷刻蔓过全身。旧玉从指间滑落，你听见它在石地上碎裂，却已没有力气回头。",
     乔无咎: "牵机丝从四面收紧，将你的经脉与本命蛊一并锁死。乔无咎没有再靠近，只轻轻拨动阵枢；脚下墓砖随即裂开，你被傀儡拖入无光的血池。",

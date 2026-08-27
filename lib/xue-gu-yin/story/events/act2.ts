@@ -117,13 +117,13 @@ export const stoneBridgeEvents: VisualNovelEvent[] = [
 export function puppetsEvents(state: GameState): VisualNovelEvent[] {
   const events: VisualNovelEvent[] = [
     { type: "background", asset: "background.tomb-corridor", transition: "fade" },
-    { type: "narration", text: "墓道尽头是一处恢弘地下石坪。四具丈许高的铜皮傀儡同时亮起猩红蛊核，机关关节发出牙酸摩擦声，每一步都震得地面微颤。" },
+    { type: "narration", text: "墓道尽头是一处宽阔的地下石坪。一具丈许高的铜皮傀儡半跪在石坪中央，头颅低垂，胸前的暗红蛊核早已熄灭。\n\n众人踏上石坪后，傀儡背后的牵机丝忽然一根根绷紧。沉重头颅随之抬起，胸前蛊核亮起猩红光芒，铜铸关节在转动中发出刺耳的摩擦声。" },
     { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
-    { type: "narration", text: "赵黎抬手催动血纹蛊，随意将逼近的一具傀儡轰碎。" },
-    { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "这是牵机蛊吐出的丝。要隔空御使四具傀儡，操纵它们的人不会离得太远。", expression: "wary", position: "left" },
+    { type: "narration", text: "赵黎眯起眼睛，目光沿着牵机丝一直追到石壁上方。那些细丝没入层层石缝，根本找不到可以直接斩断的位置。" },
+    { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "牵机丝藏在墙里。只斩外面的几根没有用，得毁掉它胸前的蛊核。", expression: "wary", position: "left" },
     { type: "character", action: "hide", character: "zhao-li" },
     { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
-    { type: "narration", text: "乔无咎只说这是墓主留下的守墓机关，随即催动护身蛊挡住傀儡踏落时飞起的碎石。腰间旧玉再次灼热起来，这一次你没有遮掩。" },
+    { type: "narration", text: "乔无咎只说这是墓主留下的守墓机关，随即展开残图，寻找关闭石坪禁制的方法。\n\n铜皮傀儡迈下石座，蛊核投出的红光牢牢锁在你身上。与此同时，石坪两侧的石门开始下落，准备将你与其余人隔开。腰间旧玉再次灼热起来，这一次你没有遮掩。" },
     { type: "character", action: "hide", character: "qiao-wujiu" },
   ];
   if (state.flags.includes("纪清寒回护")) {
@@ -134,6 +134,9 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
       { type: "narration", text: "寒意在体内流转一周，你的气血随之稳固下来。" },
     );
   }
+  events.push(
+    { type: "narration", text: "其余人被迫退到石门之外的瞬间，两扇厚重石门轰然合拢。外面的声音顿时变得模糊，只剩那具铜皮傀儡拖着沉重脚步，独自向你逼近。" },
+  );
   return events;
 }
 

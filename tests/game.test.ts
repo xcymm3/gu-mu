@@ -309,6 +309,8 @@ test("第二幕条件事件会响应前置选择旗标", () => {
   const aided = { ...base, flags: [...base.flags, "纪清寒回护"] };
   assert.equal(resolveScenePresentation(base, scenes.puppets).text.includes("墓门前，你替众人省了一场麻烦"), false);
   assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("墓门前，你替众人省了一场麻烦"), true);
+  assert.match(resolveScenePresentation(base, scenes.puppets).text, /一具丈许高的铜皮傀儡/);
+  assert.doesNotMatch(resolveScenePresentation(base, scenes.puppets).text, /四具丈许高|随意将逼近的一具傀儡轰碎/);
 });
 
 test("第三幕四条路线各自拥有四个独立固定节点", () => {

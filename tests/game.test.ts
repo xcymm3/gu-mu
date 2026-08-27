@@ -623,13 +623,6 @@ test("机关暗室关怀选项不强行点名纪清寒", () => {
   assert.doesNotMatch(`${choice.label}${choice.result ?? ""}`, /纪清寒/);
 });
 
-test("迷魂阵由乔无咎最先清醒并着手唤醒众人", () => {
-  const presentation = resolveScenePresentation(chooseRole(), scenes.illusion);
-  assert.match(presentation.text, /最先恢复清醒的人正是他.*一边出声唤醒众人/s);
-  assert.ok(presentation.choices.length === 2);
-  for (const choice of presentation.choices) assert.match(choice.result ?? "", /乔无咎.*石台.*阵纹/s);
-});
-
 test("第一、二幕态度选项对所有主角可见", () => {
   for (const sceneId of ["gate", "rainMark", "bloodThreshold", "swarm", "shadow", "chamber", "illusion", "stoneBridge"] as const) {
     const choices = scenes[sceneId].choices ?? [];

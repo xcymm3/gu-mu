@@ -61,7 +61,10 @@ const suBloodGuardEvents: VisualNovelEvent[] = [
 const suCoffinEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "sad" },
-  { type: "narration", text: "血傀儡崩解后，黑棺露出被乔家凿过的痕迹。棺盖下并无尸体，只有连接血池深处的人形空腔。苏莹以旧血印复原铭文，终于读出苏衍留下的真实计划：他从未想把血魔蛊留给后人，而是要借后人的血重新成为完整五转蛊修。" },
+  { type: "narration", text: "黑棺前的薄雾渐渐散开。棺盖没有封死，边缘留着数道较新的凿痕，石屑中还夹着断裂的牵机丝。有人曾从外侧强行撬动，却只掀开棺盖表层，没有找到真正的开启阵点；这些痕迹还不足以表明动手者是谁。" },
+  { type: "narration", text: "你与苏莹推开已经松动的棺盖。棺内没有尸骨，底部只留着一道人形凹腔。凹腔四周分布着密集细槽，向下穿过棺底，与石殿导血槽相连；槽中仍有暗红液体缓慢流动。这里不像埋葬死者的棺椁，更像供某具身体蜕换、转运血气的阵器。" },
+  { type: "narration", text: "棺壁原本刻有大段铭文，靠近棺首的位置却被仔细刮去。苏莹检查残面，发现明面字迹虽已消失，石层深处仍压着一层用于校准阵路的反刻底纹。旧玉先前能够照出苏氏旧印，或许也能使这些底纹显形。" },
+  { type: "narration", text: "墓图在黑棺旁只留下一句后添的批注：空棺非葬，见遗文即退。苏莹没有照做。她一路追查到这里，若不弄清警告所指，便无法判断应当从何处截断仍在运转的祖阵。" },
 ];
 
 const suMasterTruthEvents: VisualNovelEvent[] = [
@@ -120,7 +123,7 @@ export const suActThreeScenes: Record<string, Scene> = {
 export const suActFourScenes: Record<string, Scene> = {
   suBloodGate: { id: "suBloodGate", act: 4, node: 1, chapter: "第四幕 · 苏莹线 · 节点 1 / 6", title: "祖阵深处", events: suBloodGateEvents, choices: [{ id: "su-follow-inscription", label: "随苏莹沿苏氏旧纹绕开蛊茧，追查祖阵去向", next: "suBloodGuard", result: "你们贴着石殿右侧前行，每一步都落在旧纹之间未被改动的石面上。越接近黑棺，池中蛊茧的收缩声越弱，棺前地底传来的钝响反而越清楚。绕过最后一根石柱时，苏莹抬手示意你停下。黑棺前横着一道半圆形旧阵，边缘残留的古字只能读出“守血者止步”几字；阵心半跪着一具高大的血色傀儡，双肩与右膝都被粗重阵纹接入地面。你们尚未越过半圆阵线，墙内的牵机丝忽然收紧。池心新阵输送的暗红血气横穿石殿，灌入傀儡背后的旧阵。它的五指随之扣入石地，缓慢抬起头。改阵之人无法直接号令这具苏氏旧物，却能用血气将它惊醒。苏莹退到阵线之外，指向傀儡肩、膝处正在发亮的连接点：“我压住旧阵，你别让它离开棺前这道缺口。”你挡在通往黑棺的必经之处，血色傀儡已经从地上站起。" }] },
   suBloodGuard: { id: "suBloodGuard", act: 4, node: 2, chapter: "第四幕 · 苏莹线 · 节点 2 / 6", title: "守墓之物", events: suBloodGuardEvents, battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "suCoffin", defeatNext: "ending", victoryFlag: "苏莹线血傀儡已毁", defeatFlag: "死于守门血傀儡", defeatEnding: "deathByBloodGuard" } },
-  suCoffin: { id: "suCoffin", act: 4, node: 3, chapter: "第四幕 · 苏莹线 · 节点 3 / 6", title: "空棺遗文", events: suCoffinEvents, choices: [{ id: "su-restore-text", label: "与苏莹复原棺上铭文", next: "suMasterTruth", result: "被刮去的古字重新亮起，墓主未死的真相随之浮现。" }] },
+  suCoffin: { id: "suCoffin", act: 4, node: 3, chapter: "第四幕 · 苏莹线 · 节点 3 / 6", title: "空棺遗文", events: suCoffinEvents, choices: [{ id: "su-restore-text", label: "以旧玉照出反刻底纹，与苏莹复原棺上遗文", next: "suMasterTruth", result: "你将旧玉贴近棺首残面，只渡入一线真元。玉光沿石层深处的反刻底纹缓慢游走；被刮去的表层文字没有复原，尚存的校准笔画却一段段亮起。苏莹借着微光，将断笔与墓图上的苏氏古字逐一比对，补出几句残文：棺存旧壳，血池养身；后人持钥，奉血承蛊；主归五转……最后一行毁损最重，只在边缘留下“返生”二字的几笔轮廓。这些残句与棺内人形凹腔、向下延伸的导血槽彼此印证。黑棺并非苏衍的埋骨处，而是他舍弃旧躯、转运血气的一环；“后人持血钥入内”也更像是要借苏氏后人的血脉，填补返生阵尚缺的一步。苏莹没有就此断定苏衍仍是活人，只将墓图上的警告与残文并在一处：“师父留下‘不可祭’，防的应当就是这条路。若照碑文奉血，所谓承蛊之人很可能只是祖阵取用的血食。”她收好墓图，按下反刻底纹末端的阵点。人形凹腔下方传来石轴转动声，整块棺底向旁移开，露出一口垂直通往血池下层的窄井。暗红阵光从井底映上来，伴着比先前更清楚的缓慢呼吸。你取回旧玉，与苏莹退到石棺两侧。井壁阵纹正在一层层亮起，某种藏在下层的东西正沿血气向上移动。" }] },
   suMasterTruth: {
     id: "suMasterTruth", act: 4, node: 4, chapter: "第四幕 · 苏莹线 · 节点 4 / 6", title: "血脉拒命", events: suMasterTruthEvents,
     choices: [

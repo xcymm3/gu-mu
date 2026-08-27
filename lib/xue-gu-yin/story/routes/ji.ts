@@ -38,8 +38,9 @@ const jiThresholdEvents: VisualNovelEvent[] = [
 
 const jiBloodGateEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "血门开启，祭殿里散落着尚未死去的同行者。乔无咎从暗处启动血祭，牵机丝拖着伤者向血池滑去。纪清寒没有看中央的蛊茧，她先把断剑插进地面，替最近的人截住一根。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "先把人带回来。蛊可以稍后再毁。", expression: "alert", position: "right" },
+  { type: "narration", text: "石门完全退入两侧墙壁，祭殿的轮廓逐渐从黑暗中显现出来。这里约有二十余丈见方，数根石柱撑着低沉的穹顶；中央是一座环形血池，半透明蛊茧悬在池心上方，每收缩一次，池面便随之荡开一圈波纹。\\n\\n五条较粗的祭线从不同墓道穿入殿中，最后汇入蛊茧下方。薛逢倒在右侧石阶旁，正抓住一根石柱勉强稳住身形；缠在腰间的血色细线不断将他向池边拖去。赵黎位于祭殿另一端，血纹蛊放出的数道血芒钉在地面，暂时挡住了脚下祭线，可每当他截断一处，附近的阵纹便会重新亮起。\\n\\n苏莹跟在你们身后踏过门槛。她脚下的石板忽然向内翻转，整个人随碎石滑落到低了一层的池沿。未等她站稳，一道从地缝中伸出的祭线已经缠住脚踝，将她朝环形血池拖去。她反手抓住池沿凸起，才没有立刻滑入血水。\\n\\n穹顶深处随即传来一连串机关转动声。五条祭线同时绷紧，地面的暗红阵纹也比先前亮了一层。是谁在墙后发动机关，殿中无人看见。\\n\\n纪清寒衣襟内的魂丝隔着白绢亮了起来。微光所指并非整个蛊茧，而是茧后石台上一团灰白蛊材。她只看了一眼，便将视线移向被拖动的三人。那团蛊材是否靠血祭滋养，至少要先让眼前的人活下来，才有机会查清。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "薛逢与赵黎离得最近，先截住这两道。苏莹在血池内侧，等站稳阵脚再过去。", expression: "alert", position: "right" },
+  { type: "narration", text: "纪清寒提着残剑走向右侧阵纹，你则沿另一道祭线靠近赵黎。两处交点都在向池心输送血光，只要有一处失手，倒地之人便会被拖入血池。" },
 ];
 
 const jiBloodGuardEvents: VisualNovelEvent[] = [
@@ -107,7 +108,7 @@ export const jiActThreeScenes: Record<string, Scene> = {
 };
 
 export const jiActFourScenes: Record<string, Scene> = {
-  jiBloodGate: { id: "jiBloodGate", act: 4, node: 1, chapter: "第四幕 · 纪清寒线 · 节点 1 / 6", title: "先救活人", events: jiBloodGateEvents, choices: [{ id: "ji-cut-lines", label: "与纪清寒一同斩断祭线", next: "jiBloodGuard", result: "你越过蛊茧，径直冲向被血傀儡拦住的伤者。" }] },
+  jiBloodGate: { id: "jiBloodGate", act: 4, node: 1, chapter: "第四幕 · 纪清寒线 · 节点 1 / 6", title: "先救活人", events: jiBloodGateEvents, choices: [{ id: "ji-cut-lines", label: "与纪清寒分头截住最先收紧的两道祭线", next: "jiBloodGuard", result: "你踩住赵黎身前的阵纹，将真元压入祭线交汇处。沿地面流动的血光顿时从中断开，缠在赵黎脚下的细线也随之松弛。\\n\\n几乎同一刻，纪清寒的残剑贴着薛逢腰侧斩过，将那道祭线截成两段。断口刚要沿阵纹重新接合，她便把剑尖压在交点之间，迫使两端血光停在剑锋两侧。薛逢终于止住滑势，却仍无法自行起身。\\n\\n两道祭线接连受阻，环形血池下方传来一声沉闷撞击。池水从内侧向外翻开，一只远比常人粗大的手掌按上石台边缘。随后，一道高大的黑影借力从血池中缓缓站起，正好挡在通往低层池沿的石阶前。\\n\\n苏莹仍抓着远处的池沿。你刚朝她所在的方向迈出一步，守门傀儡便转过头来，空洞的眼眶对准了你。\\n\\n纪清寒不能松开剑下的阵纹，只能留在薛逢身旁。她抬眼看向挡路的傀儡：“这里我守住。你把路打开。”\\n\\n你沿着池边向前，停在血傀儡与伤者之间。" }] },
   jiBloodGuard: { id: "jiBloodGuard", act: 4, node: 2, chapter: "第四幕 · 纪清寒线 · 节点 2 / 6", title: "血池救援", events: jiBloodGuardEvents, battle: { enemyName: "血傀儡", enemyHealth: 20, victoryNext: "jiRescue", defeatNext: "ending", victoryFlag: "纪清寒线血傀儡已毁", defeatFlag: "死于守门血傀儡", defeatEnding: "deathByBloodGuard" } },
   jiRescue: { id: "jiRescue", act: 4, node: 3, chapter: "第四幕 · 纪清寒线 · 节点 3 / 6", title: "一个不落", events: jiRescueEvents, choices: [{ id: "ji-finish-rescue", label: "带回最后一名伤者", next: "jiArrayTruth", result: "最后一根祭线断开，乔无咎藏身的方向也随之暴露。" }] },
   jiArrayTruth: {

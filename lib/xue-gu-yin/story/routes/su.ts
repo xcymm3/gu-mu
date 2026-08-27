@@ -13,10 +13,13 @@ const suTrailEvents: VisualNovelEvent[] = [
 
 const suInscriptionEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
-  { type: "character", action: "show", character: "su-ying", position: "right", expression: "sad" },
-  { type: "narration", text: "苏莹承认师父留下过半张墓图，图上反复写着“蛊不可祭，蛊只可承”。乔家声称墓主早已坐化，阵纹却仍在以活人的血维持运转。" },
-  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "墓主苏衍或许根本没有死。乔无咎带我们进来，不是开门，是替他凑齐唤醒血蛊的祭品。", expression: "sad", position: "right" },
-  { type: "narration", text: "你按住腰间旧玉。玉中传出的微弱神识与苏氏旧印彼此呼应，证明这座墓等待的从来不只是乔家。" },
+  { type: "narration", text: "夹道越往前越窄，头顶不时传来石板挪动的闷响。苏莹依照阵盘残留的指向，在一处凹入墙中的石龛前停下。龛内嵌着半块断碑，碑面大半覆着黑褐色硬壳，边缘只露出几笔古字。" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+  { type: "narration", text: "苏莹取出那半张折旧的墓图，与断碑上的线条逐一比对。墓图残角画着与前一处阵盘相同的苏氏旧印，印旁另有一行墨色稍新的小字：蛊不可祭，蛊只可承。那是留下墓图的人后来添上的警告，并非碑文的一部分。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "师父只告诉我，若墓中仍有人以活血维持祖阵，绝不能让血钥落入对方手中。他没有说明血钥究竟是什么。", expression: "wary", position: "right" },
+  { type: "narration", text: "你沿断碑向下看去，几条本该早已干涸的导血槽中，仍有极细的暗红液体缓慢流向墓穴深处。液体尚带着微温，石壁后方也每隔数息传来一次低沉震动。这里的阵法没有随着墓主坐化而停转。" },
+  { type: "narration", text: "苏莹辨认了许久，只从裸露的残文中读出“苏衍”“承蛊”和半个“返”字。单凭这些字，还不足以断定墓主仍活着；但祖阵持续吞入血气，至少说明墓中尚有某种东西需要它维持。再想到先前不断改变通路的牵机丝，她怀疑入墓之人正被有意赶往阵法中心。" },
+  { type: "narration", text: "你按住逐渐发热的旧玉。玉面靠近断碑时，碑侧一处形制相合的凹槽也泛起微光。旧玉没有带来任何答案，却可能照出藏在硬壳下的其余铭文。" },
 ];
 
 const suLineageEvents: VisualNovelEvent[] = [
@@ -91,7 +94,7 @@ export const suActThreeScenes: Record<string, Scene> = {
   suInscription: {
     id: "suInscription", act: 3, node: 2, chapter: "第三幕 · 苏莹线 · 节点 2 / 4", title: "未死之人",
     events: suInscriptionEvents,
-    choices: [{ id: "su-answer-jade", label: "让旧玉回应苏氏旧印", next: "suLineage", result: "旧玉泛起血光，阵盘上残缺的苏氏旧印一笔笔补全。", effect: { flag: "苏氏旧印" } }],
+    choices: [{ id: "su-answer-jade", label: "让旧玉回应断碑上的苏氏旧印", next: "suLineage", result: "你将旧玉按入凹槽，只注入一线真元。玉面渐渐升温，断碑上的苏氏旧印随之亮起，藏在硬壳下的残缺笔画被暗红微光逐段勾出。苏莹没有急着靠近，先观察导血槽中的流速，确认阵法未因旧玉而加快运转，才俯身辨认。新显出的铭文并不完整，只余下几句断续的话：后人持血钥入内，承蛊者可返，祭血者不可出。落款处的“苏衍”二字也只剩大半。苏莹将墓图上的警告与残文对照片刻，低声道：“师父留下‘不可祭’，应当就是在防备碑上这条路。苏衍是否还保有神智，眼下仍不能断定；能够确定的，只有这座阵一直在等一个能使苏氏旧印回应的人。”她收好墓图，又看向仍在流动的暗红细线：“血钥未必是一件器物。若它指的是开门之人，我来到这里或许并非偶然。”你取回旧玉，碑后随即传来一声短促的机括咬合声，一条更深的侧道缓缓露出。你与苏莹先确认身后的退路仍然敞开，才沿着导血槽延伸的方向继续前行。", effect: { flag: "苏氏旧印" } }],
   },
   suLineage: {
     id: "suLineage", act: 3, node: 3, chapter: "第三幕 · 苏莹线 · 节点 3 / 4", title: "血脉之钥",

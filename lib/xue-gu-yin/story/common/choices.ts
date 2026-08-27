@@ -56,9 +56,9 @@ export const bloodThresholdChoices: Choice[] = [
 export const swarmChoices: Choice[] = [
   {
     id: "swarm-insight",
-    label: "收敛真元，观察噬魂蛊为何主动避开苏莹",
+    label: "一边抵挡扑来的噬魂蛊，一边观察它们为何避开苏莹",
     next: "shadow",
-    result: "你没有急着出手。数次观察后，你确认噬魂蛊并非偶然绕开苏莹，而是在畏惧她无意间念出的古老音节。",
+    result: "你催动真元逼退扑到身前的噬魂蛊，同时分出心神留意苏莹周围的虫群。几轮攻守之后，你确认它们并非偶然绕开苏莹，而是在畏惧她断续低诵中的几个古老音节。",
     effect: { personality: { insight: 1 } },
   },
   {

@@ -15,13 +15,10 @@ export const swarmEvents: VisualNovelEvent[] = [
   { type: "character", action: "hide", character: "zhao-li" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
   { type: "narration", text: "队伍大乱。毒藤猛然缠住你的脚踝，一道剑芒贴着裤腿掠过，将它齐根斩断。与此同时，黑甲毒蝎扑向纪清寒后颈；你并指弹出月白弧光，将它钉死在砖缝。\n\n纪清寒侧目看你，剑尖随后向你身侧偏了少许，替你分担了大半压力。" },
-  { type: "character", action: "show", character: "xue-feng", position: "left", expression: "panicked" },
-  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "退！快往后退！", expression: "panicked", position: "left" },
-  { type: "narration", text: "薛逢在石壁上乱抓，摔得狼狈不堪，后退时狠狠撞向苏莹。你侧身避开两人，离赵黎周身的血环只有数步之遥。幽绿血火仍沿着环迹明灭，将扑近的噬魂蛊烧得蜷曲坠地。" },
+  { type: "narration", text: "虫潮贴着石壁翻卷而来，你侧身避过迎面扑下的一片黑影，离赵黎周身的血环只有数步之遥。幽绿血火仍沿着环迹明灭，将扑近的噬魂蛊烧得蜷曲坠地。" },
   { type: "character", action: "hide", character: "ji-qinghan" },
-  { type: "character", action: "hide", character: "xue-feng" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-  { type: "narration", text: "苏莹催动的防守蛊光罩摇摇欲坠，看似比薛逢还不堪。可你看得分明：所有扑向她的噬魂蛊，都会在触身前莫名偏开。\n\n察觉你的窥探，她故意让手法变得混乱，低垂的睫毛却在剧烈颤抖。虫潮再次从甬道上方压下。一边是赵黎血火撑出的立足之地，一边是苏莹身前那道反常的空隙，两处动静同时落入你眼中。" },
+  { type: "narration", text: "苏莹催动的防守蛊光罩摇摇欲坠，看似随时都会破裂。可你看得分明：所有扑向她的噬魂蛊，都会在触身前莫名偏开。\n\n察觉你的窥探，她故意让手法变得混乱，口中的低诵也随之断断续续，低垂的睫毛却在剧烈颤抖。虫潮再次从甬道上方压下。一边是赵黎血火撑出的立足之地，一边是苏莹身前那道反常的空隙，两处动静同时落入你眼中。" },
 ];
 
 export const shadowEvents: VisualNovelEvent[] = [

@@ -110,7 +110,13 @@ const suAftermathEvents: VisualNovelEvent[] = [
 
 const suEpilogueEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.dawn-exit", transition: "fade" },
-  { type: "narration", text: "五人越过将塌的墓门时，荒原正迎来第一线晨光。苏莹回头看了最后一眼埋葬祖先罪孽的废墟，将断裂血钥丢进泥水。她不再是谁的祭品或钥匙，只以自己的名字与你并肩走向蛊市。" },
+  { type: "narration", text: "五人沿长阶向上走了很久，阶顶石门才在转钥带动下缓慢松开。门外的暴雨已经减弱，荒原仍被湿冷晨雾覆盖，东方云层后却透出一线浅白。" },
+  { type: "narration", text: "最后一人跨出墓门后，内墓方向仍有低响传来。通往控制室与祖阵的石道在山腹中继续下沉，石门内侧的苏氏旧纹逐一暗去。乔无咎、苏衍与失去活动的血魔蛊都留在已经封死的墓中。" },
+  { type: "narration", text: "纪清寒、赵黎与薛逢先到坡下确认道路。三人都活着走出墓门，没有人再提“见者有份”。墓穴已经塌毁，他们能够带走的，只有各自在途中看见和记住的东西。" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+  { type: "narration", text: "苏莹留在石门外。晨雨落在她摊开的掌心，原本裂成数段的血钥印记随着祖阵熄灭而一点点淡去，最后只剩几道浅红痕迹。掌心没有伤口，也不再回应墓中任何阵纹。" },
+  { type: "narration", text: "她取出师父留下的半张墓图。“蛊不可祭，蛊只可承”的警告已经得到印证，残图边缘却仍有几处尚未查明的苏氏标记。她没有烧毁墓图，也没有把它当成祖先留下的命令，只重新折好收起。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "苏氏血脉说明我从哪里来，管不到我此后往哪里去。我先回蛊市整理墓中的古字，再查残图上余下的标记。你若愿意，之后与我一处处核对。", expression: "wary", position: "right" },
 ];
 
 export const suActThreeScenes: Record<string, Scene> = {
@@ -156,7 +162,7 @@ export const suActFourScenes: Record<string, Scene> = {
 
 export const suActFiveScenes: Record<string, Scene> = {
   suAftermath: { id: "suAftermath", act: 5, node: 1, chapter: "第五幕 · 苏莹线 · 节点 1 / 2", title: "五人重聚", events: suAftermathEvents, choices: [{ id: "su-lead-out", label: "以石钥辨认最后一条生路，带四人离开内墓", next: "suEpilogue", result: "你将石制转钥嵌入控制室出口的门位，苏莹依墓图校准方向。门后的旧纹依次亮起，指出一条绕开塌陷窄井与中央石殿的外行墓道。赵黎放出血纹蛊沿前路查验尚在流动的血线，纪清寒走在其后，以剑锋清开挡路碎石；薛逢留在队伍中段，逐处确认没有人在岔路掉队。你与苏莹守在最后一道门前，直到其余三人全部通过，才取下石钥跟上。内墓再次下沉时，来路石顶成片塌落，控制室与祖阵都被封在后方。五人赶在尘雾追上前穿过外墓石门，抵达通往地面的长阶。阶顶已经透下一线灰白天光，门缝中还能听见雨声。众人没有停下清点所得，只沿长阶继续向上。苏莹回望已经封死的内墓，将掌心残缺阵印收回袖中，与你一同走在队伍最后。" }] },
-  suEpilogue: { id: "suEpilogue", act: 5, node: 2, chapter: "第五幕 · 苏莹线 · 节点 2 / 2", title: "血脉归位", events: suEpilogueEvents, choices: [{ id: "su-end", label: "与苏莹走向晨光", next: "ending", result: "血脉不再是命令，五名入墓者全部生还。", effect: { ending: "true" } }] },
+  suEpilogue: { id: "suEpilogue", act: 5, node: 2, chapter: "第五幕 · 苏莹线 · 节点 2 / 2", title: "血脉归位", events: suEpilogueEvents, choices: [{ id: "su-end", label: "与苏莹一同走出墓门，答应陪她查完墓图余下的标记", next: "ending", result: "你接过她递来的墓图看了一眼，将尚未辨明的几处标记记下，再把图还给她：“先回蛊市。余下的地方，一处一处看。”苏莹将墓图收回袖中，没有道谢，只提醒你别忘了自己说过的话。她掌心最后几道浅红阵痕也在晨光下完全淡去。坡下，纪清寒已经选好避开泥沼的道路；赵黎走在较远处，血纹蛊停在他肩侧；薛逢回头催促了一声。你与苏莹沿湿滑石坡下行，在岔路前追上三人。五人暂且同向蛊市而去。墓门在身后彻底合拢，荒原上的雨还没有停，东方天色却已经足以看清前路。苏莹仍姓苏，也记得自己从何而来；“苏氏后人”从此只是她经历的一部分，不再替她作任何决定。", effect: { ending: "true" } }] },
 };
 
 export const suRouteScenes: Record<string, Scene> = { ...suActThreeScenes, ...suActFourScenes, ...suActFiveScenes };

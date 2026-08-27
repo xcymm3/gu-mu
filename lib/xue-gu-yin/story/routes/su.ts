@@ -99,7 +99,13 @@ const suCollapseEvents: VisualNovelEvent[] = [
 
 const suAftermathEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.dawn-exit", transition: "fade" },
-  { type: "narration", text: "纪清寒、赵黎与其余幸存者沿开启的生门汇合。赵黎看了一眼苏衍的残骸，难得没有争抢已经化灰的五转蛊；乔无咎则被失控的机关拖回控制室，再也没能出来。" },
+  { type: "narration", text: "你与苏莹沿外层墓道循声前行。第一处新开的生门后，纪清寒正扶着一块倾斜石板，薛逢从石板下方的窄隙向外挪动。总枢解锁后，压住通道的机关已经卸力；你们一同移开石板，两人随即脱离封闭阵区。" },
+  { type: "narration", text: "另一道门响从左侧岔路传来。赵黎带着血纹蛊从黑暗中走出。他先看了苏莹掌心断裂的阵印，又看向你带回的石制转钥，只问了一句通往外墓的生门是否已经全部开启。" },
+  { type: "narration", text: "至此，除乔无咎外，与你同行深入墓穴的四人已经重新汇合。五人没有在仍在震动的墓道中停留，沿转钥留下的门位标记向外撤离。" },
+  { type: "narration", text: "经过第四处生门时，侧方控制室也因总枢解锁而敞开。乔无咎仰面倒在控制台旁，胸口已经没有起伏。他右手仍扣着一束主牵机丝，线槽上的刻记分别对应石厅翻板、血门外阵盘与祖阵中新添的细纹；中央扳杆被强行拉回原位，数束回卷牵机丝缠在他的手臂与灰袍上。" },
+  { type: "narration", text: "总枢反向开启生门时，他仍抓着主线试图合门。回卷之力将他掀倒，后脑撞上控制台石沿。众人确认他已经死亡，没有再靠近仍在轻颤的断线。" },
+  { type: "narration", text: "乔无咎带来的兽皮残图摊在控制台上，图中只标出后来改造的机关、牵机线槽与这间控制室，没有苏氏祖阵的生门次序。直到此刻，众人才看清他为何能够改换沿途通路，却始终无法号令守墓旧物与真正的主阵。" },
+  { type: "narration", text: "石室顶部再次传来裂响。苏莹将墓图与总枢石钥并在一处，找出通往外墓的最后一条稳定路线。若再迟一步，这条路也会被落石截断。" },
 ];
 
 const suEpilogueEvents: VisualNovelEvent[] = [
@@ -149,7 +155,7 @@ export const suActFourScenes: Record<string, Scene> = {
 };
 
 export const suActFiveScenes: Record<string, Scene> = {
-  suAftermath: { id: "suAftermath", act: 5, node: 1, chapter: "第五幕 · 苏莹线 · 节点 1 / 2", title: "五人重聚", events: suAftermathEvents, choices: [{ id: "su-lead-out", label: "带所有人离开崩塌的蛊墓", next: "suEpilogue", result: "旧钥指出最后一条生路，五道身影在落石间重新聚齐。" }] },
+  suAftermath: { id: "suAftermath", act: 5, node: 1, chapter: "第五幕 · 苏莹线 · 节点 1 / 2", title: "五人重聚", events: suAftermathEvents, choices: [{ id: "su-lead-out", label: "以石钥辨认最后一条生路，带四人离开内墓", next: "suEpilogue", result: "你将石制转钥嵌入控制室出口的门位，苏莹依墓图校准方向。门后的旧纹依次亮起，指出一条绕开塌陷窄井与中央石殿的外行墓道。赵黎放出血纹蛊沿前路查验尚在流动的血线，纪清寒走在其后，以剑锋清开挡路碎石；薛逢留在队伍中段，逐处确认没有人在岔路掉队。你与苏莹守在最后一道门前，直到其余三人全部通过，才取下石钥跟上。内墓再次下沉时，来路石顶成片塌落，控制室与祖阵都被封在后方。五人赶在尘雾追上前穿过外墓石门，抵达通往地面的长阶。阶顶已经透下一线灰白天光，门缝中还能听见雨声。众人没有停下清点所得，只沿长阶继续向上。苏莹回望已经封死的内墓，将掌心残缺阵印收回袖中，与你一同走在队伍最后。" }] },
   suEpilogue: { id: "suEpilogue", act: 5, node: 2, chapter: "第五幕 · 苏莹线 · 节点 2 / 2", title: "血脉归位", events: suEpilogueEvents, choices: [{ id: "su-end", label: "与苏莹走向晨光", next: "ending", result: "血脉不再是命令，五名入墓者全部生还。", effect: { ending: "true" } }] },
 };
 

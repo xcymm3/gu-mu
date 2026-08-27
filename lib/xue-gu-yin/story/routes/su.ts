@@ -2,10 +2,13 @@ import type { Scene, VisualNovelEvent } from "../../model.ts";
 
 const suTrailEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
-  { type: "narration", text: "你没有追逐人声，而是沿着雾中一闪即逝的血色古文落入侧道。苏莹正跪在断裂阵盘前，以指尖描摹那些旁人看不懂的字符。" },
+  { type: "narration", text: "石厅中的浓雾尚未散尽，远近人声都被雾气搅得难辨方向。你正要循声而行，脚边忽有一枚暗红古字亮起，片刻后，东南方又有第二枚、第三枚依次浮现。那些古字的起落笔势，与你先前见过的苏莹手势极为相似。" },
+  { type: "narration", text: "最后一枚古字停在一块被机关掀斜的石板旁。你以真元试过石板下方并无埋伏，随后沿着露出的几级窄阶进入下层夹道。浓雾被隔在头顶，夹道尽头却传来石环断续转动的轻响。" },
+  { type: "narration", text: "苏莹正蹲在一方开裂的圆形阵盘前。她一手按住松动的边角，一手拨开沟槽里的碎屑。阵盘侧面牵着一根细得近乎看不见的牵机丝，没入墙孔深处；每当细丝轻轻抽动，外圈石环便跟着偏移一寸，显然还有人在远处操纵这里的机关。" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "你不该跟来的。看懂得越多，乔无咎越不会让你活着出去。", expression: "wary", position: "right" },
-  { type: "narration", text: "她嘴上驱赶，身体却悄然让开半步，使你得以看清阵盘中央的苏氏旧印。你终于确定，她不是偶然识得墓中文字。" },
+  { type: "narration", text: "最后一层积灰被拂去，阵盘中央露出一枚残缺旧印。苏莹察觉你靠近，指尖立刻停在旧印边缘。那印记的收笔之法，恰与她方才引路的古字一脉相承。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "石厅里的机关还连着这根牵机丝。操纵它的人若发现有人认出了旧印，先合上的会是我们身后的石板。", expression: "wary", position: "right" },
+  { type: "narration", text: "她没有说出幕后之人的名字。墙孔里的牵机丝仍在间歇抽动，留给你们的时间并不多。" },
 ];
 
 const suInscriptionEvents: VisualNovelEvent[] = [
@@ -81,8 +84,8 @@ export const suActThreeScenes: Record<string, Scene> = {
     id: "suTrail", act: 3, node: 1, chapter: "第三幕 · 苏莹线 · 节点 1 / 4", title: "雾中古文",
     events: suTrailEvents,
     choices: [
-      { id: "su-ask-lineage", label: "直问她与苏氏是什么关系", next: "suInscription", result: "苏莹的指尖停在旧印上：“等我确认墓里那个人还活着，再告诉你该叫我什么。”她没有继续赶你走。" },
-      { id: "su-read-in-silence", label: "收起疑问，陪她看完古文", next: "suInscription", result: "你替她挡住雾里游走的蛊影，直到最后一枚古字被描清。苏莹低声说：“现在你有资格知道了。”" },
+      { id: "su-ask-lineage", label: "指出旧印笔势与她先前的指法相同，问她从何处学来", next: "suInscription", result: "“这道旧印的起笔，与你在石厅里用过的手势相同。”你没有逼近，只把视线落在她停住的指尖上。苏莹沉默片刻，低声道：“师父教的。他留下的半张墓图上，也有同样的印记。等我看过前面的下一段铭文，再把知道的事告诉你。”说完，她起身沿阵盘指向的夹道继续前行。" },
+      { id: "su-read-in-silence", label: "不追问旧印来历，先替她按住开裂的阵盘", next: "suInscription", result: "你蹲下按稳阵盘松动的一角，外圈石环终于不再随牵机丝偏移。苏莹借机清出最后几道沟槽，将缺失的笔势一一记下，随后主动说道：“师父留下的半张墓图上，也有这枚旧印。我来这里，就是想弄清它的意思。下一段铭文应该就在前面，你若愿意，便一同去看。”她松开阵盘，你们赶在远处机关再次动作前离开夹道。" },
     ],
   },
   suInscription: {

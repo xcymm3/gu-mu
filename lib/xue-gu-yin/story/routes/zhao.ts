@@ -84,8 +84,22 @@ const zhaoFallEvents: VisualNovelEvent[] = [
 ];
 
 const zhaoEpilogueEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.blood-ruin", transition: "fade" },
-  { type: "narration", text: "天亮时，蛊墓里再无第二道呼吸。你踏着血水走出墓门，五转蛊威使荒原虫兽尽数伏地。没有人能再夺走你的机缘，也没有人能从你眼中找到昔日那个入墓之人。" },
+  { type: "background", asset: "background.dawn-exit", transition: "fade" },
+  { type: "narration", text: `逆流的血气在墓中持续了许久。
+
+最靠近控制室的祭线率先暗了下去。片刻后，通往环形血池的那一道也停止流动。借着与血魔蛊的联系，你感觉到赵黎原本衰弱的气血彻底消失；更远处几条祭线传来的脉动，也在此后逐一沉寂。
+
+直到五条阵纹全都变回死灰色，蛊窍中的血魔蛊才收拢薄翼。整座墓穴里，再没有第二道属于活人的呼吸。
+
+被祭线抽空的不只是入墓者。维持石门与沿途机关的血气同样所剩无几。控制室的齿轮先后停转，甬道深处接连传来石闩脱落的闷响。那些曾经必须用气血或真元压住的禁制，此刻只剩黯淡纹路留在地面。
+
+你沿原路返回祭殿。赵黎仍靠在血池边，低垂着头，血纹蛊落在脚旁，已经没有动静。你从他身边经过，没有停步。
+
+之后的甬道同样安静。失去阵力的石门可以直接推开，残存傀儡也都停在原处。走到最外层时，夜里的暴雨早已停歇，一线灰白晨光正从入口石门的缝隙中照进来。
+
+你在门槛内停下，收敛周身蛊息。血魔蛊吞下的气血仍在经脉中缓慢流转，使每一次吐纳都比入墓时更加沉重有力。石门外的荒原尚未被日光照亮，只有湿冷晨风穿过门缝。
+
+再向前一步，便是墓外。` },
   { type: "effect", effect: "darken", tone: "danger" },
 ];
 
@@ -132,7 +146,11 @@ export const zhaoActFourScenes: Record<string, Scene> = {
 
 export const zhaoActFiveScenes: Record<string, Scene> = {
   zhaoFall: { id: "zhaoFall", act: 5, node: 1, chapter: "第五幕 · 赵黎线 · 节点 1 / 2", title: "蛊食其主", events: zhaoFallEvents, choices: [{ id: "zhao-embrace", label: "撤去蛊窍禁制，任血魔蛊沿祭线继续进食", next: "zhaoEpilogue", result: "你收回封住腕脉的真元，也撤去了蛊窍中压制血魔蛊的最后一层约束。\n\n掌心血芒骤然明亮。控制室外的祭线由近及远逐一点燃，原本流向中央蛊茧的阵纹随之倒转。散落在墓穴各处的气血开始沿着五条祭线回流，在地面汇成一道道向你脚下逼近的暗红细流。\n\n蛊窍中的躁动终于安静下来。取而代之的，是不断涌入经脉的温热血气。" }] },
-  zhaoEpilogue: { id: "zhaoEpilogue", act: 5, node: 2, chapter: "第五幕 · 赵黎线 · 节点 2 / 2", title: "血月出墓", events: zhaoEpilogueEvents, choices: [{ id: "zhao-end", label: "走入血色天光", next: "ending", result: "从此世间多了一位血蛊魔君。", effect: { ending: "demon" } }] },
+  zhaoEpilogue: { id: "zhaoEpilogue", act: 5, node: 2, chapter: "第五幕 · 赵黎线 · 节点 2 / 2", title: "血月出墓", events: zhaoEpilogueEvents, choices: [{ id: "zhao-end", label: "跨过失效的墓门，走入清晨荒原", next: "ending", result: `你推开失去阵力的石门，跨过门槛。藏在近处石缝中的虫兽感受到血魔蛊气息，纷纷避向更深的荒草；除此之外，清晨的荒原与入墓前并无不同。
+
+此后数年，你不断催动血魔蛊夺取对手气血。每当那道暗红蛊光出现，总有人在争斗之后只剩一具干瘪躯壳。相似的消息渐渐从不同地方汇到一起，修士们终于为那名无人知晓来历的蛊修取了同一个称号。
+
+血蛊魔君。`, effect: { ending: "demon" } }] },
 };
 
 export const zhaoRouteScenes: Record<string, Scene> = { ...zhaoActThreeScenes, ...zhaoActFourScenes, ...zhaoActFiveScenes };

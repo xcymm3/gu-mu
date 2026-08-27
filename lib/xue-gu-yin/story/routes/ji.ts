@@ -26,10 +26,14 @@ const jiBurdenEvents: VisualNovelEvent[] = [
 
 const jiThresholdEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
+  { type: "character", action: "show", character: "su-ying", position: "left", expression: "wary" },
+  { type: "narration", text: "石门足有两人高，门楣上套着五圈由浅入深的蛊纹。下方两道锁纹分别贴着左右门缝延伸，正将沿途汇来的暗红微光一缕缕引入门内。\\n\\n门下没有完全封死。少量发黑的血水从缝隙中渗出，里面每隔数息还会传来一次拖动重物的摩擦声。声音很轻，间或夹着一两声压抑的喘息。门后至少还有活人。\\n\\n苏莹蹲在门边，没有直接碰触蛊纹。她拾起一块碎石，压住左侧锁纹的一处交点。左边的红光刚暗下去，右侧锁纹便骤然一亮，随即送回一缕血色，将被压住的缺口重新接了起来。\\n\\n她立即松开碎石，退离门缝。" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "五道蛊纹相套，门后封着的至少是五转蛊物。左右两道门锁会替彼此补回血纹，若不能同时截断，破开一处也没有用。", expression: "wary", position: "left" },
+  { type: "character", action: "hide", character: "su-ying" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "softened" },
-  { type: "narration", text: "血色石门前，纪清寒将断剑抵在阵纹上。门后不只有她需要的续魂蛊材，还有一只足以让整座蛊市化作血食的五转邪蛊。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "进去以后，我先救还能救的人。若再无可救之人，便与你一起毁掉那只蛊。", expression: "softened", position: "right" },
-  { type: "narration", text: "你握住她满是裂纹的剑脊，与她共同推开石门。你选择的并不是最安全的路，而是一条必须为每次伸手负责到底的路。" },
+  { type: "narration", text: "纪清寒取出包着魂丝的白绢。还未贴近石门，银线上那点微弱的光便自行亮起，比在检修石台上清晰了许多。她要找的温养神魂之物确实就在近处。\\n\\n可魂丝亮起的节奏，恰好与门下血水流动的间隔一致。那件蛊材究竟只是被封在同一座祭殿里，还是本就靠这座抽取气血的阵法滋养，眼下还无法确定。\\n\\n纪清寒把魂丝收回衣襟，目光从门缝下的血迹移到你脸上。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "开门后先救人，再查蛊材。若它当真靠活人的气血续存，便连同那只五转蛊一起毁掉。", expression: "softened", position: "right" },
+  { type: "narration", text: "她走到左侧锁纹前，残剑尖端停在阵纹交汇处上方。你来到右侧，将掌心贴近另一处锁位。两边的红光一明一暗，下一次同时黯淡的间隙很快就要到来。" },
 ];
 
 const jiBloodGateEvents: VisualNovelEvent[] = [
@@ -98,7 +102,7 @@ export const jiActThreeScenes: Record<string, Scene> = {
   jiThreshold: {
     id: "jiThreshold", act: 3, node: 4, chapter: "第三幕 · 纪清寒线 · 节点 4 / 4", title: "共赴血门",
     events: jiThresholdEvents,
-    choices: [{ id: "ji-open-gate", label: "握住断剑，与她共同破门", next: "jiBloodGate", result: "寒光切开血纹，血色石门在你们面前缓缓开启。" }],
+    choices: [{ id: "ji-open-gate", label: "按住右侧锁纹，与纪清寒同时截断门锁", next: "jiBloodGate", result: "两侧锁纹同时暗下的一刻，苏莹在后方低声道：“就是现在。”\\n\\n你将凝聚在掌中的真元压入右侧交点，截断正在回流的血光。纪清寒的残剑也在同一瞬落下，剑尖沿着左侧纹路横切数寸。\\n\\n两道锁纹齐齐断开。门上的红光本能地向缺口回涌，却再也找不到能够接续的另一端，只能从两侧向中央逐段熄灭。\\n\\n石门深处传来一声闷响，锁在门后的石栓落入地槽。紧接着，整扇门向内缓缓退开。先从缝隙中涌出的不是蛊光，而是一股积压已久的血腥气。\\n\\n拖拽声随之变得清晰。黑暗里，有人艰难地吸了一口气。" }],
   },
 };
 

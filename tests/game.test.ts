@@ -580,6 +580,22 @@ test("共通线不保留无用途记录且不过早坐实乔无咎的嫌疑", ()
   assert.doesNotMatch(commonText, /绝不像初次入墓|像在照本宣科|堵住了最像生门|拐入一条连火光都照不进的岔道/);
 });
 
+test("甬道蛊潮统一世界观术语并让两个行动由同一场面自然引出", () => {
+  const presentation = resolveScenePresentation(chooseRole(), scenes.swarm);
+  assert.match(presentation.text, /气血与真元波动/);
+  assert.match(presentation.text, /深浅不一的抓痕.*临死前仍在徒手挖掘石壁/s);
+  assert.match(presentation.text, /赵黎以血火暂时清出的落脚处.*苏莹身前那道反常的空隙/s);
+  assert.doesNotMatch(presentation.text, /灵压|灵力|异族音节|毒藤|毒蝎|护住口鼻|丈许血环|幽绿血环|绝对立足之地|真空空隙/);
+
+  const insight = presentation.choices.find((choice) => choice.id === "swarm-insight");
+  const scheme = presentation.choices.find((choice) => choice.id === "swarm-scheme");
+  assert.ok(insight && scheme);
+  assert.match(insight.label, /一边抵挡.*一边暗中观察/);
+  assert.match(insight.result ?? "", /分出一缕神识.*古老音节/);
+  assert.match(scheme.label, /借赵黎的血火.*隐藏自身手段/);
+  assert.match(scheme.result ?? "", /没有出声阻拦/);
+});
+
 test("所有剧情选择都不再直接恢复当前生命", () => {
   for (const scene of Object.values(scenes)) {
     for (const choice of scene.choices ?? []) {

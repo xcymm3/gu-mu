@@ -3,22 +3,22 @@ import { resolveFogRouteChoices } from "../common/choices.ts";
 
 export const swarmEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-corridor", transition: "fade" },
-  { type: "narration", text: "深入墓穴不过百余步，石道便骤然收窄。火折子只能驱散三丈内的黑暗，石壁上密密麻麻的潮湿凿痕，像是困死于此的人用指甲撕出的血痕。\n\n乔无咎举着兽皮地图走在最前，每到岔口便借火光辨认上面模糊的标记。其余人挤在阴冷甬道中，摇曳火光将影子拉扯成一团。" },
-  { type: "narration", text: "咔嗒，咔嗒。\n\n头顶接缝传来令人牙酸的摩擦声。拇指大小、通体漆黑的蛊虫从石缝中争相挤出，不过弹指便化作滔天黑浪，振翅声震得众人耳膜发胀。" },
+  { type: "narration", text: "深入地底墓穴不过百余步，前方的狭长石道便骤然收窄，空气中积聚多年的阴湿与腥臭腐气愈发浓烈。\n\n摇曳的火光只能勉强驱散三丈范围内的黑暗，映出两侧石壁上密密麻麻、深浅不一的抓痕，像是有人被困在这里，直到临死前仍在徒手挖掘石壁。\n\n灰袍中年乔无咎举着一张泛黄兽皮残图走在最前，每逢岔口便借着微弱火光仔细辨查图上的猩红标记。其余几人各怀心思地挤在湿冷狭窄的甬道内，被火光拉扯出的影子如鬼魅般在墙壁上扭曲蠕动。" },
+  { type: "narration", text: "“咔嗒、咔嗒——”\n\n突然，头顶沉重的石缝间传来阵阵令人牙酸的碎石摩擦声。\n\n未等众人反应过来，无数拇指大小、通体乌黑发亮、背生坚硬甲壳的异虫便从石缝间争相挤出。不过弹指工夫，虫群已汇聚成一片铺天盖地的滚滚黑浪。密集的振翅声如雷鸣爆发，震得众人耳膜发胀、气血翻涌。" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "此乃噬魂蛊，极喜血腥之气。诸位若不想沦为食粮，便收敛气血，切莫教真元外泄。", expression: "calm", position: "center" },
-  { type: "narration", text: "众人依言收束气血，各自贴向甬道两侧。乔无咎卷起地图护住口鼻，虫潮转眼已经压到近前。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "不好，此乃极为嗜血的噬魂蛊！这些东西对修士的气血与真元波动极其敏感。诸位若不想被啃噬成一具白骨，速速施展敛气之术，切莫外泄半丝真元！", expression: "calm", position: "center" },
+  { type: "narration", text: "众人闻言不敢怠慢，纷纷收束体内气血与真元，将身躯紧贴在凹凸不平的石壁两侧。乔无咎迅速卷起残图收入袖中，眼看那铺天盖地的黑色虫浪已如惊涛拍岸般压到近前。" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "amused" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "乔道友说得倒轻巧。", expression: "amused", position: "left" },
-  { type: "narration", text: "血纹蛊自赵黎袖中呼啸而出，绕身划成微弱血环。虫潮触及血光便燃起幽绿火焰，他脚下方圆三尺干净得如同惊涛中的孤岛。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "一味收敛气血，未免太被动了些。", expression: "amused", position: "left" },
+  { type: "narration", text: "赵黎大袖一挥，一只通体腥红的血纹蛊呼啸而出，围绕其周身盘旋飞舞，瞬间撑起一道三尺血环。\n\n铺天盖地的噬魂蛊刚一触碰血芒，便如泼了火油般啪啪爆开，化作团团幽绿色的妖异火焰。赵黎立于血火之中，神色冷漠，脚下干净得犹如狂风暴雨中的一座孤岛。" },
   { type: "character", action: "hide", character: "qiao-wujiu" },
   { type: "character", action: "hide", character: "zhao-li" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
-  { type: "narration", text: "队伍大乱。毒藤猛然缠住你的脚踝，一道剑芒贴着裤腿掠过，将它齐根斩断。与此同时，黑甲毒蝎扑向纪清寒后颈；你并指弹出月白弧光，将它钉死在砖缝。\n\n纪清寒侧目看你，剑尖随后向你身侧偏了少许，替你分担了大半压力。" },
-  { type: "narration", text: "虫潮贴着石壁翻卷而来，你侧身避过迎面扑下的一片黑影，离赵黎周身的血环只有数步之遥。幽绿血火仍沿着环迹明灭，将扑近的噬魂蛊烧得蜷曲坠地。" },
+  { type: "narration", text: "血光一现，嗜血的虫潮被彻底激怒，整条甬道顿时陷入混乱！\n\n一股黑色虫浪贴着泥水猛然卷向你的脚踝。千钧一发之际，侧旁一道冷冽剑芒贴着你的裤腿斜斜掠过，剑气锋锐无比，瞬间将扑近的噬魂蛊绞成碎屑。\n\n几乎在同一时刻，数只噬魂蛊自拱顶死角无声绕向纪清寒的后颈。你眼疾手快，双指并拢如剑，呼地弹出一段月白色的弧形真元刃芒，划过一道优美弧线，将那几只蛊虫死死钉入石缝，腥血溅射。\n\n纪清寒侧目看了你一眼，手中长剑顺势向你身侧偏转少许，凭空撕开一道密不透风的剑幕，替你分担了大半正面压下的虫潮压力。" },
+  { type: "narration", text: "虫潮贴着潮湿的石壁呼啸翻卷，你侧身避开迎面下扑的一片黑影，身形飘忽间，距离赵黎周身撑起的血环不过数步之遥。幽绿色的血火沿着环迹明灭不定，将试图靠近的噬魂蛊纷纷烧得蜷曲坠地。" },
   { type: "character", action: "hide", character: "ji-qinghan" },
-  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
-  { type: "narration", text: "苏莹催动的防守蛊光罩摇摇欲坠，看似随时都会破裂。可你看得分明：所有扑向她的噬魂蛊，都会在触身前莫名偏开。\n\n察觉你的窥探，她故意让手法变得混乱，口中的低诵也随之断断续续，低垂的睫毛却在剧烈颤抖。虫潮再次从甬道上方压下。一边是赵黎血火撑出的立足之地，一边是苏莹身前那道反常的空隙，两处动静同时落入你眼中。" },
+  { type: "character", action: "show", character: "su-ying", position: "left", expression: "wary" },
+  { type: "narration", text: "而在你左侧不远处，苏莹正咬紧牙关催动着防御蛊光罩。那光罩摇摇欲坠，光芒明暗不定，看似随时都会被狂暴的虫潮撕裂。\n\n然而，你暗中放出的一缕神识却看得真切：所有铺天盖地扑向苏莹的噬魂蛊，在即将触及她的瞬间，都会显得极其忌惮，反常地向两侧偏转绕开！\n\n察觉到你如鹰隼般锐利的窥探视线，苏莹身形微震，急忙故意让手中的掐诀变得杂乱无章，口中原本急促低诵的古怪音节也随之变得断断续续，低垂的睫毛剧烈颤抖，显得慌乱不堪。\n\n“嗡——”\n\n狂暴的虫潮再次从狭窄的甬道上方倾泻而下。一边是赵黎以血火暂时清出的落脚处，一边是苏莹身前那道反常的空隙。两处动静同时落入你的眼中，虫潮已经逼到近前。" },
 ];
 
 export const shadowEvents: VisualNovelEvent[] = [

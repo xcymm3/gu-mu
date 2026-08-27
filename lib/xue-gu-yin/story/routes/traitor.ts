@@ -85,8 +85,14 @@ const traitorSacrificeSuEvents: VisualNovelEvent[] = [
 const traitorQiaoTriumphEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "right", expression: "smug" },
-  { type: "narration", text: "祭阵终于被活血填满。乔无咎兑现了半句承诺，把控制室副印交给你，却把真正的认主阵藏在袖中。你也暗中扣住能使血祭逆流的蛊线，准备在他最得意时夺走一切。" },
+  { type: "narration", text: "新增细线稳定下来以后，主副台之间的横向牵机杆自行缩回石座，本轮互锁随之解除。乔无咎取回主印，你也将副印从侧台拔出。两枚印牌各归其主，先前那点有限的制衡至此结束。" },
+  { type: "narration", text: "主台上，通往血池与蛊茧的刻度只亮起一部分。纪清寒仍被困在隔室，苏莹的血钥印记也只是让新增细线得以截取阵光；这些条件足以开始唤醒准备，却远未完成认主。" },
+  { type: "narration", text: "副台左侧那组原本对应赵黎的牵机丝，早已在无图旧道中失去反馈。细线仍然完整，另一端却再没有传回移动。赵黎究竟被困、另寻出路，还是正沿控制室不知道的旧道接近内层，谁也无法确认。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "外围能用的线路已经接好。下一步去血池，以主印开启内环。血魔蛊醒后，再分所得。", expression: "smug", position: "right" },
+  { type: "narration", text: "你借着收回副印的动作核对台面。副台数十道线槽无一越过祭阵外环，主台边缘却有一道更深的内槽没入血池方向。乔无咎口中的分取尚未发生，认主接口却从一开始便没有给副印留下位置。" },
 ];
+
+const traitorQiaoTriumphConvergence = "话音刚落，血池方向传来一次低沉震动。紧接着，那条失去反馈的旧侧道深处响起几声脚步，间隔平稳，绝非机括自行运转。";
 
 const traitorZhaoArrivesEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
@@ -192,10 +198,10 @@ export const traitorActFourScenes: Record<string, Scene> = {
     }],
   },
   traitorQiaoTriumph: {
-    id: "traitorQiaoTriumph", act: 4, node: 4, chapter: "第四幕 · 乔无咎线 · 节点 4 / 6", title: "各怀杀心", events: traitorQiaoTriumphEvents,
+    id: "traitorQiaoTriumph", act: 4, node: 4, chapter: "第四幕 · 乔无咎线 · 节点 4 / 6", title: "认主之前", events: traitorQiaoTriumphEvents,
     choices: [
-      { id: "traitor-call-master", label: "称他一声家主，暂且低头", next: "traitorZhaoArrives", result: "“家主算无遗策。”你接过副印，顺势垂下目光，不让乔无咎看见你指间扣住的逆流蛊线。" },
-      { id: "traitor-warn-qiao", label: "掂量副印，提醒他别急着庆功", next: "traitorZhaoArrives", result: "“蛊还没认主，乔家主就开始分位置了？”乔无咎笑意不减，藏在袖中的手却按住了认主阵。" },
+      { id: "traitor-call-master", label: "顺着他的安排，询问认主时自己该守哪一道外环线槽", next: "traitorZhaoArrives", result: `你将副印收妥，语气平常地问道：“等内环开启，我该守哪一道外槽？”\n\n乔无咎指向血池西侧的两处副槽：“你用副印稳住这两路阵光。内环若有变化，我自会处置。”\n\n你点头应下，没有追问。西侧副槽与认主接口相隔最远，他安排得越具体，越能证明所谓分取并不包括内环。\n\n${traitorQiaoTriumphConvergence}` },
+      { id: "traitor-warn-qiao", label: "借检查互锁是否解除，逐道核对主副台通往血池的线槽", next: "traitorZhaoArrives", result: `你沿卡齿逐一检查，确认互锁已经完全退开，随后指着副台尽头问道：“外环线路都断在这里。若内环反冲，副台如何照应？”\n\n乔无咎将主印收回掌中：“主印自有处置。你只须看住外围，不必碰内槽。”\n\n你不再争辩，只取回副印。主台独占认主接口一事，已经由他亲口确认。\n\n${traitorQiaoTriumphConvergence}` },
     ],
   },
   traitorZhaoArrives: { id: "traitorZhaoArrives", act: 4, node: 5, chapter: "第四幕 · 乔无咎线 · 节点 5 / 6", title: "局外之人", events: traitorZhaoArrivesEvents, choices: [{ id: "traitor-stop-zhao", label: "与乔无咎同时启动全部机关", next: "traitorBloodTaken", result: "傀儡与暗弩同时扑向赵黎，血幕却先一步覆盖祭殿。" }] },

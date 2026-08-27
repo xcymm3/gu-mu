@@ -97,8 +97,12 @@ const traitorQiaoTriumphConvergence = "话音刚落，血池方向传来一次�
 const traitorZhaoArrivesEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "center", expression: "amused" },
-  { type: "narration", text: "血魔蛊破茧前，祭殿里忽然响起掌声。赵黎从一条不在控制图上的旧甬道走出，衣袖染血，气息却比入墓时更加深沉。你与乔无咎算遍所有棋子，唯独把这个从不守棋局规则的人漏在了外面。" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "两个躲在墙后拨线的鼠辈，也配分五转蛊？", expression: "amused", position: "center" },
+  { type: "narration", text: "脚步声由远及近，最终停在血池旁一处低矮的旧检修口前。赵黎从阴影中走出，衣衫完整，气息也与入墓时并无明显不同。血纹蛊伏在他肩侧，口器朝向墙内几根新凿细线。" },
+  { type: "narration", text: "他进入无图旧道后，外围牵机丝便失去了反馈；旧道本身却没有断绝。乔无咎后来凿入祖阵的细线残留着血气，赵黎便让血纹蛊循着这些痕迹在前探路，沿苏氏祖阵底层的检修结构一路反向追到这里。" },
+  { type: "narration", text: "这些旧路修建在后来机关的下方，从未接入主副台。副台无法感知其中的脚步，外围翻板与门栓也够不到血池旁的检修口。控制室先前失去的只是一段反馈，并非赵黎本人。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "新凿的线封得严，下面的旧路却还通着。二位改了这么多门，偏偏漏了血池底下这一条。", expression: "amused", position: "center" },
+  { type: "narration", text: "他的目光先后落在主印、副印与两座石台上，已经足够判断方才是谁在改变墓中通路。乔无咎没有应声，径直退回主台；你也回到副台旁。互锁已经解除，两台可以各自动作，却仍只能触及原有权限内的机关。" },
+  { type: "narration", text: "赵黎站在旧检修口与浅池之间，身后的路不受任何印牌约束。即便关掉石盘上现存的所有门路，也只能封住已知通道，无法把他挡在血池之外。" },
 ];
 
 const traitorBloodTakenEvents: VisualNovelEvent[] = [
@@ -204,7 +208,15 @@ export const traitorActFourScenes: Record<string, Scene> = {
       { id: "traitor-warn-qiao", label: "借检查互锁是否解除，逐道核对主副台通往血池的线槽", next: "traitorZhaoArrives", result: `你沿卡齿逐一检查，确认互锁已经完全退开，随后指着副台尽头问道：“外环线路都断在这里。若内环反冲，副台如何照应？”\n\n乔无咎将主印收回掌中：“主印自有处置。你只须看住外围，不必碰内槽。”\n\n你不再争辩，只取回副印。主台独占认主接口一事，已经由他亲口确认。\n\n${traitorQiaoTriumphConvergence}` },
     ],
   },
-  traitorZhaoArrives: { id: "traitorZhaoArrives", act: 4, node: 5, chapter: "第四幕 · 乔无咎线 · 节点 5 / 6", title: "局外之人", events: traitorZhaoArrivesEvents, choices: [{ id: "traitor-stop-zhao", label: "与乔无咎同时启动全部机关", next: "traitorBloodTaken", result: "傀儡与暗弩同时扑向赵黎，血幕却先一步覆盖祭殿。" }] },
+  traitorZhaoArrives: {
+    id: "traitorZhaoArrives", act: 4, node: 5, chapter: "第四幕 · 乔无咎线 · 节点 5 / 6", title: "局外之人", events: traitorZhaoArrivesEvents,
+    choices: [{
+      id: "traitor-stop-zhao",
+      label: "退回主副台，封闭血池周围仍受控制的门路",
+      next: "traitorBloodTaken",
+      result: "你以副印合拢石盘上仍有刻度的几处外围侧门，乔无咎则用主印关住尚未开启的祭阵内门。沉重门响接连从血池四周传来，已知通路相继闭合。\n\n赵黎已经站在血池之内，身后的旧检修口也没有半点变化。他抬手让血纹蛊飞到身前，自己仍停在原处，注视着主副台即将引动的下一轮机关。",
+    }],
+  },
   traitorBloodTaken: { id: "traitorBloodTaken", act: 4, node: 6, chapter: "第四幕 · 乔无咎线 · 节点 6 / 6", title: "血蛊易主", events: traitorBloodTakenEvents, choices: [{ id: "traitor-abandon-qiao", label: "舍弃乔无咎，独自寻找退路", next: "traitorDiscarded", result: "你踢开乔无咎伸来的手，转身冲向薛逢曾提过的密道。" }] },
 };
 

@@ -84,7 +84,9 @@ const jiDestroyGuEvents: VisualNovelEvent[] = [
 
 const jiAftermathEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.dawn-exit", transition: "fade" },
-  { type: "narration", text: "蛊种崩碎时，祭殿里落下一场灰白的蛊尘。你与纪清寒互相搀扶，带着幸存者沿失去灵力的机关甬道缓慢前行。没人再拥有争夺机缘的力气，却也没人被留在身后。" },
+  { type: "narration", text: "灰白蛊尘落尽后，纪清寒伸出的手仍停在血池对面。你握住她的手，借力从阵眼旁站起。\n\n体内已经感受不到本命蛊的回应，往日随念而动的真元也没有再出现。纪清寒的情形与你相同。两人仍能站立行走，只是从这一刻起，墓中任何一处需要真元应对的禁制都不能再贸然触碰。\n\n石柱后方，赵黎最先自行起身。他收回血纹蛊，冷眼扫过正在熄灭的阵纹：“主阵虽毁，石梁与墓道未必还在。原路走不通。”\n\n薛逢扶着石柱站稳，试着走了几步。他没有再去看散落池边的器物，只低声道：“薛某走得动，不必留人照看。”\n\n苏莹也从地上起身。祭线带来的虚弱尚未完全退去，却不妨碍她缓慢行走。五人越过已经平静的血池，先后进入西墙后的控制室。\n\n乔无咎的尸身仍在控制台旁，泛黄兽皮残图摊在石面上。苏莹逐条辨认他后来补画的细线，很快发现其中一条从控制室后方绕出，避开血池、幻阵与来路上的石梁，最后停在墓门内侧。\n\n线尾旁边画着一道向下的短痕。苏莹依照标记摸到控制台下方，从积灰中找出一根横置石闩。石闩连着墙内配重，不需真元便能开启。众人合力将它拉到尽头，控制室后方的一块窄石板随之缓缓升起，露出仅容一人通行的检修甬道。\n\n没有蛊光从门后涌出，只有一股带着湿土气息的冷风穿过缝隙。乔无咎为自己留下的退路，终于落到了被他送进祭阵的人手中。\n\n出发前，纪清寒取出包着魂丝的白绢。银线末端的微光比先前更弱，却还没有熄灭。她看了片刻，将白绢重新收入衣襟，残剑也仍握在手中。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "还来得及。先出去，再想别的办法。", expression: "softened", position: "right" },
+  { type: "narration", text: "赵黎已经站到甬道入口，薛逢与苏莹也做好了动身的准备。你与纪清寒留在队尾，等前面三人依次进入，才一同迈向那道窄门。" },
 ];
 
 const jiEpilogueEvents: VisualNovelEvent[] = [
@@ -134,7 +136,7 @@ export const jiActFourScenes: Record<string, Scene> = {
 };
 
 export const jiActFiveScenes: Record<string, Scene> = {
-  jiAftermath: { id: "jiAftermath", act: 5, node: 1, chapter: "第五幕 · 纪清寒线 · 节点 1 / 2", title: "灰中生路", events: jiAftermathEvents, choices: [{ id: "ji-leave-tomb", label: "扶着彼此走向墓门", next: "jiEpilogue", result: "你们带着所有幸存者，迎着越来越近的天光前行。" }] },
+  jiAftermath: { id: "jiAftermath", act: 5, node: 1, chapter: "第五幕 · 纪清寒线 · 节点 1 / 2", title: "灰中生路", events: jiAftermathEvents, choices: [{ id: "ji-leave-tomb", label: "与纪清寒走在队尾，带众人进入检修甬道", next: "jiEpilogue", result: "你与纪清寒相互借力，侧身进入控制室后的窄门。赵黎独自走在最前方，凭尚存的修为探查沿途石壁；薛逢与苏莹跟在中间，脚步虽慢，却都能靠自己继续前行。\n\n检修甬道绕过祭殿后方，沿山腹缓缓向上。每经过一处转折，前方的人都会停下片刻，直到队尾的脚步声传来才继续走。\n\n沿途几处旧机关都保持着停转时的模样。控制石轮已经锁死，血祭阵纹也彻底熄灭，墙内的齿轮与牵机丝无法再被唤醒。众人没有因此加快脚步，仍逐块试过落脚的石面，避开松动之处。\n\n走了不知多久，甬道前方出现一段向上的石阶。湿土与雨水的气息沿阶而下，外面的风声也渐渐清晰。赵黎推开尽头那块虚掩的石挡，墓门内侧随即透进一线微白天光。\n\n五个人都停在了那道光前。你与纪清寒已经无法再撑起护体蛊光；从血池边带出的赵黎、薛逢与苏莹，却都站在这里。" }] },
   jiEpilogue: { id: "jiEpilogue", act: 5, node: 2, chapter: "第五幕 · 纪清寒线 · 节点 2 / 2", title: "山野药铺", events: jiEpilogueEvents, choices: [{ id: "ji-end", label: "把药铺的门推开", next: "ending", result: "蛊碎了，人还在。", effect: { ending: "severed" } }] },
 };
 

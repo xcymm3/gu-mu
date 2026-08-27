@@ -20,9 +20,8 @@ const jiPromiseEvents: VisualNovelEvent[] = [
 const jiBurdenEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "alert" },
-  { type: "narration", text: "岔道中传来苏莹短促的呼声，另一侧却有成群傀儡逼近。纪清寒本可趁机直奔主墓室，却转身与你一同斩开机关门，把困在石缝后的苏莹拖出死地。" },
-  { type: "narration", text: "救人耽误了时间，也让乔无咎放出的傀儡追了上来。纪清寒的残剑再添一道裂口；她仍站在最前面，仿佛自己的命从来不在需要权衡的那一边。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "既然伸了手，就别在半途松开。", expression: "softened", position: "right" },
+  { type: "narration", text: "检修通道走到尽头，前方分成左右两路。左侧甬道宽阔，地面的暗红阵纹一路向下延伸，尽头还能看见一扇尚未完全合拢的内门。那里无疑是通往主墓室的近路。\\n\\n右侧却传来苏莹一声短促的呼喊。你循声看去，只见一扇横向闭合的石门正在缓缓封住侧道。苏莹被困在门后，脚踝让一只从地面弹起的铜扣锁住；她身后的退路早已被另一块落石堵死，只能眼看着门缝一点点收窄。\\n\\n来路同时响起整齐的撞击声。三具巡行傀儡正从狭窄的检修通道内挤出，铜制脚掌每落下一次，石壁上的积尘便簌簌而下。它们离岔口不过十余丈。\\n\\n若此刻进入左侧甬道，你与纪清寒仍能赶在内门合拢前直达主墓室。若转去右侧，近路势必封死，傀儡也会在救人时追到身后。\\n\\n纪清寒只看了那扇内门一眼，便转身走向苏莹所在的侧道。她抽出半截残剑，目光落在石门侧面的锁槽上。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "你撑住门，我进去断开铜扣。赶在后面的东西追上来前，把她带到门内。", expression: "alert", position: "right" },
 ];
 
 const jiThresholdEvents: VisualNovelEvent[] = [
@@ -94,7 +93,7 @@ export const jiActThreeScenes: Record<string, Scene> = {
   jiBurden: {
     id: "jiBurden", act: 3, node: 3, chapter: "第三幕 · 纪清寒线 · 节点 3 / 4", title: "不可松手",
     events: jiBurdenEvents,
-    choices: [{ id: "ji-save-su", label: "与纪清寒一同把苏莹带离岔道", next: "jiThreshold", result: "你们带着苏莹冲出合拢的机关门，没有把任何一个活人留在身后。" }],
+    choices: [{ id: "ji-save-su", label: "与纪清寒一同把苏莹带离岔道", next: "jiThreshold", result: "你快步抢到石门前，双掌抵住两侧门沿，将真元尽数压进臂间。沉重的石门只停了一瞬，随即顶着你的手臂继续合拢。\\n\\n纪清寒侧身穿过门缝，残剑顺着地面的铜扣边缘切入。她没有用剑身硬撬，而是找准连接铜扣与石板的细销，接连斩了三次。第三声脆响落下，铜扣从苏莹脚边弹开。\\n\\n身后的脚步声已经到了岔口。最前一具傀儡抬起手臂，朝你的后背直扑过来。你不能回身，只能继续撑着门缝。石门的力道一寸寸压下，原本已经稳住的经脉也再次震得发麻。\\n\\n“再撑三息。”\\n\\n纪清寒将苏莹推向侧道深处，自己守在门内接应。你听见傀儡撞上石门外沿，掌下力道随之一沉。\\n\\n“既然伸了手，就别在半途松开。”\\n\\n你没有撤掌。等苏莹站稳，才借着纪清寒探出的手越过门槛。她拉你进入侧道，你随即收回真元。石门在身后轰然合拢，将第一具傀儡伸来的手臂挡在了另一侧。\\n\\n左侧近路的内门也在最后一刻沉入地面，再没有回去的余地。三人只能沿侧道向下。甬道转过数个弯后，空气中的血腥气越来越重，地面阵纹也重新汇拢到一处。\\n\\n前方，一扇布满暗红纹路的石门横在路尽头。苏莹扶着墙缓了口气，纪清寒则松开你的手腕，持残剑走到了门前。" }],
   },
   jiThreshold: {
     id: "jiThreshold", act: 3, node: 4, chapter: "第三幕 · 纪清寒线 · 节点 4 / 4", title: "共赴血门",

@@ -65,7 +65,7 @@ const jiArrayTruthEvents: VisualNovelEvent[] = [
 
 const jiQiaoDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "cut" },
-  { type: "narration", text: "乔无咎亲手拉动整座墓的机关。纪清寒守住你的背后，以断剑截断每一根绕向伤者的丝线；你只需向前，把这位自称执棋者的乔家之主从控制台上斩下来。" },
+  { type: "narration", text: "控制室只有数丈宽，正中的石台却占去近半空间。三组牵机丝分别穿过头顶石梁、左右侧门与脚下砖缝，最后汇入乔无咎面前的控制台。若要靠近他，就必须从这些机关之间穿过去。\n\n乔无咎抬手扯下两根垂在梁间的主线，将线端扣在指间。控制台右侧的阵枢随之亮起，两扇仅容傀儡通过的侧门也各自退开一道缝隙。\n\n夹道后方传来残剑抵住线槽的轻响。纪清寒仍在祭殿守着断线，无法进入这里；但原本向夹道游来的血光也停在了西墙之外。\n\n乔无咎向控制台后退了半步。他没有离开机关与主线之间的位置，只将几根扳杆逐一推向能够随手触及的方向。你若让他重新转动中央石轮，外侧刚被救下的人便会再次落入祭阵。\n\n你收拢真元，踏上石台边缘。头顶的第一组牵机丝已经开始下落。" },
 ];
 
 const jiDestroyGuEvents: VisualNovelEvent[] = [

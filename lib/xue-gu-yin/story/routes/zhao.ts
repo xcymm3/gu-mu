@@ -55,8 +55,8 @@ const zhaoBloodGuardEvents: VisualNovelEvent[] = [
 const zhaoAwakeningEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
-  { type: "narration", text: "血傀儡倒下后，赵黎割开掌心，将早已备好的血瓶尽数倒入祭阵。蛊茧吸饱血气，外壳一寸寸剥落；所谓血魔蛊终于从漫长死寂中苏醒。" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "同路到此为止。你既然也想要它，便来取。", expression: "wary", position: "left" },
+  { type: "narration", text: "血傀儡倒在池边，胸腔血核已经裂成两半，里面储存的祭血却没有散尽，正沿着断裂骨架缓慢流回血池。\n\n赵黎终于越过祭线。血纹蛊抢在祭血流尽前伏上血核，抽出数股暗红血线，将它们送入蛊茧下方的阵眼。随后，他从袖中取出一只黑色小瓶。瓶塞开启时，数种驳杂的气血先后逸出，显然是他沿途收集所得。\n\n你没有上前阻止。蛊茧尚未完全打开，此时毁掉阵眼，谁也拿不到里面的五转蛊。赵黎在等蛊出茧，你同样在等。\n\n你将冰寒蛊简移到掌边，看着他把瓶中精血倒进阵眼。\n\n环形血池中的五条祭线同时亮起。蛊茧先是向内收缩，随即从顶部裂开数道细缝。暗红液体沿茧壳流下，一只巴掌大小的深红蛊虫从裂口中缓缓探出。它背部薄翼紧贴躯壳，数根血丝仍与蛊茧相连，复眼也尚未完全睁开。\n\n血魔蛊已经苏醒，却还没有接纳任何人的真元。\n\n赵黎截断送入阵眼的血线，转身面对你。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "血门已开，蛊也出了茧。先前的约定到此为止。你我谁还能站着，谁便取蛊。", expression: "wary", position: "left" },
 ];
 
 const zhaoDuelEvents: VisualNovelEvent[] = [
@@ -120,8 +120,8 @@ export const zhaoActFourScenes: Record<string, Scene> = {
   zhaoAwakening: {
     id: "zhaoAwakening", act: 4, node: 3, chapter: "第四幕 · 赵黎线 · 节点 3 / 6", title: "五转蛊醒", events: zhaoAwakeningEvents,
     choices: [
-      { id: "zhao-question-trust", label: "问他是否从未打算让你活着", next: "zhaoDuel", result: "赵黎坦然答道：“若你连老夫都胜不过，活着出去又有何用？”你按住袖中的冰寒蛊简，向他走去。" },
-      { id: "zhao-welcome-duel", label: "告诉他，你等这一刻很久了", next: "zhaoDuel", result: "“正合我意。”你抽出冰寒蛊简。赵黎咧嘴一笑，血线随之封死所有退路。" },
+      { id: "zhao-question-trust", label: "点破他让你独战傀儡，本就是为了借刀破开血核", next: "zhaoDuel", result: "你看了一眼被血纹蛊抽空的破裂血核。\n\n“方才你站在阵线外，不只是在看我能否活下来。你真正等的是我替你打碎这枚血核。”\n\n赵黎没有否认，只把血纹蛊召回身侧。\n\n“你既然看得出来，不也还是动了手？你要蛊，老夫要血核，各取所需而已。”\n\n他的目光落到你的袖口。\n\n“藏了一路的寒属残简，也该拿出来了。”\n\n你扣住冰寒蛊简，与他隔着逐渐升温的血池各退数步。" },
+      { id: "zhao-welcome-duel", label: "告诉他，你同样一直在等蛊醒后的这场争夺", next: "zhaoDuel", result: "“不用解释。”\n\n你将冰寒蛊简扣入掌心，平静地看向赵黎。\n\n“血门前已经说得很清楚。我跟你走到这里，就是在等它出茧，也在等这一战。”\n\n赵黎听罢，低低笑了一声。\n\n“好。省得老夫再费口舌。”\n\n他抬手召回血纹蛊。你们各自沿血池边缘退开，将尚未认主的血魔蛊留在两人之间。" },
     ],
   },
   zhaoDuel: { id: "zhaoDuel", act: 4, node: 4, chapter: "第四幕 · 赵黎线 · 节点 4 / 6", title: "血蛊相争", events: zhaoDuelEvents, battle: { enemyName: "赵黎", enemyHealth: 22, victoryNext: "zhaoClaim", defeatNext: "ending", victoryFlag: "赵黎已败", defeatFlag: "赵黎夺蛊", defeatEnding: "deathByZhao" } },

@@ -143,13 +143,18 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
 export function fogEvents(state: GameState): VisualNovelEvent[] {
   const events: VisualNovelEvent[] = [
     { type: "background", asset: "background.fog-passage", transition: "fade" },
-    { type: "narration", text: "石坪尽头涌出浓得化不开的蛊雾。灵识被压到不足三尺，连自己的脚尖都看不真切。" },
+    { type: "narration", text: "铜皮傀儡胸前的蛊核闪烁两下，终于彻底暗了下去。\n\n沉重的身躯向前倾倒，砸在石面上，扬起一片呛人的尘灰。与此同时，甬道前后紧闭的石门缓缓升起。待尘埃稍散，失散片刻的众人重新聚到了一处。\n\n乔无咎展开那张泛黄的兽皮残图，只看了一眼便继续向墓穴深处走去。方才的厮杀消耗了众人不少真元，一路上无人交谈，甬道内只剩下杂乱的脚步声。\n\n前行数十丈后，狭窄的墓道忽然向外开阔。\n\n一座四四方方的地下石厅出现在众人面前。厅中铺着整齐的黑色石板，四面各有一道封闭的石门，门框附近刻满了黯淡的蛊纹。乍看之下，四条路似乎并无分别。" },
     { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
-    { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "我绕后封住追兵，诸位先走。", expression: "calm", position: "center" },
+    { type: "narration", text: "乔无咎停下脚步，将残图翻来覆去看了两遍，眉头渐渐皱起。" },
+    { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "残图上没有这座石厅。先别乱走。", expression: "calm", position: "center" },
     { type: "character", action: "hide", character: "qiao-wujiu" },
   ];
   events.push(
-    { type: "narration", text: "十二具更沉重的傀儡自雾中逼出，脚步碾过碎石，一声比一声近。地面骤然裂开，所有人都被陷道吞没。\n\n下坠的混乱里，你只来得及抓住一只手。" },
+    { type: "narration", text: "众人当即止步。\n\n一阵细微的泄气声忽然从四周传来。\n\n灰白色的浓雾从石壁缝隙中喷涌而出，沿地面飞快扩散。短短数息，整座石厅便被雾气填满。神识探入其中，如同陷进一团湿冷的泥浆；原本站在数步外的人，也只剩下一道模糊的影子。" },
+    { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "wary" },
+    { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "都站在原地！这雾能扰乱感知，莫要胡乱催动真元！", expression: "wary", position: "center" },
+    { type: "character", action: "hide", character: "qiao-wujiu" },
+    { type: "narration", text: "话音未落，脚下突然传来一阵连续的机括转动声。\n\n你低头望去，只见原本严丝合缝的黑色石板正在缓缓错位。那些石板根本不是固定的地面，而是一块块能够绕轴翻转的机关踏板。\n\n数声惊呼同时从雾中响起。\n\n石板接连倾斜，露出下方深不见底的机关甬道。众人立足不稳，转眼便被雾气和不断翻转的地面分割开来。\n\n你脚下的石板也猛然下沉。\n\n身体失去平衡的一瞬间，浓雾中的数处动静同时传入耳中。\n\n左前方血光暴涨，血纹蛊撕开雾气，将迎面坠落的碎石尽数绞碎。赵黎沙哑的冷笑声在轰鸣中一闪而逝。\n\n右侧先是传来一声清越剑鸣，紧接着便响起剑刃与机关铁链相撞的铮鸣。白色身影随下沉的石板一同没入雾中。\n\n斜后方的墙面上，几道血红蛊纹依次亮起。一条此前不曾出现的狭窄石缝短暂开启，苏莹的身影踉跄着闪入其中。\n\n距离你最近的薛逢却没有呼喊。他踩着几块仍未完全翻转的石板边缘，接连换了数次落脚之处，正悄无声息地向石厅角落退去。那几步看似仓促，却恰好避开了所有正在下沉的机关踏板。\n\n脚下石板倾斜得越来越厉害。\n\n留给你判断的时间，只剩下一瞬。" },
     { type: "choice", choices: resolveFogRouteChoices(state) },
   );
   return events;

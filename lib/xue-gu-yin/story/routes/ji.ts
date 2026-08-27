@@ -70,8 +70,16 @@ const jiQiaoDuelEvents: VisualNovelEvent[] = [
 
 const jiDestroyGuEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "narration", text: "乔无咎伏诛，血魔蛊却已在蛊茧中睁开复眼。纪清寒以寒息封住阵眼，你把自身蛊种压进裂缝。两股四转修为同时逆行，足以在五转邪蛊彻底苏醒前毁掉它，也足以让你们从此失去修行根基。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "别怕。废去修为以后，我仍会陪你走出去。", expression: "softened", position: "right" },
+  { type: "narration", text: "你沿夹道回到祭殿时，环形血池已经漫过最下方一级石阶。赵黎、薛逢与苏莹仍留在石柱后方，纪清寒则持着残剑守在池边。\n\n控制石轮虽已锁死，悬在池心上方的蛊茧却没有停止蜕变。茧壳中央裂开一道细缝，一片尚未完全展开的复眼正在缝隙后缓慢转动。它还不能脱离蛊茧，池中余下的血光却仍在沿茧壳向上攀升。\n\n蛊茧后方，那团灰白养魂蛊材也显出了原貌。数根暗红细丝从蛊茧底部穿出，扎进蛊材内部。外侧祭线断开后，蛊材原本温和的微光迅速黯淡，积存在其中的血光反而沿细丝流回茧内。\n\n纪清寒看着那团蛊材，取出包着魂丝的白绢。银线末端仍在微弱发亮，灰白蛊材却已经无法再与它呼应。她将白绢收回衣襟，没有伸手去取蛊材。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "它所谓的生机，都是从祭线另一端取来的。这东西不能带走。", expression: "softened", position: "right" },
+  { type: "narration", text: "她以残剑向前送出一线剑气。剑气刚触及茧壳，地面残阵便亮起数段暗红纹路，将外来真元引入血池。下一刻，那道真元随血光回到蛊茧，壳后的复眼也随之张开了一分。\n\n普通真元只会成为它最后蜕变的养分。苏莹贴近池边辨认片刻，指向蛊茧下方相对而立的两处阵眼。那里的血光仍在彼此补回，与开启血门时的左右双锁如出一辙。" },
+  { type: "character", action: "show", character: "su-ying", position: "left", expression: "wary" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "两边阵眼通向同一处蛊核。必须同时送入逆行的本命蛊息，让它们在核心相冲。普通真元会被吞掉，只有本命蛊崩解时放出的根本蛊息，阵法来不及化用。", expression: "wary", position: "left" },
+  { type: "character", action: "hide", character: "su-ying" },
+  { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "softened" },
+  { type: "narration", text: "如此施为，两人的本命蛊都会一同毁去，积累至今的修行根基也无法保留。纪清寒走到左侧阵眼前，将残剑留在手中，另一只手按向阵纹交汇处。\n\n她隔着血池看向你。" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "蛊材不要了，修为也可以不要。若你愿意承担这个代价，出去以后的路，我与你一起走。", expression: "softened", position: "right" },
+  { type: "narration", text: "蛊茧又收缩一次，裂缝随之向两侧延长。右侧阵眼就在你脚下，只等两边同时逆转蛊息。" },
 ];
 
 const jiAftermathEvents: VisualNovelEvent[] = [
@@ -122,7 +130,7 @@ export const jiActFourScenes: Record<string, Scene> = {
     ],
   },
   jiQiaoDuel: { id: "jiQiaoDuel", act: 4, node: 5, chapter: "第四幕 · 纪清寒线 · 节点 5 / 6", title: "斩断执线者", events: jiQiaoDuelEvents, battle: { enemyName: "乔无咎", enemyHealth: 24, victoryNext: "jiDestroyGu", defeatNext: "ending", victoryFlag: "乔无咎已伏", defeatFlag: "死于乔无咎", defeatEnding: "deathByQiao" } },
-  jiDestroyGu: { id: "jiDestroyGu", act: 4, node: 6, chapter: "第四幕 · 纪清寒线 · 节点 6 / 6", title: "破蛊断脉", events: jiDestroyGuEvents, choices: [{ id: "ji-break-gu", label: "与纪清寒一同自毁蛊种", next: "jiAftermath", result: "两枚蛊种同时崩碎，血魔蛊在灰白蛊尘中停止心跳。" }] },
+  jiDestroyGu: { id: "jiDestroyGu", act: 4, node: 6, chapter: "第四幕 · 纪清寒线 · 节点 6 / 6", title: "破蛊断脉", events: jiDestroyGuEvents, choices: [{ id: "ji-break-gu", label: "按住右侧阵眼，与纪清寒同时逆转本命蛊息", next: "jiAftermath", result: "你俯身按住右侧阵眼，将蛊息收回本命蛊中。纪清寒在血池对面做好了同样的准备，残剑始终握在另一只手里。\n\n苏莹盯着两处阵眼交替亮起的血光，依次报出三声。最后一声落下，你与纪清寒同时逆转蛊息。两股不再循常法运转的根本蛊息分别穿过左右阵眼，直抵蛊茧核心。\n\n残阵立即将右侧血光引向左侧，又把左侧血光送回右侧，试图像先前一样补全缺口。两股方向相反的蛊息却在回流途中正面相撞，沿着彼此补合的纹路一同冲入蛊核。\n\n你体内的本命蛊先传来一声极轻的裂响，随后从核心开始崩散。血池另一侧，纪清寒周身最后一层寒意也在同一刻褪去。两人的修为随蛊息不断注入阵眼，直至再也感受不到本命蛊的回应。\n\n蛊茧上的裂缝停住了。缝隙后的复眼只来得及转动半周，便从边缘逐次黯淡。连接灰白蛊材的暗红细丝随之断裂，茧壳、蛊材与尚未完成蜕变的血魔蛊一同失去形状，化作灰白蛊尘落入已经平静的池水。\n\n祭殿各处的阵纹先后熄灭。纪清寒仍握着残剑，隔着不再流动的血池向你伸出手。" }] },
 };
 
 export const jiActFiveScenes: Record<string, Scene> = {

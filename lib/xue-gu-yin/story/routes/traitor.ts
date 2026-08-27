@@ -2,11 +2,17 @@ import type { Scene, VisualNovelEvent } from "../../model.ts";
 
 const traitorTrailEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
-  { type: "narration", text: "大雾吞没众人时，你没有救谁，只扣住了异常安静的薛逢。你逼着他避开每一道陷阱；他走得太熟，直到控制室的伪墙出现在眼前，才明白自己已经暴露。" },
+  { type: "narration", text: "浓雾漫过石厅，翻板起落的闷响接连从脚下传来。薛逢没有像旁人那样出声示警，只踩着尚未翻转的石沿，接连向墙角退去。到第三步时，你忽然欺近，扣住他的后领，借他落脚之势一同踏上墙边那块窄石。" },
+  { type: "narration", text: "近处看得更加分明：周围四块石板已有两块翻入深坑，薛逢选中的却都贴着转轴根部，即使机关发动也只会轻颤，不会倾覆。这不是临时撞上的运气。" },
   { type: "character", action: "show", character: "xue-feng", position: "left", expression: "panicked" },
-  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "道友误会了！薛某只是保命本事多些，绝没有替乔家做事！", expression: "panicked", position: "left" },
-  { type: "narration", text: "你没有拆穿他的谎话，只让他继续带路。棋子在失去价值以前，不必急着丢掉。" },
+  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "道友轻些！薛某不过耳朵灵，听见哪块石板下有机括响罢了。", expression: "panicked", position: "left" },
+  { type: "narration", text: "你没有与他争辩，只让他继续走。薛逢脸上的笑容僵了片刻，随后俯身按过墙根两处不起眼的凹槽。附近翻板的震动随之一缓，仅够二人抢过下一段石路，身后的凹槽便自行弹回。" },
+  { type: "narration", text: "如此走出十余步，前方已是石厅尽头。墙角看似封死，底部却没有积灰，砖缝间还透出极细的气流。薛逢伸手摸向两块微微凸起的石砖，指尖临近时又忽然停住。" },
+  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "墙后未必是生路。若次序错了，暗门封死，你我都得困在这片雾里。", expression: "panicked", position: "left" },
+  { type: "narration", text: "他仍不肯承认自己来过这里，但踏板的死角、暂缓机关的凹槽和眼前的伪墙，已经足够让那套听声辨位的说辞站不住脚。眼下无需逼他交代所有秘密，只须先让他把这道门打开。" },
 ];
+
+const traitorTrailConvergence = "暗门后没有外界风声，只有牵机丝擦过石槽的细响。你让薛逢先行，自己落后半步。薛逢没有拒绝，也没有回头；他已经明白，你留下他不是因为信任，而是因为门后的路尚需有人辨认。";
 
 const traitorKnifeEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
@@ -83,8 +89,18 @@ export const traitorActThreeScenes: Record<string, Scene> = {
     id: "traitorTrail", act: 3, node: 1, chapter: "第三幕 · 乔无咎线 · 节点 1 / 4", title: "挟住棋子",
     events: traitorTrailEvents,
     choices: [
-      { id: "traitor-break-finger", label: "折断薛逢一根手指，逼他说实话", next: "traitorKnife", result: "第一声惨叫过后，薛逢果然想起了伪墙后的暗门。你松开他的手：“早些想起来，就不用受这一下。”" },
-      { id: "traitor-promise-life", label: "许他一条生路，换乔家的暗门", next: "traitorKnife", result: "“带我见乔无咎，我保你活着出去。”薛逢盯着你的眼睛，明知未必可信，仍赔笑着推开了伪墙。" },
+      {
+        id: "traitor-question-steps",
+        label: "压住他将要拨动石砖的手，逐处追问每一步落脚依据",
+        next: "traitorKnife",
+        result: `你将薛逢的手按回墙面：“从第一块没有翻转的石沿说起。哪一步答不清，我们便回雾里重走。”\n\n薛逢脸上的笑意淡了些，只得逐一说出四处踏板的转轴方向，又解释墙根凹槽只能暂缓机关。说到伪墙时，他却故意漏过开启次序。你将他的手向错误的石砖移了半寸，他立即收力，脱口道：“先下后上！碰错便会封死！”\n\n话一出口，他便知道再也遮掩不过，只得按正确次序拨动石砖。墙面向内退开，露出一道仅容一人侧身通过的暗门。\n\n${traitorTrailConvergence}`,
+      },
+      {
+        id: "traitor-bluff-order",
+        label: "谎称自己已看懂暗门，故意报错石砖次序等他纠正",
+        next: "traitorKnife",
+        result: `你松开薛逢的手，指向墙上两块石砖：“先上后下，门便会开。你一路把我引到这里，不就是等我替你试错？”\n\n薛逢盯着你的手指。眼看你真的要按向上方石砖，他终于开口：“慢着！是先下后上。次序反了，暗门会从里面锁死。”\n\n你收回手：“看来薛道友不只会听机括。”\n\n薛逢没有再谈运气。他按自己说出的次序拨动石砖，墙面向内退开，露出一道仅容一人侧身通过的暗门。\n\n${traitorTrailConvergence}`,
+      },
     ],
   },
   traitorKnife: {

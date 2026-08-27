@@ -45,7 +45,7 @@ const jiBloodGateEvents: VisualNovelEvent[] = [
 
 const jiBloodGuardEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
-  { type: "narration", text: "血池里的守门傀儡挡住救人的路。纪清寒以残剑卡住不断收紧的祭线，把正面战场交给你。每拖延一息，身后的活人便离血池更近一寸。" },
+  { type: "narration", text: "血傀儡从池中完全站起，足有常人两倍高。粗重骨架外缝着早已失去生机的皮肉，左腕缠有一条浸透血水的锁链，右臂则被炼得格外粗壮。胸骨中央没有心脏，只有一枚拳头大小的暗红血核，正随着蛊茧收缩缓慢鼓动。\\n\\n纪清寒留在数丈外的石阶旁，残剑横压在两段祭线之间。每当血光试图越过剑锋重新接合，她便渡入一缕真元，将两端再次分开。薛逢尚未脱离阵纹，她无法抽身上前。\\n\\n更低一层的池沿上，苏莹仍抓着石缝。缠在脚踝上的祭线时松时紧，正在把她一点点拖向血池。\\n\\n血傀儡踏上通往低层的石阶，胸腔血核随之亮起。它左腕一沉，原本拖在池水中的锁链缓缓抬离水面。你若不能从这里打开缺口，后方被截住的祭线迟早会再次收紧。" },
 ];
 
 const jiRescueEvents: VisualNovelEvent[] = [

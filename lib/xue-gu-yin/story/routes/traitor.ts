@@ -52,7 +52,12 @@ const traitorInterlockEvents: VisualNovelEvent[] = [
 
 const traitorControlRoomEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
-  { type: "narration", text: "控制室的石墙后垂着成千上万根牵机丝，每一束都通往一处机关。乔无咎承认自己早已摸清墓中七成结构。你坐上薛逢原先的位置，第一次从执棋者的角度看见仍在雾中挣扎的三名同行者。" },
+  { type: "narration", text: "副台上的牵机丝共有数十道，依照外围区域分成几束。石盘刻着岔路、翻板与暗门的简图，许多刻度早已磨平，只能与牵机丝传回的张力相互对照，勉强判断哪一段机关仍在运转。" },
+  { type: "narration", text: "其中三组细线正在移动。右侧一组沿窄道缓缓深入，左侧一组行进极快，下方一组则在数处岔口间反复停顿。它们与大雾中纪清寒、赵黎、苏莹各自离开的方向一致。除此之外，控制室里的人既听不到他们交谈，也无从知道墓道里的具体情形。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "三路不能同时改。牵机丝若一齐换向，他们立刻就会察觉。右侧窄道离回声廊最近，先动这一处。", expression: "smug", position: "right" },
+  { type: "narration", text: "你在简图上找到右侧窄道。它前方有两处分岔，一边继续深入外圈，一边经过回声廊，最终通向献祭甬道。只需松开原路门栓，再将另一边的暗门推开，线路便会自然偏向回声廊。" },
+  { type: "narration", text: "副台下方还留着一处拇指粗的传声孔，孔道从石壁内部延伸出去，正与回声廊相通。它只是修建墓穴时用于隔墙传话的空心声道，无法自行发声；若要让远处听见什么，只能由控制室里的人亲自开口。" },
+  { type: "narration", text: "纪清寒不会轻信陌生动静。可她认得你的声音，又知道你也被大雾隔在墓中。若在改道时让前方门栓传出一次受阻的响声，再隔着传声孔说上一句短话，至少足以令她走近查探。" },
 ];
 
 const traitorTrapJiEvents: VisualNovelEvent[] = [
@@ -150,7 +155,15 @@ export const traitorActThreeScenes: Record<string, Scene> = {
 };
 
 export const traitorActFourScenes: Record<string, Scene> = {
-  traitorControlRoom: { id: "traitorControlRoom", act: 4, node: 1, chapter: "第四幕 · 乔无咎线 · 节点 1 / 6", title: "第二位执棋者", events: traitorControlRoomEvents, choices: [{ id: "traitor-find-ji", label: "以求救信号引纪清寒入局", next: "traitorTrapJi", result: "你按下副印，远处随即传出足以乱真的求救声。" }] },
+  traitorControlRoom: {
+    id: "traitorControlRoom", act: 4, node: 1, chapter: "第四幕 · 乔无咎线 · 节点 1 / 6", title: "三线归阵", events: traitorControlRoomEvents,
+    choices: [{
+      id: "traitor-find-ji",
+      label: "切换右侧岔路，再借传声孔引纪清寒转向",
+      next: "traitorTrapJi",
+      result: "你先松开通往外圈的门栓，又将回声廊一侧的暗门推开。门栓依照你的控制故意停顿了一瞬，远处随之传出石门受阻的闷响。\n\n你俯近传声孔，只说了一句：“纪道友，右侧石门卡住了。”\n\n石盘上，右侧那组牵机丝先是骤然停住，许久没有移动。数息以后，细线才带着极轻的震动缓慢偏向回声廊。纪清寒没有贸然赶来，却仍选择走近确认声音的来处。\n\n乔无咎在主台转动主印，开始校准献祭甬道的第一重内门。",
+    }],
+  },
   traitorTrapJi: { id: "traitorTrapJi", act: 4, node: 2, chapter: "第四幕 · 乔无咎线 · 节点 2 / 6", title: "断剑入阵", events: traitorTrapJiEvents, choices: [{ id: "traitor-close-ji", label: "合拢献祭甬道", next: "traitorSacrificeSu", result: "石门在纪清寒面前闭合，断剑声被祭阵彻底吞没。" }] },
   traitorSacrificeSu: { id: "traitorSacrificeSu", act: 4, node: 3, chapter: "第四幕 · 乔无咎线 · 节点 3 / 6", title: "血钥献祭", events: traitorSacrificeSuEvents, choices: [{ id: "traitor-send-su", label: "将苏莹送入血祭", next: "traitorQiaoTriumph", result: "苏氏血钥落入阵心，整座蛊墓的血纹同时亮起。" }] },
   traitorQiaoTriumph: {

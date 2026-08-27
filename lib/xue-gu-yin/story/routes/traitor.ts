@@ -23,15 +23,20 @@ const traitorKnifeEvents: VisualNovelEvent[] = [
   { type: "narration", text: "你拾起副印，抵近门边凹槽。印齿尚未完全嵌入，龛内一根牵机丝便自行松开，墙后的门栓也向内退了半寸。副印与此处机关确实同出一套，薛逢再难用听声辨位搪塞过去。" },
   { type: "narration", text: "追问之下，他只得承认自己收了乔无咎的好处，事先进入墓中维护外围翻板与暗门，此番又负责把同行之人引到预定路径。至于墓穴核心如何运转、控制室后还有哪些道路，乔无咎从未让他知晓。这枚副印能打开眼前内门，也仅此而已。" },
   { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "薛某可以带你去见他，也能当面对质。留我一命，门后还有什么安排，我替道友问个清楚。", expression: "panicked", position: "left" },
-  { type: "narration", text: "他说话时上身未动，右脚却贴着石面悄然向后挪去。检修龛最下方，一根原本松垂的牵机丝被他的脚跟一点点压紧，墙后随即传来一声极轻的机括咬合。只要再落下半寸，这道警线便会把夹道里的变故传入控制室。" },
+  { type: "narration", text: "他说话时上身未动，右脚却贴着石面悄然向后挪去。检修龛最下方，一根原本松垂的牵机丝被他的脚跟一点点压紧，墙后随即传来一声极轻的机括咬合。你不动声色地催起本命蛊；只要他的脚跟再落下半寸，这道警线便会把夹道里的变故传入控制室。" },
 ];
 
 const traitorBargainEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "right", expression: "smug" },
-  { type: "narration", text: "你带着从薛逢手中夺来的副印走入控制室。乔无咎看了一眼印上的血，非但没有追究，反而让出半张操控台——他需要的从来不是忠心，而是一个比薛逢更敢下手的同谋。" },
-  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "替我把剩下三个人送进祭阵。血魔蛊醒后，乔家给你一个仅次于我的位置。", expression: "smug", position: "right" },
-  { type: "narration", text: "你知道承诺未必可信，却也知道拒绝只会立刻成为祭品。更重要的是，你想亲手掌握这座墓的机关，而不是继续做局外之人。" },
+  { type: "narration", text: "内门缓缓合拢，真正的控制室出现在眼前。石室中央隔着数步并列两座石台：主台上的牵机丝没入墓穴深处，连接祭阵内层；靠墙的副台则分出数十道细线，通往外围翻板、暗门与岔路。两台各有一处印槽，彼此并不相通。" },
+  { type: "narration", text: "乔无咎立在主台前，一手压着嵌于其中的主印。听见内门动静，他立刻侧过身，掌下几道牵机丝同时绷紧。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "薛逢呢？", expression: "smug", position: "right" },
+  { type: "narration", text: "你将牵机副印放在身前，并未向他靠近：“回不来了。”乔无咎看过副印，又扫了一眼控制室角落那根始终未曾响动的警线，按住主印的手没有放松。" },
+  { type: "narration", text: "副台石盘上，三组细线正在不同刻度间缓慢移动。一组停在右侧窄道，一组正沿左侧甬道深入，另一组则在下方岔路间时走时停。依照大雾中众人离开的方向，正可分别对应纪清寒、赵黎与苏莹。牵机丝只能报出路线与轻重，远不足以让人看见墓道里发生了什么。" },
+  { type: "narration", text: "乔无咎若要以主印开合祭阵内门，便无法同时走到副台改变外围岔路；反过来也是一样。薛逢原本要做的，正是在两道内门开启的同时，将那三条路线逐一导向祭阵。如今副印落在你手中，乔无咎想继续原先的安排，只能另找一双手。" },
+  { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "你接手副台，把他们引到祭阵。我开内门。等血魔蛊现世，再凭各自手段分取所得。", expression: "smug", position: "right" },
+  { type: "narration", text: "这句约定没有任何约束。乔无咎的手仍压在主印上，你也始终站在副台印槽之外。可若不借副台理清外围路线，你随时可能被主台封死在控制室与夹道之间；而乔无咎少了副台配合，也无法按时将三路人引入祭阵。至少在阵门打开以前，谁都不能先动手。" },
 ];
 
 const traitorOathEvents: VisualNovelEvent[] = [
@@ -120,7 +125,12 @@ export const traitorActThreeScenes: Record<string, Scene> = {
   traitorBargain: {
     id: "traitorBargain", act: 3, node: 3, chapter: "第三幕 · 乔无咎线 · 节点 3 / 4", title: "第二双手",
     events: traitorBargainEvents,
-    choices: [{ id: "traitor-accept-qiao", label: "接过操纵机关的位置", next: "traitorOath", result: "你站到乔无咎身旁，成为这座墓里的第二双手。", effect: { flag: "乔无咎同谋" } }],
+    choices: [{
+      id: "traitor-accept-qiao",
+      label: "将副印扣入侧台，接手外围牵机丝",
+      next: "traitorOath",
+      result: "你将牵机副印扣入副台凹槽。印齿嵌合，石盘上的细线依次张紧，远处翻板起落与石门开合的震动随之传回指间。三组线路仍只是刻度上的粗略位置，却已足够让你判断他们将抵达哪一道岔口。\n\n乔无咎随即转动主印，祭阵方向的第一道内门轰然开启。他没有再看你，只道：“先改右侧那一路。”\n\n你按住副台对应的牵机槽，将原本通往外圈的岔路缓缓移向祭阵。自这一刻起，你与乔无咎暂时有了同一个目的，也各自握住了对方不能缺少的那部分机关。",
+    }],
   },
   traitorOath: {
     id: "traitorOath", act: 3, node: 4, chapter: "第三幕 · 乔无咎线 · 节点 4 / 4", title: "血誓同谋",

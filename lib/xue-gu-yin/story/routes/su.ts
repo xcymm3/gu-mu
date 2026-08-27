@@ -69,10 +69,18 @@ const suCoffinEvents: VisualNovelEvent[] = [
 
 const suMasterTruthEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
+  { type: "narration", text: "窄井中的阵光升到棺底后便不再上行。一方与人形凹腔等宽的石台沿井壁缓慢抬起，台上躺着一名形容枯槁的男子。暗红细线从他背后垂入井底，随着每一次微弱呼吸，将血气送入干瘪的四肢。" },
   { type: "character", action: "show", character: "su-yan", position: "left", expression: "awakened" },
-  { type: "narration", text: "血池中央浮起一具干枯身体。苏衍睁眼后先称苏莹为后人，又命她交出血脉与旧玉。苏莹站在你身侧没有跪下；她把血钥折断，亲手拒绝了延续数代的命令。" },
-  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "血脉只让我看见你的罪，不会替你命令我。", expression: "wary", position: "right" },
+  { type: "narration", text: "石台与黑棺底部齐平时，男子睁开眼。石殿中的苏氏旧纹同时亮起，棺内人形凹腔也开始向他的身形收拢。苏莹依据棺上落款与旧阵反应，认出此人正是墓主苏衍，却没有靠近。" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
+  { type: "narration", text: "苏衍先看向她掌心尚未散去的血钥印记，又看了一眼你手中的旧玉。进入祖阵的苏氏后人与稳定旁枢之物都已来到棺前，正合返生阵所需。" },
+  { type: "dialogue", speaker: "su-yan", displayName: "苏衍", text: "把手放入棺中，令旁枢归位。待我重归五转，承蛊之法与苏氏遗藏，自会留给后人。", expression: "awakened", position: "left" },
+  { type: "dialogue", speaker: "su-ying", displayName: "苏莹", text: "遗文只写‘主归五转’，从未写过‘后人得蛊’。你要留下的传承，为何先要取尽后人的血？", expression: "wary", position: "right" },
+  { type: "dialogue", speaker: "su-yan", displayName: "苏衍", text: "苏氏血脉因我而存。后人奉还一身气血，助我补全大道，本就是偿还祖上所赐。", expression: "awakened", position: "left" },
+  { type: "narration", text: "苏莹掌心的血钥印记受到祖阵牵引，数道暗红细线从她指间向黑棺延伸。她依照墓图截住其中两道，却没有替苏衍完成最后一步。" },
 ];
+
+const suRefusalConvergence = "苏莹依照墓图，将真元逆转掌心印记最后三处阵点。延向黑棺的暗红细线从中断开，血钥纹路也裂成数段，不再接受祖阵牵引；她掌心仍旧完好。连接断开后，苏衍背后的血线同时绷紧。石殿旧阵试图重新扣住苏莹，被她将断开的掌印压在棺沿阵路上，卡在主路之外。苏衍从石台上坐起，返生尚未完成的躯体开始抽取已经蓄在棺底的残余血气。苏莹留在黑棺旁压住祖阵主路，能够截断他与石殿其余阵纹的联系，却无法夺走他已经纳入体内的力量。你向前一步，挡在她与石台之间。";
 
 const suMasterDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
@@ -127,8 +135,8 @@ export const suActFourScenes: Record<string, Scene> = {
   suMasterTruth: {
     id: "suMasterTruth", act: 4, node: 4, chapter: "第四幕 · 苏莹线 · 节点 4 / 6", title: "血脉拒命", events: suMasterTruthEvents,
     choices: [
-      { id: "su-deny-debt", label: "告诉苏衍，她不欠苏氏任何东西", next: "suMasterDuel", result: "苏衍冷笑：“外人也配谈苏氏的债？”苏莹折断血钥：“他说得对。这笔债，到你这里就该断了。”" },
-      { id: "su-name-herself", label: "告诉苏莹，她只需留下自己的名字", next: "suMasterDuel", result: "苏莹看着掌中的血钥，忽然笑了一下：“那就记住苏莹，别记什么苏氏后人。”血钥应声折断。" },
+      { id: "su-deny-debt", label: "指向棺上“主归五转”的残文，追问承蛊为何先要奉尽后人的血", next: "suMasterDuel", result: `你指向旧玉照出的残文：“棺上只写你一人归五转。若苏氏后人必须先被祖阵取尽气血，这不是传承，只是取用。”苏衍没有再看残文：“血脉既自我而始，自当由我收回。待我复原，自会再续苏氏。”苏莹低头看着掌心阵光：“用后人的命延续的从来不是苏氏，只有你。”${suRefusalConvergence}` },
+      { id: "su-name-herself", label: "不替苏莹回答，只提醒她血门认得血脉，却没能替她认主", next: "suMasterDuel", result: `你没有挡到她身前，也没有替她许下任何话，只说道：“血门认出了苏氏后人，却没能替你认主。现在也一样。”苏莹看了你一眼，随后转向苏衍：“我进墓是为查清师父留下的警告，不是来替祖先返生。苏氏给了我血脉，却没有替我决定如何活。”${suRefusalConvergence}` },
     ],
   },
   suMasterDuel: { id: "suMasterDuel", act: 4, node: 5, chapter: "第四幕 · 苏莹线 · 节点 5 / 6", title: "五转墓主", events: suMasterDuelEvents, battle: { enemyName: "苏衍", enemyHealth: 28, victoryNext: "suCollapse", defeatNext: "ending", victoryFlag: "墓主已灭", defeatFlag: "墓主吞尽血食", defeatEnding: "deathByMaster" } },

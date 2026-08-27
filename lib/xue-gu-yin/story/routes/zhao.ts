@@ -13,9 +13,9 @@ const zhaoTrailEvents: VisualNovelEvent[] = [
 const zhaoLessonEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
-  { type: "narration", text: "陷道尽头横着一片被抽干血气的枯骨。赵黎以血纹蛊牵起其中尚未消散的残血，当着你的面将其炼成一枚临时蛊印。手法邪异，却比寻常控血术精妙数倍。" },
-  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "正道把力量分成善恶，是因为他们怕旁人比自己更强。蛊只认胜负，不认牌坊。", expression: "wary", position: "left" },
-  { type: "narration", text: "枯骨旁还压着半卷冰寒蛊简，上面记着血属蛊虫遇极寒时的运转滞点。赵黎明明看见了，却故意把蛊简留在原处，像是在等你自己决定要不要拿。" },
+  { type: "narration", text: "侧洞尽头比别处宽阔一些，地面却被横七竖八的枯骨堵得无处落脚。这些人死去的年岁并不相同，有些衣甲尚未烂尽，有些只剩一层灰白骨粉。\n\n前路被一扇无缝石门截断。门上没有锁孔，只在正中刻着一枚巴掌大小的凹印，周围的细槽早已被暗褐色血垢填满。\n\n赵黎俯身查看片刻，目光落到一具尚未完全风化的尸骨上。那具尸骨的小臂断在骨堆外侧，髓腔深处还凝着少许发黑的旧血。" },
+  { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "退后。别让自己的血气混进来。", expression: "wary", position: "left" },
+  { type: "narration", text: "血纹蛊伏上断骨，细长口器探入髓腔，将那点几乎干透的旧血一丝丝抽出。赵黎又划破指腹，添入自己的一滴鲜血。\n\n两股气血并未相融，反而在半空彼此排斥。赵黎五指接连变换，真元沿血线分成数股，时而压制旧血中的死气，时而牵引它依照石门凹印的轮廓游走。十余息后，一枚薄如蝉翼的临时血印逐渐成形。\n\n他不是在向你传授法门，只是这道门恰好需要一枚属于死者的血印。可他分理气血时没有半点迟滞，寻常蛊修避之不及的污血与死气，在他手里却各有去处。\n\n血印即将嵌入石门时，骨堆下方忽然透出一缕寒气。一具冻裂的枯骨随之崩开，肋骨间掉出半枚灰白骨简。简上的淡蓝蛊纹受到血气牵引，骤然亮起，附近几根血线顿时覆上一层薄霜，运转也慢了下来。\n\n赵黎屈指一弹，震碎血线上的冰霜，目光在骨简上略停了一瞬。确认它只剩半篇后，他便重新将血印压入门中。\n\n你已经看清骨简上的几行残文。上面所记并非完整蛊术，而是血属蛊虫遭遇极寒时，真元最容易迟滞的几处运转节点。\n\n随着血印没入凹槽，封门内部响起沉重的转动声。赵黎站在逐渐开启的门前，没有替你收走那枚骨简，也没有出言催促。" },
 ];
 
 const zhaoPriceEvents: VisualNovelEvent[] = [
@@ -90,7 +90,7 @@ export const zhaoActThreeScenes: Record<string, Scene> = {
   zhaoLesson: {
     id: "zhaoLesson", act: 3, node: 2, chapter: "第三幕 · 赵黎线 · 节点 2 / 4", title: "强者之法",
     events: zhaoLessonEvents,
-    choices: [{ id: "zhao-take-scroll", label: "收起冰寒蛊简，把克制血蛊的法门记下", next: "zhaoPrice", result: "你收起蛊简。赵黎看见了，却只笑了一声。", effect: { flag: "冰寒蛊简" } }],
+    choices: [{ id: "zhao-take-scroll", label: "收起冰寒蛊简，把克制血蛊的法门记下", next: "zhaoPrice", result: "你从碎骨间拾起冰寒蛊简，以一缕真元扫过其中残文，将那几处血气滞点记在心中。\n\n赵黎从眼角瞥见你的动作，没有阻拦。\n\n“半篇残简而已。真到了动手的时候，能不能用出来，还要看你的本事。”\n\n石门已经升起大半。你将冰寒蛊简收入袖中，随他跨过门槛。前方甬道深处隐约传来一阵急促的撞击声，其间还夹着一个男人断断续续的呼喊。", effect: { flag: "冰寒蛊简" } }],
   },
   zhaoPrice: {
     id: "zhaoPrice", act: 3, node: 3, chapter: "第三幕 · 赵黎线 · 节点 3 / 4", title: "力量的价钱",

@@ -84,7 +84,7 @@ const suRefusalConvergence = "苏莹依照墓图，将真元逆转掌心印记�
 
 const suMasterDuelEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
-  { type: "narration", text: "苏衍吞下血池残魂，五转威压覆盖整座祭殿。苏莹以断裂血钥压住他与墓阵的联系，你则必须在她支撑不住之前击溃这位真正的墓主。不同的主角身份会带来不同胜算，游方蛊医的攻势不足以突破他的再生。" },
+  { type: "narration", text: "苏衍从升起的石台上站起，背后仍垂着数道通往窄井的暗红细线。血钥连接虽已断开，他此前吸入体内的血气却未散去。残存的五转蛊息沿枯槁躯体向外压来，棺边石屑随之轻轻滚动。\n\n苏莹把断开的掌印压在黑棺主路上。每当旧阵试图重新连向苏衍，掌心残缺的血钥纹便使阵光停在棺沿。她能够截断石殿继续供血，却必须留在原地维持阵势，无法分心参战。\n\n苏衍三次牵动祖阵，都只从窄井底部抽回少量血气。苏莹盯着他背后的细线，低声道：“返生还没完成。他如今用掉一分，便少一分。逼他耗尽体内血气，再断窄井连接。”\n\n你停在石台与黑棺之间。苏衍抬起右手，窄井中的血雾已经沿棺底向外漫出。" },
 ];
 
 const suCollapseEvents: VisualNovelEvent[] = [

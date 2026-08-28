@@ -9,8 +9,11 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --experimental-strip-types --test tests/game.test.ts tests/combat-balance.test.ts tests/release.test.ts",
+    "install:e2e:browser": "playwright install chromium",
+    "test:e2e": "pnpm build && pnpm test:e2e:run",
+    "test:e2e:run": "playwright test",
     "verify:fast": "pnpm test && pnpm lint && pnpm build",
-    "verify": "pnpm verify:fast",
+    "verify": "pnpm verify:fast && pnpm test:e2e:run",
     "loop:start": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1",
     "loop:dry-run": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1 -DryRun",
     "loop:status": "pwsh -NoLogo -NoProfile -File ./scripts/show-loop-status.ps1",
@@ -22,6 +25,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

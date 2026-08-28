@@ -36,6 +36,14 @@ pnpm lint
 pnpm build
 ```
 
+首次运行真实浏览器测试前安装 Chromium：
+
+```bash
+pnpm install:e2e:browser
+```
+
+`pnpm test:e2e` 会先生成生产静态导出物，再使用 Chromium 自动试玩；`pnpm verify` 会在快速门禁通过后追加同一组浏览器测试。
+
 ## Android 应用
 
 `android/` 目录包含锁定横屏、沉浸式全屏的原生 WebView 外壳，启动后直接加载 [https://adv.xcymm3.top](https://adv.xcymm3.top)。详细的 APK 下载、Android Studio 构建与发布签名说明见 [android/README.md](android/README.md)。

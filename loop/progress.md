@@ -18,3 +18,12 @@
 - 首轮启动日志显示 Codex CLI 0.150.0-alpha.8 不允许同时传入 `--approve-for-me` 与 `--sandbox workspace-write`，进程以退出码 2 停止，未修改游戏文件。
 - 删除冗余的 `--sandbox` 参数；`--approve-for-me` 本身会使用 `workspace-write` 沙箱，保留自动审批审查与仓库写入边界。
 - 无改动 CLI 探针最终返回 `READY`，并确认参数组合实际启用 `sandbox: workspace-write`；WebSocket 超时后可自动回退 HTTPS。
+
+## 2026-08-28 · GM2H-001 真实浏览器自动试玩基础设施
+
+- 引入 Playwright Chromium、生产静态导出服务器与两项公开操作 E2E；`pnpm verify` 已纳入真实浏览器门禁。
+- 自动覆盖主菜单、身份选择、正文推进、八次共通线选择、首场战斗、设置、历史、手动存读档及快速存读档。
+- 浏览器夹具将页面异常、`console.error`、失败请求、HTTP 4xx/5xx 和文档全局横纵溢出作为失败；未通过直接写入最终状态缩短流程。
+- `pnpm install --frozen-lockfile` 退出码 0；随后 `pnpm test:e2e:run` 退出码 0，2 项 Chromium 用例通过（23.5 秒）。
+- `pnpm verify:fast` 退出码 0：86 项 Node 测试、ESLint、TypeScript 与 Next.js 生产静态构建通过。
+- `pnpm verify` 退出码 0：完整快速门禁后，2 项 Chromium 用例再次通过（29.8 秒）。

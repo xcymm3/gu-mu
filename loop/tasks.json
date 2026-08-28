@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T09:32:00+08:00",
+  "updatedAt": "2026-08-28T11:29:49+08:00",
   "timebox": {
     "hours": 2,
     "maxIterations": 8,
@@ -23,7 +23,7 @@
     {
       "id": "GM2H-001",
       "title": "建立真实浏览器自动试玩基础设施",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-000"],
       "acceptance": [
         "引入 Playwright 或等价的本地浏览器测试，并纳入 pnpm verify",

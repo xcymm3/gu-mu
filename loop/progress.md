@@ -35,3 +35,13 @@
 - 新增 `loop/runtime/checkpoint.json` 结构化恢复点；运行模式区分 implementation、resume 与 diagnostic，优先复用 Git diff 和上轮日志。
 - 网络、registry、pnpm store 与模型传输故障最多独立重试两次，不再计入语义任务失败；工作轮次禁止在依赖清单未变化时重复安装。
 - 预检命令均通过：`pnpm store status`、`pnpm install --frozen-lockfile --prefer-offline`、`pnpm exec playwright install chromium` 与 `pnpm verify:fast`；86 项测试、Lint、TypeScript 和生产构建成功。
+
+## 2026-08-28 · GM2H-002 全路线与全部结局自动试玩
+
+- 新增共享引擎镜像驱动，但所有身份、剧情选择、战斗蛊术、存档和读取仍通过 Chromium 中的玩家可见按钮完成；未直接写入最终状态。
+- 四条正式路线均由真实页面通关；三种身份分别实际使用回春蛊、剑鸣蛊与惑心蛊，并验证游方蛊医无法击败苏衍、世家之子可进入真结局。
+- 固定 `Math.random` 为 `0.75` 并核对机关暗室的血刃蛊结果；新增大雾等待选项，使原本仅由结算器登记的“困于蛊墓”拥有公开可玩路径。
+- 赵黎线在血傀儡、赵黎与乔无咎战前通过页面手动存档；每场先验证战败结局，再从存档页读取同一状态并验证胜利，连同四个路线结局与苏衍战败覆盖全部 9 个登记结局。
+- `pnpm exec playwright test tests/e2e/full-routes.spec.ts --reporter=line` 退出码 0：6 项全路线 Chromium 用例通过（2.8 分钟）。
+- `pnpm verify:fast` 退出码 0：87 项 Node 测试、全仓 ESLint、TypeScript 与生产静态构建通过。
+- `pnpm verify` 退出码 0：快速门禁再次通过，8 项 Chromium 用例全部通过（3.0 分钟）；页面错误、`console.error`、失败请求和 HTTP 4xx/5xx 均未触发。

@@ -529,7 +529,7 @@ test("大雾节点的四种人格分别锁定四条固定路线", () => {
 test("大雾节点在人格唯一领先时只展示对应行动", () => {
   const state = { ...chooseRole(), personality: { power: 3, compassion: 1, insight: 0, scheme: 0 } };
   const choices = resolveScenePresentation(state, scenes.fog).choices;
-  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power"]);
+  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-trapped"]);
   const next = applyChoice(state, choices[0]);
   assert.equal(next.route, "zhao");
   assert.equal(next.routeLocked, true);
@@ -538,8 +538,18 @@ test("大雾节点在人格唯一领先时只展示对应行动", () => {
 test("大雾节点在人格并列时展示多个确认行动", () => {
   const state = { ...chooseRole(), personality: { power: 2, compassion: 0, insight: 2, scheme: 1 } };
   const choices = resolveScenePresentation(state, scenes.fog).choices;
-  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-insight"]);
+  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-insight", "fog-trapped"]);
   assert.ok(choices.every((choice) => canChoose(state, choice)));
+});
+
+test("大雾中等待会经公开选择进入超时兜底结局", () => {
+  const state = { ...chooseRole(), personality: { power: 3, compassion: 1, insight: 0, scheme: 0 } };
+  const choice = resolveScenePresentation(state, scenes.fog).choices.find((item) => item.id === "fog-trapped");
+  assert.ok(choice);
+  const next = applyChoice(state, choice);
+  assert.equal(next.sceneId, "ending");
+  assert.equal(next.time, 4);
+  assert.equal(resolveEnding(next), "trapped");
 });
 
 test("权谋人格经薛逢切入乔无咎权谋线", () => {

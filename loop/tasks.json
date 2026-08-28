@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T13:38:11+08:00",
+  "updatedAt": "2026-08-28T14:11:59+08:00",
   "timebox": {
     "cycleHours": 2,
     "maxTaskAttemptsPerCycle": 3,
@@ -39,7 +39,7 @@
     {
       "id": "GM2H-002",
       "title": "覆盖全路线与全部结局自动试玩",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-001"],
       "acceptance": [
         "四条正式路线均至少有一条真实浏览器通关路径",

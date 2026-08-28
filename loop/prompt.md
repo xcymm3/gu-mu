@@ -2,31 +2,26 @@
 
 在本次全新 Codex CLI 上下文中，为《血蛊引》两小时受控改进 Loop 完成一个可验证任务。最终目标是：全部正式路线可自动试玩，关键存读档与战斗路径可重复验证，剧情因果与人物表达通顺，美术风格统一且适配目标视口，构建、测试、依赖审计和浏览器控制台没有已知阻断问题。
 
-# 每轮必读上下文
+# 恢复优先的上下文
 
-按顺序读取：
+每次都先读取 `AGENTS.md`、`loop/tasks.json`、`loop/progress.md`、`loop/runtime/checkpoint.json`（若存在），并检查当前分支、Git diff 与最近提交。
 
-1. `AGENTS.md`
-2. `README.md`
-3. `docs/visual-novel-spec.md`
-4. `docs/story-flow.md`
-5. `docs/art-prompts.md`
-6. `docs/RELEASE-CHECKLIST.md`
-7. `loop/tasks.json`
-8. `loop/progress.md`
-9. 诊断失败时再读取 `loop/logs/` 中与当前任务相关的最新日志
+- `implementation`：再读取 `README.md` 和当前任务直接相关的规范；浏览器任务读 `docs/visual-novel-spec.md` 与 `docs/RELEASE-CHECKLIST.md`，剧情任务读 `docs/story-flow.md`，美术任务读 `docs/art-prompts.md`。
+- `resume`：先读取检查点指定的 stdout/stderr、现有 diff 和新增测试，从上轮停止位置继续；除非发现规范冲突，不重新通读全部文档。
+- `diagnostic`：先复现检查点中的最后失败，只读取支持当前假设的日志和代码，禁止重复无关调查。
 
 # 必须遵守的工作流
 
 1. 检查 Git 状态、当前分支与最近提交，保留用户和其他任务的无关改动。
 2. 只处理监督器指定的一个任务；除最终集成任务外，不顺带开启其他任务。
-3. 先建立可复现的失败证据或验收基线，再做满足验收条件的最小连贯修改。
-4. 代码、剧情、美术和测试必须使用现有架构边界；不得把路线判断或大段剧情重新硬编码进 React 组件。
-5. 任务完成前运行任务专用检查与 `pnpm verify:fast`。涉及浏览器、美术、存档、可访问性或最终集成时必须运行 `pnpm verify`。
-6. 只有所有验收条件都有命令、截图或测试证据时，才把该任务改为 `done`，更新 `updatedAt`，并在 `loop/progress.md` 追加简洁证据。
-7. 使用一次 Conventional Commit 提交该任务，格式为 `<英文小写 type>: <具体简体中文摘要>`，主题末尾不加句号。确认不包含无关改动后推送当前专用分支；首次推送使用 `git push -u origin automation/art-playtest-loop` 建立 upstream，禁止强推和改写历史。
-8. 验证或推送失败时不得标记完成。记录完整命令、退出码、关键错误和下一假设；连续失败时缩小问题、增加回归测试或标记 `blocked`。
-9. 只有全部任务完成、`pnpm verify` 与 `pnpm audit --prod --registry=https://registry.npmjs.org` 均通过时，才创建 `DONE.md`。
+3. 监督器已经在计时前完成 pnpm store、冻结安装、Chromium 和 `pnpm verify:fast` 预检。除非当前任务修改了 `package.json` 或 `pnpm-lock.yaml`，不得重复运行 `pnpm install` 或浏览器安装。
+4. 先复用检查点和现有失败证据；没有证据时才建立新的验收基线，再做满足验收条件的最小连贯修改。
+5. 代码、剧情、美术和测试必须使用现有架构边界；不得把路线判断或大段剧情重新硬编码进 React 组件。
+6. 任务完成前运行任务专用检查与 `pnpm verify:fast`。涉及浏览器、美术、存档、可访问性或最终集成时必须运行 `pnpm verify`。
+7. 只有所有验收条件都有命令、截图或测试证据时，才把该任务改为 `done`，更新 `updatedAt`，并在 `loop/progress.md` 追加简洁证据。
+8. 使用一次 Conventional Commit 提交该任务，格式为 `<英文小写 type>: <具体简体中文摘要>`，主题末尾不加句号。确认不包含无关改动后推送当前专用分支；首次推送使用 `git push -u origin automation/art-playtest-loop` 建立 upstream，禁止强推和改写历史。
+9. 验证或推送失败时不得标记完成。记录完整命令、退出码、关键错误和下一假设；时间不足时保留可恢复的最小 diff 和测试结果，不从头重做。
+10. 只有全部任务完成、`pnpm verify` 与 `pnpm audit --prod --registry=https://registry.npmjs.org` 均通过时，才创建 `DONE.md`。
 
 # 自动试玩标准
 

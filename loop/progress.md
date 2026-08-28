@@ -27,3 +27,11 @@
 - `pnpm install --frozen-lockfile` 退出码 0；随后 `pnpm test:e2e:run` 退出码 0，2 项 Chromium 用例通过（23.5 秒）。
 - `pnpm verify:fast` 退出码 0：86 项 Node 测试、ESLint、TypeScript 与 Next.js 生产静态构建通过。
 - `pnpm verify` 退出码 0：完整快速门禁后，2 项 Chromium 用例再次通过（29.8 秒）。
+
+## 2026-08-28 · 两小时工作周期重构
+
+- 将两小时定义为可续接工作周期：计时前最多 20 分钟环境预检，周期内最多交付两个任务、三次语义任务尝试，每次最多 50 分钟并预留 60 秒清理。
+- 模型显式固定为 `gpt-5.6-sol`；Codex CLI 0.150.0-alpha.12.2 探针确认 `workspace-write` 沙箱并返回 `READY`。
+- 新增 `loop/runtime/checkpoint.json` 结构化恢复点；运行模式区分 implementation、resume 与 diagnostic，优先复用 Git diff 和上轮日志。
+- 网络、registry、pnpm store 与模型传输故障最多独立重试两次，不再计入语义任务失败；工作轮次禁止在依赖清单未变化时重复安装。
+- 预检命令均通过：`pnpm store status`、`pnpm install --frozen-lockfile --prefer-offline`、`pnpm exec playwright install chromium` 与 `pnpm verify:fast`；86 项测试、Lint、TypeScript 和生产构建成功。

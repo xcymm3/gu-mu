@@ -1,12 +1,16 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T11:29:49+08:00",
+  "updatedAt": "2026-08-28T13:38:11+08:00",
   "timebox": {
-    "hours": 2,
-    "maxIterations": 8,
-    "iterationTimeoutMinutes": 16,
-    "shutdownBufferSeconds": 20
+    "cycleHours": 2,
+    "maxTaskAttemptsPerCycle": 3,
+    "maxCompletedTasksPerCycle": 2,
+    "iterationTimeoutMinutes": 50,
+    "preflightTimeoutMinutes": 20,
+    "maxInfrastructureRetries": 2,
+    "shutdownBufferSeconds": 60,
+    "model": "gpt-5.6-sol"
   },
   "tasks": [
     {
@@ -16,7 +20,8 @@
       "dependsOn": [],
       "acceptance": [
         "Loop 具备两小时硬截止、单轮超时、停止文件、互斥锁、速率限制检测和干净工作区保护",
-        "每轮使用全新 ephemeral Codex CLI 会话并只写专用工作分支",
+        "工作周期在计时前完成环境预检，使用结构化检查点恢复，并将基础设施重试与语义任务失败分离",
+        "每轮显式使用 gpt-5.6-sol 的 ephemeral Codex CLI 会话并只写专用工作分支",
         "pnpm loop:dry-run、pnpm loop:status 与 pnpm verify:fast 全部通过"
       ]
     },

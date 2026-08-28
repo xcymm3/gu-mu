@@ -4,6 +4,7 @@ param()
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $tasksPath = Join-Path $projectRoot 'loop/tasks.json'
 $lockPath = Join-Path $projectRoot 'loop/runtime/loop.lock.json'
+$checkpointPath = Join-Path $projectRoot 'loop/runtime/checkpoint.json'
 $logsPath = Join-Path $projectRoot 'loop/logs'
 
 if (-not (Test-Path -LiteralPath $tasksPath)) {
@@ -25,7 +26,12 @@ if (Test-Path -LiteralPath $lockPath) {
         $lock = Get-Content -LiteralPath $lockPath -Raw -Encoding utf8 | ConvertFrom-Json
         $process = Get-Process -Id $lock.pid -ErrorAction SilentlyContinue
         if ($null -ne $process) {
-            Write-Host "Supervisor: running (PID $($lock.pid), deadline $($lock.deadline))"
+            if ([string]$lock.phase -eq 'preflight') {
+                Write-Host "Supervisor: running preflight (PID $($lock.pid), model $($lock.model))"
+            }
+            else {
+                Write-Host "Supervisor: running $($lock.phase) (PID $($lock.pid), deadline $($lock.deadline), model $($lock.model))"
+            }
         }
         else {
             Write-Host "Supervisor: stale lock (PID $($lock.pid))"
@@ -37,6 +43,19 @@ if (Test-Path -LiteralPath $lockPath) {
 }
 else {
     Write-Host 'Supervisor: stopped'
+}
+
+if (Test-Path -LiteralPath $checkpointPath) {
+    try {
+        $checkpoint = Get-Content -LiteralPath $checkpointPath -Raw -Encoding utf8 | ConvertFrom-Json
+        Write-Host "Checkpoint: $($checkpoint.phase); task $($checkpoint.taskId); outcome $($checkpoint.outcome); updated $($checkpoint.updatedAt)"
+        if (-not [string]::IsNullOrWhiteSpace([string]$checkpoint.stderrLog)) {
+            Write-Host "Checkpoint log: $($checkpoint.stderrLog)"
+        }
+    }
+    catch {
+        Write-Host 'Checkpoint: unreadable'
+    }
 }
 
 if ($blocked.Count -gt 0) {

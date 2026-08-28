@@ -8,7 +8,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test tests/game.test.ts tests/combat-balance.test.ts tests/release.test.ts"
+    "test": "node --experimental-strip-types --test tests/game.test.ts tests/combat-balance.test.ts tests/release.test.ts",
+    "verify:fast": "pnpm test && pnpm lint && pnpm build",
+    "verify": "pnpm verify:fast",
+    "loop:start": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1",
+    "loop:dry-run": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1 -DryRun",
+    "loop:status": "pwsh -NoLogo -NoProfile -File ./scripts/show-loop-status.ps1",
+    "loop:stop": "pwsh -NoLogo -NoProfile -File ./scripts/stop-loop.ps1"
   },
   "dependencies": {
     "next": "16.3.0",

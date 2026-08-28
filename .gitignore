@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
 
 # next.js
 /.next/
@@ -48,3 +50,8 @@ next-env.d.ts
 /android/local.properties
 *.jks
 *.keystore
+
+# controlled Codex loop runtime
+/loop/logs/
+/loop/runtime/
+/stop.md

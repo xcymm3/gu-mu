@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "project": "《血蛊引》美术优化与全流程自动试玩",
+  "updatedAt": "2026-08-28T09:32:00+08:00",
+  "timebox": {
+    "hours": 2,
+    "maxIterations": 8,
+    "iterationTimeoutMinutes": 16,
+    "shutdownBufferSeconds": 20
+  },
+  "tasks": [
+    {
+      "id": "GM2H-000",
+      "title": "建立两小时受控 CLI Loop 基线",
+      "status": "done",
+      "dependsOn": [],
+      "acceptance": [
+        "Loop 具备两小时硬截止、单轮超时、停止文件、互斥锁、速率限制检测和干净工作区保护",
+        "每轮使用全新 ephemeral Codex CLI 会话并只写专用工作分支",
+        "pnpm loop:dry-run、pnpm loop:status 与 pnpm verify:fast 全部通过"
+      ]
+    },
+    {
+      "id": "GM2H-001",
+      "title": "建立真实浏览器自动试玩基础设施",
+      "status": "pending",
+      "dependsOn": ["GM2H-000"],
+      "acceptance": [
+        "引入 Playwright 或等价的本地浏览器测试，并纳入 pnpm verify",
+        "自动覆盖主菜单、身份选择、正文推进、选项、战斗、设置、历史、手动存档、快速存档和读取",
+        "测试捕获页面错误、控制台错误、失败资源请求和全局溢出"
+      ]
+    },
+    {
+      "id": "GM2H-002",
+      "title": "覆盖全路线与全部结局自动试玩",
+      "status": "pending",
+      "dependsOn": ["GM2H-001"],
+      "acceptance": [
+        "四条正式路线均至少有一条真实浏览器通关路径",
+        "三种身份的有效差异、关键战斗胜败、九个登记结局和存档恢复均有自动证据",
+        "随机选择可复现，自动试玩不通过直接篡改最终状态伪造通关"
+      ]
+    },
+    {
+      "id": "GM2H-003",
+      "title": "建立视觉基线并修复布局与可访问性缺陷",
+      "status": "pending",
+      "dependsOn": ["GM2H-001"],
+      "acceptance": [
+        "关键界面在桌面和移动目标视口生成可复现截图",
+        "修复遮挡、裁切、滚动、对比度、焦点、减少动态和长文本分页缺陷",
+        "Hallmark 声明与实际样式一致，视觉检查不再依赖未经验证的 pass 注释"
+      ]
+    },
+    {
+      "id": "GM2H-004",
+      "title": "统一背景立绘与声音资源质量",
+      "status": "pending",
+      "dependsOn": ["GM2H-003"],
+      "acceptance": [
+        "审计并处理仍在使用的开发占位背景和明显不一致的角色表现",
+        "关键人物、背景、战斗和结局舞台在构图、色温、透明边缘与缩放上协调",
+        "资源授权清晰、加载失败有回退、单文件和总体积继续满足发布预算"
+      ]
+    },
+    {
+      "id": "GM2H-005",
+      "title": "逐路线审查并修正剧情连续性",
+      "status": "pending",
+      "dependsOn": ["GM2H-002"],
+      "acceptance": [
+        "四条路线逐节点检查人物动机、信息、位置、伤势、道具和旗标连续性",
+        "修复有证据的重复、突兀、口吻漂移和状态冲突，不进行无目标整线重写",
+        "story-flow、发布清单、结局数量与实际代码一致，并增加必要回归测试"
+      ]
+    },
+    {
+      "id": "GM2H-006",
+      "title": "完成全流程回归与诚实交付",
+      "status": "pending",
+      "dependsOn": ["GM2H-002", "GM2H-004", "GM2H-005"],
+      "acceptance": [
+        "从干净安装执行 pnpm verify、生产构建和 npm registry 生产依赖审计全部通过",
+        "自动试玩重复运行无非确定性失败，关键截图经视觉复核且没有已知阻断缺陷",
+        "DONE.md 记录覆盖范围、命令证据、视觉证据、剩余风险和未完成的非阻断事项"
+      ]
+    }
+  ]
+}

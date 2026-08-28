@@ -11,9 +11,6 @@ param(
     [int]$IterationTimeoutMinutes = 50,
 
     [ValidateRange(1, 10)]
-    [int]$MaxCompletedTasksPerCycle = 2,
-
-    [ValidateRange(1, 10)]
     [int]$MaxInfrastructureRetries = 2,
 
     [ValidateRange(1, 60)]
@@ -29,6 +26,8 @@ param(
     [string]$WorkBranch = 'automation/art-playtest-loop',
 
     [switch]$AllowDirtyStart,
+
+    [switch]$SkipPreflight,
 
     [switch]$DryRun
 )
@@ -355,9 +354,9 @@ if ($DryRun) {
     Write-Host "Codex: $(& codex --version)"
     Write-Host "Model: $Model (explicit)"
     Write-Host "Tasks: $(@($tasks | Where-Object status -eq 'done').Count)/$($tasks.Count) done"
-    Write-Host "Cycle: $MaxHours hours, at most $MaxCompletedTasksPerCycle completed tasks"
+    Write-Host "Cycle: $MaxHours hours; the continuous launcher starts the next cycle until the goal is complete"
     Write-Host "Attempts: $MaxTaskAttempts task attempts, $IterationTimeoutMinutes minutes each; infrastructure retries: $MaxInfrastructureRetries"
-    Write-Host "Preflight: up to $PreflightTimeoutMinutes minutes before the cycle timer; shutdown buffer: $ShutdownBufferSeconds seconds"
+    Write-Host "Preflight: $(if ($SkipPreflight) { 'reused from the current continuous run' } else { "up to $PreflightTimeoutMinutes minutes before the first cycle timer" }); shutdown buffer: $ShutdownBufferSeconds seconds"
     Write-Host "Branch: $currentBranch -> $WorkBranch when started"
     Write-Host 'Sandbox: workspace-write with automatic approval review'
     Write-Host "Working tree: $(if ($dirtyFiles.Count -eq 0) { 'clean' } else { "dirty ($($dirtyFiles.Count) entries)" })"
@@ -420,25 +419,31 @@ $displayDeadline = $null
 
 try {
     Set-SystemAwake -Enabled $true
-    Write-Host "Preflight started. Its $PreflightTimeoutMinutes minute budget does not consume the two-hour work cycle."
-    Write-Checkpoint -Phase 'preflight' -Outcome 'running'
-    $preflightStatusBefore = @(& git -C $projectRoot status --porcelain)
-    $preflightStopwatch = [Diagnostics.Stopwatch]::StartNew()
-    $preflightBudget = [TimeSpan]::FromMinutes($PreflightTimeoutMinutes)
+    if ($SkipPreflight) {
+        Write-Host 'Reusing the successful preflight from the current continuous run.'
+        Write-Checkpoint -Phase 'preflight' -Outcome 'reused'
+    }
+    else {
+        Write-Host "Preflight started. Its $PreflightTimeoutMinutes minute budget does not consume the two-hour work cycle."
+        Write-Checkpoint -Phase 'preflight' -Outcome 'running'
+        $preflightStatusBefore = @(& git -C $projectRoot status --porcelain)
+        $preflightStopwatch = [Diagnostics.Stopwatch]::StartNew()
+        $preflightBudget = [TimeSpan]::FromMinutes($PreflightTimeoutMinutes)
 
-    $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
-    Invoke-LoggedPnpm -Arguments @('store', 'status') -Name 'preflight-store' -TimeoutMilliseconds $remainingPreflight
-    $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
-    Invoke-LoggedPnpm -Arguments @('install', '--frozen-lockfile', '--prefer-offline') -Name 'preflight-install' -TimeoutMilliseconds $remainingPreflight
-    $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
-    Invoke-LoggedPnpm -Arguments @('exec', 'playwright', 'install', 'chromium') -Name 'preflight-browser' -TimeoutMilliseconds $remainingPreflight
-    $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
-    Invoke-LoggedPnpm -Arguments @('verify:fast') -Name 'preflight-verify' -TimeoutMilliseconds $remainingPreflight
-    $preflightStopwatch.Stop()
+        $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
+        Invoke-LoggedPnpm -Arguments @('store', 'status') -Name 'preflight-store' -TimeoutMilliseconds $remainingPreflight
+        $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
+        Invoke-LoggedPnpm -Arguments @('install', '--frozen-lockfile', '--prefer-offline') -Name 'preflight-install' -TimeoutMilliseconds $remainingPreflight
+        $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
+        Invoke-LoggedPnpm -Arguments @('exec', 'playwright', 'install', 'chromium') -Name 'preflight-browser' -TimeoutMilliseconds $remainingPreflight
+        $remainingPreflight = [long](($preflightBudget - $preflightStopwatch.Elapsed).TotalMilliseconds)
+        Invoke-LoggedPnpm -Arguments @('verify:fast') -Name 'preflight-verify' -TimeoutMilliseconds $remainingPreflight
+        $preflightStopwatch.Stop()
 
-    $preflightStatusAfter = @(& git -C $projectRoot status --porcelain)
-    if (@(Compare-Object -ReferenceObject $preflightStatusBefore -DifferenceObject $preflightStatusAfter).Count -gt 0) {
-        throw '预检改变了工作区。为避免把环境准备误当任务成果，Loop 已停止。'
+        $preflightStatusAfter = @(& git -C $projectRoot status --porcelain)
+        if (@(Compare-Object -ReferenceObject $preflightStatusBefore -DifferenceObject $preflightStatusAfter).Count -gt 0) {
+            throw '预检改变了工作区。为避免把环境准备误当任务成果，Loop 已停止。'
+        }
     }
 
     $startedAt = Get-Date
@@ -470,7 +475,6 @@ try {
     Write-Host "Loop cycle started on $WorkBranch with model $Model. Hard deadline: $($displayDeadline.ToString('yyyy-MM-dd HH:mm:ss'))"
 
     while ($taskAttemptsStarted -lt $MaxTaskAttempts -and
-        $completedThisCycle -lt $MaxCompletedTasksPerCycle -and
         ($runStopwatch.Elapsed + $shutdownBuffer) -lt $maxDuration) {
         if (Test-Path -LiteralPath $stopPath) {
             Write-Host 'Stop requested; no new iteration will start.'
@@ -537,7 +541,7 @@ $basePrompt
 
 - Worker run: $workerRunsStarted
 - Semantic task attempt: $candidateTaskAttempt / $MaxTaskAttempts
-- Completed tasks in this cycle: $completedThisCycle / $MaxCompletedTasksPerCycle
+- Completed tasks in this cycle: $completedThisCycle
 - Wall-clock deadline: $($displayDeadline.ToString('o'))
 - Remaining time: $([math]::Max(0, [math]::Floor(($maxDuration - $runStopwatch.Elapsed).TotalMinutes))) minutes
 - Branch: $WorkBranch
@@ -672,10 +676,7 @@ $basePrompt
         }
     }
 
-    if ($completedThisCycle -ge $MaxCompletedTasksPerCycle) {
-        Write-Host "Cycle delivery target reached: $completedThisCycle completed task(s)."
-    }
-    elseif ($taskAttemptsStarted -ge $MaxTaskAttempts) {
+    if ($taskAttemptsStarted -ge $MaxTaskAttempts) {
         Write-Warning "Reached semantic task attempt limit: $MaxTaskAttempts"
     }
     elseif (($runStopwatch.Elapsed + $shutdownBuffer) -ge $maxDuration) {

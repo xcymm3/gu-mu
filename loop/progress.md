@@ -54,3 +54,10 @@
 - `pnpm exec playwright test tests/e2e/visual-baseline.spec.ts --reporter=line` 退出码 0：3 项视觉与无障碍用例通过（1.2 分钟）；旧全路线分页断言专项复现退出码 0（1 项通过，48.7 秒）。
 - `pnpm verify:fast` 退出码 0：87 项 Node 测试、ESLint、TypeScript 与 Next.js 生产构建通过。
 - `pnpm verify` 退出码 0：11 项 Chromium 用例全部通过（4.8 分钟），未出现页面错误、`console.error`、失败资源请求、HTTP 4xx/5xx 或已知布局阻断。
+
+## 2026-08-28 · 连续监督器修正
+
+- 移除“每周期最多完成两个任务”的硬停止条件；完成任务数量不再结束 Loop。
+- 新增连续监督器：两小时仅作为滚动周期预算，周期到时或三次语义尝试用尽后立即从检查点进入下一周期，直到 7/7 验收完成。
+- 首个周期执行环境预检，后续周期复用结果，避免重复安装依赖和 Chromium；保留单任务 50 分钟、停止文件、双层互斥锁、速率限制和故障阈值。
+- `pnpm loop:start` 改为连续入口，底层单周期诊断保留为 `pnpm loop:cycle`；`pnpm loop:status` 同时显示连续监督器与当前工作周期。

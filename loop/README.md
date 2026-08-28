@@ -1,6 +1,6 @@
 # 《血蛊引》受控 Codex CLI Loop
 
-这个 Loop 在 Windows 本地以“环境预检 + 两小时工作周期”推进美术优化、自动试玩与剧情校验。每个周期最多交付两个完整任务；未完成的目标由下一周期从结构化检查点、Git diff、日志和任务状态继续。两小时是一个可续接的交付周期，不再宣称单个周期完成全部目标。
+这个 Loop 在 Windows 本地以“首次环境预检 + 滚动两小时工作周期”推进美术优化、自动试玩与剧情校验。两小时只限制单个工作周期；周期结束后监督器会立即读取结构化检查点、Git diff、日志和任务状态进入下一周期，持续运行到全部目标验收完成。
 
 ## 常用命令
 
@@ -11,23 +11,23 @@ pnpm loop:status
 pnpm loop:stop
 ```
 
-启动后先用最多 20 分钟检查 pnpm store、冻结安装、Playwright Chromium 和快速质量门禁；预检通过后才开始两小时计时。默认固定 `gpt-5.6-sol`，每个语义任务尝试最多 50 分钟，每周期最多三次语义尝试、两个完成任务，并允许两次不计入语义失败的基础设施重试。
+启动后先用最多 20 分钟检查 pnpm store、冻结安装、Playwright Chromium 和快速质量门禁；预检通过后才开始首个两小时周期，后续周期复用本次预检。默认固定 `gpt-5.6-sol`，每个语义任务尝试最多 50 分钟，每周期最多三次语义尝试，并允许两次不计入语义失败的基础设施重试。完成任务数量不再触发停止。
 
 可显式覆盖：
 
 ```powershell
-pwsh -NoProfile -File .\scripts\run-loop.ps1 `
-  -MaxTaskAttempts 3 `
-  -MaxHours 2 `
+pwsh -NoProfile -File .\scripts\run-continuous-loop.ps1 `
+  -MaxTaskAttemptsPerCycle 3 `
+  -CycleHours 2 `
   -IterationTimeoutMinutes 50 `
-  -MaxCompletedTasksPerCycle 2 `
   -MaxInfrastructureRetries 2 `
   -PreflightTimeoutMinutes 20 `
   -ShutdownBufferSeconds 60 `
+  -MaxConsecutiveTaskFailures 6 `
   -Model 'gpt-5.6-sol'
 ```
 
-正常的新周期直接再次运行 `pnpm loop:start`，监督器会读取 `loop/runtime/checkpoint.json` 继续。只有同一周期的监督器异常退出时，才使用原来的带时区截止时间恢复，避免重新获得完整两小时：
+`pnpm loop:start` 会自行衔接后续周期，不需要人工重复启动。只有需要单独诊断一个周期或恢复原来的带时区截止时间时，才直接调用底层周期脚本：
 
 ```powershell
 pwsh -NoProfile -File .\scripts\run-loop.ps1 `
@@ -46,6 +46,7 @@ pwsh -NoProfile -File .\scripts\run-loop.ps1 `
 - 仅当前仓库可写；不创建账号、不购买服务、不发布应用、不合并生产分支。
 - 初始工作区必须干净；恢复人工确认过的未完成改动时才使用 `-AllowDirtyStart`。
 - 锁文件防止重复监督器；根目录 `stop.md` 请求当前轮结束后停止。
+- 两小时周期届满和单周期尝试次数用尽只触发自动续接；只有全部验收完成、人工停止、额度限制、明确阻塞、交付失败或连续失败达到阈值才结束连续监督器。
 - 网络、registry 和 pnpm store 故障最多独立重试两次，不消耗语义任务失败次数；速率限制、额度不足或任务阻塞仍会停止循环，不切换账号或供应商。
 - 美术必须原创或具有明确授权；禁止复制商业游戏素材、角色或 UI。
 - “全流程无问题”只能由可复现测试、截图和日志支持，Loop 不得给出无证据的绝对保证。

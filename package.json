@@ -14,8 +14,9 @@
     "test:e2e:run": "playwright test",
     "verify:fast": "pnpm test && pnpm lint && pnpm build",
     "verify": "pnpm verify:fast && pnpm test:e2e:run",
-    "loop:start": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1",
-    "loop:dry-run": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1 -DryRun",
+    "loop:start": "pwsh -NoLogo -NoProfile -File ./scripts/run-continuous-loop.ps1",
+    "loop:cycle": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1",
+    "loop:dry-run": "pwsh -NoLogo -NoProfile -File ./scripts/run-continuous-loop.ps1 -DryRun",
     "loop:status": "pwsh -NoLogo -NoProfile -File ./scripts/show-loop-status.ps1",
     "loop:stop": "pwsh -NoLogo -NoProfile -File ./scripts/stop-loop.ps1"
   },

@@ -3,6 +3,7 @@ param()
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $tasksPath = Join-Path $projectRoot 'loop/tasks.json'
+$continuousLockPath = Join-Path $projectRoot 'loop/runtime/continuous.lock.json'
 $lockPath = Join-Path $projectRoot 'loop/runtime/loop.lock.json'
 $checkpointPath = Join-Path $projectRoot 'loop/runtime/checkpoint.json'
 $logsPath = Join-Path $projectRoot 'loop/logs'
@@ -20,6 +21,25 @@ $branch = (& git -C $projectRoot branch --show-current).Trim()
 
 Write-Host "Gu Mu loop: $($done.Count)/$($tasks.Count) done, $($pending.Count) pending, $($blocked.Count) blocked"
 Write-Host "Branch: $branch"
+
+if (Test-Path -LiteralPath $continuousLockPath) {
+    try {
+        $continuousLock = Get-Content -LiteralPath $continuousLockPath -Raw -Encoding utf8 | ConvertFrom-Json
+        $continuousProcess = Get-Process -Id $continuousLock.pid -ErrorAction SilentlyContinue
+        if ($null -ne $continuousProcess) {
+            Write-Host "Continuous supervisor: running (PID $($continuousLock.pid), cycle $($continuousLock.cycle), model $($continuousLock.model))"
+        }
+        else {
+            Write-Host "Continuous supervisor: stale lock (PID $($continuousLock.pid))"
+        }
+    }
+    catch {
+        Write-Host 'Continuous supervisor: unreadable lock file'
+    }
+}
+else {
+    Write-Host 'Continuous supervisor: stopped'
+}
 
 if (Test-Path -LiteralPath $lockPath) {
     try {

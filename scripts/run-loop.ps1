@@ -407,7 +407,6 @@ $basePrompt
             'exec',
             '--cd', $projectRoot,
             '--approve-for-me',
-            '--sandbox', 'workspace-write',
             '--ephemeral',
             '--color', 'never'
         )

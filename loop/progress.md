@@ -12,3 +12,9 @@
 - `pnpm verify:fast` 通过：86 项 Node 测试、ESLint、TypeScript 与 Next.js 生产构建全部成功。
 - `pnpm audit --prod --registry=https://registry.npmjs.org` 当前退出码为 1：`next > postcss > nanoid` 命中 `GHSA-2v37-7h3g-55p8` high 风险；该项保留给最终回归任务处理，未通过前不得生成 `DONE.md`。
 - `GM2H-000` 已完成；下一就绪任务为真实浏览器自动试玩基础设施。
+
+## 2026-08-28 · 首次启动兼容性修正
+
+- 首轮启动日志显示 Codex CLI 0.150.0-alpha.8 不允许同时传入 `--approve-for-me` 与 `--sandbox workspace-write`，进程以退出码 2 停止，未修改游戏文件。
+- 删除冗余的 `--sandbox` 参数；`--approve-for-me` 本身会使用 `workspace-write` 沙箱，保留自动审批审查与仓库写入边界。
+- 无改动 CLI 探针最终返回 `READY`，并确认参数组合实际启用 `sandbox: workspace-write`；WebSocket 超时后可自动回退 HTTPS。

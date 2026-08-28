@@ -35,7 +35,7 @@ pwsh -NoProfile -File .\scripts\run-loop.ps1 `
 
 ## 安全边界
 
-- Codex 使用 `--approve-for-me` 和 `workspace-write` 沙箱，不使用危险的沙箱绕过参数。
+- Codex 使用 `--approve-for-me` 自动审查；当前 CLI 会由该参数启用 `workspace-write` 沙箱，因此不再同时传入互斥的 `--sandbox` 参数，也不使用危险的沙箱绕过参数。
 - 仅当前仓库可写；不创建账号、不购买服务、不发布应用、不合并生产分支。
 - 初始工作区必须干净；恢复人工确认过的未完成改动时才使用 `-AllowDirtyStart`。
 - 锁文件防止重复监督器；根目录 `stop.md` 请求当前轮结束后停止。

@@ -4,11 +4,11 @@ export type VisualAssetDescriptor =
 
 /**
  * 视觉小说资源的唯一登记处。剧情与运行时只保存资源键，不拼接 public 路径。
- * CSS 条目是开发占位资源，可在正式美术到位后原位替换为 image 条目。
+ * CSS 条目只保留为资源加载失败时的兼容回退；发布清单中的舞台均应使用 image。
  */
 export const visualAssetManifest = {
   "background.tomb-gate": { kind: "image", src: "/backgrounds/tomb-gate-v1.webp", alt: "夜雨中的蛊墓石门" },
-  "background.tomb-corridor": { kind: "css", className: "vn-placeholder-tomb-corridor", alt: "阴暗狭长的蛊墓甬道" },
+  "background.tomb-corridor": { kind: "image", src: "/backgrounds/tomb-corridor-v1.webp", alt: "幽冷灯火延伸入深处的蛊墓甬道" },
   "background.fog-passage": { kind: "image", src: "/backgrounds/fog-passage-v1.webp", alt: "被蛊雾吞没的古墓甬道" },
   "background.trap-passage": { kind: "image", src: "/backgrounds/trap-passage-v1.webp", alt: "坍塌断裂的机关陷道" },
   "background.control-room": { kind: "image", src: "/backgrounds/control-room-v1.webp", alt: "遍布牵机丝的机关控制暗室" },

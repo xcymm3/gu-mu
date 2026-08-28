@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T16:42:46+08:00",
+  "updatedAt": "2026-08-28T17:28:37+08:00",
   "timebox": {
     "cycleHours": 2,
     "maxTaskAttemptsPerCycle": 3,
@@ -61,7 +61,7 @@
     {
       "id": "GM2H-004",
       "title": "统一背景立绘与声音资源质量",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-003"],
       "acceptance": [
         "审计并处理仍在使用的开发占位背景和明显不一致的角色表现",

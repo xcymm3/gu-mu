@@ -284,7 +284,7 @@ test("角色显隐事件会按顺序生成舞台最终阵容", () => {
   });
 });
 
-test("资源键全部从统一清单解析，纪清寒占位立绘指向现有资源", () => {
+test("资源键全部从统一清单解析，纪清寒兼容键指向正式立绘", () => {
   assert.ok(Object.keys(visualAssetManifest).length >= 10);
   const portrait = getVisualAsset("character.ji-qinghan.placeholder");
   assert.equal(portrait.kind, "image");
@@ -311,6 +311,12 @@ test("第二幕条件事件会响应前置选择旗标", () => {
   assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("墓门前，你替众人省了一场麻烦"), true);
   assert.match(resolveScenePresentation(base, scenes.puppets).text, /一具丈许高的铜皮傀儡/);
   assert.doesNotMatch(resolveScenePresentation(base, scenes.puppets).text, /四具丈许高|随意将逼近的一具傀儡轰碎/);
+});
+
+test("第二幕甬道使用正式 WebP 而非 CSS 开发占位", () => {
+  const corridor = getVisualAsset("background.tomb-corridor");
+  assert.equal(corridor.kind, "image");
+  if (corridor.kind === "image") assert.equal(corridor.src, "/backgrounds/tomb-corridor-v1.webp");
 });
 
 test("第三幕四条路线各自拥有四个独立固定节点", () => {

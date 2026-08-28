@@ -1158,7 +1158,7 @@ function BacklogOverlay({ entries, onClose }: { entries: BacklogEntry[]; onClose
 function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
   const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
-      <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-placeholder.webp" unoptimized width={1024} /></div>
+      <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-v1.webp" unoptimized width={1024} /></div>
       <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。每一次抉择都在塑造你；大雾落下时，你会循着自己的本心走上不同血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
@@ -1215,7 +1215,7 @@ function AudioMixer({ settings, onChange }: { settings: AudioSettings; onChange:
     { key: "sfx", label: "界面与战斗" },
   ];
   return <section className="settings-note audio-mixer" aria-labelledby="audio-mixer-title">
-    <header><div><strong id="audio-mixer-title">声音</strong><p>程序化占位音可随时替换为正式音频。</p></div><button aria-pressed={settings.muted} type="button" onClick={() => onChange({ ...settings, muted: !settings.muted })}>{settings.muted ? "恢复声音" : "全部静音"}</button></header>
+    <header><div><strong id="audio-mixer-title">声音</strong><p>原创本地音频；加载失败时自动使用轻量合成回退。</p></div><button aria-pressed={settings.muted} type="button" onClick={() => onChange({ ...settings, muted: !settings.muted })}>{settings.muted ? "恢复声音" : "全部静音"}</button></header>
     <div className="audio-tracks">{tracks.map((track) => <label key={track.key}><span>{track.label}<output>{settings[track.key]}</output></span><input aria-label={track.label} disabled={settings.muted} max="100" min="0" step="1" type="range" value={settings[track.key]} onChange={(event) => onChange({ ...settings, [track.key]: Number(event.target.value) })} /></label>)}</div>
   </section>;
 }

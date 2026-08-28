@@ -13,6 +13,7 @@ const contentTypes = {
   ".ogg": "audio/ogg",
   ".png": "image/png",
   ".svg": "image/svg+xml",
+  ".wav": "audio/wav",
   ".webp": "image/webp",
   ".woff2": "font/woff2",
 };

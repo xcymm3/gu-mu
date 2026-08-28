@@ -1,5 +1,5 @@
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
-/* Hallmark · genre: atmospheric visual novel · macrostructure: Marquee Hero + Narrative Workflow combat · theme: Midnight · enrichment: image-backed battle actors · nav: N9 · footer: Ft5 · contrast/slop/mobile: pass */
+/* Hallmark · genre: atmospheric visual novel · macrostructure: Marquee Hero + Narrative Workflow combat · theme: Midnight · enrichment: image-backed battle actors · nav: N9 · footer: Ft5 · verification: tests/e2e/visual-baseline.spec.ts */
 @import "tailwindcss";
 @import "../tokens.css";
 
@@ -84,7 +84,7 @@ body {
     left: auto;
     border-color: color-mix(in srgb, var(--color-vn-rule, var(--color-rule)) 74%, transparent);
     background: color-mix(in srgb, var(--color-vn-chrome, var(--color-paper)) 90%, transparent);
-    box-shadow: 0 .35rem 1.2rem var(--color-vn-shadow, rgba(0, 0, 0, .16));
+    box-shadow: 0 .35rem 1.2rem var(--color-vn-shadow-soft);
     backdrop-filter: blur(.55rem);
   }
 
@@ -374,7 +374,7 @@ body {
     right: max(.4rem, env(safe-area-inset-right));
     bottom: max(.2rem, env(safe-area-inset-bottom));
     left: auto;
-    max-width: calc(100vw - 1rem);
+    max-width: calc(100% - 1rem);
   }
 
   .vn-quick-menu button,
@@ -634,7 +634,7 @@ h1 {
 .game-menu-trigger { align-self: end; min-width: 3.25rem; min-height: 2rem; padding: 0 var(--space-2); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); color: var(--color-muted); background: var(--color-paper); cursor: pointer; font-size: var(--text-xs); font-weight: 750; }
 
 .scene { display: flex; position: relative; flex: 1 1 auto; flex-direction: column; min-height: 0; padding: var(--space-8) 0 var(--space-5); }
-.scene-copy { display: grid; flex: 1 1 auto; min-height: 0; gap: var(--space-4); margin-top: var(--space-6); overflow: hidden; }
+.scene-copy { display: grid; flex: 1 1 auto; min-height: 0; gap: var(--space-3); margin-top: var(--space-6); overflow: hidden; }
 .scene-copy p { margin: 0; color: var(--color-muted); font-size: var(--text-base); line-height: 1.92; text-align: justify; text-wrap: pretty; }
 .story-name { color: var(--color-ink); font-weight: 780; }
 .story-critical { color: var(--color-danger); font-weight: 720; }
@@ -673,6 +673,14 @@ h1 {
 .battle-help-dialog h2 { margin: var(--space-2) 0 var(--space-4); font-size: var(--text-lg); }
 .battle-help-dialog p:not(.eyebrow) { margin: var(--space-3) 0 0; color: var(--color-muted); font-size: var(--text-sm); line-height: 1.7; }
 .battle-help-close { position: absolute; top: var(--space-3); right: var(--space-3); width: 2rem; height: 2rem; padding: 0; border: 0; color: var(--color-muted); background: transparent; font-size: 1.5rem; line-height: 1; }
+
+.battle-help-button,
+.battle-help-close,
+.game-menu-close,
+.vn-backlog > header button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
 
 .ending-number { margin: var(--space-8) 0 var(--space-3); color: var(--color-faint); font-family: var(--font-mono); font-size: var(--text-sm); }
 .epitaph { margin: var(--space-5) 0 0; color: var(--color-accent); font-size: var(--text-base); line-height: 1.6; }
@@ -769,7 +777,7 @@ h1 {
 }
 
 .scene-copy {
-  gap: var(--space-5);
+  gap: var(--space-3);
   margin-top: var(--space-5);
 }
 
@@ -1898,7 +1906,7 @@ h1 {
   padding: .28rem;
   border: 1px solid var(--color-vn-rule, var(--color-rule));
   background: color-mix(in srgb, var(--color-vn-chrome, var(--color-paper)) 92%, transparent);
-  box-shadow: 0 .5rem 1.5rem var(--color-vn-shadow, rgba(0, 0, 0, .16));
+  box-shadow: 0 .5rem 1.5rem var(--color-vn-shadow-soft);
   transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
 
@@ -1970,7 +1978,7 @@ h1 {
   border: 1px solid var(--color-vn-rule, var(--color-rule));
   background: color-mix(in srgb, var(--color-vn-dialog, var(--color-paper)) 97%, transparent);
   color: var(--color-vn-dialog-ink, var(--color-ink));
-  box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, .3);
+  box-shadow: 0 1.5rem 5rem var(--color-vn-shadow-deep);
 }
 
 .vn-backlog > header { display: flex; align-items: start; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid var(--color-vn-rule, var(--color-rule)); }
@@ -2124,7 +2132,13 @@ h1 {
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-color: var(--color-rule-strong) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
 }
+
+.settings-list::-webkit-scrollbar { width: var(--space-2); }
+.settings-list::-webkit-scrollbar-thumb { border-radius: var(--radius-sm); background: var(--color-rule-strong); }
 
 .settings-row {
   display: flex;
@@ -2209,7 +2223,7 @@ h1 {
 .audio-mixer { display: grid; gap: var(--space-4); }
 .audio-mixer > header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
 .audio-mixer > header p { margin-top: var(--space-1); }
-.audio-mixer > header button { flex: 0 0 auto; min-height: 2.15rem; padding: 0 var(--space-3); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); color: var(--color-muted); background: var(--color-paper); cursor: pointer; font-size: var(--text-xs); font-weight: 700; }
+.audio-mixer > header button { flex: 0 0 auto; min-height: 2.75rem; padding: 0 var(--space-3); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); color: var(--color-muted); background: var(--color-paper); cursor: pointer; font-size: var(--text-xs); font-weight: 700; }
 .audio-mixer > header button[aria-pressed="true"] { border-color: var(--color-danger); color: var(--color-danger); background: var(--color-danger-soft); }
 .audio-tracks { display: grid; gap: var(--space-3); }
 .audio-tracks label { display: grid; gap: var(--space-1); color: var(--color-muted); font-size: var(--text-xs); }
@@ -2598,7 +2612,7 @@ html[data-reduce-motion="true"] *::after {
 .ending-stage {
   position: relative;
   isolation: isolate;
-  width: 100vw;
+  width: 100%;
   height: 100dvh;
   min-height: 0;
   overflow: hidden;
@@ -2619,8 +2633,8 @@ html[data-reduce-motion="true"] *::after {
 .ending-stage-shade {
   z-index: 1;
   background:
-    linear-gradient(90deg, rgb(5 13 11 / 0.92) 0%, rgb(5 13 11 / 0.68) 38%, transparent 72%),
-    linear-gradient(0deg, rgb(5 13 11 / 0.82) 0%, transparent 50%);
+    linear-gradient(90deg, var(--color-vn-ending-shade-strong) 0%, var(--color-vn-ending-shade-mid) 38%, transparent 72%),
+    linear-gradient(0deg, var(--color-vn-ending-shade) 0%, transparent 50%);
 }
 
 .ending-card {
@@ -2628,16 +2642,16 @@ html[data-reduce-motion="true"] *::after {
   z-index: 2;
   inset: clamp(2rem, 7vh, 5.5rem) auto clamp(2rem, 7vh, 5.5rem) clamp(2rem, 8vw, 9rem);
   display: flex;
-  width: min(38rem, calc(100vw - 4rem));
+  width: min(38rem, calc(100% - 4rem));
   min-height: 0;
   padding: clamp(1.5rem, 3vw, 2.75rem);
-  border: 1px solid color-mix(in oklch, white 22%, transparent);
+  border: 1px solid var(--color-vn-ending-rule);
   border-radius: var(--radius-lg);
   justify-content: center;
   overflow: hidden;
-  color: #f4f0e7;
-  background: rgb(7 17 14 / 0.86);
-  box-shadow: 0 2rem 5rem rgb(0 0 0 / 0.38);
+  color: var(--color-vn-ending-ink);
+  background: var(--color-vn-ending-surface);
+  box-shadow: 0 2rem 5rem var(--color-vn-shadow-deep);
   backdrop-filter: blur(12px);
 }
 
@@ -2655,14 +2669,14 @@ html[data-reduce-motion="true"] *::after {
 
 .ending-card h1 {
   margin-top: var(--space-3);
-  color: #fffaf0;
+  color: var(--color-vn-ending-ink);
   font-size: clamp(3rem, 5vw, 5.5rem);
-  text-shadow: 0 0.1em 0.5em rgb(0 0 0 / 0.45);
+  text-shadow: 0 0.1em 0.5em var(--color-vn-shadow-deep);
 }
 
 .ending-card .epitaph {
   margin-top: var(--space-4);
-  color: #d9b97f;
+  color: var(--color-vn-ending-accent);
   font-size: clamp(1rem, 1.4vw, 1.25rem);
 }
 
@@ -2671,7 +2685,7 @@ html[data-reduce-motion="true"] *::after {
   margin: var(--space-5) 0 0;
   padding: 0;
   overflow: visible;
-  color: rgb(244 240 231 / 0.82);
+  color: var(--color-vn-ending-muted);
   font-size: clamp(0.98rem, 1.35vw, 1.16rem);
   line-height: 1.85;
   text-wrap: pretty;
@@ -2692,25 +2706,25 @@ html[data-reduce-motion="true"] *::after {
 }
 
 .ending-actions .quiet-button {
-  border-color: rgb(255 255 255 / 0.28);
-  background: rgb(255 255 255 / 0.06);
-  color: rgb(255 255 255 / 0.82);
+  border-color: var(--color-vn-ending-rule);
+  background: var(--color-vn-ending-action);
+  color: var(--color-vn-ending-muted);
 }
 
 .ending-actions .quiet-button:hover {
-  border-color: rgb(255 255 255 / 0.55);
-  background: rgb(255 255 255 / 0.12);
-  color: #fffaf0;
+  border-color: var(--color-vn-ending-rule-hover);
+  background: var(--color-vn-ending-action-hover);
+  color: var(--color-vn-ending-ink);
 }
 
 .ending-card .gallery {
   margin-top: var(--space-4);
-  color: rgb(255 255 255 / 0.48);
+  color: var(--color-vn-ending-gallery);
 }
 
 @media (max-width: 48rem) {
   .ending-stage-shade {
-    background: linear-gradient(0deg, rgb(5 13 11 / 0.95) 0%, rgb(5 13 11 / 0.6) 76%, transparent 100%);
+    background: linear-gradient(0deg, var(--color-vn-ending-shade-strong) 0%, var(--color-vn-ending-shade-mid) 76%, transparent 100%);
   }
 
   .ending-card {
@@ -2823,12 +2837,12 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 }
 .vn-asset-fallback-character { opacity: .82; }
 .vn-effect { position: absolute; inset: 0; opacity: 0; }
-.vn-effect.is-flash { background: rgba(238, 255, 249, .9); animation: vn-effect-flash 420ms ease-out both; }
-.vn-effect.is-flash.is-danger { background: rgba(151, 17, 28, .8); }
-.vn-effect.is-darken { background: radial-gradient(circle, transparent 12%, rgba(20, 0, 4, .88)); animation: vn-effect-darken 520ms ease-out both; }
-.vn-effect.is-fade { background: var(--color-vn-shadow); animation: vn-effect-flash 520ms reverse ease-out both; }
+.vn-effect.is-flash { background: var(--color-vn-flash); animation: vn-effect-flash 420ms var(--ease-out) both; }
+.vn-effect.is-flash.is-danger { background: var(--color-vn-flash-danger); }
+.vn-effect.is-darken { background: radial-gradient(circle, transparent 12%, var(--color-vn-darken)); animation: vn-effect-darken 520ms var(--ease-out) both; }
+.vn-effect.is-fade { background: var(--color-vn-shadow); animation: vn-effect-flash 520ms reverse var(--ease-out) both; }
 .story-frame.is-stage-shake .vn-stage,
-.story-frame.is-stage-shake .vn-character-layer { animation: vn-impact-shake 360ms ease-out both; }
+.story-frame.is-stage-shake .vn-character-layer { animation: vn-impact-shake 360ms var(--ease-out) both; }
 .scene-copy.is-scene-fade { animation: vn-dialogue-fade var(--dur-normal) var(--ease-out) both; }
 
 .vn-continue-indicator {
@@ -2846,7 +2860,7 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
   line-height: 1;
   pointer-events: none;
   user-select: none;
-  animation: vn-wait-pulse 1.15s ease-in-out infinite;
+  animation: vn-wait-pulse 1.15s var(--ease-in-out) infinite;
 }
 
 @media (min-width: 60rem),
@@ -3663,7 +3677,7 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     width: auto;
     border-color: color-mix(in srgb, var(--color-vn-rule, var(--color-rule)) 74%, transparent);
     background: color-mix(in srgb, var(--color-vn-chrome, var(--color-paper)) 90%, transparent);
-    box-shadow: 0 .35rem 1.2rem var(--color-vn-shadow, rgba(0, 0, 0, .16));
+    box-shadow: 0 .35rem 1.2rem var(--color-vn-shadow-soft);
     backdrop-filter: blur(.55rem);
   }
 
@@ -3775,7 +3789,7 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     right: max(.4rem, env(safe-area-inset-right));
     bottom: max(.2rem, env(safe-area-inset-bottom));
     left: auto;
-    max-width: calc(100vw - 1rem);
+    max-width: calc(100% - 1rem);
   }
 
   .vn-quick-menu button,
@@ -4204,16 +4218,16 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
 @media (orientation: landscape) and (max-width: 59.99rem) {
   .story-frame {
     --vn-utility-clearance: max(
-      calc(var(--space-8) + var(--space-3)),
-      calc(env(safe-area-inset-bottom) + var(--space-10))
+      calc(var(--space-10) + var(--space-5)),
+      calc(env(safe-area-inset-bottom) + var(--space-10) + var(--space-4))
     );
     --vn-choice-clearance: max(
-      calc(var(--space-10) + var(--space-3)),
-      calc(env(safe-area-inset-bottom) + var(--space-8) + var(--space-4))
+      calc(var(--space-10) + var(--space-6)),
+      calc(env(safe-area-inset-bottom) + var(--space-10) + var(--space-5))
     );
     --vn-continue-clearance: max(
-      calc(var(--space-8) + var(--space-6)),
-      calc(env(safe-area-inset-bottom) + var(--space-8) + var(--space-5))
+      calc(var(--space-10) + var(--space-6)),
+      calc(env(safe-area-inset-bottom) + var(--space-10) + var(--space-5))
     );
     --vn-character-top-clearance: max(
       var(--space-10),
@@ -4234,6 +4248,22 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
 
   .vn-quick-menu {
     bottom: max(var(--space-1), env(safe-area-inset-bottom));
+  }
+
+  .vn-quick-menu button,
+  .vn-quick-menu > span {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding-inline: var(--space-2);
+    font-size: .68rem;
+  }
+
+  .vn-story-core .game-menu-trigger,
+  .story-frame.is-battling .battle-status-actions .battle-help-button,
+  .story-frame.is-battling .battle-status-actions .game-menu-trigger {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    height: 2.75rem;
   }
 
   .vn-story-core .scene {

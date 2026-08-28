@@ -194,7 +194,8 @@ class BrowserPlaythrough {
     await this.advanceUntilVisible(button, `选择 ${choice.id}`);
     await button.click();
     if (choice.id === "chamber-insight") {
-      await expect(this.page.getByText("甲纹蛊卵很快变得灰暗，血纹蛊卵内部却传出一声清晰的裂响。", { exact: true })).toBeVisible();
+      const resolvedResult = this.page.getByText("甲纹蛊卵很快变得灰暗，血纹蛊卵内部却传出一声清晰的裂响。", { exact: true });
+      await this.advanceUntilVisible(resolvedResult, "机关暗室固定随机结果");
     }
     await this.settleAt(next, `选择 ${choice.id} 的目标场景或结局`);
   }

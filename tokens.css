@@ -34,6 +34,8 @@
   --color-vn-mountain-near: oklch(10% 0.025 168 / 0.94);
   --color-vn-moon: oklch(91% 0.041 94 / 0.72);
   --color-vn-shadow: oklch(6% 0.018 170 / 0.78);
+  --color-vn-shadow-soft: oklch(6% 0.018 170 / 0.16);
+  --color-vn-shadow-deep: oklch(4% 0.012 170 / 0.42);
   --color-vn-dialog: oklch(98% 0.012 150 / 0.94);
   --color-vn-dialog-ink: oklch(21% 0.031 167);
   --color-vn-dialog-muted: oklch(36% 0.038 167);
@@ -51,6 +53,21 @@
   --color-vn-silhouette: oklch(12% 0.025 170 / 0.96);
   --color-vn-silhouette-edge: oklch(66% 0.07 160 / 0.68);
   --color-vn-seal: oklch(84% 0.036 96);
+  --color-vn-ending-shade: oklch(10% 0.022 168 / 0.82);
+  --color-vn-ending-shade-mid: oklch(10% 0.022 168 / 0.68);
+  --color-vn-ending-shade-strong: oklch(10% 0.022 168 / 0.95);
+  --color-vn-ending-surface: oklch(15% 0.025 172 / 0.9);
+  --color-vn-ending-ink: oklch(97% 0.016 92);
+  --color-vn-ending-muted: oklch(85% 0.02 92);
+  --color-vn-ending-accent: oklch(79% 0.09 79);
+  --color-vn-ending-rule: oklch(97% 0.016 92 / 0.3);
+  --color-vn-ending-rule-hover: oklch(97% 0.016 92 / 0.58);
+  --color-vn-ending-action: oklch(97% 0.016 92 / 0.08);
+  --color-vn-ending-action-hover: oklch(97% 0.016 92 / 0.14);
+  --color-vn-ending-gallery: oklch(83% 0.018 92);
+  --color-vn-flash: oklch(97% 0.03 160 / 0.9);
+  --color-vn-flash-danger: oklch(48% 0.17 24 / 0.82);
+  --color-vn-darken: oklch(13% 0.05 20 / 0.9);
 
   --font-display: "STKaiti", "KaiTi", "Noto Serif SC", "Songti SC", serif;
   --font-body: var(--font-geist-sans), "Microsoft YaHei", "PingFang SC", sans-serif;

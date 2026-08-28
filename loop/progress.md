@@ -45,3 +45,12 @@
 - `pnpm exec playwright test tests/e2e/full-routes.spec.ts --reporter=line` 退出码 0：6 项全路线 Chromium 用例通过（2.8 分钟）。
 - `pnpm verify:fast` 退出码 0：87 项 Node 测试、全仓 ESLint、TypeScript 与生产静态构建通过。
 - `pnpm verify` 退出码 0：快速门禁再次通过，8 项 Chromium 用例全部通过（3.0 分钟）；页面错误、`console.error`、失败请求和 HTTP 4xx/5xx 均未触发。
+
+## 2026-08-28 · GM2H-003 视觉基线与可访问性修复
+
+- 生成并目视复核 18 张可复现 PNG：覆盖主菜单、设置、存档、身份选择、普通／多人对白、三选项、手动存档、历史、战斗、结局，以及 1280×720、1366×768、1920×1080、390×844 竖屏提示和 844×390 横屏舞台。
+- 修复选择结果与战斗结算长文本未分页、设置列表滚动提示、结局与快捷栏 `100vw` 溢出风险、横屏安全区和核心触控区不足；直接颜色提升为语义 token，并将 Hallmark 的无证据 `pass` 声明替换为可执行视觉测试路径。
+- 游戏菜单、历史和蛊斗帮助补齐初始焦点、Tab／Shift+Tab 焦点陷阱、Esc 关闭和关闭后焦点恢复；浏览器测试验证焦点环、关键 token 对比度、减少动态、44×44 触控区、全局／对白溢出和可见控件边界。
+- `pnpm exec playwright test tests/e2e/visual-baseline.spec.ts --reporter=line` 退出码 0：3 项视觉与无障碍用例通过（1.2 分钟）；旧全路线分页断言专项复现退出码 0（1 项通过，48.7 秒）。
+- `pnpm verify:fast` 退出码 0：87 项 Node 测试、ESLint、TypeScript 与 Next.js 生产构建通过。
+- `pnpm verify` 退出码 0：11 项 Chromium 用例全部通过（4.8 分钟），未出现页面错误、`console.error`、失败资源请求、HTTP 4xx/5xx 或已知布局阻断。

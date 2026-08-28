@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T14:11:59+08:00",
+  "updatedAt": "2026-08-28T15:34:03+08:00",
   "timebox": {
     "cycleHours": 2,
     "maxTaskAttemptsPerCycle": 3,
@@ -50,7 +50,7 @@
     {
       "id": "GM2H-003",
       "title": "建立视觉基线并修复布局与可访问性缺陷",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-001"],
       "acceptance": [
         "关键界面在桌面和移动目标视口生成可复现截图",

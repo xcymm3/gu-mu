@@ -5,7 +5,7 @@ import test from "node:test";
 
 import { visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
 import { audioAssetManifest } from "../lib/xue-gu-yin/audio.ts";
-import { chooseRole, endingAccess, endings, resolveEnding, scenes } from "../lib/xue-gu-yin/game.ts";
+import { chooseRole, endingAccess, endings, resolveEnding, scenes, storyMeta } from "../lib/xue-gu-yin/game.ts";
 import { canonicalReleasePaths, releaseMeta, validateCanonicalPaths, validateEndingAccess, validateStoryGraph } from "../lib/xue-gu-yin/release.ts";
 import { createSaveSlot, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT } from "../lib/xue-gu-yin/save.ts";
 
@@ -15,6 +15,17 @@ test("发布版本使用预发布语义版本号", () => {
   assert.match(releaseMeta.version, /^\d+\.\d+\.\d+-rc\.\d+$/);
   const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), "package.json"), "utf8")) as { version: string };
   assert.equal(packageJson.version, releaseMeta.version);
+});
+
+test("发布清单与代码标题、版本、路线和结局数量一致", () => {
+  const checklist = readFileSync(path.join(process.cwd(), "docs", "RELEASE-CHECKLIST.md"), "utf8");
+  assert.ok(checklist.includes(`# 《${storyMeta.title}》发布检查清单`));
+  assert.ok(checklist.includes(`当前候选版本：\`${releaseMeta.version}\``));
+  assert.equal(Object.keys(canonicalReleasePaths).length, 4);
+  assert.ok(checklist.includes("四条正式路线"));
+  assert.equal(Object.keys(endings).length, 9);
+  assert.ok(checklist.includes("九个登记结局"));
+  assert.doesNotMatch(checklist, /血蛊醒|六条基准路径/);
 });
 
 test("全部场景可从墓门抵达且没有悬空跳转", () => {

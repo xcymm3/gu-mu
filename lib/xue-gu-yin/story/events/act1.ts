@@ -2,7 +2,7 @@ import type { VisualNovelEvent } from "../../model.ts";
 
 export const gateEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.tomb-gate", transition: "fade" },
-  { type: "narration", text: "黑风呼啸，暴雨倾盆。荒原上的蛊市早已散尽，空气中弥漫着刺骨的寒意与微弱的腥臭。\n\n古老阴森的石门前，稀稀落落站着五名气息各异的散修。雨丝落在众人撑起的微弱护体光罩或粗糙蓑衣上，发出密集连绵的啪嗒声。", mode: "center" },
+  { type: "narration", text: "黑风呼啸，暴雨倾盆。荒原上的蛊市早已散尽，空气中弥漫着刺骨的寒意与微弱的腥臭。\n\n古老阴森的石门前，稀稀落落站着六名气息各异的散修。雨丝落在众人撑起的微弱护体光罩或粗糙蓑衣上，发出密集连绵的啪嗒声。", mode: "center" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "neutral" },
   { type: "narration", text: "为首的中年男子叫乔无咎，身着一身毫不起眼的灰袍。只见他神色平静地自袖中掏出一张泛黄的兽皮残图，指尖逼出一缕真元注入其中，图上一处猩红如血的标记顿时微光闪烁。" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "诸位道友，老夫耗费数载方才查实，这荒原地下埋着的，乃是数百年前一位五转蛊修的坐化洞府。", expression: "neutral", position: "center" },

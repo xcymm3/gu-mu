@@ -133,6 +133,8 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     assert.ok(presentation.events.some((event) => event.type === "choice"));
   }
   const gate = resolveScenePresentation(chooseRole(), scenes.gate);
+  assert.equal(storyMeta.subtitle, "夜雨蛊市 · 六人入墓");
+  assert.ok(gate.text.includes("站着六名气息各异的散修"));
   assert.ok(gate.text.includes("黑风呼啸，暴雨倾盆"));
   assert.ok(gate.text.includes("老夫耗费数载方才查实"));
   assert.ok(!gate.text.includes("**"));
@@ -381,7 +383,7 @@ test("第三幕四条路线保持各自的人物主旨", () => {
   }
 });
 
-test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () => {
+test("第三幕正式背景、场景位置与苏衍透明立绘均从资源清单加载", () => {
   const assets = [
     ["background.fog-passage", "/backgrounds/fog-passage-v1.webp"],
     ["background.trap-passage", "/backgrounds/trap-passage-v1.webp"],
@@ -394,8 +396,57 @@ test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () =>
     if (asset.kind === "image") assert.equal(asset.src, src);
   }
   assert.equal(getCharacterExpressionAsset("su-yan", "awakened"), "character.su-yan.awakened");
-  const shadow = resolveScenePresentation({ ...chooseRole(), route: "traitor" }, scenes.traitorTrail);
-  assert.equal(shadow.beats[0]?.background, "background.control-room");
+  const traitorState = { ...chooseRole(), route: "traitor" as const };
+  assert.equal(resolveScenePresentation(traitorState, scenes.traitorTrail).beats[0]?.background, "background.fog-passage");
+  assert.equal(resolveScenePresentation(traitorState, scenes.traitorKnife).beats[0]?.background, "background.trap-passage");
+  assert.equal(resolveScenePresentation(traitorState, scenes.traitorBargain).beats[0]?.background, "background.control-room");
+});
+
+test("四条路线保持关键伤势、道具、信息与旗标连续", () => {
+  const routeSceneIds = {
+    zhao: [...actThreeRouteSceneIds.zhao, ...actFourRouteSceneIds.zhao, ...actFiveRouteSceneIds.zhao],
+    ji: [...actThreeRouteSceneIds.ji, ...actFourRouteSceneIds.ji, ...actFiveRouteSceneIds.ji],
+    su: [...actThreeRouteSceneIds.su, ...actFourRouteSceneIds.su, ...actFiveRouteSceneIds.su],
+    traitor: [...actThreeRouteSceneIds.traitor, ...actFourRouteSceneIds.traitor, ...actFiveRouteSceneIds.traitor],
+  } as const;
+
+  for (const [route, sceneIds] of Object.entries(routeSceneIds)) {
+    const state = { ...chooseRole(), route: route as "zhao" | "ji" | "su" | "traitor", routeLocked: true };
+    for (const sceneId of sceneIds) {
+      const presentation = resolveScenePresentation(state, scenes[sceneId]);
+      for (const beat of presentation.beats) assert.doesNotMatch(beat.text, /\\n/, `${sceneId} 正文含有未解析的换行符`);
+      for (const choice of presentation.choices) assert.doesNotMatch(choice.result ?? "", /\\n/, `${sceneId} 选择结果含有未解析的换行符`);
+    }
+  }
+
+  const zhaoBase = { ...chooseRole("swordsman"), route: "zhao" as const, routeLocked: true };
+  const withScroll = applyChoice(zhaoBase, scenes.zhaoLesson.choices![0]);
+  assert.ok(withScroll.flags.includes("冰寒蛊简"));
+  assert.match(resolveScenePresentation(withScroll, scenes.zhaoThreshold).text, /冰寒蛊简/);
+  const withBloodDemon = applyChoice(withScroll, scenes.zhaoClaim.choices![0]);
+  assert.ok(withBloodDemon.flags.includes("血魔蛊"));
+
+  const jiBase = { ...chooseRole("healer"), route: "ji" as const, routeLocked: true, health: 9 };
+  const bandaged = applyChoice(jiBase, scenes.jiTrail.choices![0]);
+  assert.equal(bandaged.maxHealth, jiBase.maxHealth + 4);
+  assert.equal(bandaged.health, jiBase.health);
+  assert.match(resolveScenePresentation(bandaged, scenes.jiBurden).text, /半截残剑/);
+  assert.match(resolveScenePresentation(bandaged, scenes.jiAftermath).text, /本命蛊.*没有再出现/s);
+
+  const suBase = { ...chooseRole("heir"), route: "su" as const, routeLocked: true };
+  const withOldSeal = applyChoice(suBase, scenes.suInscription.choices![0]);
+  const withBloodKey = applyChoice(withOldSeal, scenes.suLineage.choices![0]);
+  assert.ok(withBloodKey.flags.includes("苏氏旧印"));
+  assert.ok(withBloodKey.flags.includes("苏莹存活"));
+  assert.ok(withBloodKey.flags.includes("苏氏血钥"));
+  assert.match(resolveScenePresentation(withBloodKey, scenes.suThreshold).text, /旧玉.*苏莹/s);
+
+  const traitorBase = { ...chooseRole("heir"), route: "traitor" as const, routeLocked: true };
+  const withDeputySeal = applyChoice(traitorBase, scenes.traitorKnife.choices![0]);
+  assert.ok(withDeputySeal.flags.includes("薛逢已死"));
+  assert.ok(withDeputySeal.flags.includes("牵机副印"));
+  assert.match(resolveScenePresentation(withDeputySeal, scenes.traitorBargain).text, /副印.*乔无咎/s);
+  assert.match(resolveScenePresentation(withDeputySeal, scenes.traitorDiscarded).text, /薛逢临死前.*副印/s);
 });
 
 test("第四、五幕四条路线各自拥有六个高潮节点与两个收束节点", () => {

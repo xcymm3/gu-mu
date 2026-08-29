@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T17:28:37+08:00",
+  "updatedAt": "2026-08-28T18:22:30+08:00",
   "timebox": {
     "cycleHours": 2,
     "maxTaskAttemptsPerCycle": 3,
@@ -72,7 +72,7 @@
     {
       "id": "GM2H-005",
       "title": "逐路线审查并修正剧情连续性",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-002"],
       "acceptance": [
         "四条路线逐节点检查人物动机、信息、位置、伤势、道具和旗标连续性",

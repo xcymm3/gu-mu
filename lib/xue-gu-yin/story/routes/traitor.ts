@@ -1,7 +1,7 @@
 import type { Scene, VisualNovelEvent } from "../../model.ts";
 
 const traitorTrailEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.control-room", transition: "fade" },
+  { type: "background", asset: "background.fog-passage", transition: "fade" },
   { type: "narration", text: "浓雾漫过石厅，翻板起落的闷响接连从脚下传来。薛逢没有像旁人那样出声示警，只踩着尚未翻转的石沿，接连向墙角退去。到第三步时，你忽然欺近，扣住他的后领，借他落脚之势一同踏上墙边那块窄石。" },
   { type: "narration", text: "近处看得更加分明：周围四块石板已有两块翻入深坑，薛逢选中的却都贴着转轴根部，即使机关发动也只会轻颤，不会倾覆。这不是临时撞上的运气。" },
   { type: "character", action: "show", character: "xue-feng", position: "left", expression: "panicked" },
@@ -15,7 +15,7 @@ const traitorTrailEvents: VisualNovelEvent[] = [
 const traitorTrailConvergence = "暗门后没有外界风声，只有牵机丝擦过石槽的细响。你让薛逢先行，自己落后半步。薛逢没有拒绝，也没有回头；他已经明白，你留下他不是因为信任，而是因为门后的路尚需有人辨认。";
 
 const traitorKnifeEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.control-room", transition: "fade" },
+  { type: "background", asset: "background.trap-passage", transition: "fade" },
   { type: "character", action: "show", character: "xue-feng", position: "left", expression: "panicked" },
   { type: "narration", text: "夹道尽头比来路稍宽，石壁内嵌着一处半人高的检修龛。数根牵机丝从龛中穿墙而过，门边另有一道形如印齿的凹槽。薛逢走到这里以后，右手始终拢在袖中，脚步也比先前慢了许多。" },
   { type: "narration", text: "你没有催促，只盯着龛内的牵机丝。薛逢袖口微动时，其中一根细丝也跟着轻颤，显然不是脚步震动所致。你骤然扣住他的手腕向外一带，一枚牵机副印随之落在石面上。" },
@@ -164,6 +164,7 @@ export const traitorActThreeScenes: Record<string, Scene> = {
       label: "在他踩实警线前催动本命蛊灭口，夺走牵机副印",
       next: "traitorBargain",
       result: "你先一步踢开薛逢的脚跟，同时催动本命蛊截断他的心脉。薛逢尚未来得及踩实警线，身形便贴着石壁软倒下去。那句尚未说完的退路，也就此断在喉间。\n\n你取走牵机副印，将它压入检修龛旁的凹槽。印齿嵌合，龛内数根牵机丝依次松开，内门随之向后退去。门后透出微弱的灯火，你越过薛逢的尸身，独自走向控制室。",
+      effect: { flags: ["薛逢已死", "牵机副印"] },
     }],
   },
   traitorBargain: {

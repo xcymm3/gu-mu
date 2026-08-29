@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-29T10:40:00+08:00",
+  "updatedAt": "2026-08-29T11:11:00+08:00",
   "timebox": {
     "cycleHours": 2,
     "maxTaskAttemptsPerCycle": 3,
@@ -85,7 +85,7 @@
     {
       "id": "GM2H-006",
       "title": "完成全流程回归与诚实交付",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-002", "GM2H-004", "GM2H-005"],
       "acceptance": [
         "从干净安装执行 pnpm verify、生产构建和 npm registry 生产依赖审计全部通过",

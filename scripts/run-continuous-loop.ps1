@@ -9,6 +9,9 @@ param(
     [ValidateRange(1, 60)]
     [int]$IterationTimeoutMinutes = 50,
 
+    [ValidateRange(2, 20)]
+    [int]$DeliveryBufferMinutes = 8,
+
     [ValidateRange(1, 10)]
     [int]$MaxInfrastructureRetries = 2,
 
@@ -20,6 +23,9 @@ param(
 
     [ValidateRange(3, 20)]
     [int]$MaxConsecutiveTaskFailures = 6,
+
+    [ValidateRange(1, 10)]
+    [int]$MaxConsecutiveCycleErrors = 3,
 
     [string]$Model = 'gpt-5.6-sol',
 
@@ -58,6 +64,71 @@ function Read-LoopCheckpoint {
     }
 }
 
+function Get-WorkingTreeFingerprint {
+    $status = @(& git -C $projectRoot status --porcelain)
+    if ($status.Count -eq 0) {
+        return ''
+    }
+
+    $unstagedDiff = @(& git -C $projectRoot diff --binary --no-ext-diff)
+    $stagedDiff = @(& git -C $projectRoot diff --cached --binary --no-ext-diff)
+    $untrackedHashes = @()
+    foreach ($relativePath in @(& git -C $projectRoot ls-files --others --exclude-standard)) {
+        $absolutePath = Join-Path $projectRoot $relativePath
+        if (Test-Path -LiteralPath $absolutePath -PathType Leaf) {
+            $untrackedHashes += "$relativePath $((Get-FileHash -LiteralPath $absolutePath -Algorithm SHA256).Hash)"
+        }
+    }
+
+    $payload = @(
+        $status
+        '--unstaged--'
+        $unstagedDiff
+        '--staged--'
+        $stagedDiff
+        '--untracked--'
+        $untrackedHashes
+    ) -join "`n"
+    $sha256 = [Security.Cryptography.SHA256]::Create()
+    try {
+        $bytes = [Text.Encoding]::UTF8.GetBytes($payload)
+        return [Convert]::ToHexString($sha256.ComputeHash($bytes)).ToLowerInvariant()
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
+function Test-CheckpointWorkingTreeMatch {
+    param(
+        $Checkpoint,
+        [string[]]$DirtyFiles
+    )
+
+    if ($null -eq $Checkpoint -or $DirtyFiles.Count -eq 0) {
+        return $false
+    }
+    if ([string]$Checkpoint.branch -ne $WorkBranch) {
+        return $false
+    }
+
+    $currentHead = (& git -C $projectRoot rev-parse HEAD).Trim()
+    if ([string]$Checkpoint.gitHead -ne $currentHead) {
+        return $false
+    }
+
+    $expected = @($Checkpoint.dirtyFiles | Sort-Object)
+    $actual = @($DirtyFiles | Sort-Object)
+    if (@(Compare-Object -ReferenceObject $expected -DifferenceObject $actual).Count -ne 0) {
+        return $false
+    }
+    if ([string]::IsNullOrWhiteSpace([string]$Checkpoint.dirtyFingerprint)) {
+        return $false
+    }
+
+    return [string]$Checkpoint.dirtyFingerprint -eq (Get-WorkingTreeFingerprint)
+}
+
 function Get-CycleArguments {
     param(
         [bool]$ReusePreflight,
@@ -72,7 +143,9 @@ function Get-CycleArguments {
         '-MaxTaskAttempts', $MaxTaskAttemptsPerCycle,
         '-MaxHours', $CycleHours,
         '-IterationTimeoutMinutes', $IterationTimeoutMinutes,
+        '-DeliveryBufferMinutes', $DeliveryBufferMinutes,
         '-MaxInfrastructureRetries', $MaxInfrastructureRetries,
+        '-MaxConsecutiveTaskFailures', $MaxConsecutiveTaskFailures,
         '-PreflightTimeoutMinutes', $PreflightTimeoutMinutes,
         '-ShutdownBufferSeconds', $ShutdownBufferSeconds,
         '-Model', $Model,
@@ -120,6 +193,7 @@ if (Test-Path -LiteralPath $stopPath) {
 
 $cycleNumber = 0
 $reusePreflight = $false
+$consecutiveCycleErrors = 0
 
 @{
     pid = $PID
@@ -152,12 +226,15 @@ try {
         }
 
         $dirtyFiles = @(& git -C $projectRoot status --porcelain)
-        $recoverableOutcomes = @('task-timeout', 'task-incomplete', 'infrastructure-failure')
+        $recoverableOutcomes = @('task-timeout', 'task-incomplete', 'infrastructure-failure', 'delivery-pending', 'delivery-failed')
         $checkpointOutcome = if ($null -ne $checkpoint) { [string]$checkpoint.outcome } else { '' }
+        $checkpointMatches = Test-CheckpointWorkingTreeMatch -Checkpoint $checkpoint -DirtyFiles $dirtyFiles
         $permitDirtyStart = $AllowDirtyStart.IsPresent -or (
-            $cycleNumber -gt 0 -and
             $dirtyFiles.Count -gt 0 -and
-            ($checkpointOutcome -in $recoverableOutcomes -or $checkpointOutcome -like 'cli-exit-*')
+            $checkpointMatches -and
+            ($checkpointOutcome -in $recoverableOutcomes -or
+                $checkpointOutcome -like 'cli-exit-*' -or
+                $checkpointOutcome -like 'supervisor-error:*')
         )
         if ($dirtyFiles.Count -gt 0 -and -not $permitDirtyStart) {
             throw '连续 Loop 检测到未获准的工作区改动，已停止以避免覆盖用户文件。'
@@ -176,15 +253,24 @@ try {
         Write-Host "Starting continuous work cycle $cycleNumber; each cycle has a $CycleHours hour budget."
         $cycleArguments = Get-CycleArguments -ReusePreflight $reusePreflight -PermitDirtyStart $permitDirtyStart -IsDryRun $false
         & $pwshPath @cycleArguments
-        if ($LASTEXITCODE -ne 0) {
-            throw "Work cycle $cycleNumber failed with exit code $LASTEXITCODE."
-        }
-        $reusePreflight = $true
-
+        $cycleExitCode = $LASTEXITCODE
         $checkpoint = Read-LoopCheckpoint
         if ($null -eq $checkpoint) {
             throw '工作周期结束后没有可读检查点。'
         }
+        if ($cycleExitCode -ne 0) {
+            $consecutiveCycleErrors++
+            if ($consecutiveCycleErrors -ge $MaxConsecutiveCycleErrors) {
+                Write-Warning "Continuous Loop stopped after $consecutiveCycleErrors consecutive supervisor errors; last outcome: $($checkpoint.outcome)"
+                exit 2
+            }
+            Write-Warning "Work cycle $cycleNumber failed with exit code $cycleExitCode; retrying from its checkpoint ($consecutiveCycleErrors/$MaxConsecutiveCycleErrors)."
+            Start-Sleep -Seconds 5
+            continue
+        }
+        $consecutiveCycleErrors = 0
+        $reusePreflight = $true
+
         if ([string]$checkpoint.phase -eq 'goal-complete') {
             Write-Host "Continuous Loop completed the full goal after $cycleNumber cycle(s)."
             exit 0
@@ -194,9 +280,9 @@ try {
             exit 0
         }
 
-        $fatalOutcomes = @('rate-limit', 'task-blocked', 'delivery-failed')
+        $fatalOutcomes = @('rate-limit', 'task-blocked')
         $outcome = [string]$checkpoint.outcome
-        if ($outcome -in $fatalOutcomes -or $outcome -like 'supervisor-error:*') {
+        if ($outcome -in $fatalOutcomes) {
             Write-Warning "Continuous Loop stopped on a non-recoverable outcome: $outcome"
             exit 2
         }

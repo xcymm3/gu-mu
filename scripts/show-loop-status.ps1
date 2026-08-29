@@ -69,6 +69,9 @@ if (Test-Path -LiteralPath $checkpointPath) {
     try {
         $checkpoint = Get-Content -LiteralPath $checkpointPath -Raw -Encoding utf8 | ConvertFrom-Json
         Write-Host "Checkpoint: $($checkpoint.phase); task $($checkpoint.taskId); outcome $($checkpoint.outcome); updated $($checkpoint.updatedAt)"
+        if (-not [string]::IsNullOrWhiteSpace([string]$checkpoint.deliveryReason)) {
+            Write-Host "Delivery state: $($checkpoint.deliveryReason)"
+        }
         if (-not [string]::IsNullOrWhiteSpace([string]$checkpoint.stderrLog)) {
             Write-Host "Checkpoint log: $($checkpoint.stderrLog)"
         }

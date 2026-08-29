@@ -10,8 +10,14 @@ param(
     [ValidateRange(1, 60)]
     [int]$IterationTimeoutMinutes = 50,
 
+    [ValidateRange(2, 20)]
+    [int]$DeliveryBufferMinutes = 8,
+
     [ValidateRange(1, 10)]
     [int]$MaxInfrastructureRetries = 2,
+
+    [ValidateRange(3, 20)]
+    [int]$MaxConsecutiveTaskFailures = 6,
 
     [ValidateRange(1, 60)]
     [int]$PreflightTimeoutMinutes = 20,
@@ -136,6 +142,41 @@ function Read-Checkpoint {
     }
 }
 
+function Get-WorkingTreeFingerprint {
+    $status = @(& git -C $projectRoot status --porcelain)
+    if ($status.Count -eq 0) {
+        return ''
+    }
+
+    $unstagedDiff = @(& git -C $projectRoot diff --binary --no-ext-diff)
+    $stagedDiff = @(& git -C $projectRoot diff --cached --binary --no-ext-diff)
+    $untrackedHashes = @()
+    foreach ($relativePath in @(& git -C $projectRoot ls-files --others --exclude-standard)) {
+        $absolutePath = Join-Path $projectRoot $relativePath
+        if (Test-Path -LiteralPath $absolutePath -PathType Leaf) {
+            $untrackedHashes += "$relativePath $((Get-FileHash -LiteralPath $absolutePath -Algorithm SHA256).Hash)"
+        }
+    }
+
+    $payload = @(
+        $status
+        '--unstaged--'
+        $unstagedDiff
+        '--staged--'
+        $stagedDiff
+        '--untracked--'
+        $untrackedHashes
+    ) -join "`n"
+    $sha256 = [Security.Cryptography.SHA256]::Create()
+    try {
+        $bytes = [Text.Encoding]::UTF8.GetBytes($payload)
+        return [Convert]::ToHexString($sha256.ComputeHash($bytes)).ToLowerInvariant()
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
 function Write-Checkpoint {
     param(
         [Parameter(Mandatory)][string]$Phase,
@@ -148,11 +189,12 @@ function Write-Checkpoint {
         [int]$InfrastructureRetries = 0,
         [string]$StdoutLog = '',
         [string]$StderrLog = '',
-        [string]$Deadline = ''
+        [string]$Deadline = '',
+        [string]$DeliveryReason = ''
     )
 
     @{
-        version = 1
+        version = 2
         updatedAt = (Get-Date).ToString('o')
         phase = $Phase
         taskId = $TaskId
@@ -165,10 +207,12 @@ function Write-Checkpoint {
         stdoutLog = $StdoutLog
         stderrLog = $StderrLog
         deadline = $Deadline
+        deliveryReason = $DeliveryReason
         model = $Model
         branch = $WorkBranch
         gitHead = (& git -C $projectRoot rev-parse HEAD).Trim()
         dirtyFiles = @(& git -C $projectRoot status --porcelain)
+        dirtyFingerprint = (Get-WorkingTreeFingerprint)
     } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $checkpointPath -Encoding utf8
 }
 
@@ -282,27 +326,40 @@ function Ensure-WorkBranch {
     }
 }
 
-function Test-TaskDelivery {
+function Get-TaskDeliveryState {
     $dirty = @(& git -C $projectRoot status --porcelain)
     if ($dirty.Count -gt 0) {
-        Write-Warning '任务标记为完成，但工作区仍有未提交改动。'
-        return $false
+        return [pscustomobject]@{
+            Ready = $false
+            Reason = 'working-tree-dirty'
+            Detail = "工作区仍有 $($dirty.Count) 个未提交条目"
+        }
     }
 
     $localSha = (& git -C $projectRoot rev-parse HEAD).Trim()
     $remoteLine = @(& git -C $projectRoot ls-remote origin "refs/heads/$WorkBranch")
     if ($LASTEXITCODE -ne 0 -or $remoteLine.Count -eq 0) {
-        Write-Warning "任务标记为完成，但远端分支 $WorkBranch 不存在或不可访问。"
-        return $false
+        return [pscustomobject]@{
+            Ready = $false
+            Reason = 'remote-unavailable'
+            Detail = "远端分支 $WorkBranch 不存在或暂时不可访问"
+        }
     }
 
     $remoteSha = ($remoteLine[0] -split "`t")[0]
     if ($localSha -ne $remoteSha) {
-        Write-Warning '任务标记为完成，但当前提交尚未推送到远端工作分支。'
-        return $false
+        return [pscustomobject]@{
+            Ready = $false
+            Reason = 'remote-out-of-sync'
+            Detail = '当前提交尚未推送到远端工作分支'
+        }
     }
 
-    return $true
+    return [pscustomobject]@{
+        Ready = $true
+        Reason = 'delivered'
+        Detail = '工作区干净且本地、远端提交一致'
+    }
 }
 
 function Invoke-LoggedPnpm {
@@ -355,7 +412,7 @@ if ($DryRun) {
     Write-Host "Model: $Model (explicit)"
     Write-Host "Tasks: $(@($tasks | Where-Object status -eq 'done').Count)/$($tasks.Count) done"
     Write-Host "Cycle: $MaxHours hours; the continuous launcher starts the next cycle until the goal is complete"
-    Write-Host "Attempts: $MaxTaskAttempts task attempts, $IterationTimeoutMinutes minutes each; infrastructure retries: $MaxInfrastructureRetries"
+    Write-Host "Attempts: $MaxTaskAttempts per cycle, $IterationTimeoutMinutes minutes each with a $DeliveryBufferMinutes minute delivery buffer; stop after $MaxConsecutiveTaskFailures consecutive task failures; infrastructure retries: $MaxInfrastructureRetries"
     Write-Host "Preflight: $(if ($SkipPreflight) { 'reused from the current continuous run' } else { "up to $PreflightTimeoutMinutes minutes before the first cycle timer" }); shutdown buffer: $ShutdownBufferSeconds seconds"
     Write-Host "Branch: $currentBranch -> $WorkBranch when started"
     Write-Host 'Sandbox: workspace-write with automatic approval review'
@@ -372,6 +429,10 @@ if ($DryRun) {
     $checkpoint = Read-Checkpoint
     if ($null -ne $checkpoint) {
         Write-Host "Checkpoint: $($checkpoint.phase), task $($checkpoint.taskId), outcome $($checkpoint.outcome), updated $($checkpoint.updatedAt)"
+        if ([string]$checkpoint.outcome -in @('delivery-pending', 'delivery-failed')) {
+            $deliveryState = Get-TaskDeliveryState
+            Write-Host "Recovery: delivery task $($checkpoint.taskId), current state $($deliveryState.Reason)"
+        }
     }
     exit 0
 }
@@ -403,6 +464,7 @@ if (Test-Path -LiteralPath $stopPath) {
 $basePrompt = Get-Content -LiteralPath $promptPath -Raw -Encoding utf8
 $failureCounts = @{}
 $existingCheckpoint = Read-Checkpoint
+$startupCheckpoint = $existingCheckpoint
 if ($null -ne $existingCheckpoint -and
     -not [string]::IsNullOrWhiteSpace([string]$existingCheckpoint.taskId) -and
     [int]$existingCheckpoint.consecutiveTaskFailures -gt 0) {
@@ -492,7 +554,26 @@ try {
             break
         }
 
-        $readyTasks = @(Get-ReadyTasks -State $state)
+        $checkpoint = Read-Checkpoint
+        if ($null -ne $startupCheckpoint -and
+            -not [string]::IsNullOrWhiteSpace([string]$startupCheckpoint.taskId) -and
+            [string]$startupCheckpoint.outcome -notin @('task-completed', 'verified-and-pushed')) {
+            $checkpoint = $startupCheckpoint
+        }
+        $startupCheckpoint = $null
+        $deliveryRecoveryOutcomes = @('delivery-pending', 'delivery-failed')
+        $deliveryResumeTask = @()
+        if ($null -ne $checkpoint -and
+            [string]$checkpoint.outcome -in $deliveryRecoveryOutcomes -and
+            -not [string]::IsNullOrWhiteSpace([string]$checkpoint.taskId)) {
+            $deliveryResumeTask = @($state.tasks | Where-Object id -eq ([string]$checkpoint.taskId) | Select-Object -First 1)
+            if ($deliveryResumeTask.Count -eq 1 -and $deliveryResumeTask[0].status -ne 'done') {
+                $deliveryResumeTask = @()
+            }
+        }
+
+        $isDeliveryResume = $deliveryResumeTask.Count -eq 1
+        $readyTasks = if ($isDeliveryResume) { @($deliveryResumeTask[0]) } else { @(Get-ReadyTasks -State $state) }
         if ($readyTasks.Count -eq 0) {
             $pending = @($state.tasks | Where-Object status -eq 'pending')
             if ($pending.Count -gt 0) {
@@ -508,8 +589,9 @@ try {
             if (-not (Test-Path -LiteralPath $donePath)) {
                 throw '所有任务均已完成，但缺少 DONE.md 验收记录。'
             }
-            if (-not (Test-TaskDelivery)) {
-                throw '最终状态尚未完整提交并推送。'
+            $finalDelivery = Get-TaskDeliveryState
+            if (-not $finalDelivery.Ready) {
+                throw "最终状态尚未完整提交并推送：$($finalDelivery.Reason)"
             }
 
             Write-Checkpoint -Phase 'goal-complete' -Outcome 'verified-and-pushed' -Deadline ($displayDeadline.ToString('o'))
@@ -520,9 +602,23 @@ try {
         $task = $readyTasks[0]
         $taskId = [string]$task.id
         $previousFailures = if ($failureCounts.ContainsKey($taskId)) { [int]$failureCounts[$taskId] } else { 0 }
-        $checkpoint = Read-Checkpoint
         $isResume = $null -ne $checkpoint -and [string]$checkpoint.taskId -eq $taskId -and [string]$checkpoint.outcome -notin @('task-completed', 'verified-and-pushed')
-        $mode = if ($previousFailures -ge 2) { 'diagnostic' } elseif ($isResume) { 'resume' } else { 'implementation' }
+        $mode = if ($isDeliveryResume) { 'delivery' } elseif ($previousFailures -ge 2) { 'diagnostic' } elseif ($isResume) { 'resume' } else { 'implementation' }
+
+        if ($isDeliveryResume) {
+            $existingDelivery = Get-TaskDeliveryState
+            if ($existingDelivery.Ready) {
+                $completedThisCycle++
+                $failureCounts[$taskId] = 0
+                Write-Checkpoint -Phase 'task-completed' -TaskId $taskId -TaskTitle $task.title `
+                    -Outcome 'task-completed' -WorkerRun $workerRunsStarted -TaskAttempt $taskAttemptsStarted `
+                    -ConsecutiveTaskFailures 0 -InfrastructureRetries 0 `
+                    -Deadline ($displayDeadline.ToString('o')) -DeliveryReason $existingDelivery.Reason
+                Write-Host "$taskId delivery was already completed; checkpoint recovered without a new worker."
+                continue
+            }
+        }
+
         $workerRunsStarted++
         $candidateTaskAttempt = $taskAttemptsStarted + 1
         $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
@@ -534,6 +630,18 @@ try {
         $previousStdout = if ($null -ne $checkpoint) { [string]$checkpoint.stdoutLog } else { '' }
         $previousStderr = if ($null -ne $checkpoint) { [string]$checkpoint.stderrLog } else { '' }
 
+        $remainingBudget = [long](($maxDuration - $runStopwatch.Elapsed - $shutdownBuffer).TotalMilliseconds)
+        if ($remainingBudget -le 0) {
+            Write-Warning 'Global time budget is exhausted; no child process will start.'
+            break
+        }
+        $iterationBudget = [long][math]::Min(
+            [TimeSpan]::FromMinutes($IterationTimeoutMinutes).TotalMilliseconds,
+            $remainingBudget
+        )
+        $workerDeadline = (Get-Date).AddMilliseconds($iterationBudget)
+        $deliveryCutoff = $workerDeadline.AddMinutes(-$DeliveryBufferMinutes)
+
         $runtimePrompt = @"
 $basePrompt
 
@@ -543,6 +651,9 @@ $basePrompt
 - Semantic task attempt: $candidateTaskAttempt / $MaxTaskAttempts
 - Completed tasks in this cycle: $completedThisCycle
 - Wall-clock deadline: $($displayDeadline.ToString('o'))
+- Worker hard deadline: $($workerDeadline.ToString('o'))
+- Delivery cutoff: $($deliveryCutoff.ToString('o'))
+- Delivery buffer: $DeliveryBufferMinutes minutes
 - Remaining time: $([math]::Max(0, [math]::Floor(($maxDuration - $runStopwatch.Elapsed).TotalMinutes))) minutes
 - Branch: $WorkBranch
 - Model: $Model
@@ -555,7 +666,7 @@ $basePrompt
 - Previous stdout: $previousStdout
 - Previous stderr: $previousStderr
 
-只处理指定任务。优先从 Git diff、检查点和上轮日志继续，不要重复安装依赖；只有 package.json 或 pnpm-lock.yaml 因当前任务发生变化时才允许运行 pnpm install。在 diagnostic 模式下先检查重复失败；修复并提供证据，或在 loop/progress.md 与 loop/tasks.json 中以具体原因标记 blocked。
+只处理指定任务。优先从 Git diff、检查点和上轮日志继续，不要重复安装依赖；只有 package.json 或 pnpm-lock.yaml 因当前任务发生变化时才允许运行 pnpm install。到达 Delivery cutoff 后必须停止扩展修改和重复测试，立即完成状态记录、Conventional Commit 与 push；时间不足时保持可恢复状态，不得先标 done 再继续调查。在 delivery 模式下不得扩展任务，只核对现有差异和已有测试证据，完成或修复提交推送。在 diagnostic 模式下先检查重复失败；修复并提供证据，或在 loop/progress.md 与 loop/tasks.json 中以具体原因标记 blocked。
 "@
         Set-Content -LiteralPath $runtimePromptPath -Value $runtimePrompt -Encoding utf8
         Write-Checkpoint -Phase 'worker-running' -TaskId $taskId -TaskTitle $task.title `
@@ -574,16 +685,6 @@ $basePrompt
             $arguments += @('--model', $Model)
         }
         $arguments += '-'
-
-        $remainingBudget = [long](($maxDuration - $runStopwatch.Elapsed - $shutdownBuffer).TotalMilliseconds)
-        if ($remainingBudget -le 0) {
-            Write-Warning 'Global time budget is exhausted; no child process will start.'
-            break
-        }
-        $iterationBudget = [long][math]::Min(
-            [TimeSpan]::FromMinutes($IterationTimeoutMinutes).TotalMilliseconds,
-            $remainingBudget
-        )
 
         Write-Host "[run $workerRunsStarted, task attempt $candidateTaskAttempt/$MaxTaskAttempts] Starting $taskId $($task.title) with $([math]::Floor($iterationBudget / 60000)) minute(s) available"
         $child = Start-Process -FilePath 'codex' -ArgumentList $arguments `
@@ -622,13 +723,21 @@ $basePrompt
         $newState = Read-TaskState
         $sameTask = @($newState.tasks | Where-Object id -eq $taskId | Select-Object -First 1)
         if ($sameTask.Count -eq 1 -and $sameTask[0].status -eq 'done') {
-            if (-not (Test-TaskDelivery)) {
-                Write-Checkpoint -Phase 'cycle-stopped' -TaskId $taskId -TaskTitle $task.title `
-                    -Outcome 'delivery-failed' -WorkerRun $workerRunsStarted -TaskAttempt $candidateTaskAttempt `
-                    -ConsecutiveTaskFailures $previousFailures -InfrastructureRetries $infrastructureRetries `
-                    -StdoutLog $stdoutPath -StderrLog $stderrPath -Deadline ($displayDeadline.ToString('o'))
-                Write-Warning "$taskId lacks clean committed and pushed evidence. Stopping."
-                break
+            $delivery = Get-TaskDeliveryState
+            if (-not $delivery.Ready) {
+                $taskAttemptsStarted++
+                $failureCounts[$taskId] = $previousFailures + 1
+                Write-Checkpoint -Phase 'task-delivery-pending' -TaskId $taskId -TaskTitle $task.title `
+                    -Outcome 'delivery-pending' -WorkerRun $workerRunsStarted -TaskAttempt $taskAttemptsStarted `
+                    -ConsecutiveTaskFailures $failureCounts[$taskId] -InfrastructureRetries $infrastructureRetries `
+                    -StdoutLog $stdoutPath -StderrLog $stderrPath -Deadline ($displayDeadline.ToString('o')) `
+                    -DeliveryReason $delivery.Reason
+                Write-Warning "$taskId delivery remains pending ($($delivery.Reason)): $($delivery.Detail). A delivery-mode worker will resume it."
+                if ($failureCounts[$taskId] -ge $MaxConsecutiveTaskFailures) {
+                    Write-Warning "$taskId reached the consecutive task failure limit: $MaxConsecutiveTaskFailures"
+                    break
+                }
+                continue
             }
             $taskAttemptsStarted++
             $completedThisCycle++
@@ -637,7 +746,8 @@ $basePrompt
             Write-Checkpoint -Phase 'task-completed' -TaskId $taskId -TaskTitle $task.title `
                 -Outcome 'task-completed' -WorkerRun $workerRunsStarted -TaskAttempt $taskAttemptsStarted `
                 -ConsecutiveTaskFailures 0 -InfrastructureRetries 0 `
-                -StdoutLog $stdoutPath -StderrLog $stderrPath -Deadline ($displayDeadline.ToString('o'))
+                -StdoutLog $stdoutPath -StderrLog $stderrPath -Deadline ($displayDeadline.ToString('o')) `
+                -DeliveryReason $delivery.Reason
             Write-Host "$taskId completed."
         }
         elseif ($sameTask.Count -eq 1 -and $sameTask[0].status -eq 'blocked') {
@@ -673,6 +783,10 @@ $basePrompt
                 -ConsecutiveTaskFailures $failureCounts[$taskId] -InfrastructureRetries $infrastructureRetries `
                 -StdoutLog $stdoutPath -StderrLog $stderrPath -Deadline ($displayDeadline.ToString('o'))
             Write-Warning "$taskId remains incomplete (attempt $($failureCounts[$taskId]))."
+            if ($failureCounts[$taskId] -ge $MaxConsecutiveTaskFailures) {
+                Write-Warning "$taskId reached the consecutive task failure limit: $MaxConsecutiveTaskFailures"
+                break
+            }
         }
     }
 
@@ -711,7 +825,7 @@ finally {
                 -ConsecutiveTaskFailures ([int]$lastCheckpoint.consecutiveTaskFailures) `
                 -InfrastructureRetries ([int]$lastCheckpoint.infrastructureRetries) `
                 -StdoutLog ([string]$lastCheckpoint.stdoutLog) -StderrLog ([string]$lastCheckpoint.stderrLog) `
-                -Deadline ([string]$lastCheckpoint.deadline)
+                -Deadline ([string]$lastCheckpoint.deadline) -DeliveryReason ([string]$lastCheckpoint.deliveryReason)
         }
     }
     catch {

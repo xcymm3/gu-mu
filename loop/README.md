@@ -11,7 +11,7 @@ pnpm loop:status
 pnpm loop:stop
 ```
 
-启动后先用最多 20 分钟检查 pnpm store、冻结安装、Playwright Chromium 和快速质量门禁；预检通过后才开始首个两小时周期，后续周期复用本次预检。默认固定 `gpt-5.6-sol`，每个语义任务尝试最多 50 分钟，每周期最多三次语义尝试，并允许两次不计入语义失败的基础设施重试。完成任务数量不再触发停止。
+启动后先用最多 20 分钟检查 pnpm store、冻结安装、Playwright Chromium 和快速质量门禁；预检通过后才开始首个两小时周期，后续周期复用本次预检。默认固定 `gpt-5.6-sol`，每个语义任务尝试最多 50 分钟，其中最后 8 分钟保留给状态记录、提交和推送；每周期最多三次语义尝试，并允许两次不计入语义失败的基础设施重试。完成任务数量不再触发停止。
 
 可显式覆盖：
 
@@ -20,10 +20,12 @@ pwsh -NoProfile -File .\scripts\run-continuous-loop.ps1 `
   -MaxTaskAttemptsPerCycle 3 `
   -CycleHours 2 `
   -IterationTimeoutMinutes 50 `
+  -DeliveryBufferMinutes 8 `
   -MaxInfrastructureRetries 2 `
   -PreflightTimeoutMinutes 20 `
   -ShutdownBufferSeconds 60 `
   -MaxConsecutiveTaskFailures 6 `
+  -MaxConsecutiveCycleErrors 3 `
   -Model 'gpt-5.6-sol'
 ```
 
@@ -46,7 +48,9 @@ pwsh -NoProfile -File .\scripts\run-loop.ps1 `
 - 仅当前仓库可写；不创建账号、不购买服务、不发布应用、不合并生产分支。
 - 初始工作区必须干净；恢复人工确认过的未完成改动时才使用 `-AllowDirtyStart`。
 - 锁文件防止重复监督器；根目录 `stop.md` 请求当前轮结束后停止。
-- 两小时周期届满和单周期尝试次数用尽只触发自动续接；只有全部验收完成、人工停止、额度限制、明确阻塞、交付失败或连续失败达到阈值才结束连续监督器。
+- 两小时周期届满和单周期尝试次数用尽只触发自动续接；超时后未提交、远端暂时不可达或本地远端未同步会进入 `delivery-pending` 并由下一轮优先恢复。只有全部验收完成、人工停止、额度限制、明确阻塞或连续失败达到阈值才结束连续监督器。
+- 脏工作区仅在分支、HEAD、文件清单与二进制差异指纹都和检查点完全一致时自动恢复；未知改动仍会停止以保护用户文件。
+- 单次预检、最终门禁或监督器异常不再立即终止；连续监督器从检查点最多自动重试三轮，连续失败才停止并留证。
 - 网络、registry 和 pnpm store 故障最多独立重试两次，不消耗语义任务失败次数；速率限制、额度不足或任务阻塞仍会停止循环，不切换账号或供应商。
 - 美术必须原创或具有明确授权；禁止复制商业游戏素材、角色或 UI。
 - “全流程无问题”只能由可复现测试、截图和日志支持，Loop 不得给出无证据的绝对保证。

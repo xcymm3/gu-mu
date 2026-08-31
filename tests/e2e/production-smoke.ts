@@ -8,10 +8,9 @@ type ReleaseMarker = {
 
 async function waitForProgressChange(page: Page, previous: string) {
   const stage = page.getByLabel("血蛊引游戏界面");
-  const progress = page.locator(".narrative-progress");
   for (let attempt = 0; attempt < 12; attempt += 1) {
     await stage.click({ position: { x: 8, y: 8 } });
-    if ((await progress.textContent()) !== previous) return;
+    if ((await stage.getAttribute("data-narrative-page")) !== previous) return;
   }
   throw new Error("推进 12 次后剧情进度仍未变化");
 }
@@ -49,7 +48,7 @@ test("生产站点部署目标提交并完成开始与存读档冒烟", async ({
   const markerResponse = await request.get(`/release.json?t=${Date.now()}`);
   expect(markerResponse.ok()).toBe(true);
   const marker = await markerResponse.json() as ReleaseMarker;
-  expect(marker).toMatchObject({ version: "0.2.0-rc.1", channel: "release-candidate" });
+  expect(marker).toMatchObject({ version: "0.2.0-rc.2", channel: "release-candidate" });
 
   await page.addInitScript(() => window.localStorage.clear());
   const navigation = await page.goto("/", { waitUntil: "networkidle" });
@@ -63,17 +62,22 @@ test("生产站点部署目标提交并完成开始与存读档冒烟", async ({
   await page.getByRole("button", { name: /^开始游戏/ }).click();
   await expect(page.getByText("请选择你的身份")).toBeVisible();
   await page.getByRole("button", { name: /流浪剑修/ }).click();
-  await expect(page.getByRole("heading", { name: "夜雨墓门" })).toBeVisible();
+  const stage = page.getByLabel("血蛊引游戏界面");
+  await expect(stage).toHaveAttribute("data-scene-id", "gate");
+  await expect(page.getByLabel("篇章信息")).toContainText("Chapter 1-1");
+  await expect(page.getByLabel("篇章信息")).not.toContainText("夜雨墓门");
+  await expect(stage).not.toContainText("夜雨墓门");
+  await expect(stage.locator(".scene h1")).toHaveCount(0);
+  await expect(stage.locator(".narrative-progress")).toHaveCount(0);
 
-  const progress = page.locator(".narrative-progress");
-  const savedProgress = await progress.textContent();
+  const savedProgress = await stage.getAttribute("data-narrative-page");
   expect(savedProgress).not.toBeNull();
   await page.getByRole("button", { name: /^快存/ }).click();
   await expect(page.getByText("快速存档完成")).toBeVisible();
 
   await waitForProgressChange(page, savedProgress!);
   await page.getByRole("button", { name: /^快读/ }).click();
-  await expect(progress).toHaveText(savedProgress!);
+  await expect(stage).toHaveAttribute("data-narrative-page", savedProgress!);
   await expect(page.getByText("已读取快速存档")).toBeVisible();
 
   expect(failures, "生产站点不应出现页面、控制台、网络或 HTTP 错误").toEqual([]);

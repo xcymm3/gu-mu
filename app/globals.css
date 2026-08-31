@@ -638,8 +638,6 @@ h1 {
 .scene-copy p { margin: 0; color: var(--color-muted); font-size: var(--text-base); line-height: 1.92; text-align: justify; text-wrap: pretty; }
 .story-name { color: var(--color-ink); font-weight: 780; }
 .story-critical { color: var(--color-danger); font-weight: 720; }
-.narrative-progress { margin: var(--space-6) 0 0; color: var(--color-faint); font-family: var(--font-mono); font-size: var(--text-xs); text-align: right; }
-
 .choice-panel { display: grid; flex: 0 0 auto; gap: var(--space-3); margin-top: auto; }
 .choice-button { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: 3.8rem; padding: var(--space-4); font-size: var(--text-sm); font-weight: 650; line-height: 1.45; }
 .choice-button small { flex: 0 0 auto; color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 500; }
@@ -735,7 +733,6 @@ body {
 }
 
 .status-bar span,
-.narrative-progress,
 .ending-number,
 .gallery,
 .essence-stat {
@@ -1047,10 +1044,6 @@ h1 {
   line-height: 1.62;
 }
 
-.story-frame.is-battling .narrative-progress {
-  margin-top: var(--space-2);
-}
-
 .story-frame.is-battling .battle-panel {
   flex: 1 1 auto;
   min-height: 0;
@@ -1117,7 +1110,6 @@ h1 {
 
 .vn-stage,
 .vn-rail,
-.vn-ledger,
 .vn-character-slot,
 .menu-stage { display: none; }
 
@@ -1337,18 +1329,6 @@ h1 {
   .vn-rail-role { margin: 0; color: var(--color-vn-chrome-ink); font-size: var(--text-xs); }
   .vn-rail-role strong { margin-inline-start: var(--space-2); }
 
-  .vn-ledger {
-    display: flex;
-    position: absolute;
-    top: 6.6rem;
-    left: 2.5rem;
-    align-items: baseline;
-    gap: var(--space-2);
-    color: var(--color-vn-chrome-ink);
-  }
-  .vn-ledger span { font-size: var(--text-xs); opacity: .72; }
-  .vn-ledger strong { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: .08em; }
-
   .vn-story-core .status-bar {
     position: absolute;
     z-index: 6;
@@ -1399,7 +1379,6 @@ h1 {
     text-align: center;
   }
   .vn-story-core .scene .eyebrow { display: none; }
-  .vn-story-core .scene h1 { grid-column: 1; color: var(--color-vn-dialog-ink); font-size: var(--text-lg); letter-spacing: .04em; }
   .vn-story-core .scene-copy {
     grid-column: 1 / -1;
     align-content: start;
@@ -1411,8 +1390,6 @@ h1 {
   }
   .vn-story-core .scene-copy p { color: var(--color-vn-dialog-muted); font-size: clamp(.96rem, 1.1vw, 1.08rem); line-height: 1.9; text-align: start; }
   .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy { padding-inline-end: 11rem; }
-  .vn-story-core .scene .narrative-progress { position: absolute; right: 11rem; bottom: .8rem; margin: 0; color: var(--color-vn-dialog-muted); }
-
   .vn-story-core .choice-panel {
     position: absolute;
     z-index: 7;
@@ -1932,8 +1909,7 @@ h1 {
 .vn-quick-menu kbd { opacity: .58; font-family: var(--font-mono); font-size: .58rem; }
 
 .story-frame.is-ui-hidden .vn-play-layout,
-.story-frame.is-ui-hidden .vn-quick-menu,
-.story-frame.is-ui-hidden .vn-ledger { opacity: 0; pointer-events: none; }
+.story-frame.is-ui-hidden .vn-quick-menu { opacity: 0; pointer-events: none; }
 .story-frame.is-ui-hidden { cursor: pointer; }
 
 .vn-quick-notice {
@@ -3036,11 +3012,6 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 
   .vn-rail-role { display: none; }
 
-  .vn-ledger {
-    top: 5.4rem;
-    left: var(--space-8);
-  }
-
   .vn-story-core .status-bar {
     top: var(--space-6);
     right: var(--space-8);
@@ -3322,7 +3293,6 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     line-height: 1.42;
   }
 
-  .vn-ledger,
   .vn-rail {
     display: none;
   }
@@ -3391,10 +3361,6 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     font-size: var(--text-xs);
   }
 
-  .vn-story-core .scene h1 {
-    font-size: var(--text-sm);
-  }
-
   .vn-story-core .scene-copy {
     max-width: 76ch;
     margin-top: var(--space-1);
@@ -3409,12 +3375,6 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
 
   .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy {
     padding-inline-end: 7rem;
-  }
-
-  .vn-story-core .scene .narrative-progress {
-    right: 7.5rem;
-    bottom: 0.45rem;
-    font-size: 0.62rem;
   }
 
   .vn-story-core .choice-panel {
@@ -3910,10 +3870,6 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     color: var(--color-vn-chrome-ink);
     box-shadow: 0 .7rem 2rem var(--color-vn-shadow);
     backdrop-filter: blur(.55rem);
-  }
-
-  .story-frame.is-battling .vn-ledger {
-    display: none;
   }
 
   .story-frame.is-battling .battle-status-bar span,

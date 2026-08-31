@@ -33,6 +33,7 @@ import {
   type GuAction,
   type PresentedCharacter,
   type RoleId,
+  type Scene,
   type SceneBeat,
 } from "@/lib/xue-gu-yin/game";
 
@@ -267,16 +268,10 @@ function NarrativePage({ text }: { text: string }) {
   })}</>;
 }
 
-function VisualNovelRail({ chapter, roleName }: { chapter: string; roleName: string }) {
+function VisualNovelRail({ act, node, roleName }: { act: Scene["act"]; node: number; roleName: string }) {
   return <aside className="vn-rail" aria-label="篇章信息">
-    <div className="vn-rail-brand"><XueGuYinMark className="xue-gu-yin-mark" /><div><strong>{storyMeta.title}</strong><span>{chapter}</span></div></div>
+    <div className="vn-rail-brand"><XueGuYinMark className="xue-gu-yin-mark" /><div><strong>{storyMeta.title}</strong><span>Chapter {act}-{node}</span></div></div>
     <p className="vn-rail-role">行走之人 <strong>{roleName}</strong></p>
-  </aside>;
-}
-
-function VisualNovelLedger({ title }: { title: string }) {
-  return <aside className="vn-ledger" aria-label="阅读记录">
-    <span>当前场景</span><strong>{title}</strong>
   </aside>;
 }
 
@@ -985,6 +980,8 @@ export function XueGuYinGame() {
       <section
         className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}${stageEffectClasses}`}
         aria-label="血蛊引游戏界面"
+        data-narrative-page={`${pageIndex + 1}/${pageCount}`}
+        data-scene-id={scene.id}
         onClick={(event) => {
           if ((event.target as HTMLElement).closest("button, a, input, select, textarea")) return;
           if (uiHidden) setUiHidden(false);
@@ -1012,7 +1009,7 @@ export function XueGuYinGame() {
           effects={stageEffects}
         />
         <div className="vn-play-layout">
-        <VisualNovelRail chapter={scene.chapter} roleName={role.name} />
+        <VisualNovelRail act={scene.act} node={scene.node} roleName={role.name} />
         <div className="vn-story-core">
         {battleResult ? <>
           <header className="status-bar">
@@ -1039,10 +1036,8 @@ export function XueGuYinGame() {
           </section>
           </> : <>
           <section className="scene" aria-live="polite">
-            <p className="vn-speaker">{speaker}</p><p className="eyebrow">{scene.chapter}</p>
-            <h1>{scene.title}</h1>
+            <p className="vn-speaker">{speaker}</p>
             <div className={`scene-copy vn-text-reveal${activeFrame?.transition === "fade" ? " is-scene-fade" : ""}`} key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
-            <p className="narrative-progress">{pageIndex + 1} / {pageCount}</p>
             {!isLastNarrativePage || linearRouteChoice ? <span className="vn-continue-indicator" aria-hidden="true">⌄</span> : null}
           </section>
           {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={beginBattle}>放出本命蛊</button></div> : null}
@@ -1054,7 +1049,6 @@ export function XueGuYinGame() {
           </>}
         </>}
         </div>
-        <VisualNovelLedger title={battle ? battle.enemyName : scene.title} />
         </div>
         <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} onSkip={() => setSkipMode((current) => !current)} skipMode={skipMode} />
         {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}

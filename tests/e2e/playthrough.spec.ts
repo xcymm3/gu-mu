@@ -93,10 +93,15 @@ test("主菜单到读档工具链均经过玩家公开操作", async ({ page, br
   await page.getByRole("button", { name: /^开始游戏/ }).click();
   await expect(page.getByText("请选择你的身份")).toBeVisible();
   await page.getByRole("button", { name: /流浪剑修/ }).click();
-  await expect(page.getByRole("heading", { name: "夜雨墓门" })).toBeVisible();
+  const stage = page.getByLabel("血蛊引游戏界面");
+  await expect(stage).toHaveAttribute("data-scene-id", "gate");
+  await expect(page.getByLabel("篇章信息")).toContainText("Chapter 1-1");
+  await expect(page.getByLabel("篇章信息")).not.toContainText("夜雨墓门");
+  await expect(stage).not.toContainText("夜雨墓门");
+  await expect(stage.locator(".scene h1")).toHaveCount(0);
+  await expect(stage.locator(".narrative-progress")).toHaveCount(0);
 
-  const progress = page.locator(".narrative-progress");
-  const savedProgress = await progress.textContent();
+  const savedProgress = await stage.getAttribute("data-narrative-page");
   expect(savedProgress).not.toBeNull();
 
   await page.getByRole("button", { name: /^快存/ }).click();
@@ -110,16 +115,16 @@ test("主菜单到读档工具链均经过玩家公开操作", async ({ page, br
   await expect(firstSlot).toContainText("流浪剑修");
   await page.getByRole("button", { name: "关闭游戏菜单" }).click();
 
-  await page.getByLabel("血蛊引游戏界面").click({ position: { x: 8, y: 8 } });
-  await expect(progress).not.toHaveText(savedProgress!);
+  await stage.click({ position: { x: 8, y: 8 } });
+  await expect(stage).not.toHaveAttribute("data-narrative-page", savedProgress!);
   await page.getByRole("button", { name: /^快读/ }).click();
-  await expect(progress).toHaveText(savedProgress!);
+  await expect(stage).toHaveAttribute("data-narrative-page", savedProgress!);
   await expect(page.getByText("已读取快速存档")).toBeVisible();
 
   await page.getByLabel("血蛊引游戏界面").click({ position: { x: 8, y: 8 } });
   await page.getByRole("button", { name: "打开游戏菜单" }).click();
   await firstSlot.getByRole("button", { name: "读取" }).click();
-  await expect(progress).toHaveText(savedProgress!);
+  await expect(stage).toHaveAttribute("data-narrative-page", savedProgress!);
 
   await page.getByLabel("血蛊引游戏界面").click({ position: { x: 8, y: 8 } });
   await page.getByRole("button", { name: /^历史/ }).click();

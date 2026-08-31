@@ -260,7 +260,7 @@ class VisualPlaythrough {
   async selectRole() {
     await this.page.getByRole("button", { name: /^开始游戏/ }).click();
     await this.page.getByRole("button", { name: /流浪剑修/ }).click();
-    await expect(this.page.getByRole("heading", { name: scenes[this.game.sceneId].title, exact: true })).toBeVisible();
+    await expect(this.stage).toHaveAttribute("data-scene-id", this.game.sceneId);
   }
 
   async advanceUntilVisible(target: Locator, label: string, limit = 360) {
@@ -288,7 +288,7 @@ class VisualPlaythrough {
     await button.click();
     const target = next.endingId
       ? this.page.getByRole("heading", { name: endings[next.endingId].name, exact: true })
-      : this.page.getByRole("heading", { name: scenes[next.sceneId].title, exact: true });
+      : this.page.locator(`.story-frame[data-scene-id="${next.sceneId}"]`);
     await this.advanceUntilVisible(target, `${choiceId} 的目标`);
     this.game = next;
   }
@@ -323,7 +323,7 @@ class VisualPlaythrough {
       await expectDialogueFits(this.page);
     }
     await expect(this.page.getByRole("navigation", { name: "选择本回合蛊术" })).toBeHidden();
-    await this.advanceUntilVisible(this.page.getByRole("heading", { name: scenes[this.game.sceneId].title, exact: true }), "首战胜利目标");
+    await this.advanceUntilVisible(this.page.locator(`.story-frame[data-scene-id="${this.game.sceneId}"]`), "首战胜利目标");
   }
 }
 

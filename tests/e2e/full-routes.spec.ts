@@ -157,7 +157,7 @@ class BrowserPlaythrough {
 
   private async expectCurrentScene() {
     const scene = scenes[this.game.sceneId];
-    await expect(this.page.getByRole("heading", { name: scene.title, exact: true })).toBeVisible();
+    await expect(this.stage).toHaveAttribute("data-scene-id", scene.id);
   }
 
   private async advanceUntilVisible(target: Locator, label: string, limit = 360) {
@@ -172,7 +172,7 @@ class BrowserPlaythrough {
     const next = withResolvedEnding(game);
     const target = next.endingId
       ? this.page.getByRole("heading", { name: endings[next.endingId].name, exact: true })
-      : this.page.getByRole("heading", { name: scenes[next.sceneId].title, exact: true });
+      : this.page.locator(`.story-frame[data-scene-id="${next.sceneId}"]`);
     await this.advanceUntilVisible(target, label);
     this.game = next;
   }

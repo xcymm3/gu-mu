@@ -1,9 +1,9 @@
 import type { GameState, RoleId, Scene } from "./model.ts";
 
 export const releaseMeta = {
-  version: "0.2.0-rc.1",
+  version: "0.2.0-rc.2",
   channel: "release-candidate",
-  date: "2026-08-24",
+  date: "2026-08-31",
 } as const;
 
 export const canonicalReleasePaths = {

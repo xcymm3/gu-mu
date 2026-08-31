@@ -62,6 +62,71 @@ type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
 type StageEffect = { effect: "fade" | "flash" | "shake" | "darken"; tone: "neutral" | "danger" };
+
+const modalFocusableSelector = [
+  "button:not([disabled])",
+  "[href]",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])",
+].join(",");
+
+function useModalFocus<T extends HTMLElement>(active: boolean, onClose: () => void) {
+  const dialogRef = useRef<T | null>(null);
+  const closeRef = useRef(onClose);
+
+  useEffect(() => { closeRef.current = onClose; }, [onClose]);
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!active || !dialog) return;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    function focusableElements() {
+      return [...dialog!.querySelectorAll<HTMLElement>(modalFocusableSelector)]
+        .filter((element) => element.getClientRects().length > 0);
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        closeRef.current();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusable = focusableElements();
+      if (!focusable.length) {
+        event.preventDefault();
+        dialog!.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable.at(-1)!;
+      if (event.shiftKey && (document.activeElement === first || !dialog!.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !dialog!.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      const initialFocus = dialog.querySelector<HTMLElement>("[autofocus]") ?? focusableElements()[0] ?? dialog;
+      initialFocus.focus();
+    });
+    dialog.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      dialog.removeEventListener("keydown", handleKeyDown);
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [active]);
+
+  return dialogRef;
+}
+
 function readSaveSlots(): SaveSlots {
   try {
     const parsed = JSON.parse(window.localStorage.getItem(saveStorageKey) ?? "[]") as unknown;
@@ -145,7 +210,7 @@ function useNarrativeLimit() {
         return;
       }
       if (width >= 960) {
-        setLimit(height >= 980 ? 148 : height >= 820 ? 112 : height >= 700 ? 84 : 68);
+        setLimit(height >= 980 ? 148 : height >= 820 ? 112 : height >= 700 ? 76 : 68);
         return;
       }
       setLimit(height >= 820 ? 112 : height >= 680 ? 88 : 68);
@@ -560,6 +625,7 @@ export function XueGuYinGame() {
   const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
   const [pendingLinearChoice, setPendingLinearChoice] = useState(false);
   const [battleResult, setBattleResult] = useState<{ won: boolean; text: string } | null>(null);
+  const [transientPage, setTransientPage] = useState(0);
   const [showGameMenu, setShowGameMenu] = useState(false);
   const [showBacklog, setShowBacklog] = useState(false);
   const [autoMode, setAutoMode] = useState(false);
@@ -634,7 +700,7 @@ export function XueGuYinGame() {
 
   useEffect(() => {
     if (copyRef.current) copyRef.current.scrollTop = 0;
-  }, [battleResult?.text, game.sceneId, narrative.page, pendingChoice?.id]);
+  }, [battleResult?.text, game.sceneId, narrative.page, pendingChoice?.id, transientPage]);
 
   function loadScene(sceneId: string) { setNarrative({ sceneId, page: 0 }); }
 
@@ -645,6 +711,7 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setPendingLinearChoice(false);
     setBattleResult(null);
+    setTransientPage(0);
     setShowGameMenu(false);
     setShowBacklog(false);
     setAutoMode(false);
@@ -672,6 +739,7 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setPendingLinearChoice(false);
     setBattleResult(null);
+    setTransientPage(0);
     setShowGameMenu(false);
     setShowBacklog(false);
     setAutoMode(false);
@@ -687,6 +755,7 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setPendingLinearChoice(false);
     setBattleResult(null);
+    setTransientPage(0);
     setShowGameMenu(false);
     setShowBacklog(false);
     setAutoMode(false);
@@ -711,6 +780,7 @@ export function XueGuYinGame() {
     if (choice.result) {
       setPendingLinearChoice(false);
       setPendingChoice(choice);
+      setTransientPage(0);
       return;
     }
     applyAndAdvance(choice);
@@ -720,6 +790,7 @@ export function XueGuYinGame() {
     const choice = pendingChoice;
     setPendingChoice(null);
     setPendingLinearChoice(false);
+    setTransientPage(0);
     applyAndAdvance(choice);
   }
 
@@ -737,6 +808,7 @@ export function XueGuYinGame() {
       const won = Boolean(battle.victoryFlag && next.flags.includes(battle.victoryFlag));
       setPendingBattleState(next);
       setBattleResult({ won, text: buildBattleResultText(game, won) });
+      setTransientPage(0);
       setBattleFeedback(null);
       return;
     }
@@ -763,6 +835,7 @@ export function XueGuYinGame() {
   function confirmBattleResult() {
     if (!battleResult) return;
     setBattleResult(null);
+    setTransientPage(0);
     continueBattle();
   }
 
@@ -789,11 +862,14 @@ export function XueGuYinGame() {
   const narrativeParts: string[] = [activeFrame?.text ?? sourceText];
   const visibleChoices = presentation.choices.filter((choice) => canChoose(game, choice));
   const linearRouteChoice = game.routeLocked && visibleChoices.length === 1 ? visibleChoices[0] : null;
-  const presentedText = battleResult?.text ?? pendingChoice?.result ?? narrativeParts[0] ?? sourceText;
+  const transientSource = battleResult?.text ?? pendingChoice?.result ?? null;
+  const transientPages = transientSource ? splitForViewport(transientSource, narrativeLimit) : [];
+  const transientPageIndex = Math.min(transientPage, Math.max(0, transientPages.length - 1));
+  const presentedText = transientPages[transientPageIndex] ?? narrativeParts[0] ?? sourceText;
   const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : activeFrame?.displayName ?? inferSpeaker(presentedText);
   const stageBackground = activeFrame?.background ?? presentation.background;
   const stageCharacters = activeFrame?.characters ?? presentation.characters;
-  const currentFrameKey = readingFrameKey(scene.id, activeFrame?.beatIndex ?? 0, pageIndex, presentedText);
+  const currentFrameKey = readingFrameKey(scene.id, activeFrame?.beatIndex ?? 0, transientSource ? transientPageIndex : pageIndex, presentedText);
   const stageEffects: StageEffect[] = [...(activeFrame?.effects ?? []), ...(combatEffect ? [{ effect: combatEffect.effect, tone: combatEffect.tone } satisfies StageEffect] : [])];
   const stageEffectClasses = stageEffects.map((effect) => ` is-stage-${effect.effect}`).join("");
   const effectToken = `${currentFrameKey}-${combatEffect?.id ?? 0}`;
@@ -820,6 +896,7 @@ export function XueGuYinGame() {
       if (choice.result) {
         setPendingLinearChoice(true);
         setPendingChoice(choice);
+        setTransientPage(0);
       } else applyAndAdvance(choice);
       return;
     }
@@ -829,8 +906,18 @@ export function XueGuYinGame() {
   function advanceInteraction() {
     if (uiHidden) { setUiHidden(false); return; }
     if (showGameMenu || showBacklog) return;
-    if (battleResult) { rememberCurrentFrame(); confirmBattleResult(); return; }
-    if (pendingChoice) { rememberCurrentFrame(); confirmChoice(); return; }
+    if (battleResult) {
+      rememberCurrentFrame();
+      if (transientPageIndex < transientPages.length - 1) setTransientPage((current) => current + 1);
+      else confirmBattleResult();
+      return;
+    }
+    if (pendingChoice) {
+      rememberCurrentFrame();
+      if (transientPageIndex < transientPages.length - 1) setTransientPage((current) => current + 1);
+      else confirmChoice();
+      return;
+    }
     if (battle) return;
     advanceNarrative();
   }
@@ -935,7 +1022,7 @@ export function XueGuYinGame() {
           </header>
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">旁白</p><p className="eyebrow">战斗结束</p>
-            <div className="scene-copy vn-text-reveal" key={`battle-result-${battleResult.text}`} ref={copyRef}><NarrativePage text={battleResult.text} /></div>
+            <div className="scene-copy vn-text-reveal" key={`battle-result-${transientPageIndex}-${presentedText}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
             <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
         </> : battle ? <BattleScene battleFeedback={battleFeedback} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
@@ -947,7 +1034,7 @@ export function XueGuYinGame() {
           {pendingChoice ? <>
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">{pendingLinearChoice ? "剧情推进" : "抉择已定"}</p>
-            <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}`} ref={copyRef}><NarrativePage text={pendingChoice.result ?? ""} /></div>
+            <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}-${transientPageIndex}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
             <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
           </> : <>
@@ -1055,9 +1142,10 @@ function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide
 
 function BacklogOverlay({ entries, onClose }: { entries: BacklogEntry[]; onClose: () => void }) {
   const listRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useModalFocus<HTMLElement>(true, onClose);
   useEffect(() => { listRef.current?.scrollTo({ top: listRef.current.scrollHeight }); }, [entries]);
   return <div className="vn-backlog-backdrop" role="presentation" onClick={onClose}>
-    <section className="vn-backlog" role="dialog" aria-modal="true" aria-labelledby="backlog-title" onClick={(event) => event.stopPropagation()}>
+    <section className="vn-backlog" ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="backlog-title" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
       <header><div><p className="eyebrow">BACKLOG</p><h2 id="backlog-title">历史记录</h2></div><button autoFocus type="button" aria-label="关闭历史记录" onClick={onClose}>×</button></header>
       <div className="vn-backlog-list" ref={listRef}>
         {entries.length ? entries.map((entry) => <article key={entry.id}><p><span>{entry.sceneTitle}</span><strong>{entry.speaker}</strong></p><div><NarrativePage text={entry.text} /></div></article>) : <p className="vn-backlog-empty">尚无可以回看的文字。</p>}
@@ -1070,8 +1158,8 @@ function BacklogOverlay({ entries, onClose }: { entries: BacklogEntry[]; onClose
 function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
   const saveCount = saveSlots.filter(Boolean).length;
   return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
-      <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-placeholder.webp" unoptimized width={1024} /></div>
-      <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，五名四转修士。每一次抉择都在塑造你；大雾落下时，你会循着自己的本心走上不同血路。</p></header>
+      <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-v1.webp" unoptimized width={1024} /></div>
+      <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，六名四转修士。每一次抉择都在塑造你；大雾落下时，你会循着自己的本心走上不同血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
         <button className="menu-action" onClick={onSaves}><span><strong>读取存档</strong><small>本设备已有 {saveCount} / {SAVE_SLOT_COUNT} 卷行迹</small></span></button>
@@ -1094,7 +1182,8 @@ function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad
 }
 
 function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () => void; onLoad: (slot: SaveSlot) => void; onMenu: () => void; onSave: (index: number) => void; saveSlots: SaveSlots }) {
-  return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" role="dialog" aria-modal="true" aria-label="游戏菜单" onClick={(event) => event.stopPropagation()}>
+  const dialogRef = useModalFocus<HTMLElement>(true, onClose);
+  return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-label="游戏菜单" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
     <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button autoFocus className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
     <p className="game-menu-copy">存档仅保存在此浏览器与此设备中。读取存档会放弃当前未保存的进度。</p>
     <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => {
@@ -1126,7 +1215,7 @@ function AudioMixer({ settings, onChange }: { settings: AudioSettings; onChange:
     { key: "sfx", label: "界面与战斗" },
   ];
   return <section className="settings-note audio-mixer" aria-labelledby="audio-mixer-title">
-    <header><div><strong id="audio-mixer-title">声音</strong><p>程序化占位音可随时替换为正式音频。</p></div><button aria-pressed={settings.muted} type="button" onClick={() => onChange({ ...settings, muted: !settings.muted })}>{settings.muted ? "恢复声音" : "全部静音"}</button></header>
+    <header><div><strong id="audio-mixer-title">声音</strong><p>原创本地音频；加载失败时自动使用轻量合成回退。</p></div><button aria-pressed={settings.muted} type="button" onClick={() => onChange({ ...settings, muted: !settings.muted })}>{settings.muted ? "恢复声音" : "全部静音"}</button></header>
     <div className="audio-tracks">{tracks.map((track) => <label key={track.key}><span>{track.label}<output>{settings[track.key]}</output></span><input aria-label={track.label} disabled={settings.muted} max="100" min="0" step="1" type="range" value={settings[track.key]} onChange={(event) => onChange({ ...settings, [track.key]: Number(event.target.value) })} /></label>)}</div>
   </section>;
 }
@@ -1165,6 +1254,7 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
   const battle = game.battle;
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
+  const helpDialogRef = useModalFocus<HTMLElement>(showHelp, () => setShowHelp(false));
   if (!battle || !role) return null;
   const defenseAction = game.flags.includes("血甲蛊")
     ? { id: "armor" as const, name: "血甲蛊", description: "血色蛊甲覆身，挡下这一击。" }
@@ -1200,7 +1290,7 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
         return <button className="choice-button battle-choice-button" key={action.id} disabled={lacksEssence} aria-label={`${action.name}，${action.description}，${resourceText}`} onClick={() => onAction(action.id)}><span><strong>{action.name}</strong><small>{action.description}</small></span><em className={lacksEssence ? "is-insufficient" : ""}>{resourceText}</em></button>;
       })}
     </nav>
-    {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" role="dialog" aria-modal="true" aria-label="蛊斗说明" onClick={(event) => event.stopPropagation()}>
+    {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" ref={helpDialogRef} role="dialog" aria-modal="true" aria-label="蛊斗说明" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
       <button autoFocus className="battle-help-close" type="button" aria-label="关闭说明" onClick={() => setShowHelp(false)}>×</button><p className="eyebrow">蛊斗说明</p><h2>真元与回合</h2>
       <p>每一场蛊斗都会以真元全满开始。你先放出蛊虫；若敌人仍存活，才会还击。击杀敌人的那一击不会承受其反击。</p>
       <p>月光蛊与甲衣蛊需以真元催动；夺得血刃蛊或血甲蛊后，它们会替换初始蛊。真元耗尽时，只能调息回气，敌人仍会行动。</p>

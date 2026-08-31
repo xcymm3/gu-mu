@@ -1,0 +1,57 @@
+name: Production Smoke
+
+on:
+  workflow_run:
+    workflows: ["Quality Gate"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Production URL to verify
+        required: true
+        default: https://adv.xcymm3.top/
+      expected_sha:
+        description: Expected deployed commit SHA; defaults to the selected ref
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'master')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SMOKE_BASE_URL: ${{ inputs.url || 'https://adv.xcymm3.top/' }}
+      EXPECTED_GIT_SHA: ${{ inputs.expected_sha || github.event.workflow_run.head_sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.expected_sha || github.event.workflow_run.head_sha || github.sha }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e:production
+      - name: Upload production smoke failure evidence
+        if: failure() && hashFiles('test-results/production-smoke/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-smoke-failure-${{ github.run_id }}
+          path: test-results/production-smoke/
+          if-no-files-found: ignore
+          retention-days: 14

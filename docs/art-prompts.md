@@ -109,3 +109,20 @@ Use case: stylized-concept. Create a polished 2D anime visual-novel ending backg
 ```text
 Use case: stylized-concept. Create a polished 2D anime visual-novel bad-ending background for a dark Chinese xianxia mystery game. The ancient underground Blood Gu chamber is collapsing under a deep crimson moonlike glow from the cracked ceiling; black stone pillars split, blood-red living threads snap across the air, the central blood pool overflows into dark reflections, abandoned weapons lie near the edge. Tragic, supernatural, restrained and cinematic, no bodies and no people. Leave the lower 30 percent dark and low-contrast for ending text. Wide 16:9 composition, commercial Japanese visual-novel background quality, painterly anime environment art, charcoal black and controlled crimson palette, no characters, no text, no logo, no UI, no watermark.
 ```
+
+## GM2H-004：第二幕蛊墓甬道
+
+本图使用 Codex 内置 imagegen 生成，原始输出裁切为 `1672 × 941`，转换为质量参数 78 的 WebP；未使用第三方参考图。运行时文件为 `public/backgrounds/tomb-corridor-v1.webp`。
+
+```text
+Use case: stylized-concept
+Asset type: production environment background for a desktop Chinese xianxia-horror visual novel
+Primary request: create the interior tomb corridor that directly follows the rain-soaked tomb gate in 《血蛊引》, visually matching the project's existing polished dark painterly backgrounds
+Scene/backdrop: a long ancient underground Chinese Gu-tomb corridor of wet black-green stone, repeated square pillars and shallow archways receding toward a single dim cold-jade light; sparse bronze corpse-oil lamps, eroded occult insect carvings, a few rain trails near the entrance, subtle ground mist; navigable and spatially coherent, no collapsed chasm
+Style/medium: polished 2D painterly anime visual-novel environment art with restrained realistic texture, same production family as a dark commercial Japanese visual-novel background
+Composition/framing: wide cinematic 16:9; centered one-point perspective; keep the lower 30 percent dark, quiet, low-contrast, and free of important details for a dialogue box; keep both left and right character staging zones readable
+Lighting/mood: cool moonlit jade-gray ambience with very small muted amber lamp accents; ominous, hushed, restrained
+Color palette: ink black, desaturated jade, wet slate gray, controlled muted amber
+Constraints: no people, no silhouettes, no characters, no creatures, no text, no symbols resembling writing, no UI, no frame, no logo, no watermark; architecture must be Chinese tomb architecture rather than European crypt; no bright focal point in the lower third
+Avoid: photorealistic game screenshot, glossy 3D render, excessive gore, red-dominant lighting, fantasy castle, open outdoor landscape, busy foreground
+```

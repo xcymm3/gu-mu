@@ -133,6 +133,8 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     assert.ok(presentation.events.some((event) => event.type === "choice"));
   }
   const gate = resolveScenePresentation(chooseRole(), scenes.gate);
+  assert.equal(storyMeta.subtitle, "夜雨蛊市 · 六人入墓");
+  assert.ok(gate.text.includes("站着六名气息各异的散修"));
   assert.ok(gate.text.includes("黑风呼啸，暴雨倾盆"));
   assert.ok(gate.text.includes("老夫耗费数载方才查实"));
   assert.ok(!gate.text.includes("**"));
@@ -284,7 +286,7 @@ test("角色显隐事件会按顺序生成舞台最终阵容", () => {
   });
 });
 
-test("资源键全部从统一清单解析，纪清寒占位立绘指向现有资源", () => {
+test("资源键全部从统一清单解析，纪清寒兼容键指向正式立绘", () => {
   assert.ok(Object.keys(visualAssetManifest).length >= 10);
   const portrait = getVisualAsset("character.ji-qinghan.placeholder");
   assert.equal(portrait.kind, "image");
@@ -311,6 +313,12 @@ test("第二幕条件事件会响应前置选择旗标", () => {
   assert.equal(resolveScenePresentation(aided, scenes.puppets).text.includes("墓门前，你替众人省了一场麻烦"), true);
   assert.match(resolveScenePresentation(base, scenes.puppets).text, /一具丈许高的铜皮傀儡/);
   assert.doesNotMatch(resolveScenePresentation(base, scenes.puppets).text, /四具丈许高|随意将逼近的一具傀儡轰碎/);
+});
+
+test("第二幕甬道使用正式 WebP 而非 CSS 开发占位", () => {
+  const corridor = getVisualAsset("background.tomb-corridor");
+  assert.equal(corridor.kind, "image");
+  if (corridor.kind === "image") assert.equal(corridor.src, "/backgrounds/tomb-corridor-v1.webp");
 });
 
 test("第三幕四条路线各自拥有四个独立固定节点", () => {
@@ -375,7 +383,7 @@ test("第三幕四条路线保持各自的人物主旨", () => {
   }
 });
 
-test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () => {
+test("第三幕正式背景、场景位置与苏衍透明立绘均从资源清单加载", () => {
   const assets = [
     ["background.fog-passage", "/backgrounds/fog-passage-v1.webp"],
     ["background.trap-passage", "/backgrounds/trap-passage-v1.webp"],
@@ -388,8 +396,57 @@ test("第三幕正式背景与苏衍透明立绘均从资源清单加载", () =>
     if (asset.kind === "image") assert.equal(asset.src, src);
   }
   assert.equal(getCharacterExpressionAsset("su-yan", "awakened"), "character.su-yan.awakened");
-  const shadow = resolveScenePresentation({ ...chooseRole(), route: "traitor" }, scenes.traitorTrail);
-  assert.equal(shadow.beats[0]?.background, "background.control-room");
+  const traitorState = { ...chooseRole(), route: "traitor" as const };
+  assert.equal(resolveScenePresentation(traitorState, scenes.traitorTrail).beats[0]?.background, "background.fog-passage");
+  assert.equal(resolveScenePresentation(traitorState, scenes.traitorKnife).beats[0]?.background, "background.trap-passage");
+  assert.equal(resolveScenePresentation(traitorState, scenes.traitorBargain).beats[0]?.background, "background.control-room");
+});
+
+test("四条路线保持关键伤势、道具、信息与旗标连续", () => {
+  const routeSceneIds = {
+    zhao: [...actThreeRouteSceneIds.zhao, ...actFourRouteSceneIds.zhao, ...actFiveRouteSceneIds.zhao],
+    ji: [...actThreeRouteSceneIds.ji, ...actFourRouteSceneIds.ji, ...actFiveRouteSceneIds.ji],
+    su: [...actThreeRouteSceneIds.su, ...actFourRouteSceneIds.su, ...actFiveRouteSceneIds.su],
+    traitor: [...actThreeRouteSceneIds.traitor, ...actFourRouteSceneIds.traitor, ...actFiveRouteSceneIds.traitor],
+  } as const;
+
+  for (const [route, sceneIds] of Object.entries(routeSceneIds)) {
+    const state = { ...chooseRole(), route: route as "zhao" | "ji" | "su" | "traitor", routeLocked: true };
+    for (const sceneId of sceneIds) {
+      const presentation = resolveScenePresentation(state, scenes[sceneId]);
+      for (const beat of presentation.beats) assert.doesNotMatch(beat.text, /\\n/, `${sceneId} 正文含有未解析的换行符`);
+      for (const choice of presentation.choices) assert.doesNotMatch(choice.result ?? "", /\\n/, `${sceneId} 选择结果含有未解析的换行符`);
+    }
+  }
+
+  const zhaoBase = { ...chooseRole("swordsman"), route: "zhao" as const, routeLocked: true };
+  const withScroll = applyChoice(zhaoBase, scenes.zhaoLesson.choices![0]);
+  assert.ok(withScroll.flags.includes("冰寒蛊简"));
+  assert.match(resolveScenePresentation(withScroll, scenes.zhaoThreshold).text, /冰寒蛊简/);
+  const withBloodDemon = applyChoice(withScroll, scenes.zhaoClaim.choices![0]);
+  assert.ok(withBloodDemon.flags.includes("血魔蛊"));
+
+  const jiBase = { ...chooseRole("healer"), route: "ji" as const, routeLocked: true, health: 9 };
+  const bandaged = applyChoice(jiBase, scenes.jiTrail.choices![0]);
+  assert.equal(bandaged.maxHealth, jiBase.maxHealth + 4);
+  assert.equal(bandaged.health, jiBase.health);
+  assert.match(resolveScenePresentation(bandaged, scenes.jiBurden).text, /半截残剑/);
+  assert.match(resolveScenePresentation(bandaged, scenes.jiAftermath).text, /本命蛊.*没有再出现/s);
+
+  const suBase = { ...chooseRole("heir"), route: "su" as const, routeLocked: true };
+  const withOldSeal = applyChoice(suBase, scenes.suInscription.choices![0]);
+  const withBloodKey = applyChoice(withOldSeal, scenes.suLineage.choices![0]);
+  assert.ok(withBloodKey.flags.includes("苏氏旧印"));
+  assert.ok(withBloodKey.flags.includes("苏莹存活"));
+  assert.ok(withBloodKey.flags.includes("苏氏血钥"));
+  assert.match(resolveScenePresentation(withBloodKey, scenes.suThreshold).text, /旧玉.*苏莹/s);
+
+  const traitorBase = { ...chooseRole("heir"), route: "traitor" as const, routeLocked: true };
+  const withDeputySeal = applyChoice(traitorBase, scenes.traitorKnife.choices![0]);
+  assert.ok(withDeputySeal.flags.includes("薛逢已死"));
+  assert.ok(withDeputySeal.flags.includes("牵机副印"));
+  assert.match(resolveScenePresentation(withDeputySeal, scenes.traitorBargain).text, /副印.*乔无咎/s);
+  assert.match(resolveScenePresentation(withDeputySeal, scenes.traitorDiscarded).text, /薛逢临死前.*副印/s);
 });
 
 test("第四、五幕四条路线各自拥有六个高潮节点与两个收束节点", () => {
@@ -529,7 +586,7 @@ test("大雾节点的四种人格分别锁定四条固定路线", () => {
 test("大雾节点在人格唯一领先时只展示对应行动", () => {
   const state = { ...chooseRole(), personality: { power: 3, compassion: 1, insight: 0, scheme: 0 } };
   const choices = resolveScenePresentation(state, scenes.fog).choices;
-  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power"]);
+  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-trapped"]);
   const next = applyChoice(state, choices[0]);
   assert.equal(next.route, "zhao");
   assert.equal(next.routeLocked, true);
@@ -538,8 +595,18 @@ test("大雾节点在人格唯一领先时只展示对应行动", () => {
 test("大雾节点在人格并列时展示多个确认行动", () => {
   const state = { ...chooseRole(), personality: { power: 2, compassion: 0, insight: 2, scheme: 1 } };
   const choices = resolveScenePresentation(state, scenes.fog).choices;
-  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-insight"]);
+  assert.deepEqual(choices.map((choice) => choice.id), ["fog-power", "fog-insight", "fog-trapped"]);
   assert.ok(choices.every((choice) => canChoose(state, choice)));
+});
+
+test("大雾中等待会经公开选择进入超时兜底结局", () => {
+  const state = { ...chooseRole(), personality: { power: 3, compassion: 1, insight: 0, scheme: 0 } };
+  const choice = resolveScenePresentation(state, scenes.fog).choices.find((item) => item.id === "fog-trapped");
+  assert.ok(choice);
+  const next = applyChoice(state, choice);
+  assert.equal(next.sceneId, "ending");
+  assert.equal(next.time, 4);
+  assert.equal(resolveEnding(next), "trapped");
 });
 
 test("权谋人格经薛逢切入乔无咎权谋线", () => {

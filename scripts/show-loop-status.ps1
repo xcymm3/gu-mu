@@ -3,7 +3,9 @@ param()
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $tasksPath = Join-Path $projectRoot 'loop/tasks.json'
+$continuousLockPath = Join-Path $projectRoot 'loop/runtime/continuous.lock.json'
 $lockPath = Join-Path $projectRoot 'loop/runtime/loop.lock.json'
+$checkpointPath = Join-Path $projectRoot 'loop/runtime/checkpoint.json'
 $logsPath = Join-Path $projectRoot 'loop/logs'
 
 if (-not (Test-Path -LiteralPath $tasksPath)) {
@@ -20,12 +22,36 @@ $branch = (& git -C $projectRoot branch --show-current).Trim()
 Write-Host "Gu Mu loop: $($done.Count)/$($tasks.Count) done, $($pending.Count) pending, $($blocked.Count) blocked"
 Write-Host "Branch: $branch"
 
+if (Test-Path -LiteralPath $continuousLockPath) {
+    try {
+        $continuousLock = Get-Content -LiteralPath $continuousLockPath -Raw -Encoding utf8 | ConvertFrom-Json
+        $continuousProcess = Get-Process -Id $continuousLock.pid -ErrorAction SilentlyContinue
+        if ($null -ne $continuousProcess) {
+            Write-Host "Continuous supervisor: running (PID $($continuousLock.pid), cycle $($continuousLock.cycle), model $($continuousLock.model))"
+        }
+        else {
+            Write-Host "Continuous supervisor: stale lock (PID $($continuousLock.pid))"
+        }
+    }
+    catch {
+        Write-Host 'Continuous supervisor: unreadable lock file'
+    }
+}
+else {
+    Write-Host 'Continuous supervisor: stopped'
+}
+
 if (Test-Path -LiteralPath $lockPath) {
     try {
         $lock = Get-Content -LiteralPath $lockPath -Raw -Encoding utf8 | ConvertFrom-Json
         $process = Get-Process -Id $lock.pid -ErrorAction SilentlyContinue
         if ($null -ne $process) {
-            Write-Host "Supervisor: running (PID $($lock.pid), deadline $($lock.deadline))"
+            if ([string]$lock.phase -eq 'preflight') {
+                Write-Host "Supervisor: running preflight (PID $($lock.pid), model $($lock.model))"
+            }
+            else {
+                Write-Host "Supervisor: running $($lock.phase) (PID $($lock.pid), deadline $($lock.deadline), model $($lock.model))"
+            }
         }
         else {
             Write-Host "Supervisor: stale lock (PID $($lock.pid))"
@@ -37,6 +63,22 @@ if (Test-Path -LiteralPath $lockPath) {
 }
 else {
     Write-Host 'Supervisor: stopped'
+}
+
+if (Test-Path -LiteralPath $checkpointPath) {
+    try {
+        $checkpoint = Get-Content -LiteralPath $checkpointPath -Raw -Encoding utf8 | ConvertFrom-Json
+        Write-Host "Checkpoint: $($checkpoint.phase); task $($checkpoint.taskId); outcome $($checkpoint.outcome); updated $($checkpoint.updatedAt)"
+        if (-not [string]::IsNullOrWhiteSpace([string]$checkpoint.deliveryReason)) {
+            Write-Host "Delivery state: $($checkpoint.deliveryReason)"
+        }
+        if (-not [string]::IsNullOrWhiteSpace([string]$checkpoint.stderrLog)) {
+            Write-Host "Checkpoint log: $($checkpoint.stderrLog)"
+        }
+    }
+    catch {
+        Write-Host 'Checkpoint: unreadable'
+    }
 }
 
 if ($blocked.Count -gt 0) {

@@ -9,7 +9,7 @@ import { zhaoRouteScenes } from "./routes/zhao.ts";
 
 export const storyMeta = {
   title: "血蛊引",
-  subtitle: "夜雨蛊市 · 五人入墓",
+  subtitle: "夜雨蛊市 · 六人入墓",
   acts: [
     { act: 1, name: "聚", nodes: 3 },
     { act: 2, name: "入", nodes: 7 },

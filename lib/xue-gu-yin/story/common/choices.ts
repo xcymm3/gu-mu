@@ -177,12 +177,19 @@ export const fogRouteChoices: Choice[] = [
     requires: { dominantPersonality: "scheme" },
     effect: { route: "traitor" },
   },
+  {
+    id: "fog-trapped",
+    label: "留在原地等浓雾与机关自行停歇",
+    next: "ending",
+    result: "你没有追向雾中任何一道声响，只贴着尚未翻转的石壁停下，打算等机关耗尽阵力。\n\n最初一刻，四周的齿轮声确实渐渐远去。可浓雾没有散，脚下石板反而一层层沉入更深的墓道。你循来路摸索数次，每一次都只回到同一处断裂的石梁前。\n\n等血雾从内墓漫到这里，墓门早已在无人看守的雨夜里彻底合拢。",
+    effect: { time: 4 },
+  },
 ];
 
 export function resolveFogRouteChoices(state: GameState): Choice[] {
   const dominant = new Set(resolveDominantPersonalities(state.personality));
   return fogRouteChoices.filter((choice) => (
-    choice.requires?.dominantPersonality
-    && dominant.has(choice.requires.dominantPersonality)
+    !choice.requires?.dominantPersonality
+    || dominant.has(choice.requires.dominantPersonality)
   ));
 }

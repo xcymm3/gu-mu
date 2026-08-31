@@ -4,7 +4,8 @@ import path from "node:path";
 import test from "node:test";
 
 import { visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
-import { chooseRole, endingAccess, endings, resolveEnding, scenes } from "../lib/xue-gu-yin/game.ts";
+import { audioAssetManifest } from "../lib/xue-gu-yin/audio.ts";
+import { chooseRole, endingAccess, endings, resolveEnding, scenes, storyMeta } from "../lib/xue-gu-yin/game.ts";
 import { canonicalReleasePaths, releaseMeta, validateCanonicalPaths, validateEndingAccess, validateStoryGraph } from "../lib/xue-gu-yin/release.ts";
 import { createSaveSlot, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT } from "../lib/xue-gu-yin/save.ts";
 
@@ -14,6 +15,17 @@ test("发布版本使用预发布语义版本号", () => {
   assert.match(releaseMeta.version, /^\d+\.\d+\.\d+-rc\.\d+$/);
   const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), "package.json"), "utf8")) as { version: string };
   assert.equal(packageJson.version, releaseMeta.version);
+});
+
+test("发布清单与代码标题、版本、路线和结局数量一致", () => {
+  const checklist = readFileSync(path.join(process.cwd(), "docs", "RELEASE-CHECKLIST.md"), "utf8");
+  assert.ok(checklist.includes(`# 《${storyMeta.title}》发布检查清单`));
+  assert.ok(checklist.includes(`当前候选版本：\`${releaseMeta.version}\``));
+  assert.equal(Object.keys(canonicalReleasePaths).length, 4);
+  assert.ok(checklist.includes("四条正式路线"));
+  assert.equal(Object.keys(endings).length, 9);
+  assert.ok(checklist.includes("九个登记结局"));
+  assert.doesNotMatch(checklist, /血蛊醒|六条基准路径/);
 });
 
 test("全部场景可从墓门抵达且没有悬空跳转", () => {
@@ -69,7 +81,10 @@ test("损坏或旧格式存档不会进入六个有效槽位", () => {
   assert.deepEqual(normalizeSaveSlots("bad"), Array.from({ length: SAVE_SLOT_COUNT }, () => null));
 });
 
-test("发布资源均存在且满足单文件与总体积预算", () => {
+test("发布视觉资源均为正式图片且满足单文件与总体积预算", () => {
+  for (const [key, asset] of Object.entries(visualAssetManifest)) {
+    assert.equal(asset.kind, "image", `${key} 仍在使用开发期 CSS 占位资源`);
+  }
   const sources = [...new Set(Object.values(visualAssetManifest).flatMap((asset) => asset.kind === "image" ? [asset.src] : []))];
   let total = 0;
   for (const source of sources) {
@@ -80,6 +95,47 @@ test("发布资源均存在且满足单文件与总体积预算", () => {
     assert.ok(bytes <= 600_000, `${source} 超过 600 KB：${bytes}`);
   }
   assert.ok(total <= 4_500_000, `视觉资源总量超过 4.5 MB：${total}`);
+});
+
+test("原创本地音频均可读取且满足单文件与总体积预算", () => {
+  let total = 0;
+  for (const [key, asset] of Object.entries(audioAssetManifest)) {
+    const file = path.join(process.cwd(), "public", asset.src.replace(/^\//, ""));
+    assert.equal(existsSync(file), true, `${asset.src} 不存在`);
+    const bytes = statSync(file).size;
+    total += bytes;
+    assert.ok(bytes <= 600_000, `${asset.src} 超过 600 KB：${bytes}`);
+    const header = readFileSync(file).subarray(0, 12);
+    assert.equal(header.subarray(0, 4).toString("ascii"), "RIFF", `${asset.src} 缺少 RIFF 文件头`);
+    assert.equal(header.subarray(8, 12).toString("ascii"), "WAVE", `${asset.src} 缺少 WAVE 文件头`);
+    const wave = readFileSync(file);
+    assert.equal(wave.readUInt16LE(20), 1, `${asset.src} 必须使用 PCM 编码`);
+    assert.equal(wave.readUInt16LE(22), 1, `${asset.src} 必须使用单声道以控制体积`);
+    assert.equal(wave.readUInt32LE(24), 22_050, `${asset.src} 的采样率不一致`);
+    assert.equal(wave.readUInt16LE(34), 16, `${asset.src} 必须使用 16 位采样`);
+    const sampleCount = (wave.length - 44) / 2;
+    let peak = 0;
+    let squareSum = 0;
+    for (let offset = 44; offset < wave.length; offset += 2) {
+      const sample = wave.readInt16LE(offset);
+      peak = Math.max(peak, Math.abs(sample));
+      squareSum += sample * sample;
+    }
+    const duration = sampleCount / 22_050;
+    const rms = Math.sqrt(squareSum / sampleCount);
+    assert.ok(peak >= 4_000 && peak < 32_000, `${asset.src} 的峰值异常：${peak}`);
+    assert.ok(rms >= 1_000 && rms <= 12_000, `${asset.src} 的 RMS 异常：${rms}`);
+    assert.ok(asset.loop ? duration >= 8 : duration < 1, `${asset.src} 的时长与循环属性不一致：${duration}`);
+    assert.equal(asset.channel === "sfx", !asset.loop, `${key} 的循环属性与声道不一致`);
+    assert.ok(asset.fallback, `${key} 缺少加载失败回退`);
+  }
+  assert.ok(total <= 2_600_000, `音频资源总量超过 2.6 MB：${total}`);
+});
+
+test("主菜单复用正式纪清寒立绘且不再引用旧占位文件", () => {
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
+  assert.match(game, /menu-character[\s\S]{0,240}src="\/characters\/ji-qinghan-v1\.webp"/);
+  assert.doesNotMatch(game, /ji-qinghan-placeholder\.webp/);
 });
 
 test("手机端使用横屏视觉小说舞台并在竖屏提示旋转", () => {

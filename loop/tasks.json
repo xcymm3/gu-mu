@@ -1,12 +1,16 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "《血蛊引》美术优化与全流程自动试玩",
-  "updatedAt": "2026-08-28T09:32:00+08:00",
+  "updatedAt": "2026-08-29T11:11:00+08:00",
   "timebox": {
-    "hours": 2,
-    "maxIterations": 8,
-    "iterationTimeoutMinutes": 16,
-    "shutdownBufferSeconds": 20
+    "cycleHours": 2,
+    "maxTaskAttemptsPerCycle": 3,
+    "iterationTimeoutMinutes": 50,
+    "deliveryBufferMinutes": 8,
+    "preflightTimeoutMinutes": 20,
+    "maxInfrastructureRetries": 2,
+    "shutdownBufferSeconds": 60,
+    "model": "gpt-5.6-sol"
   },
   "tasks": [
     {
@@ -15,15 +19,18 @@
       "status": "done",
       "dependsOn": [],
       "acceptance": [
-        "Loop 具备两小时硬截止、单轮超时、停止文件、互斥锁、速率限制检测和干净工作区保护",
-        "每轮使用全新 ephemeral Codex CLI 会话并只写专用工作分支",
+        "Loop 具备滚动两小时周期、单轮超时、停止文件、互斥锁、速率限制检测和干净工作区保护",
+        "周期结束或达到单周期尝试上限后自动续接，直到全部任务完成或出现明确阻塞",
+        "任务完成但尚未提交或推送时进入可恢复交付状态，并在下一轮优先续接",
+        "工作周期在计时前完成环境预检，使用结构化检查点恢复，并将基础设施重试与语义任务失败分离",
+        "每轮显式使用 gpt-5.6-sol 的 ephemeral Codex CLI 会话并只写专用工作分支",
         "pnpm loop:dry-run、pnpm loop:status 与 pnpm verify:fast 全部通过"
       ]
     },
     {
       "id": "GM2H-001",
       "title": "建立真实浏览器自动试玩基础设施",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-000"],
       "acceptance": [
         "引入 Playwright 或等价的本地浏览器测试，并纳入 pnpm verify",
@@ -34,7 +41,7 @@
     {
       "id": "GM2H-002",
       "title": "覆盖全路线与全部结局自动试玩",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-001"],
       "acceptance": [
         "四条正式路线均至少有一条真实浏览器通关路径",
@@ -45,7 +52,7 @@
     {
       "id": "GM2H-003",
       "title": "建立视觉基线并修复布局与可访问性缺陷",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-001"],
       "acceptance": [
         "关键界面在桌面和移动目标视口生成可复现截图",
@@ -56,7 +63,7 @@
     {
       "id": "GM2H-004",
       "title": "统一背景立绘与声音资源质量",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-003"],
       "acceptance": [
         "审计并处理仍在使用的开发占位背景和明显不一致的角色表现",
@@ -67,7 +74,7 @@
     {
       "id": "GM2H-005",
       "title": "逐路线审查并修正剧情连续性",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-002"],
       "acceptance": [
         "四条路线逐节点检查人物动机、信息、位置、伤势、道具和旗标连续性",
@@ -78,7 +85,7 @@
     {
       "id": "GM2H-006",
       "title": "完成全流程回归与诚实交付",
-      "status": "pending",
+      "status": "done",
       "dependsOn": ["GM2H-002", "GM2H-004", "GM2H-005"],
       "acceptance": [
         "从干净安装执行 pnpm verify、生产构建和 npm registry 生产依赖审计全部通过",

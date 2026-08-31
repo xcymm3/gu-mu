@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import {
   audioAssetManifest,
   defaultAudioSettings,
+  type AmbienceAssetKey,
   type AudioAssetKey,
+  type AudioAssetDescriptor,
   type AudioSettings,
+  type MusicAssetKey,
   type SceneAudioProfile,
   type SfxAssetKey,
 } from "@/lib/xue-gu-yin/audio";
@@ -28,15 +31,19 @@ export class VisualNovelAudioEngine {
   private sfxBus: GainNode | null = null;
   private musicLoop: ActiveLoop | null = null;
   private ambienceLoop: ActiveLoop | null = null;
-  private currentMusic: AudioAssetKey | null = null;
-  private currentAmbience: AudioAssetKey | null = null;
+  private currentMusic: MusicAssetKey | null = null;
+  private currentAmbience: AmbienceAssetKey | null = null;
   private desiredProfile: SceneAudioProfile | null = null;
   private settings: AudioSettings = defaultAudioSettings;
+  private bufferCache = new Map<AudioAssetKey, Promise<AudioBuffer | null>>();
+  private musicRevision = 0;
+  private ambienceRevision = 0;
 
   async unlock() {
     if (!this.context) this.createContext();
     if (this.context?.state === "suspended") await this.context.resume();
     if (this.desiredProfile) this.applyScene(this.desiredProfile);
+    void this.loadBuffer("sfx.ui-confirm");
   }
 
   configure(settings: AudioSettings) {
@@ -55,20 +62,8 @@ export class VisualNovelAudioEngine {
   }
 
   playSfx(key: SfxAssetKey) {
-    const descriptor = audioAssetManifest[key];
-    if (!this.context || !this.sfxBus || this.context.state !== "running" || descriptor.kind !== "tone") return;
-    const now = this.context.currentTime;
-    const oscillator = this.context.createOscillator();
-    const envelope = this.context.createGain();
-    oscillator.type = descriptor.waveform;
-    oscillator.frequency.setValueAtTime(descriptor.frequency, now);
-    oscillator.frequency.exponentialRampToValueAtTime(Math.max(1, descriptor.endFrequency), now + descriptor.duration);
-    envelope.gain.setValueAtTime(0.0001, now);
-    envelope.gain.exponentialRampToValueAtTime(0.72, now + 0.012);
-    envelope.gain.exponentialRampToValueAtTime(0.0001, now + descriptor.duration);
-    oscillator.connect(envelope).connect(this.sfxBus);
-    oscillator.start(now);
-    oscillator.stop(now + descriptor.duration + 0.02);
+    if (!this.context || !this.sfxBus || this.context.state !== "running") return;
+    void this.playFileSfx(key);
   }
 
   destroy() {
@@ -78,6 +73,9 @@ export class VisualNovelAudioEngine {
     this.ambienceLoop = null;
     this.currentMusic = null;
     this.currentAmbience = null;
+    this.musicRevision += 1;
+    this.ambienceRevision += 1;
+    this.bufferCache.clear();
     if (this.context && this.context.state !== "closed") void this.context.close();
     this.context = null;
   }
@@ -99,39 +97,76 @@ export class VisualNovelAudioEngine {
   private applyScene(profile: SceneAudioProfile) {
     if (profile.music !== this.currentMusic) {
       this.stopLoop(this.musicLoop, 0.65);
-      this.musicLoop = this.startDrone(profile.music);
+      this.musicLoop = null;
       this.currentMusic = profile.music;
+      const revision = ++this.musicRevision;
+      void this.startFileLoop(profile.music, "music").then((loop) => {
+        if (!loop) return;
+        if (revision !== this.musicRevision || profile.music !== this.currentMusic) {
+          this.stopLoop(loop, 0);
+          return;
+        }
+        this.musicLoop = loop;
+      });
     }
     if (profile.ambience !== this.currentAmbience) {
       this.stopLoop(this.ambienceLoop, 0.45);
-      this.ambienceLoop = this.startNoise(profile.ambience);
+      this.ambienceLoop = null;
       this.currentAmbience = profile.ambience;
+      const revision = ++this.ambienceRevision;
+      void this.startFileLoop(profile.ambience, "ambience").then((loop) => {
+        if (!loop) return;
+        if (revision !== this.ambienceRevision || profile.ambience !== this.currentAmbience) {
+          this.stopLoop(loop, 0);
+          return;
+        }
+        this.ambienceLoop = loop;
+      });
     }
   }
 
-  private startDrone(key: AudioAssetKey): ActiveLoop | null {
+  private async startFileLoop(key: MusicAssetKey | AmbienceAssetKey, channel: "music" | "ambience"): Promise<ActiveLoop | null> {
     const descriptor = audioAssetManifest[key];
-    if (!this.context || !this.musicBus || descriptor.kind !== "drone") return null;
+    const buffer = await this.loadBuffer(key);
+    if (!this.context || this.context.state === "closed") return null;
+    const bus = channel === "music" ? this.musicBus : this.ambienceBus;
+    if (!bus) return null;
+    if (!buffer) return this.startFallbackLoop(descriptor.fallback, bus);
+
     const gain = this.context.createGain();
     const now = this.context.currentTime;
     gain.gain.setValueAtTime(0.0001, now);
     gain.gain.exponentialRampToValueAtTime(1, now + 0.8);
-    gain.connect(this.musicBus);
-    const sources = descriptor.frequencies.map((frequency, index) => {
-      const oscillator = this.context!.createOscillator();
-      oscillator.type = descriptor.waveform;
-      oscillator.frequency.value = frequency;
-      oscillator.detune.value = index % 2 ? -4 : 3;
-      oscillator.connect(gain);
-      oscillator.start();
-      return oscillator;
-    });
-    return { gain, sources };
+    gain.connect(bus);
+    const source = this.context.createBufferSource();
+    source.buffer = buffer;
+    source.loop = descriptor.loop;
+    source.connect(gain);
+    source.start();
+    return { gain, sources: [source] };
   }
 
-  private startNoise(key: AudioAssetKey): ActiveLoop | null {
-    const descriptor = audioAssetManifest[key];
-    if (!this.context || !this.ambienceBus || descriptor.kind !== "noise") return null;
+  private startFallbackLoop(fallback: AudioAssetDescriptor["fallback"], bus: GainNode): ActiveLoop | null {
+    if (!this.context) return null;
+    if (fallback.kind === "drone") {
+      const gain = this.context.createGain();
+      const now = this.context.currentTime;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(1, now + 0.8);
+      gain.connect(bus);
+      const sources = fallback.frequencies.map((frequency, index) => {
+        const oscillator = this.context!.createOscillator();
+        oscillator.type = fallback.waveform;
+        oscillator.frequency.value = frequency;
+        oscillator.detune.value = index % 2 ? -4 : 3;
+        oscillator.connect(gain);
+        oscillator.start();
+        return oscillator;
+      });
+      return { gain, sources };
+    }
+    if (fallback.kind !== "noise") return null;
+
     const length = this.context.sampleRate * 2;
     const buffer = this.context.createBuffer(1, length, this.context.sampleRate);
     const data = buffer.getChannelData(0);
@@ -147,15 +182,14 @@ export class VisualNovelAudioEngine {
     source.buffer = buffer;
     source.loop = true;
     filter.type = "lowpass";
-    filter.frequency.value = descriptor.filterFrequency;
+    filter.frequency.value = fallback.filterFrequency;
     gain.gain.value = 1;
-    source.connect(filter).connect(gain).connect(this.ambienceBus);
+    source.connect(filter).connect(gain).connect(bus);
     const sources: AudioScheduledSourceNode[] = [source];
-    const pulseHz = "pulseHz" in descriptor ? descriptor.pulseHz : undefined;
-    if (pulseHz) {
+    if (fallback.pulseHz) {
       const pulse = this.context.createOscillator();
       const pulseDepth = this.context.createGain();
-      pulse.frequency.value = pulseHz;
+      pulse.frequency.value = fallback.pulseHz;
       pulseDepth.gain.value = 0.28;
       pulse.connect(pulseDepth).connect(gain.gain);
       pulse.start();
@@ -163,6 +197,53 @@ export class VisualNovelAudioEngine {
     }
     source.start();
     return { gain, sources };
+  }
+
+  private async playFileSfx(key: SfxAssetKey) {
+    const descriptor = audioAssetManifest[key];
+    const buffer = await this.loadBuffer(key);
+    if (!this.context || !this.sfxBus || this.context.state !== "running") return;
+    if (!buffer) {
+      if (descriptor.fallback.kind === "tone") this.playToneFallback(descriptor.fallback);
+      return;
+    }
+    const source = this.context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(this.sfxBus);
+    source.start();
+  }
+
+  private playToneFallback(descriptor: Extract<AudioAssetDescriptor["fallback"], { kind: "tone" }>) {
+    if (!this.context || !this.sfxBus) return;
+    const now = this.context.currentTime;
+    const oscillator = this.context.createOscillator();
+    const envelope = this.context.createGain();
+    oscillator.type = descriptor.waveform;
+    oscillator.frequency.setValueAtTime(descriptor.frequency, now);
+    oscillator.frequency.exponentialRampToValueAtTime(Math.max(1, descriptor.endFrequency), now + descriptor.duration);
+    envelope.gain.setValueAtTime(0.0001, now);
+    envelope.gain.exponentialRampToValueAtTime(0.72, now + 0.012);
+    envelope.gain.exponentialRampToValueAtTime(0.0001, now + descriptor.duration);
+    oscillator.connect(envelope).connect(this.sfxBus);
+    oscillator.start(now);
+    oscillator.stop(now + descriptor.duration + 0.02);
+  }
+
+  private loadBuffer(key: AudioAssetKey): Promise<AudioBuffer | null> {
+    const cached = this.bufferCache.get(key);
+    if (cached) return cached;
+    const promise = this.fetchAndDecode(key).catch(() => null);
+    this.bufferCache.set(key, promise);
+    return promise;
+  }
+
+  private async fetchAndDecode(key: AudioAssetKey): Promise<AudioBuffer | null> {
+    const context = this.context;
+    if (!context || context.state === "closed") return null;
+    const response = await fetch(audioAssetManifest[key].src);
+    if (!response.ok) throw new Error(`Audio asset ${key} returned ${response.status}`);
+    const data = await response.arrayBuffer();
+    return context.decodeAudioData(data);
   }
 
   private stopLoop(loop: ActiveLoop | null, fadeSeconds: number) {

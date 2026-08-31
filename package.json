@@ -12,6 +12,7 @@
     "install:e2e:browser": "playwright install chromium",
     "test:e2e": "pnpm build && pnpm test:e2e:run",
     "test:e2e:run": "playwright test",
+    "test:e2e:production": "playwright test --config=playwright.production.config.ts",
     "verify:fast": "pnpm test && pnpm lint && pnpm build",
     "verify": "pnpm verify:fast && pnpm test:e2e:run",
     "loop:start": "pwsh -NoLogo -NoProfile -File ./scripts/run-continuous-loop.ps1",

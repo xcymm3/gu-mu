@@ -10,9 +10,9 @@
 
 ```powershell
 pnpm install --frozen-lockfile
-pnpm test
-pnpm lint
-pnpm build
+pnpm exec playwright install chromium
+pnpm verify
+pnpm audit --prod --registry=https://registry.npmjs.org
 ```
 
 `pnpm test` 同时检查：
@@ -24,7 +24,7 @@ pnpm build
 - 战斗平衡设计，其中游方蛊医不能击败苏衍属于预期规则；
 - 所有登记图片存在，单文件不超过 600 KB，总视觉资源不超过 4.5 MB。
 
-GitHub Actions 的 `Quality Gate` 会在推送到 `master` 和拉取请求时重复执行上述四项命令。
+GitHub Actions 的 `Quality Gate` 会在推送到 `master` 和拉取请求时执行冻结安装、完整 Node／Lint／构建／Chromium 回归与生产依赖审计；浏览器失败证据会作为 Actions artifact 保留。
 
 ## 人工验收矩阵
 
@@ -63,10 +63,11 @@ GitHub Actions 的 `Quality Gate` 会在推送到 `master` 和拉取请求时重
 ## 发布与回滚
 
 1. 确认工作区干净并记录发布提交哈希；
-2. 推送 `master`，等待 GitHub `Quality Gate` 与 Vercel Production 部署均成功；
-3. 从公网域名执行一次主菜单、开始游戏、存档和读取冒烟测试；
-4. 若出现阻断问题，在 Vercel 重新部署上一个稳定提交 `edc23a1`，或对本次发布提交执行 `git revert <发布提交哈希>` 后推送；
-5. 不使用 `reset --hard` 回滚线上版本，确保发布历史可追溯。
+2. 通过 PR 合并到 `master`，等待 GitHub `Quality Gate` 与 Vercel Production 部署均成功；
+3. `Production Smoke` 会等待 `/release.json` 与目标提交 SHA 一致，再从公网域名验证首页、正式立绘、开始游戏、快速存档和读取；
+4. 为通过生产冒烟的提交创建稳定 tag，并在 GitHub Release 记录本次范围；
+5. 若出现阻断问题，优先在 Vercel 重新部署上一个稳定 tag，或对本次发布提交执行 `git revert <发布提交哈希>` 后推送；
+6. 不使用 `reset --hard` 回滚线上版本，确保发布历史可追溯。
 
 ## 本候选版已知边界
 

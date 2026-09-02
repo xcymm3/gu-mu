@@ -1,164 +1,193 @@
 {
   "task_id": "visual-art-expansion-v1",
   "phase": "verify",
-  "verified_at": "2026-09-02T13:12:43.3632784+08:00",
-  "verified_head": "fb24808a06f7e6ef86e5ed7e62c1f9f77ea9e0ca",
+  "verified_at": "2026-09-02T13:40:17.9339946+08:00",
+  "verified_head": "4999c1ef6d59617308d6edb8ccf94ffa615170fa",
   "overall_verdict": "PASS",
-  "summary": "Fresh independent verification passes AC1–AC12 on the current repository state. The prescribed unit, lint, production build, complete and isolated Playwright, WebP decode, hash/size, formal-art, JSON, proof-structure, and deadline-carl gates all pass. Independent visual review covers all four contact sheets, current route/ending/save/combat evidence, the repaired four-viewport home surfaces, and additional read-only 1920x1080 plus 844x390 battle/CG/ending checks. No production or evidence gap remains.",
+  "summary": "Fresh independent verification passes AC1-AC12 on the current repository state. Unit, lint, production static build, complete and isolated Playwright, static visual proof, full WebP decode, hash/size, output, JSON, repository proof, and deadline-carl gates all exit 0. Independent inspection of the four regenerated contact sheets, representative original-resolution assets, contract viewport captures, route/ending frames, and save/combat frames finds no release-blocking visual defect. No non-PASS criterion exists, so problems.md is not required.",
   "criteria": [
     {
       "id": "AC1",
       "status": "PASS",
-      "reason": "The typed manifest enumerates exactly 56 formal assets across four categories. Fresh unit/static audits, 64-file decode/hash checks, complete runtime matrices, and production browser tests confirm existing paths, unique hashes, successful requests, runtime reachability, and no forbidden token in any formal key/path/alt; rg candidates are confined to non-art fallbacks, legacy CSS typing, negative tests, proof screenshots, and SVG MIME handling."
+      "reason": "The typed production contract and fresh static/runtime checks enumerate 56 formal assets across character, CG, UI, and effect categories. Files resolve and decode, hashes are unique, character and CG matrices have zero missing keys, browser requests succeed, and forbidden-pattern candidates are confined to non-formal fallbacks, legacy CSS, negative tests, screenshot capture code, and SVG MIME handling."
     },
     {
       "id": "AC2",
       "status": "PASS",
-      "reason": "Fresh unit and public-UI browser coverage confirm all 30 character-state keys with no missing runtime entry. Independent inspection of the contact sheet and representative originals confirms stable identities, clothing, palettes, silhouettes, readable state changes, usable transparency, and no release-blocking watermark, text, anatomy, costume, or crop defect."
+      "reason": "Fresh public-UI coverage records all 30 expected character-state keys with 30 visible entries and no missing key. Independent review of the 30-cell sheet and representative originals confirms recognizable identities, distinct state semantics, usable transparency, consistent costumes and silhouettes, and no release-blocking watermark, text, anatomy, crop, or identity defect."
     },
     {
       "id": "AC3",
       "status": "PASS",
-      "reason": "The production suite freshly reaches all seven scene CGs and nine unique ending CGs through public UI with no missing keys or diagnostics. The 16-cell sheet and runtime frames are distinct, narratively aligned, consistently styled, and unstretched; supplemental 1920x1080 and 844x390 checks keep representative CG and ending subjects readable with zero overflow."
+      "reason": "Fresh production E2E reaches the seven required scene CGs and nine ending CGs through public UI, with 16/16 runtime entries and no missing key. The 16-cell sheet and captured pages show distinct, narratively readable, consistently styled compositions without stretch or decisive text, watermark, modern-object, or relationship contradiction."
     },
     {
       "id": "AC4",
       "status": "PASS",
-      "reason": "Three unique formal UI artworks render at all four contract viewports. Fresh browser assertions pass control reachability, no overflow, fixed-header hit testing, non-overlapping settings groups, scroll-bottom reachability, focus-visible behavior, and preserved states/content; visual inspection confirms a coherent tomb/gu dark-Chinese language and readable panels."
+      "reason": "Three unique formal UI artworks render for main menu, settings, and saves at all four contract viewports. Fresh assertions pass reachability, overflow, settings-group separation, bounded scrolling, fixed-header hit testing, focus behavior, and retained content; inspected captures keep controls readable and preserve the tomb, gu, ink, bronze, and blood-red visual language."
     },
     {
       "id": "AC5",
       "status": "PASS",
-      "reason": "Fresh browser runs observe all six player effects before the enemy response, with continued turns, request-abort fallback, and reduced-motion recovery. Source inspection confirms 520 ms normal and 120 ms reduced phases. Supplemental 1920x1080 and 844x390 checks measure effect z-index 4 below dialogue 5 and controls 7, pointer-events none, bounded images, and readable opposing directions."
+      "reason": "Fresh browser runs cover six player bitmap effects followed by the enemy effect, continued turns, request-abort fallback, and reduced motion. Captured effects are distinct and directionally readable above the stage while dialogue and controls remain legible; the automated timing, ordering, layer, pointer-event, recovery, and reduced-motion assertions pass."
     },
     {
       "id": "AC6",
       "status": "PASS",
-      "reason": "art-generation.json has 56 unique records, exactly one adopted ImageGen output per record, 56 unique adopted output IDs, complete prompts, allowed post-processing, inspections, and 56 retained originals. Independent review of all four contact sheets and representative originals finds coherent semi-realistic dark Chinese-fantasy art without a decisive watermark, generated text, modern object, anatomy, alpha, or narrative defect."
+      "reason": "art-generation.json contains 56 records, 56 adopted ImageGen calls with unique output IDs, complete prompts, allowed post-processing, inspection metadata, and 56 retained originals. Independent inspection of all four contact sheets and representative full-size character, CG, UI, and effect files finds coherent semi-realistic dark Chinese-fantasy art without a release-blocking watermark, generated text, brand mark, anatomy, alpha, or narrative defect."
     },
     {
       "id": "AC7",
       "status": "PASS",
-      "reason": "Fresh ImageMagick verification decodes all 64 release WebPs. The formal audit passes 56 unique hashes, class dimensions/alpha/byte limits, and 5,165,122 total bytes; independent grouping finds zero duplicate SHA-256 groups. Fresh browser evidence reports one homepage image request totaling 33,040 bytes with no eager matrix preload."
+      "reason": "ImageMagick freshly decodes all 64 release WebPs. The formal audit passes 56 unique hashes and 5,165,122 total bytes with all class thresholds satisfied; the broader four-directory audit finds zero duplicate SHA-256 groups. Fresh homepage evidence records one image request and 33,040 transferred bytes, far below the frozen limits, with no eager matrix preload."
     },
     {
       "id": "AC8",
       "status": "PASS",
-      "reason": "Fresh browser suites pass four viewports, deterministic screenshots, overflow, 844x390 settings scrolling/hit testing, portrait prompt, focus, contrast, touch targets, and reduced motion. Independent screenshot review plus supplemental 1920x1080 and 844x390 gameplay runs show no overflow, clipped primary control, stretch, or release-blocking obstruction."
+      "reason": "Fresh production suites pass deterministic coverage at 1366x768, 1920x1080, 844x390, and 390x844, including no global overflow, mobile rotation prompt, settings scroll reachability and hit testing, keyboard focus, and reduced motion. Independent capture review finds no clipped primary control, unsafe overlap, visible stretch, or release-blocking obstruction."
     },
     {
       "id": "AC9",
       "status": "PASS",
-      "reason": "The fresh 16-test production suite passes all four routes, seven required nodes, and nine endings through public UI against the newly built out/ export. Runtime matrices contain 30/30 character and 16/16 CG entries with no missing key, and captured pages identify the active scene/ending and mapped asset."
+      "reason": "The fresh 16-test production suite passes all four formal routes, seven required nodes, and nine endings through public UI against the newly built out/ export. Runtime reports contain 30/30 character and 16/16 CG entries with no missing key, while captured pages identify the active node or ending together with its mapped formal art."
     },
     {
       "id": "AC10",
       "status": "PASS",
-      "reason": "Fresh unit and production browser coverage passes six-slot manual behavior, quick save/load, return-to-menu reload, version-6 missing-visual-metadata compatibility, scene/battle/resource restoration, all required actions/effects, degradation, reduced motion, and victory/failure flows without changing frozen combat or save semantics."
+      "reason": "Fresh unit and production browser coverage passes six-slot manual save/load behavior, quick save/load, return-to-menu reload, version-6 missing-visual-metadata compatibility, scene and battle restoration, all required actions and effects, request degradation, reduced motion, and victory/failure flows without changing frozen save or combat semantics."
     },
     {
       "id": "AC11",
       "status": "PASS",
-      "reason": "All current-state gates pass: pnpm test 98/98, pnpm lint, pnpm build with fresh out/index.html, pnpm test:e2e:run 16/16, isolated visual-art Playwright 5/5, and proof:visual:static for 56 unique assets and four contact sheets. No test was skipped or weakened."
+      "reason": "All current-state gates pass without skips: pnpm test 98/98, pnpm lint, pnpm build with a fresh out/index.html, pnpm test:e2e:run 16/16, isolated visual-art Playwright 5/5, and proof:visual:static for 56 unique formal assets and four contact sheets."
     },
     {
       "id": "AC12",
       "status": "PASS",
-      "reason": "evidence.json parses, all fixed proof paths exist, the refreshed manual review is consistent with the fb24808 evidence state, scripts/validate-task-proof.mjs reports PASS, and deadline-carl reports valid=true with no missing file or schema error. Criterion statuses, commands, paths, and gaps are complete and internally consistent."
+      "reason": "evidence.json parses, every fixed proof path is present, required raw matrices, screenshots, contact sheets, fixture, checkpoints, and manual review exist, and production code has not changed since the reviewed 840d8ad implementation commit. scripts/validate-task-proof.mjs reports PASS and deadline-carl reports valid=true with no missing file or schema error."
     }
   ],
   "commands_run": [
     {
       "command": "git status --short",
+      "started_at": "2026-09-02T13:14:00+08:00",
+      "ended_at": "2026-09-02T13:14:01+08:00",
       "exit_code": 0,
-      "result": "Only pre-existing unrelated AGENTS.md/.hallmark changes and supervisor-owned untracked .agent/durable-loop and .codex paths were present initially."
+      "result": "Initial worktree contained only pre-existing unrelated AGENTS.md/.hallmark changes and supervisor-owned untracked .agent/durable-loop and .codex paths. Required browser/static proof commands subsequently refreshed generated raw proof artifacts only."
     },
     {
       "command": "pnpm test",
+      "started_at": "2026-09-02T13:17:46.0522351+08:00",
+      "ended_at": "2026-09-02T13:17:49.6928063+08:00",
       "exit_code": 0,
-      "duration_seconds": 2.19,
-      "result": "98/98 tests passed."
+      "duration_seconds": 3.64,
+      "result": "98/98 tests passed; 0 failed, skipped, or todo."
     },
     {
       "command": "pnpm lint",
+      "started_at": "2026-09-02T13:17:54.8112231+08:00",
+      "ended_at": "2026-09-02T13:18:12.1890083+08:00",
       "exit_code": 0,
-      "duration_seconds": 11.90,
+      "duration_seconds": 17.38,
       "result": "ESLint passed."
     },
     {
       "command": "pnpm build",
+      "started_at": "2026-09-02T13:18:17.6096202+08:00",
+      "ended_at": "2026-09-02T13:18:42.0137670+08:00",
       "exit_code": 0,
-      "duration_seconds": 12.54,
+      "duration_seconds": 24.40,
       "result": "Next.js 16.3.0 production build and static export passed."
     },
     {
       "command": "pnpm test:e2e:run",
+      "started_at": "2026-09-02T13:18:49.0154909+08:00",
+      "ended_at": "2026-09-02T13:31:11.9743225+08:00",
       "exit_code": 0,
-      "duration_seconds": 444,
-      "result": "16/16 Playwright tests passed against the fresh static export in 7.4 minutes."
+      "duration_seconds": 742.96,
+      "result": "16/16 Playwright tests passed against the fresh out/ export in 12.3 minutes."
     },
     {
       "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line",
+      "started_at": "2026-09-02T13:34:13.5045030+08:00",
+      "ended_at": "2026-09-02T13:35:04.8180099+08:00",
       "exit_code": 0,
-      "duration_seconds": 34.3,
+      "duration_seconds": 51.31,
       "result": "5/5 isolated visual-art tests passed."
     },
     {
+      "command": "Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -Filter *.webp | ForEach-Object { magick identify -verbose $_.FullName; if ($LASTEXITCODE -ne 0) { throw ... } }",
+      "started_at": "2026-09-02T13:35:29.1971332+08:00",
+      "ended_at": "2026-09-02T13:36:08.4266856+08:00",
+      "exit_code": 0,
+      "duration_seconds": 39.23,
+      "result": "64/64 discovered WebP files decoded; complete 170,562-byte stdout/stderr record captured during the run."
+    },
+    {
+      "command": "Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -File | Get-FileHash -Algorithm SHA256",
+      "started_at": "2026-09-02T13:36:21.2388404+08:00",
+      "ended_at": "2026-09-02T13:36:21.4456608+08:00",
+      "exit_code": 0,
+      "result": "64 files enumerated; independent grouping found zero duplicate hash groups."
+    },
+    {
+      "command": "Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -File | Select-Object FullName,Length",
+      "started_at": "2026-09-02T13:39:36.2023137+08:00",
+      "ended_at": "2026-09-02T13:39:36.4143707+08:00",
+      "exit_code": 0,
+      "result": "64 release files enumerated, totaling 7,591,786 bytes including eight non-contract legacy character assets; the 56 formal assets total 5,165,122 bytes and pass class limits."
+    },
+    {
+      "command": "rg -n 'placeholder|TODO|screenshot|kind:\\s*['\\\"]css['\\\"]|\\.svg|<canvas' lib features app public tests",
+      "started_at": "2026-09-02T13:36:26.0557318+08:00",
+      "ended_at": "2026-09-02T13:36:26.1882433+08:00",
+      "exit_code": 0,
+      "result": "Candidates classified as non-formal runtime fallbacks, legacy CSS branches, negative release tests, proof screenshot code, and static-server SVG MIME support; no forbidden token appears in a formal key, path, alt, or formal rendering entry."
+    },
+    {
       "command": "pnpm proof:visual:static",
+      "started_at": "2026-09-02T13:36:42.2052065+08:00",
+      "ended_at": "2026-09-02T13:37:02.5455527+08:00",
       "exit_code": 0,
-      "duration_seconds": 16.89,
-      "result": "PASS: 56 unique formal assets, 5,165,122 bytes, and four contact sheets."
-    },
-    {
-      "command": "ImageMagick full WebP decode audit",
-      "exit_code": 0,
-      "duration_seconds": 27.25,
-      "result": "64/64 discovered WebP files decoded successfully."
-    },
-    {
-      "command": "SHA-256 and file-size audits",
-      "exit_code": 0,
-      "result": "64 release files enumerated, zero duplicate hash groups, and all formal byte thresholds passed."
-    },
-    {
-      "command": "rg forbidden-pattern candidate audit",
-      "exit_code": 0,
-      "result": "All hits classified as non-formal fallback/CSS typing, negative test, screenshot proof code, or SVG MIME handling."
+      "duration_seconds": 20.34,
+      "result": "PASS: 56 unique formal assets, 5,165,122 bytes, and four regenerated contact sheets."
     },
     {
       "command": "Test-Path -LiteralPath out/index.html",
+      "started_at": "2026-09-02T13:37:04.9853584+08:00",
+      "ended_at": "2026-09-02T13:37:05.0625345+08:00",
       "exit_code": 0,
       "result": "True."
     },
     {
-      "command": "evidence.json PowerShell JSON parse",
+      "command": "Get-Content -LiteralPath .agent/tasks/visual-art-expansion-v1/evidence.json -Encoding utf8 -Raw | ConvertFrom-Json | Out-Null",
+      "started_at": "2026-09-02T13:37:07.4587723+08:00",
+      "ended_at": "2026-09-02T13:37:07.5420610+08:00",
       "exit_code": 0,
       "result": "Parsed successfully."
     },
     {
       "command": "node scripts/validate-task-proof.mjs visual-art-expansion-v1",
+      "started_at": "2026-09-02T13:37:09.5807694+08:00",
+      "ended_at": "2026-09-02T13:37:09.8983811+08:00",
       "exit_code": 0,
-      "result": "PASS: structurally valid evidence and contained proof paths."
+      "result": "PASS: evidence is structurally valid and all proof paths are contained in the task directory."
     },
     {
-      "command": "deadline-carl task_loop.py validate --artifact evidence",
+      "command": "python C:/Users/86187/.codex/skills/deadline-carl/scripts/task_loop.py validate --task-id visual-art-expansion-v1 --repo-root D:/mydoc/React/gu-mu-wu-xiu --artifact evidence",
+      "started_at": "2026-09-02T13:37:11.7290925+08:00",
+      "ended_at": "2026-09-02T13:37:12.0045346+08:00",
       "exit_code": 0,
       "result": "valid=true; missing_files=[]; errors=[]."
-    },
-    {
-      "command": "supplemental read-only Playwright at 1920x1080 and 844x390",
-      "exit_code": 0,
-      "duration_seconds": 13.71,
-      "result": "Battle, suCoffin CG, and demon ending rendered at both viewports with zero overflow or diagnostics; effect/dialogue/control layers were 4/5/7 and effect pointer-events was none."
     }
   ],
   "manual_checks": [
-    "Four contact sheets inspected through temporary 8-bit previews outside the repository; source proof files were not modified.",
-    "Representative full-resolution character, CG, UI, and effect WebPs inspected for identity, anatomy, transparency, style, narrative alignment, and release-blocking artifacts.",
-    "All task layout screenshots, route/ending montage, and representative save/combat/effect/degradation frames inspected.",
-    "Supplemental 1920x1080 and 844x390 battle, suCoffin CG, and demon ending screenshots inspected outside the repository.",
-    "art-generation.json checked for 56 records, one adopted call each, 56 unique adopted output IDs, complete prompts/post-processing, and 56 retained originals.",
-    "browser-act failed locally because its uv trampoline could not canonicalize the script path; the equivalent repository Playwright fallback passed."
+    "Inspected the regenerated characters, CG, UI, and effects contact sheets at original detail.",
+    "Inspected representative full-resolution character, CG, UI, and effect files for identity, anatomy, transparency, composition, style, narrative alignment, text, watermark, and release-blocking artifacts.",
+    "Inspected fresh 844x390 settings top and bottom captures, the 390x844 rotation prompt, a route/ending frame, a player-effect frame, and a version-6 restored battle frame.",
+    "Confirmed the current production paths have no changes after implementation commit 840d8ad; later commits only refresh task proof and verdict artifacts.",
+    "Classified every forbidden-pattern search category and confirmed no candidate belongs to the formal 56-item manifest or its formal runtime rendering path.",
+    "Checked art-generation provenance totals: 56 records, 56 unique keys, 56 adopted calls, 56 unique adopted output IDs, 56 complete prompts, and 56 retained originals."
   ],
   "artifacts_used": [
     ".agent/tasks/visual-art-expansion-v1/spec.md",

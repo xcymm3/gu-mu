@@ -108,6 +108,16 @@ const sceneCgAssets = {
   traitorBloodTaken: "cg.scene.traitorBloodTaken",
 } as const;
 
+const sceneBackgroundAssets = {
+  gate: "background.gate-empty",
+  bloodThreshold: "background.blood-threshold-empty",
+  fog: "background.fog-junction-empty",
+  zhaoAwakening: "background.blood-awakening-empty",
+  jiDestroyGu: "background.shattered-gu-empty",
+  suCoffin: "background.empty-coffin",
+  traitorBloodTaken: "background.blood-transfer-empty",
+} as const;
+
 function battleStateKey(game: GameState): string {
   const battle = game.battle;
   return battle
@@ -250,9 +260,12 @@ class BrowserPlaythrough {
     await expect(this.stage).toHaveAttribute("data-scene-id", scene.id);
     const cgAsset = sceneCgAssets[scene.id as keyof typeof sceneCgAssets];
     if (cgAsset) {
-      const cgStage = this.page.locator(`.vn-stage[data-asset-key="${cgAsset}"]`);
-      await expect(cgStage).toBeVisible();
-      await this.captureCgRuntimeState(cgAsset, "scene", scene.id, cgStage);
+      const cgOverlay = this.page.locator(`.vn-scene-cg[data-asset-key="${cgAsset}"]`);
+      await expect(cgOverlay).toBeVisible();
+      await this.captureCgRuntimeState(cgAsset, "scene", scene.id, cgOverlay);
+      await cgOverlay.click();
+      await expect(cgOverlay).toBeHidden();
+      await expect(this.page.locator(`.vn-stage[data-asset-key="${sceneBackgroundAssets[scene.id as keyof typeof sceneBackgroundAssets]}"]`)).toBeVisible();
     }
     await this.captureCharacterRuntimeState();
   }

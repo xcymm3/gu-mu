@@ -125,9 +125,9 @@ test("五幕节点合同固定为共通线三、七与分线四、六、二", ()
 
 test("第一幕三个节点均使用原生阅读事件", () => {
   const backgrounds = {
-    gate: "cg.scene.gate",
+    gate: "background.gate-empty",
     rainMark: "background.tomb-gate",
-    bloodThreshold: "cg.scene.bloodThreshold",
+    bloodThreshold: "background.blood-threshold-empty",
   } as const;
   for (const sceneId of ["gate", "rainMark", "bloodThreshold"] as const) {
     const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
@@ -480,29 +480,32 @@ test("第四、五幕四条路线各自拥有六个高潮节点与两个收束�
 
 test("四条路线高潮场景分别展示唯一正式 CG", () => {
   const routeClimaxCg = {
-    zhaoAwakening: "cg.scene.zhaoAwakening",
-    jiDestroyGu: "cg.scene.jiDestroyGu",
-    suCoffin: "cg.scene.suCoffin",
-    traitorBloodTaken: "cg.scene.traitorBloodTaken",
+    zhaoAwakening: { cg: "cg.scene.zhaoAwakening", background: "background.blood-awakening-empty" },
+    jiDestroyGu: { cg: "cg.scene.jiDestroyGu", background: "background.shattered-gu-empty" },
+    suCoffin: { cg: "cg.scene.suCoffin", background: "background.empty-coffin" },
+    traitorBloodTaken: { cg: "cg.scene.traitorBloodTaken", background: "background.blood-transfer-empty" },
   } as const;
 
-  for (const [sceneId, assetKey] of Object.entries(routeClimaxCg)) {
+  for (const [sceneId, assets] of Object.entries(routeClimaxCg)) {
     const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
-    assert.equal(presentation.background, assetKey, `${sceneId} 未展示冻结映射中的高潮 CG`);
-    const asset = getVisualAsset(assetKey);
+    assert.equal(presentation.background, assets.background, `${sceneId} 未使用独立无人背景`);
+    assert.equal(presentation.sceneCg, assets.cg, `${sceneId} 未展示冻结映射中的高潮 CG`);
+    const asset = getVisualAsset(assets.cg);
     assert.equal(asset.kind, "image");
     assert.match(asset.src, /^\/cg\/scenes\/.+-v1\.webp$/);
   }
 });
 
-test("三个公共关键节点展示各自唯一正式 CG", () => {
+test("三个公共关键节点分别声明独立 CG 与无人背景", () => {
   const expected = {
-    gate: "cg.scene.gate",
-    bloodThreshold: "cg.scene.bloodThreshold",
-    fog: "cg.scene.fog",
+    gate: { cg: "cg.scene.gate", background: "background.gate-empty" },
+    bloodThreshold: { cg: "cg.scene.bloodThreshold", background: "background.blood-threshold-empty" },
+    fog: { cg: "cg.scene.fog", background: "background.fog-junction-empty" },
   } as const;
-  for (const [sceneId, assetKey] of Object.entries(expected)) {
-    assert.equal(resolveScenePresentation(chooseRole(), scenes[sceneId]).background, assetKey);
+  for (const [sceneId, assets] of Object.entries(expected)) {
+    const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
+    assert.equal(presentation.background, assets.background);
+    assert.equal(presentation.sceneCg, assets.cg);
   }
 });
 

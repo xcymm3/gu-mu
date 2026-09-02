@@ -70,7 +70,8 @@ const jiQiaoDuelEvents: VisualNovelEvent[] = [
 ];
 
 const jiDestroyGuEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "cg.scene.jiDestroyGu", transition: "fade" },
+  { type: "background", asset: "background.shattered-gu-empty", transition: "fade" },
+  { type: "cg", asset: "cg.scene.jiDestroyGu" },
   { type: "narration", text: "你沿夹道回到祭殿时，环形血池已经漫过最下方一级石阶。赵黎、薛逢与苏莹仍留在石柱后方，纪清寒则持着残剑守在池边。\n\n控制石轮虽已锁死，悬在池心上方的蛊茧却没有停止蜕变。茧壳中央裂开一道细缝，一片尚未完全展开的复眼正在缝隙后缓慢转动。它还不能脱离蛊茧，池中余下的血光却仍在沿茧壳向上攀升。\n\n蛊茧后方，那团灰白养魂蛊材也显出了原貌。数根暗红细丝从蛊茧底部穿出，扎进蛊材内部。外侧祭线断开后，蛊材原本温和的微光迅速黯淡，积存在其中的血光反而沿细丝流回茧内。\n\n纪清寒看着那团蛊材，取出包着魂丝的白绢。银线末端仍在微弱发亮，灰白蛊材却已经无法再与它呼应。她将白绢收回衣襟，没有伸手去取蛊材。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "它所谓的生机，都是从祭线另一端取来的。这东西不能带走。", expression: "softened", position: "right" },
   { type: "narration", text: "她以残剑向前送出一线剑气。剑气刚触及茧壳，地面残阵便亮起数段暗红纹路，将外来真元引入血池。下一刻，那道真元随血光回到蛊茧，壳后的复眼也随之张开了一分。\n\n普通真元只会成为它最后蜕变的养分。苏莹贴近池边辨认片刻，指向蛊茧下方相对而立的两处阵眼。那里的血光仍在彼此补回，与开启血门时的左右双锁如出一辙。" },

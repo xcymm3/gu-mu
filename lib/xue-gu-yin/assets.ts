@@ -163,6 +163,7 @@ export const formalVisualAssetManifest = {
 export type FormalVisualAssetKey = keyof typeof formalVisualAssetManifest;
 export type FormalCharacterAssetKey = Extract<FormalVisualAssetKey, `character.${string}`>;
 export type CgAssetKey = Extract<FormalVisualAssetKey, `cg.${string}`>;
+export type SceneCgAssetKey = Extract<FormalVisualAssetKey, `cg.scene.${string}`>;
 export type UiAssetKey = Extract<FormalVisualAssetKey, `ui.${string}`>;
 export type CombatEffectAssetKey = Extract<FormalVisualAssetKey, `effect.${string}`>;
 
@@ -221,11 +222,18 @@ export function getFormalVisualAsset<Key extends FormalVisualAssetKey>(key: Key)
  */
 export const visualAssetManifest = {
   "background.tomb-gate": { kind: "image", src: "/backgrounds/tomb-gate-v1.webp", alt: "夜雨中的蛊墓石门" },
+  "background.gate-empty": { kind: "image", src: "/backgrounds/gate-empty-v1.webp", alt: "无人驻足的夜雨蛊墓石门" },
   "background.tomb-corridor": { kind: "image", src: "/backgrounds/tomb-corridor-v1.webp", alt: "幽冷灯火延伸入深处的蛊墓甬道" },
+  "background.blood-threshold-empty": { kind: "image", src: "/backgrounds/blood-threshold-empty-v1.webp", alt: "血色禁制横过的无人石闸" },
   "background.fog-passage": { kind: "image", src: "/backgrounds/fog-passage-v1.webp", alt: "被蛊雾吞没的古墓甬道" },
+  "background.fog-junction-empty": { kind: "image", src: "/backgrounds/fog-junction-empty-v1.webp", alt: "迷雾流过的无人岔路石厅" },
   "background.trap-passage": { kind: "image", src: "/backgrounds/trap-passage-v1.webp", alt: "坍塌断裂的机关陷道" },
   "background.control-room": { kind: "image", src: "/backgrounds/control-room-v1.webp", alt: "遍布牵机丝的机关控制暗室" },
   "background.blood-chamber": { kind: "image", src: "/backgrounds/blood-chamber-v1.webp", alt: "血魔蛊卵悬于血池上方的五转蛊室" },
+  "background.blood-awakening-empty": { kind: "image", src: "/backgrounds/blood-awakening-empty-v1.webp", alt: "血魔蛊悬于祭池上方的无人蛊室" },
+  "background.shattered-gu-empty": { kind: "image", src: "/backgrounds/shattered-gu-empty-v1.webp", alt: "蛊核破碎后寒雾未散的无人祭殿" },
+  "background.empty-coffin": { kind: "image", src: "/backgrounds/empty-coffin-v1.webp", alt: "黑石空棺与赤光窄井所在的无人墓室" },
+  "background.blood-transfer-empty": { kind: "image", src: "/backgrounds/blood-transfer-empty-v1.webp", alt: "血线交错于蛊茧前的无人祭殿" },
   "background.dawn-exit": { kind: "image", src: "/backgrounds/dawn-exit-v1.webp", alt: "雨后天光中的蛊墓出口" },
   "background.blood-ruin": { kind: "image", src: "/backgrounds/blood-ruin-v1.webp", alt: "血光下崩塌的蛊室废墟" },
   "character.ji-qinghan.neutral": { kind: "image", src: "/characters/ji-qinghan-neutral-v1.webp", alt: "纪清寒平静表情" },
@@ -263,9 +271,7 @@ export const visualAssetManifest = {
 } as const satisfies Record<string, VisualAssetDescriptor>;
 
 export type VisualAssetKey = keyof typeof visualAssetManifest;
-export type BackgroundAssetKey =
-  | Extract<VisualAssetKey, `background.${string}`>
-  | Extract<FormalVisualAssetKey, `cg.scene.${string}`>;
+export type BackgroundAssetKey = Extract<VisualAssetKey, `background.${string}`>;
 export type CharacterAssetKey = Extract<VisualAssetKey, `character.${string}`>;
 
 export function getVisualAsset(key: VisualAssetKey | FormalVisualAssetKey): VisualAssetDescriptor {

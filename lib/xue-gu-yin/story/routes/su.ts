@@ -60,7 +60,8 @@ const suBloodGuardEvents: VisualNovelEvent[] = [
 ];
 
 const suCoffinEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "cg.scene.suCoffin", transition: "fade" },
+  { type: "background", asset: "background.empty-coffin", transition: "fade" },
+  { type: "cg", asset: "cg.scene.suCoffin" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "injured" },
   { type: "narration", text: "旧阵散去后，苏莹才松开按住阵点的手。她袖口沾着血水，气息也因强行截断阵路而显得不稳，却仍先俯身检查黑棺。" },
   { type: "character", action: "expression", character: "su-ying", position: "right", expression: "sad" },

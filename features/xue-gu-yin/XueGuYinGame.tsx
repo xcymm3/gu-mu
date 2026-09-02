@@ -14,6 +14,7 @@ import {
   getVisualAsset,
   type BackgroundAssetKey,
   type CombatEffectAssetKey,
+  type SceneCgAssetKey,
   type UiAssetKey,
 } from "@/lib/xue-gu-yin/assets";
 import { defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile, type AudioAssetKey, type AudioSettings, type SfxAssetKey } from "@/lib/xue-gu-yin/audio";
@@ -384,6 +385,21 @@ function VisualNovelStage({ activeSpeaker, background, battleActor, characters, 
   </>;
 }
 
+function SceneCgOverlay({ assetKey, exiting, onDismiss }: { assetKey: SceneCgAssetKey; exiting: boolean; onDismiss: () => void }) {
+  const asset = getFormalVisualAsset(assetKey);
+  return <button
+    aria-label={`剧情插画：${asset.alt}。点击继续`}
+    className={`vn-scene-cg${exiting ? " is-exiting" : ""}`}
+    data-asset-key={assetKey}
+    onClick={(event) => { event.stopPropagation(); onDismiss(); }}
+    type="button"
+  >
+    <StageImage alt={asset.alt} className="vn-scene-cg-image" src={asset.src} />
+    <span className="vn-scene-cg-shade" aria-hidden="true" />
+    <span className="vn-scene-cg-hint">点击画面继续</span>
+  </button>;
+}
+
 function describeBattleTurn(before: GameState, after: GameState, action: GuAction): BattleFeedback {
   const battle = before.battle;
   if (!battle) return { result: "蛊息渐歇，墓道里只余摇晃的灯火。", enemyCondition: "不明", hasEnded: false };
@@ -643,10 +659,13 @@ export function XueGuYinGame() {
   const [quickNotice, setQuickNotice] = useState("");
   const [combatEffect, setCombatEffect] = useState<{ id: number; effect: "flash" | "shake" | "darken"; tone: "neutral" | "danger" } | null>(null);
   const [combatArtEffect, setCombatArtEffect] = useState<CombatArtEffect | null>(null);
+  const [dismissedSceneCgs, setDismissedSceneCgs] = useState<string[]>([]);
+  const [exitingSceneCg, setExitingSceneCg] = useState<string | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
   const combatSequenceRef = useRef(0);
   const combatTimersRef = useRef<number[]>([]);
+  const sceneCgTimerRef = useRef<number | null>(null);
   const narrativeLimit = useNarrativeLimit();
   const role = getRole(game.roleId);
   const scene = scenes[game.sceneId];
@@ -710,6 +729,7 @@ export function XueGuYinGame() {
   useEffect(() => () => {
     combatSequenceRef.current += 1;
     for (const timer of combatTimersRef.current) window.clearTimeout(timer);
+    if (sceneCgTimerRef.current !== null) window.clearTimeout(sceneCgTimerRef.current);
   }, []);
 
   useEffect(() => {
@@ -718,7 +738,15 @@ export function XueGuYinGame() {
 
   function loadScene(sceneId: string) { setNarrative({ sceneId, page: 0 }); }
 
+  function resetSceneCgs() {
+    if (sceneCgTimerRef.current !== null) window.clearTimeout(sceneCgTimerRef.current);
+    sceneCgTimerRef.current = null;
+    setDismissedSceneCgs([]);
+    setExitingSceneCg(null);
+  }
+
   function selectRole(id: RoleId) {
+    resetSceneCgs();
     loadScene("gate");
     setPendingBattleState(null);
     setBattleFeedback(null);
@@ -748,6 +776,7 @@ export function XueGuYinGame() {
 
   function loadFromSlot(slot: SaveSlot) {
     const restored = restoreSaveSlot(slot);
+    resetSceneCgs();
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
@@ -764,6 +793,7 @@ export function XueGuYinGame() {
   }
 
   function returnToMainMenu() {
+    resetSceneCgs();
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
@@ -921,6 +951,23 @@ export function XueGuYinGame() {
   const effectToken = `${currentFrameKey}-${combatEffect?.id ?? 0}`;
   const hasBlockingAction = isLastNarrativePage && Boolean(presentation.battle || (visibleChoices.length && !linearRouteChoice));
   const canAdvanceReading = !battle && !battleResult && (pendingLinearChoice || (!pendingChoice && (!isLastNarrativePage || Boolean(linearRouteChoice))));
+  const sceneCgToken = presentation.sceneCg ? `${scene.id}:${presentation.sceneCg}` : null;
+  const sceneCgActive = sceneCgToken !== null && !dismissedSceneCgs.includes(sceneCgToken);
+  const sceneCgExiting = sceneCgActive && exitingSceneCg === sceneCgToken;
+
+  function dismissSceneCg() {
+    if (!sceneCgToken || !sceneCgActive || sceneCgExiting) return;
+    const token = sceneCgToken;
+    setAutoMode(false);
+    setSkipMode(false);
+    setExitingSceneCg(token);
+    const reduced = reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    sceneCgTimerRef.current = window.setTimeout(() => {
+      setDismissedSceneCgs((current) => current.includes(token) ? current : [...current, token]);
+      setExitingSceneCg(null);
+      sceneCgTimerRef.current = null;
+    }, reduced ? 170 : 520);
+  }
 
   function rememberCurrentFrame() {
     setReadFrames((current) => current.includes(currentFrameKey) ? current : [...current, currentFrameKey]);
@@ -950,6 +997,7 @@ export function XueGuYinGame() {
   }
 
   function advanceInteraction() {
+    if (sceneCgActive) { dismissSceneCg(); return; }
     if (uiHidden) { setUiHidden(false); return; }
     if (showGameMenu || showBacklog) return;
     if (battleResult) {
@@ -1003,7 +1051,7 @@ export function XueGuYinGame() {
   }
 
   const readingModeAllowed = canRunReadingMode({
-    hasOverlay: showGameMenu || showBacklog,
+    hasOverlay: showGameMenu || showBacklog || sceneCgActive,
     inBattle: Boolean(battle),
     hasPendingResult: Boolean((pendingChoice && !pendingLinearChoice) || battleResult),
     hasBlockingAction,
@@ -1014,6 +1062,7 @@ export function XueGuYinGame() {
       <ReadingController
         autoMode={autoMode}
         canAdvance={readingModeAllowed && canAdvanceReading}
+        locked={sceneCgActive}
         onAdvance={advanceInteraction}
         onAuto={() => setAutoMode((current) => !current)}
         onBacklog={() => showBacklog ? setShowBacklog(false) : openBacklog()}
@@ -1029,7 +1078,7 @@ export function XueGuYinGame() {
         text={presentedText}
       />
       <section
-        className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}${stageEffectClasses}`}
+        className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}${sceneCgActive ? " is-showing-cg" : ""}${stageEffectClasses}`}
         aria-label="血蛊引游戏界面"
         data-narrative-page={`${pageIndex + 1}/${pageCount}`}
         data-scene-id={scene.id}
@@ -1040,6 +1089,10 @@ export function XueGuYinGame() {
         }}
         onContextMenu={(event) => { event.preventDefault(); setUiHidden((current) => !current); }}
         onWheel={(event) => {
+          if (sceneCgActive) {
+            if (event.deltaY > 24) dismissSceneCg();
+            return;
+          }
           if (event.deltaY < -24) openBacklog();
           else if (event.deltaY > 24) advanceInteraction();
         }}
@@ -1106,14 +1159,16 @@ export function XueGuYinGame() {
         {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
         {showBacklog ? <BacklogOverlay entries={backlog} onClose={() => setShowBacklog(false)} /> : null}
+        {presentation.sceneCg && sceneCgActive ? <SceneCgOverlay assetKey={presentation.sceneCg} exiting={sceneCgExiting} onDismiss={dismissSceneCg} /> : null}
       </section>
     </main>
   );
 }
 
-function ReadingController({ autoMode, canAdvance, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip, skipMode, text }: {
+function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip, skipMode, text }: {
   autoMode: boolean;
   canAdvance: boolean;
+  locked: boolean;
   onAdvance: () => void;
   onAuto: () => void;
   onBacklog: () => void;
@@ -1130,6 +1185,13 @@ function ReadingController({ autoMode, canAdvance, onAdvance, onAuto, onBacklog,
       return target instanceof HTMLElement && Boolean(target.closest("button, a, input, textarea, select, [contenteditable='true']"));
     }
     function keyDown(event: KeyboardEvent) {
+      if (locked) {
+        if (event.key === "Escape" || (!isTypingTarget(event.target) && (event.key === "Enter" || event.key === " "))) {
+          event.preventDefault();
+          onAdvance();
+        }
+        return;
+      }
       if (event.key === "Escape") { event.preventDefault(); onMenu(); return; }
       if (isTypingTarget(event.target)) return;
       if (event.key === "Control") { onSkip(true); return; }
@@ -1152,7 +1214,7 @@ function ReadingController({ autoMode, canAdvance, onAdvance, onAuto, onBacklog,
       window.removeEventListener("keyup", keyUp);
       window.removeEventListener("blur", windowBlur);
     };
-  }, [onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip]);
+  }, [locked, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip]);
 
   useEffect(() => {
     if (!canAdvance || (!autoMode && !skipMode)) return;

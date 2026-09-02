@@ -95,6 +95,10 @@ test("主菜单到读档工具链均经过玩家公开操作", async ({ page, br
   await page.getByRole("button", { name: /流浪剑修/ }).click();
   const stage = page.getByLabel("血蛊引游戏界面");
   await expect(stage).toHaveAttribute("data-scene-id", "gate");
+  const openingCg = page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]');
+  await expect(openingCg).toBeVisible();
+  await openingCg.click();
+  await expect(openingCg).toBeHidden();
   await expect(page.getByLabel("篇章信息")).toContainText("Chapter 1-1");
   await expect(page.getByLabel("篇章信息")).not.toContainText("夜雨墓门");
   await expect(stage).not.toContainText("夜雨墓门");

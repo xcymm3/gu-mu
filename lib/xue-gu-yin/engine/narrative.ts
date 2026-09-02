@@ -1,4 +1,4 @@
-import { actBackgrounds, getCharacterExpressionAsset, type BackgroundAssetKey, type CharacterAssetKey } from "../assets.ts";
+import { actBackgrounds, getCharacterExpressionAsset, type BackgroundAssetKey, type CharacterAssetKey, type SceneCgAssetKey } from "../assets.ts";
 import type { AudioAssetKey } from "../audio.ts";
 import type {
   BattleConfig,
@@ -35,6 +35,7 @@ export type ScenePresentation = {
   choices: Choice[];
   battle: BattleConfig | null;
   background: BackgroundAssetKey;
+  sceneCg: SceneCgAssetKey | null;
   characters: PresentedCharacter[];
   visibleCharacters: CharacterId[];
 };
@@ -62,6 +63,7 @@ export type PresentedCharacter = {
 type ChoiceEvent = Extract<VisualNovelEvent, { type: "choice" }>;
 type BattleEvent = Extract<VisualNovelEvent, { type: "battle" }>;
 type BackgroundEvent = Extract<VisualNovelEvent, { type: "background" }>;
+type CgEvent = Extract<VisualNovelEvent, { type: "cg" }>;
 
 function isChoiceEvent(event: VisualNovelEvent): event is ChoiceEvent {
   return event.type === "choice";
@@ -73,6 +75,10 @@ function isBattleEvent(event: VisualNovelEvent): event is BattleEvent {
 
 function isBackgroundEvent(event: VisualNovelEvent): event is BackgroundEvent {
   return event.type === "background";
+}
+
+function isCgEvent(event: VisualNovelEvent): event is CgEvent {
+  return event.type === "cg";
 }
 
 function resolveCharacters(events: VisualNovelEvent[]): PresentedCharacter[] {
@@ -235,6 +241,7 @@ export function resolveScenePresentation(state: GameState, scene: Scene): SceneP
   const choiceEvent = [...events].reverse().find(isChoiceEvent);
   const battleEvent = [...events].reverse().find(isBattleEvent);
   const backgroundEvent = events.find(isBackgroundEvent);
+  const cgEvent = events.find(isCgEvent);
   const characters = resolveCharacters(events);
 
   return {
@@ -244,6 +251,7 @@ export function resolveScenePresentation(state: GameState, scene: Scene): SceneP
     choices: choiceEvent?.choices ?? [],
     battle: battleEvent?.config ?? null,
     background: backgroundEvent?.asset ?? actBackgrounds[scene.act],
+    sceneCg: cgEvent?.asset ?? null,
     characters,
     visibleCharacters: characters.map((character) => character.id),
   };

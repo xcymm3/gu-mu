@@ -261,6 +261,14 @@ class VisualPlaythrough {
     await this.page.getByRole("button", { name: /^开始游戏/ }).click();
     await this.page.getByRole("button", { name: /流浪剑修/ }).click();
     await expect(this.stage).toHaveAttribute("data-scene-id", this.game.sceneId);
+    await expect(this.page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]')).toBeVisible();
+  }
+
+  async dismissCurrentSceneCg() {
+    const cg = this.page.locator(".vn-scene-cg");
+    await expect(cg).toBeVisible();
+    await cg.click();
+    await expect(cg).toBeHidden();
   }
 
   async advanceUntilVisible(target: Locator, label: string, limit = 360) {
@@ -357,6 +365,9 @@ test("关键界面生成桌面视觉基线并保持布局安全", async ({ page,
 
   const run = new VisualPlaythrough(page);
   await run.selectRole();
+  await capture(page, "05-scene-cg");
+  await expectLayoutSafe(page);
+  await run.dismissCurrentSceneCg();
   await capture(page, "05-dialogue");
   await expectLayoutSafe(page);
 
@@ -402,6 +413,10 @@ test("桌面边界与手机横竖屏生成可复现截图", async ({ page, brows
     await expectLayoutSafe(page);
     await page.getByRole("button", { name: /^开始游戏/ }).click();
     await page.getByRole("button", { name: /流浪剑修/ }).click();
+    await expect(page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]')).toBeVisible();
+    await capture(page, "scene-cg-boundary");
+    await page.locator(".vn-scene-cg").click();
+    await expect(page.locator(".vn-scene-cg")).toBeHidden();
     await capture(page, "dialogue-boundary");
     await expectLayoutSafe(page);
   }
@@ -417,6 +432,10 @@ test("桌面边界与手机横竖屏生成可复现截图", async ({ page, brows
   await expectLayoutSafe(page);
   await page.getByRole("button", { name: /^开始游戏/ }).click();
   await page.getByRole("button", { name: /流浪剑修/ }).click();
+  await expect(page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]')).toBeVisible();
+  await capture(page, "landscape-scene-cg");
+  await page.locator(".vn-scene-cg").click();
+  await expect(page.locator(".vn-scene-cg")).toBeHidden();
   await capture(page, "landscape-dialogue");
   await expectLayoutSafe(page);
   await expectTouchTargets(page.locator(".vn-quick-menu button:visible, .game-menu-trigger:visible"));
@@ -439,6 +458,10 @@ test("键盘焦点与减少动态可自动验证", async ({ page, browserDiagnos
 
   await page.getByRole("button", { name: /^开始游戏/ }).click();
   await page.getByRole("button", { name: /流浪剑修/ }).click();
+  const openingCg = page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]');
+  await expect(openingCg).toBeVisible();
+  await page.keyboard.press("Enter");
+  await expect(openingCg).toBeHidden();
   await page.getByRole("button", { name: "打开游戏菜单", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "游戏菜单" });
   await expect(page.getByRole("button", { name: "关闭游戏菜单", exact: true })).toBeFocused();

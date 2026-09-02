@@ -145,7 +145,8 @@ export function puppetsEvents(state: GameState): VisualNovelEvent[] {
 
 export function fogEvents(state: GameState): VisualNovelEvent[] {
   const events: VisualNovelEvent[] = [
-    { type: "background", asset: "cg.scene.fog", transition: "fade" },
+    { type: "background", asset: "background.fog-junction-empty", transition: "fade" },
+    { type: "cg", asset: "cg.scene.fog" },
     { type: "narration", text: "铜皮傀儡胸前的蛊核闪烁两下，终于彻底暗了下去。\n\n沉重的身躯向前倾倒，砸在石面上，扬起一片呛人的尘灰。与此同时，甬道前后紧闭的石门缓缓升起。待尘埃稍散，失散片刻的众人重新聚到了一处。\n\n乔无咎展开那张泛黄的兽皮残图，只看了一眼便继续向墓穴深处走去。方才的厮杀消耗了众人不少真元，一路上无人交谈，甬道内只剩下杂乱的脚步声。\n\n前行数十丈后，狭窄的墓道忽然向外开阔。\n\n一座四四方方的地下石厅出现在众人面前。厅中铺着整齐的黑色石板，四面各有一道封闭的石门，门框附近刻满了黯淡的蛊纹。乍看之下，四条路似乎并无分别。" },
     { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "calm" },
     { type: "narration", text: "乔无咎停下脚步，将残图翻来覆去看了两遍，眉头渐渐皱起。" },

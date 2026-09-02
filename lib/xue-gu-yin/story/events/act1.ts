@@ -1,7 +1,8 @@
 import type { VisualNovelEvent } from "../../model.ts";
 
 export const gateEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "cg.scene.gate", transition: "fade" },
+  { type: "background", asset: "background.gate-empty", transition: "fade" },
+  { type: "cg", asset: "cg.scene.gate" },
   { type: "narration", text: "黑风呼啸，暴雨倾盆。荒原上的蛊市早已散尽，空气中弥漫着刺骨的寒意与微弱的腥臭。\n\n古老阴森的石门前，稀稀落落站着六名气息各异的散修。雨丝落在众人撑起的微弱护体光罩或粗糙蓑衣上，发出密集连绵的啪嗒声。", mode: "center" },
   { type: "character", action: "show", character: "qiao-wujiu", position: "center", expression: "neutral" },
   { type: "narration", text: "为首的中年男子叫乔无咎，身着一身毫不起眼的灰袍。只见他神色平静地自袖中掏出一张泛黄的兽皮残图，指尖逼出一缕真元注入其中，图上一处猩红如血的标记顿时微光闪烁。" },
@@ -45,7 +46,8 @@ export const rainMarkEvents: VisualNovelEvent[] = [
 ];
 
 export const bloodThresholdEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "cg.scene.bloodThreshold", transition: "fade" },
+  { type: "background", asset: "background.blood-threshold-empty", transition: "fade" },
+  { type: "cg", asset: "cg.scene.bloodThreshold" },
   { type: "narration", text: "这道沉闷湿冷的狭长石阶延伸了约莫三四十丈深，盘旋向下，空气中弥漫着一股积攒多年的泥腐与腥膻之气。\n\n前方甬道口上方，斜斜悬着一道足有数丈之高、斑驳沉重的万斤石闸。门槛后的通道极其低矮狭窄，只能容一人弯腰通过。走在最前头的中年修士乔无咎、少年赵黎、圆脸汉子薛逢以及少女苏莹，早已各怀心思、极其警惕地相继潜入了幽暗的甬道深处，身姿转瞬被浓重的阴影吞没。\n\n整条石阶尽头，只剩下你与那白衣女修纪清寒拉开数尺距离，一前一后地向石闸靠近。\n\n你将感知收拢在周身三尺之内，放慢脚步，留意着纪清寒落脚之处与门框两侧的动静。" },
   { type: "character", action: "show", character: "ji-qinghan", position: "left", expression: "alert" },
   { type: "narration", text: "然而，就在纪清寒那纤细的靴尖刚刚跨过青石门槛的瞬间，异变突生！\n\n原本死寂无声的门槛石板上，数道原本暗淡无光、盘曲如蜈蚣般的暗红禁制符纹毫无征兆地爆发出刺目血光。几乎在同一刹那，上方的山体深处传来一阵沉闷如雷的机关轰鸣，锁住石闸的机括骤然松脱，那道万斤石闸沿着两侧滑轨直坠而下，带着无与伦比的呼啸劲风与沉重威压，如陨石砸地般压向门槛！\n\n不仅如此，石闸两侧斑驳的门框内突然弹开数个精巧机括，几道疾风破空声骤响，四条通体呈赤褐色、长约尺许的毒蛊如怒箭般爆射而出，獠牙毕露，直扑离门槛最近的纪清寒面门与心脏要害！\n\n遭此猝然发难，纪清寒虽惊不乱。她眉宇间寒意大盛，娇叱一声，玉手按在剑柄之上，寒芒骤然大作！数道凌厉无比的雪白剑气如水银泻地般席卷而出，一阵密集的脆响过后，迎面刺来的三条赤褐毒蛊当场被凌厉剑芒削断成数截，腥臭的血水洒落在地。\n\n然而这机关蛊毒极为狡诈，第四条毒蛊竟借着同伴爆开的血雾遮挡，贴着门框死角鬼魅般绕到了纪清寒身后。细长虫躯如虬蛇般缠住她执剑的手腕与剑柄，尾端倒钩仍死死扣在门框石孔之中。虫躯骤然收紧，硬生生拉扯着她的剑锋偏转向地面！\n\n上方下坠的万斤石闸带起狂暴的恶风，将两人的衣袍吹得猎猎作响。纪清寒被绷直的毒蛊拖在门槛处，美眸中终于划过一丝惊慌，牙关紧咬，清冷的声音在轰鸣声中显得格外急促。" },

@@ -94,7 +94,7 @@ test("发布视觉资源均为正式图片且满足单文件与总体积预算",
     total += bytes;
     assert.ok(bytes <= 600_000, `${source} 超过 600 KB：${bytes}`);
   }
-  assert.ok(total <= 4_500_000, `视觉资源总量超过 4.5 MB：${total}`);
+  assert.ok(total <= 5_250_000, `视觉资源总量超过 5.25 MB：${total}`);
 });
 
 test("美术扩展合同完整枚举 30 张角色、16 张 CG、3 张界面和 7 张特效", () => {
@@ -174,6 +174,34 @@ test("九个结局各自映射并展示唯一正式 CG", () => {
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
   assert.match(game, /getEndingCgAsset\(ending\.id\)/);
   assert.match(game, /data-asset-key=\{endingCg\.key\}/);
+});
+
+test("七个剧情 CG 使用独立全屏层并在淡出后回到无人背景", () => {
+  const sceneAssets = {
+    gate: ["cg.scene.gate", "background.gate-empty"],
+    bloodThreshold: ["cg.scene.bloodThreshold", "background.blood-threshold-empty"],
+    fog: ["cg.scene.fog", "background.fog-junction-empty"],
+    zhaoAwakening: ["cg.scene.zhaoAwakening", "background.blood-awakening-empty"],
+    jiDestroyGu: ["cg.scene.jiDestroyGu", "background.shattered-gu-empty"],
+    suCoffin: ["cg.scene.suCoffin", "background.empty-coffin"],
+    traitorBloodTaken: ["cg.scene.traitorBloodTaken", "background.blood-transfer-empty"],
+  } as const;
+
+  for (const [sceneId, [cg, background]] of Object.entries(sceneAssets)) {
+    const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
+    assert.equal(presentation.sceneCg, cg);
+    assert.equal(presentation.background, background);
+    const backgroundAsset = visualAssetManifest[background];
+    assert.equal(backgroundAsset.kind, "image");
+    const file = path.join(process.cwd(), "public", backgroundAsset.src.replace(/^\//, ""));
+    assert.equal(existsSync(file), true, `${backgroundAsset.src} 不存在`);
+    assert.ok(statSync(file).size <= 300_000, `${backgroundAsset.src} 超过 300 KB`);
+  }
+
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
+  assert.match(game, /function SceneCgOverlay/);
+  assert.match(game, /className={`vn-scene-cg/);
+  assert.match(game, /dismissSceneCg/);
 });
 
 test("六类玩家蛊术和敌方反击均映射到独立正式位图特效", () => {

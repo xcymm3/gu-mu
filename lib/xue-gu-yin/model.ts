@@ -1,4 +1,4 @@
-import type { BackgroundAssetKey, CharacterAssetKey } from "./assets.ts";
+import type { BackgroundAssetKey, CharacterAssetKey, SceneCgAssetKey } from "./assets.ts";
 import type { AudioAssetKey } from "./audio.ts";
 
 export type RoleId = "healer" | "swordsman" | "heir";
@@ -90,6 +90,7 @@ export type GameState = {
 
 export type VisualNovelEvent =
   | { type: "background"; asset: BackgroundAssetKey; transition?: "cut" | "fade" }
+  | { type: "cg"; asset: SceneCgAssetKey }
   | { type: "character"; action: "show" | "hide" | "expression"; character: CharacterId; asset?: CharacterAssetKey; position?: CharacterPosition; expression?: string }
   | { type: "narration"; text: string; mode?: "dialogue-box" | "center" }
   | { type: "dialogue"; speaker: CharacterId; displayName: string; text: string; expression?: string; position?: CharacterPosition }

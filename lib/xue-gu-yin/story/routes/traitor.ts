@@ -106,7 +106,8 @@ const traitorZhaoArrivesEvents: VisualNovelEvent[] = [
 ];
 
 const traitorBloodTakenEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "cg.scene.traitorBloodTaken", transition: "fade" },
+  { type: "background", asset: "background.blood-transfer-empty", transition: "fade" },
+  { type: "cg", asset: "cg.scene.traitorBloodTaken" },
   { type: "narration", text: "乔无咎先转动主印，血池周围几根后来添入的细线立即收紧，从左右两侧压向旧检修口。你同时以副印升起外围石板，封住赵黎退向控制室的空隙。两套机关各自推进，试图把他的活动范围压在池边。" },
   { type: "narration", text: "赵黎没有迎着细线硬闯。他一路循这些新凿线路而来，早已看清它们与祖阵旧纹的交接位置。血纹蛊贴着血气掠向池沿，他本人则侧移数步，隔空击中固定交接处的一枚石扣。" },
   { type: "narration", text: "石扣碎开，数根新增细线顿时失去约束，沿原路猛然回弹。主台两处线槽被绞在一起，乔无咎双手压住主印，仍试图将它们重新分开；副台上的外围石板也因牵机丝错位，开始断续起落。" },

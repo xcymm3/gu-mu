@@ -1,0 +1,25 @@
+Task: visual-art-expansion-v1
+Phase: fix
+Iteration: 2
+Run date: 2026-09-02 Asia/Shanghai
+Repository HEAD before and after checks: 840d8ad3fe4477a165366a3dfc13cd75416af2c4
+
+Manual visual review refresh
+exit_code=0
+result=Reinspected the four current contact sheets and representative current-export screenshots for 844x390 settings top/bottom, portrait rotation prompt, route CG, combat effect, image-request fallback, and restored save. Replaced superseded pre-fix source, build, AC8, and conclusion statements in raw/manual-visual-review.md.
+
+stale manual-review statement audit
+exit_code=0
+result=No superseded pre-existing-export, failed-build, AC8 FAIL, task-failure, baseline eeb5812, or equivalent stale statement remains in raw/manual-visual-review.md.
+
+evidence.json PowerShell JSON parse
+exit_code=0
+result=PASS: evidence.json parsed successfully.
+
+node scripts/validate-task-proof.mjs visual-art-expansion-v1
+exit_code=0
+result=PASS: evidence is structurally valid and all proof paths are contained in the task directory.
+
+deadline-carl task_loop.py validate --artifact evidence
+exit_code=0
+result=valid=true; missing_files=[]; errors=[].

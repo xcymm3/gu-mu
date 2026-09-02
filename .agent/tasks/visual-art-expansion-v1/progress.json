@@ -251,7 +251,7 @@
     {
       "id": "WI-012",
       "state": "implemented",
-      "note": "build iteration 13 已补齐可复现 proof 生成链路。fix iteration 1 从 fresh production export 重生成 30/30 角色、16/16 CG、三页四视口、七类特效、首屏预算、版本 6 夹具、路线/结局、存读档、胜负、减少动态与请求失败的固定 JSON/截图，并将 AC1–AC12 evidence 刷新为无已知缺口的 PASS 候选；结构化 proof validators 均作为本轮最终门执行。",
+      "note": "build iteration 13 已补齐可复现 proof 生成链路。fix iteration 1 从 fresh production export 重生成 30/30 角色、16/16 CG、三页四视口、七类特效、首屏预算、版本 6 夹具、路线/结局、存读档、胜负、减少动态与请求失败的固定 JSON/截图。fix iteration 2 对当前 840d8ad worktree、四张 contact sheet 与当前导出截图重新完成目视复核，移除 raw/manual-visual-review.md 中已过时的构建、844x390 布局和失败结论，使 AC1–AC12 evidence 恢复为内部一致的无缺口 PASS 候选；结构化 proof validators 均作为本轮最终门执行。",
       "proof": [
         ".agent/tasks/visual-art-expansion-v1/raw/art-generation.json",
         ".agent/tasks/visual-art-expansion-v1/raw/checkpoints",
@@ -263,6 +263,7 @@
         ".agent/tasks/visual-art-expansion-v1/raw/ui-runtime-report.json",
         ".agent/tasks/visual-art-expansion-v1/raw/effect-runtime-matrix.json",
         ".agent/tasks/visual-art-expansion-v1/raw/screenshots",
+        ".agent/tasks/visual-art-expansion-v1/raw/manual-visual-review.md",
         "scripts/generate-visual-art-static-proof.mjs",
         "scripts/validate-task-proof.mjs",
         "tests/e2e/full-routes.spec.ts",

@@ -1,110 +1,139 @@
 {
   "task_id": "visual-art-expansion-v1",
   "phase": "verify",
+  "verified_at": "2026-09-02T12:40:31.5980969+08:00",
+  "verified_head": "840d8ad3fe4477a165366a3dfc13cd75416af2c4",
   "overall_verdict": "FAIL",
-  "summary": "Fresh verification reproduced a production-build type error and independently confirmed overlapping/clipped controls in the 844x390 settings view. Unit tests, lint, the retained-export browser suite, WebP decoding, file audits, and both proof validators pass, but the browser run served an out/ export older than the failed build. The prescribed isolated Playwright command also exits 1 in this Windows process.",
+  "summary": "Fresh verification passes the current production build, 98 unit tests, lint, the 16-test production browser suite, the isolated 5-test visual suite, 64-file WebP decoding, the 56-item formal-art audit, runtime matrices, and both structural validators. Manual inspection also confirms the repaired 844x390 settings layout and the required art sheets. AC12 nevertheless fails because raw/manual-visual-review.md is still the pre-fix review: it names baseline eeb5812, says the fresh build failed, marks AC8 FAIL, and concludes the task does not pass, directly contradicting the current evidence bundle's all-PASS/no-gaps claim.",
   "criteria": [
     {
       "id": "AC1",
-      "status": "UNKNOWN",
-      "reason": "The current typed manifest and static audits pass, but pnpm build exits 1, so the 30/30 and 16/16 browser matrices were regenerated from a retained out/ export rather than a fresh export of the current repository."
+      "status": "PASS",
+      "reason": "The typed 56-item formal manifest, current unit assertions, fresh production build, 30/30 character matrix, 16/16 CG matrix, runtime request checks, unique hashes, and full WebP decode audit pass. Forbidden-pattern hits are confined to explicit non-art fallbacks, legacy background typing, negative tests, proof screenshots, and the static server SVG MIME table."
     },
     {
       "id": "AC2",
-      "status": "UNKNOWN",
-      "reason": "The 30-cell contact sheet passes manual identity/state review and the retained-export runtime matrix is complete, but current-source production reachability is unproven because the fresh build fails."
+      "status": "PASS",
+      "reason": "Fresh public-UI E2E produces a complete 30/30 runtime matrix with successful visible requests. Independent inspection of the regenerated character contact sheet and representative originals confirms six stable identities, distinct required states, usable transparency, and no decisive watermark, text, limb, costume, or crop defect."
     },
     {
       "id": "AC3",
-      "status": "UNKNOWN",
-      "reason": "The 16 CGs are distinct and pass manual narrative/style review, and the retained-export runtime matrix is complete, but current-source production reachability is unproven because the fresh build fails."
+      "status": "PASS",
+      "reason": "Fresh public-UI E2E reaches all seven scene CGs and nine unique ending CGs with no missing keys. The regenerated CG sheet and representative runtime frames are distinct, narratively legible, consistent with the dark tomb art direction, and not visibly stretched or critically obscured."
     },
     {
       "id": "AC4",
-      "status": "FAIL",
-      "reason": "Manual inspection of raw/screenshots/layout/844x390-settings.png confirms that the reduced-motion card covers the sound controls, the ending-record heading is overlapped, and the clear-record card is clipped. The fresh build also fails."
+      "status": "PASS",
+      "reason": "The three unique formal UI artworks are present and visible at all four contract viewports. Fresh 844x390 top/bottom screenshots and automated bounding-box, clipping, hit-testing, and scroll-reachability assertions confirm the repaired settings content is non-overlapping and fully reachable."
     },
     {
       "id": "AC5",
-      "status": "UNKNOWN",
-      "reason": "The retained-export 16-test suite covers all seven effects, ordering, reduced motion, request failure, and next-turn recovery, but there is no fresh production export; the prescribed isolated Playwright command does not launch in this process."
+      "status": "PASS",
+      "reason": "Fresh full and isolated browser runs exercise six player effects and the enemy response in order, including request abort, next-turn recovery, and reduced motion. Production code uses 120 ms per reduced-motion art phase, normal phases use 520 ms, and rendered effect layers remain non-interactive and below controls."
     },
     {
       "id": "AC6",
       "status": "PASS",
-      "reason": "All 56 counted assets have ImageGen call records and allowed post-processing records; all four contact sheets and representative full-resolution art pass manual review, hashes are distinct, and every discovered WebP decodes."
+      "reason": "The current trace contains 56 unique complete records, 56 repository-retained originals, adopted ImageGen call IDs, full prompts, references, and allowed post-processing. Independent inspection of all four regenerated contact sheets plus representative full-resolution files finds a coherent semi-realistic dark Chinese fantasy style and no decisive disqualifying artifact."
     },
     {
       "id": "AC7",
-      "status": "UNKNOWN",
-      "reason": "Current static size, hash, format, and decode checks pass, but the homepage network observation is from the retained export because the current source cannot produce a fresh out/."
+      "status": "PASS",
+      "reason": "The read-only decode audit passes all 64 discovered release WebPs; the formal audit passes 56 unique hashes and reports 5,165,122 total bytes with all class-specific limits met. A fresh clean-context homepage observation requests one image totaling 33,040 bytes, below both frozen thresholds."
     },
     {
       "id": "AC8",
-      "status": "FAIL",
-      "reason": "The 844x390 settings screenshot has visible overlap and clipping, violating the no-overlap/no-truncation requirement. Portrait rotation and other inspected views are acceptable, but one required viewport failure is decisive."
+      "status": "PASS",
+      "reason": "Fresh browser coverage passes the four required viewports, no-global-overflow checks, internal settings scrolling, contrast thresholds, focus-visible traversal, deterministic screenshots, portrait rotation prompt, and reduced-motion behavior. Manual inspection of the repaired 844x390 settings top and bottom confirms no remaining overlap or unreachable control."
     },
     {
       "id": "AC9",
-      "status": "UNKNOWN",
-      "reason": "The retained-export suite passes the four routes, seven nodes, and nine endings, but the screenshots and runtime reports cannot prove the current repository's production export while pnpm build fails."
+      "status": "PASS",
+      "reason": "The fresh 16-test production suite passes all four routes, seven required scene nodes, and nine endings through the public UI, regenerating complete matrices and runtime screenshots from the just-built out/ export without missing asset keys."
     },
     {
       "id": "AC10",
-      "status": "UNKNOWN",
-      "reason": "Unit and retained-export browser coverage pass save/load, version-6 compatibility, effects, reduced motion, and combat flows, but current-source production behavior is not freshly exported."
+      "status": "PASS",
+      "reason": "Fresh unit and production browser coverage passes manual and quick save/load, return-to-menu reload, version-6 missing-visual-metadata compatibility, all required combat actions and effects, request degradation, reduced motion, and victory/failure flows."
     },
     {
       "id": "AC11",
-      "status": "FAIL",
-      "reason": "pnpm build exits 1 at tests/e2e/full-routes.spec.ts:177 with a string-to-asset-key union mismatch. The required pnpm exec playwright command also exits 1 because playwright is not resolved, although the package-script full suite passes 16/16 against retained out/."
+      "status": "PASS",
+      "reason": "The prescribed gates pass freshly in sequence: pnpm test 98/98, pnpm lint, pnpm build, pnpm test:e2e:run 16/16, and the isolated visual-art suite 5/5. The new build produced out/index.html before browser execution."
     },
     {
       "id": "AC12",
       "status": "FAIL",
-      "reason": "evidence.json parses and both structural validators pass, but AC12 requires every AC and mandatory command to pass. AC4, AC8, AC11, and the overall gate do not pass."
+      "reason": "Both JSON/proof validators pass structurally, but the required raw/manual-visual-review.md is stale and internally contradicts evidence.md/evidence.json: it identifies the pre-fix baseline, says the current build failed, marks AC8 FAIL, and concludes the task does not pass. Therefore the criterion-level bundle is not wholly current or internally consistent despite valid schema and paths."
     }
   ],
   "commands_run": [
     {
       "command": "git status --short",
       "exit_code": 0,
-      "result": "Current task changes and pre-existing/unrelated changes enumerated; no cleanup or history rewrite performed."
+      "result": "Current task artifacts and pre-existing unrelated changes enumerated; no cleanup or history rewrite performed."
     },
     {
       "command": "pnpm test",
       "exit_code": 0,
+      "duration_seconds": 2.39,
       "result": "98/98 tests passed."
     },
     {
       "command": "pnpm lint",
       "exit_code": 0,
+      "duration_seconds": 13.75,
       "result": "ESLint passed."
     },
     {
       "command": "pnpm build",
-      "exit_code": 1,
-      "result": "TypeScript TS2345 at tests/e2e/full-routes.spec.ts:177:51."
+      "exit_code": 0,
+      "duration_seconds": 12.47,
+      "result": "Next.js 16.3.0 production build and static export passed; out/index.html was freshly generated."
     },
     {
       "command": "pnpm test:e2e:run",
       "exit_code": 0,
-      "result": "16/16 passed in 10.4 minutes, served from retained out/ because the preceding fresh build failed."
+      "duration_seconds": 438,
+      "result": "16/16 Playwright tests passed against the fresh static export in 7.3 minutes."
     },
     {
       "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line",
-      "exit_code": 1,
-      "result": "Windows reported that playwright is not recognized; node_modules/.bin/playwright.CMD exists but was not resolved by this process."
+      "exit_code": 0,
+      "duration_seconds": 32.7,
+      "result": "5/5 isolated visual-art tests passed."
     },
     {
       "command": "ImageMagick full WebP decode audit",
       "exit_code": 0,
+      "duration_seconds": 29.78,
       "result": "64/64 discovered WebP files decoded."
+    },
+    {
+      "command": "SHA-256 audit",
+      "exit_code": 0,
+      "result": "All discovered release art files enumerated; no duplicate hash was observed, and the formal 56-item audit independently enforces uniqueness."
+    },
+    {
+      "command": "File-size audit",
+      "exit_code": 0,
+      "result": "All release art files enumerated; formal item and total thresholds pass."
+    },
+    {
+      "command": "rg forbidden-pattern candidate audit",
+      "exit_code": 0,
+      "result": "Candidates classified as explicit runtime fallbacks, legacy non-formal CSS asset typing, negative tests, proof screenshot code, or static-server MIME handling; no formal-art key/path/alt violation found."
+    },
+    {
+      "command": "pnpm proof:visual:static",
+      "exit_code": 0,
+      "duration_seconds": 16.32,
+      "result": "PASS: 56 unique formal assets, 5,165,122 bytes, four regenerated contact sheets."
     },
     {
       "command": "Test-Path -LiteralPath out/index.html",
       "exit_code": 0,
-      "result": "True; out/index.html timestamp is 2026-09-02 09:30:51, older than the current full-routes test and the failed verification build."
+      "result": "True."
     },
     {
       "command": "evidence.json PowerShell JSON parse",
@@ -114,18 +143,20 @@
     {
       "command": "node scripts/validate-task-proof.mjs visual-art-expansion-v1",
       "exit_code": 0,
-      "result": "PASS: evidence is structurally valid and proof paths are contained."
+      "result": "PASS: evidence is structurally valid and all proof paths are contained."
     },
     {
       "command": "deadline-carl task_loop.py validate --artifact evidence",
       "exit_code": 0,
-      "result": "valid=true with no missing files or schema errors."
-    },
-    {
-      "command": "SHA-256, file-size, and forbidden-pattern audits",
-      "exit_code": 0,
-      "result": "All files enumerated; candidate forbidden matches are negative tests, proof screenshot code, static-server MIME handling, or explicit non-counted fallback UI rather than formal-art keys/paths/alts."
+      "result": "valid=true; no missing files or schema errors."
     }
+  ],
+  "manual_checks": [
+    "Regenerated characters, CG, UI, and effects contact sheets inspected at original resolution.",
+    "Representative full-resolution character, CG, UI, and effect files inspected.",
+    "Fresh 844x390 settings top and bottom, 390x844 rotation prompt, route CG, combat effect, and restored-save screenshots inspected.",
+    "art-generation.json checked for 56 complete unique traces and 56 retained original files.",
+    "raw/manual-visual-review.md checked and found stale at lines 4-6, 38, and its final conclusion."
   ],
   "artifacts_used": [
     ".agent/tasks/visual-art-expansion-v1/spec.md",
@@ -137,12 +168,9 @@
     ".agent/tasks/visual-art-expansion-v1/raw/cg-runtime-matrix.json",
     ".agent/tasks/visual-art-expansion-v1/raw/ui-runtime-report.json",
     ".agent/tasks/visual-art-expansion-v1/raw/effect-runtime-matrix.json",
-    ".agent/tasks/visual-art-expansion-v1/raw/contact-sheets/characters.png",
-    ".agent/tasks/visual-art-expansion-v1/raw/contact-sheets/cg.png",
-    ".agent/tasks/visual-art-expansion-v1/raw/contact-sheets/ui.png",
-    ".agent/tasks/visual-art-expansion-v1/raw/contact-sheets/effects.png",
-    ".agent/tasks/visual-art-expansion-v1/raw/screenshots/layout/844x390-settings.png",
-    ".agent/tasks/visual-art-expansion-v1/raw/screenshots/routes-and-endings/",
-    ".agent/tasks/visual-art-expansion-v1/raw/screenshots/save-and-combat/"
+    ".agent/tasks/visual-art-expansion-v1/raw/network-budget.json",
+    ".agent/tasks/visual-art-expansion-v1/raw/contact-sheets/",
+    ".agent/tasks/visual-art-expansion-v1/raw/screenshots/",
+    ".agent/tasks/visual-art-expansion-v1/raw/manual-visual-review.md"
   ]
 }

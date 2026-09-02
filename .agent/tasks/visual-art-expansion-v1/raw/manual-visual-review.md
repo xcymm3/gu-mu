@@ -1,56 +1,61 @@
 # Manual visual review — visual-art-expansion-v1
 
-- Reviewed at: 2026-09-02T10:43:00+08:00
-- Reviewer phase: evidence
-- Source state: current worktree at `eeb58125a123511dffd85ca2b0173de6703e799f`
-- Important runtime caveat: the fresh `pnpm build` failed during TypeScript checking, so browser screenshots produced afterward came from the pre-existing `out/` directory and are diagnostic rather than proof of a fresh production export. The complete browser suite passed 16/16; an isolated visual-art run then failed once waiting for `effect.enemy-attack`, and an immediate preserved retry passed 5/5.
+- Reviewed at: 2026-09-02T12:45:19+08:00
+- Reviewer phase: fix
+- Production source state: commit `840d8ad3fe4477a165366a3dfc13cd75416af2c4`, with evidence-only fix changes in the current worktree
+- Runtime basis: the current production export is fresh. `pnpm build` completed successfully, the complete production Playwright suite passed 16/16, and the isolated visual-art suite passed 5/5. The inspected runtime screenshots and matrices were regenerated from that export.
 
 ## Material reviewed
 
 - `raw/contact-sheets/characters.png`, `cg.png`, `ui.png`, and `effects.png`, traced through `raw/contact-sheets/manifest.json`.
-- Full-resolution representative character files for all six identities, including battle, injured, panicked, and awakened states.
-- Full-resolution representative CGs `deathByZhao` and `jiDestroyGu`.
-- All twelve main-menu/settings/saves screenshots in `raw/screenshots/layout/`.
-- Representative route climax and ending screenshots in `raw/screenshots/routes-and-endings/`.
-- Player/enemy effect, request-fallback, save restore, and combat screenshots in `raw/screenshots/save-and-combat/`.
+- Full-resolution representative character, CG, UI, and effect files for the six identities and all four formal-art classes.
+- All main-menu/settings/saves viewport captures under `raw/screenshots/layout/`, with specific comparison of `844x390-settings.png` and `844x390-settings-bottom.png`.
+- Representative route and ending captures under `raw/screenshots/routes-and-endings/`, including `cg-scene-suCoffin.png`.
+- Player effect, request-fallback, reduced-motion, save restore, and combat captures under `raw/screenshots/save-and-combat/`, including `effect-blood-player.png`, `effect-request-fallback.png`, and `manual-load-restored.png`.
 
 ## Review findings
 
 ### Character art
 
-- The 30-cell contact sheet contains 30 distinct compositions. Across each identity, face shape, hair, age, clothing palette, ornament language, and silhouette remain recognisable.
-- Neutral/expression/injured/battle semantics are visually distinguishable. No watermark, generated text, obvious extra limb, missing face, or identity swap was observed at contact-sheet scale or in the representative originals.
-- Transparent edges remain usable on the dark contact-sheet background. The green field shown by the local full-resolution viewer is the transparency inspection background, not part of the delivered WebP.
-- Visual quality result: PASS for the manual portion of AC2 and AC6. The refreshed runtime matrix contains 30/30 expected keys with no missing key, but it was served from the pre-existing export after the current build failed.
+- The 30-cell contact sheet contains 30 distinct compositions. Within each identity, face shape, hair, age, clothing palette, ornament language, weapon or gu-tool cues, and silhouette remain recognisable.
+- Neutral, expression, injured, and battle semantics are visually distinguishable. No watermark, generated text, obvious extra limb, missing face, identity swap, or release-blocking crop defect was observed at contact-sheet scale or in the representative originals.
+- Transparent edges remain usable against the dark stage. The runtime matrix contains all 30 expected keys and the current production screenshots show the assets without geometric stretching.
+- Visual quality result: PASS for the manual portions of AC2 and AC6.
 
 ### CG art
 
-- The 16-cell sheet contains nine ending compositions and seven scene compositions with distinct hashes and distinct narrative staging.
-- The four route climax images clearly separate Zhao awakening, Ji destroying the gu core, Su at the coffin, and the traitor blood-taking scene. The inspected ending images match their dark tomb outcomes and do not contain watermarks, logos, modern objects, or visible generated text.
-- Runtime screenshots show the CG asset behind readable dialogue/ending panels without geometric stretching at 1366x768. Important subjects remain visible in the inspected Zhao/Ji/Su/traitor and ending frames.
-- Visual quality result: PASS for the manual portion of AC3 and AC6. The refreshed runtime matrix contains 16/16 expected keys with no missing key, but it was served from the pre-existing export after the current build failed.
+- The 16-cell sheet contains nine ending compositions and seven scene compositions with distinct narrative staging. The four route climaxes clearly separate Zhao awakening, Ji destroying the gu core, Su at the coffin, and the traitor blood-taking scene.
+- The inspected CGs preserve the dark tomb setting and intended relationships without watermarks, logos, modern objects, visible generated text, or a decisive narrative contradiction.
+- Current runtime captures show the CG behind readable dialogue or ending panels without geometric stretching. Important subjects remain visible in the inspected Zhao, Ji, Su, traitor, and ending frames.
+- Visual quality result: PASS for the manual portions of AC3 and AC6.
 
 ### UI art and layout
 
-- Main menu, settings, and saves use three visually distinct tomb-themed images. Desktop screenshots at 1366x768 and 1920x1080 keep headings and controls readable, and the 390x844 screenshots show the intended rotation prompt.
-- Main menu and saves are readable in the inspected 844x390 frames.
-- The fresh 844x390 settings screenshot shows the sound area hidden behind the reduced-motion card, the ending-record heading overlapped, and the lower clear-record card clipped by the viewport. Because the automated check also reports no document scroll, the hidden controls are not recoverable by page scrolling.
-- Manual layout result: FAIL for AC8 pending a fresh production screenshot and a fix or explicit non-overlap/scroll-reachability proof for the 844x390 settings view.
+- Main menu, settings, and saves use three visually distinct tomb-themed images with a consistent ink, bronze, blood-red, fog, and stone visual language. Desktop text and controls remain readable over bounded low-noise panels.
+- At 1366x768 and 1920x1080, headings, panels, and controls are readable. The 390x844 captures correctly show the rotation prompt rather than a clipped landscape interface.
+- The repaired 844x390 settings view uses a fixed header and a bounded internal scroll region. In the top capture, theme controls and the beginning of the sound section are unobscured; in the bottom capture, reduced motion, ending records, and the full clear-record control are visible without overlap or self-clipping.
+- The associated browser assertions confirm five non-overlapping groups, no child clipping, nonzero internal scrolling, final-control reachability, stable header bounds, and correct header hit-testing.
+- Manual layout result: PASS for the manual portions of AC4 and AC8.
 
-### Combat effects
+### Combat effects and degradation
 
-- All seven effects are visually distinct, transparent, and readable against the combat stage. Player blood and enemy attack frames point toward different targets and sit above the stage/characters while leaving the dialogue and control layers readable.
-- The request-abort frame preserves the stage, textual fallback, and controls without a permanent overlay. Reduced-motion evidence reports a bounded duration and a usable next turn.
-- Visual quality result: PASS for the manual portion of AC5 and AC6. The full browser suite and isolated retry exercise all seven keys, ordering, reduced motion, request fallback, and next-turn recovery; one preserved isolated timing failure and the failed new production build keep the runtime result diagnostic rather than current-export proof.
+- All seven effects are visually distinct, transparent, and readable against the combat stage. Player blood and enemy attack cues point toward different targets and sit above the stage and characters while leaving dialogue and controls legible.
+- The current player-effect capture shows a clear hit direction without hiding the enemy identity or status. The request-abort capture preserves the stage, explicit text fallback, and usable controls without a permanent overlay.
+- Reduced-motion and recovery evidence show bounded presentation and a usable next turn; the current isolated and complete production browser runs exercise all seven keys, ordering, request failure, reduced motion, and next-turn recovery without a remaining failure.
+- Visual quality result: PASS for the manual portions of AC5 and AC6.
+
+### Save/load and runtime composition
+
+- The restored-save capture retains scene identity, character placement, dialogue readability, health display, and the intended dark tomb composition after loading.
+- Current route, ending, save, and combat captures use the formal mapped assets rather than blank fields or visible placeholders. No release-blocking stretch, broken image, permanent overlay, or unreadable text was observed in the reviewed frames.
+- Runtime visual result: PASS for the manual portions supporting AC7, AC9, and AC10.
 
 ### Forbidden-pattern candidate classification
 
-- Matches in `tests/release.test.ts` are negative assertions and do not define release art.
-- `vn-character-placeholder` matches in `XueGuYinGame.tsx` and `app/globals.css` are non-art error/fallback UI; they are not registered in the 56-item formal manifest.
-- `vn-placeholder-*` CSS selectors are legacy scene/fallback styling outside the counted formal-art matrix; the typed formal manifest contains no forbidden key/path/alt according to the 98 passing Node tests and `raw/runtime-reference-report.json`.
-- `kind: "css"` is the typed legacy background/fallback branch, not one of the four formal-art maps.
-- Screenshot matches are test/proof capture code. The `.svg` match is only the static server MIME table. No forbidden token was observed in a formal 56-item key, path, or alt.
+- Matches in release tests are negative assertions and do not define release art.
+- `vn-character-placeholder` is a non-art error/fallback state and is not registered in the 56-item formal manifest. Legacy CSS background/fallback branches likewise do not count as formal art.
+- Screenshot-related strings belong to test/proof capture code, and the `.svg` candidate is the static server MIME table. No forbidden token was observed in a formal asset key, path, or alt.
 
 ## Manual conclusion
 
-Formal image quality and style review passes. The complete task does not pass this evidence iteration because the fresh production build fails on the formal asset-key type at `tests/e2e/full-routes.spec.ts:177`, the prescribed `pnpm exec playwright` command cannot resolve the Windows-local executable, one isolated effect run exposed a timing flake before its successful retry, and the 844x390 settings screenshot has confirmed control overlap and clipping. The complete browser suite nevertheless passed 16/16 and refreshed character 30/30 and CG 16/16 matrices from the pre-existing export.
+The current production export passes the manual visual review required by AC2, AC3, AC4, AC5, AC6, and AC8. The refreshed 844x390 settings top and bottom captures confirm that the prior overlap and reachability defect is repaired. The four contact sheets and representative runtime frames show coherent formal art, distinct required states and scenes, legible layering, and functioning non-art degradation behavior. No remaining manual visual gap is known; this review is consistent with the current all-PASS criterion evidence and remains subject to the next independent verifier's final verdict.

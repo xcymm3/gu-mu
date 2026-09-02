@@ -2,7 +2,7 @@
 
 ## Overall
 
-`PASS candidate`. The fix cycle restored a fresh production static export, regenerated all browser matrices and screenshots from that export, and passed the prescribed isolated Playwright command. The 844x390 settings view now uses a bounded internal scroll region with a fixed header; automated pairwise-overlap, child-clipping, bottom-reachability, and hit-testing checks pass, and fresh top/bottom screenshots show all controls reachable without overlap. This is evidence, not the independent final verdict.
+`PASS candidate`. The fix cycle restored a fresh production static export, regenerated all browser matrices and screenshots from that export, and passed the prescribed isolated Playwright command. The 844x390 settings view now uses a bounded internal scroll region with a fixed header; automated pairwise-overlap, child-clipping, bottom-reachability, and hit-testing checks pass, and fresh top/bottom screenshots show all controls reachable without overlap. The manual visual review was then rerun against the current `840d8ad` worktree, regenerated contact sheets, and current-export screenshots, replacing the superseded pre-fix observations. This is evidence, not the independent final verdict.
 
 ## Fresh command results
 
@@ -33,14 +33,14 @@ The exact command sequence and results for this fix cycle are recorded in `raw/f
 | AC9 | PASS | Fresh public-UI suite covers four routes, seven nodes, and nine endings with no missing keys. |
 | AC10 | PASS | Six-slot/manual/quick save-load, version-6 migration, battles, effects, and degradation flows pass. |
 | AC11 | PASS | Unit, lint, build, isolated visual E2E, complete E2E, and static proof commands all exit 0. |
-| AC12 | PASS | Criterion-level evidence is refreshed from the current export and both proof validators pass. |
+| AC12 | PASS | Criterion-level evidence and the manual visual review now describe the current export consistently; both proof validators pass. |
 
 ## Key fresh artifacts
 
 - Static: `raw/asset-inventory.json`, `raw/image-audit.txt`, `raw/file-hashes.txt`, `raw/file-sizes.txt`, `raw/runtime-reference-report.json`.
 - Runtime: `raw/character-runtime-matrix.json` (30/30), `raw/cg-runtime-matrix.json` (16/16), `raw/ui-runtime-report.json` (12 observations), `raw/effect-runtime-matrix.json`, `raw/network-budget.json` (33,040 bytes).
 - Visual: four files under `raw/contact-sheets/`; fresh screenshots under `raw/screenshots/`, including `layout/844x390-settings.png` and `layout/844x390-settings-bottom.png`; `raw/manual-visual-review.md`.
-- Reproduction: `raw/fix-001-command-results.txt`, `raw/command-metadata.json`, and `raw/checkpoints/`.
+- Reproduction: `raw/fix-001-command-results.txt`, `raw/fix-002-command-results.txt`, `raw/command-metadata.json`, and `raw/checkpoints/`.
 
 ## Remaining gate
 

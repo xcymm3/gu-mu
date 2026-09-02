@@ -139,7 +139,7 @@
         { "command": "node scripts/validate-task-proof.mjs visual-art-expansion-v1", "exit_code": 0 },
         { "command": "deadline-carl evidence validator", "exit_code": 0 }
       ],
-      "proof": ["evidence.md", "evidence.json", "raw/fix-001-command-results.txt", "raw/command-metadata.json", "raw/checkpoints", "raw/contact-sheets/manifest.json", "raw/manual-visual-review.md"],
+      "proof": ["evidence.md", "evidence.json", "raw/fix-001-command-results.txt", "raw/fix-002-command-results.txt", "raw/command-metadata.json", "raw/checkpoints", "raw/contact-sheets/manifest.json", "raw/manual-visual-review.md"],
       "gaps": []
     }
   ],

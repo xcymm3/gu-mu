@@ -1,6 +1,6 @@
 {
   "task_id": "visual-art-expansion-v1",
-  "generated_at": "2026-09-02T04:12:02.652Z",
+  "generated_at": "2026-09-02T04:37:21.149Z",
   "generator": "scripts/generate-visual-art-static-proof.mjs",
   "sheets": {
     "character": {

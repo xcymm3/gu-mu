@@ -1,0 +1,15 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/visual-art-expansion.spec.ts",
+  "version_6_fixture": "raw/fixtures/save-v6-no-visual-metadata.json",
+  "player_effects_observed": [
+    "effect.player-blood-attack",
+    "effect.player-armor-guard",
+    "effect.player-heal-gu",
+    "effect.player-sword-gu",
+    "effect.player-charm-gu",
+    "effect.player-blooddemon-gu"
+  ],
+  "enemy_effect_observed": true,
+  "screenshots": "raw/screenshots/save-and-combat/"
+}

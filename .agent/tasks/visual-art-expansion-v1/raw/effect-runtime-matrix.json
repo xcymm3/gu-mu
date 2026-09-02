@@ -1,0 +1,123 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/visual-art-expansion.spec.ts",
+  "expected_keys": [
+    "effect.player-blood-attack",
+    "effect.player-armor-guard",
+    "effect.player-heal-gu",
+    "effect.player-sword-gu",
+    "effect.player-charm-gu",
+    "effect.player-blooddemon-gu",
+    "effect.enemy-attack"
+  ],
+  "entries": [
+    {
+      "action": "blood",
+      "key": "effect.player-blood-attack",
+      "order": 0,
+      "phase": "player",
+      "requested_path": "http://127.0.0.1:4173/effects/player-blood-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "blood",
+      "key": "effect.enemy-attack",
+      "order": 1,
+      "phase": "enemy",
+      "requested_path": "http://127.0.0.1:4173/effects/enemy-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "armor",
+      "key": "effect.player-armor-guard",
+      "order": 0,
+      "phase": "player",
+      "requested_path": "http://127.0.0.1:4173/effects/player-armor-guard-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "armor",
+      "key": "effect.enemy-attack",
+      "order": 1,
+      "phase": "enemy",
+      "requested_path": "http://127.0.0.1:4173/effects/enemy-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "heal",
+      "key": "effect.player-heal-gu",
+      "order": 0,
+      "phase": "player",
+      "requested_path": "http://127.0.0.1:4173/effects/player-heal-gu-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "heal",
+      "key": "effect.enemy-attack",
+      "order": 1,
+      "phase": "enemy",
+      "requested_path": "http://127.0.0.1:4173/effects/enemy-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "sword",
+      "key": "effect.player-sword-gu",
+      "order": 0,
+      "phase": "player",
+      "requested_path": "http://127.0.0.1:4173/effects/player-sword-gu-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "sword",
+      "key": "effect.enemy-attack",
+      "order": 1,
+      "phase": "enemy",
+      "requested_path": "http://127.0.0.1:4173/effects/enemy-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "charm",
+      "key": "effect.player-charm-gu",
+      "order": 0,
+      "phase": "player",
+      "requested_path": "http://127.0.0.1:4173/effects/player-charm-gu-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "charm",
+      "key": "effect.enemy-attack",
+      "order": 1,
+      "phase": "enemy",
+      "requested_path": "http://127.0.0.1:4173/effects/enemy-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "blooddemon",
+      "key": "effect.player-blooddemon-gu",
+      "order": 0,
+      "phase": "player",
+      "requested_path": "http://127.0.0.1:4173/effects/player-blooddemon-gu-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    },
+    {
+      "action": "blooddemon",
+      "key": "effect.enemy-attack",
+      "order": 1,
+      "phase": "enemy",
+      "requested_path": "http://127.0.0.1:4173/effects/enemy-attack-v1.webp",
+      "visible": true,
+      "reduced_motion": false
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+command=pnpm test:e2e:run -- tests/e2e/visual-art-expansion.spec.ts --reporter=line (retry after isolated timing failure)
+started_at=2026-09-02T02:41:24.4469416Z
+finished_at=2026-09-02T02:42:04.2756465Z
+exit_code=0
+
+$ playwright test "tests/e2e/visual-art-expansion.spec.ts" "--reporter=line"
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 5 tests using 1 worker
+
+
+(node:41616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/5] tests\e2e\visual-art-expansion.spec.ts:158:1 › 全新上下文首页满足图片请求与传输预算
+[2/5] tests\e2e\visual-art-expansion.spec.ts:189:1 › 三页正式主视觉在四个合同视口保持可达且无全局溢出
+[3/5] tests\e2e\visual-art-expansion.spec.ts:223:1 › 六类玩家位图特效均先于敌方反击且回合可继续
+[4/5] tests\e2e\visual-art-expansion.spec.ts:257:1 › 减少动态与特效请求失败均保留文字反馈和下一回合
+[5/5] tests\e2e\visual-art-expansion.spec.ts:292:1 › 版本 6 存档缺少视觉元数据时仍由公开读档入口恢复
+  5 passed (37.4s)

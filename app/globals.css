@@ -498,6 +498,74 @@ body {
   .story-frame.is-battling .battle-commands .gu-list em { top: .42rem; right: .4rem; font-size: .5rem; }
 }
 
+/* Formal ImageGen view artwork: one runtime asset per home surface. */
+.menu-shell,
+.archive-shell,
+.settings-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #050707;
+}
+
+.view-artwork {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.view-artwork::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgb(3 5 5 / 82%) 0%, rgb(3 5 5 / 36%) 48%, rgb(3 5 5 / 12%) 100%),
+    linear-gradient(0deg, rgb(3 5 5 / 54%) 0%, transparent 56%);
+  content: "";
+}
+
+.view-artwork-image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.menu-shell > .game-frame,
+.archive-shell > .game-frame,
+.settings-shell > .game-frame {
+  position: relative;
+  z-index: 1;
+}
+
+.archive-shell > .archive-card,
+.settings-shell > .settings-card {
+  border-color: color-mix(in srgb, var(--color-rule-strong) 72%, transparent);
+  background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+  box-shadow: 0 1.25rem 4rem rgb(0 0 0 / 48%);
+  backdrop-filter: blur(0.55rem);
+}
+
+@media (min-width: 60rem),
+  (orientation: landscape) and (max-width: 59.99rem) {
+  .menu-shell .main-menu {
+    background: transparent;
+  }
+
+  .menu-shell .view-artwork-image {
+    object-position: center;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 59.99rem) {
+  .view-artwork-image {
+    object-position: 67% center;
+  }
+
+  .view-artwork::after {
+    background: rgb(3 5 5 / 72%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vn-battle-actor,
   .vn-battle-actor-layer.is-reacting .vn-battle-actor { animation: none !important; }
@@ -2497,6 +2565,11 @@ html[data-reduce-motion="true"] *::after {
   min-height: 0;
 }
 
+.settings-card > .menu-page-header {
+  position: relative;
+  z-index: 1;
+}
+
 .ending-list,
 .settings-list,
 .save-archive-list,
@@ -2506,7 +2579,10 @@ html[data-reduce-motion="true"] *::after {
 }
 
 .settings-list {
+  position: relative;
+  z-index: 0;
   margin-top: var(--space-5);
+  contain: paint;
 }
 
 .save-archive-list,
@@ -2817,6 +2893,79 @@ html[data-reduce-motion="true"] .vn-character-slot { transition: none; }
 .vn-effect.is-flash.is-danger { background: var(--color-vn-flash-danger); }
 .vn-effect.is-darken { background: radial-gradient(circle, transparent 12%, var(--color-vn-darken)); animation: vn-effect-darken 520ms var(--ease-out) both; }
 .vn-effect.is-fade { background: var(--color-vn-shadow); animation: vn-effect-flash 520ms reverse var(--ease-out) both; }
+
+@keyframes vn-combat-art-player {
+  0% { opacity: 0; transform: translate3d(-10%, 6%, 0) scale(.76); }
+  18% { opacity: 1; }
+  68% { opacity: .96; transform: translate3d(7%, -5%, 0) scale(1.06); }
+  100% { opacity: 0; transform: translate3d(11%, -7%, 0) scale(1.1); }
+}
+
+@keyframes vn-combat-art-enemy {
+  0% { opacity: 0; transform: translate3d(10%, -7%, 0) scale(.78); }
+  18% { opacity: 1; }
+  68% { opacity: .98; transform: translate3d(-7%, 5%, 0) scale(1.05); }
+  100% { opacity: 0; transform: translate3d(-11%, 7%, 0) scale(1.09); }
+}
+
+.vn-combat-art-layer {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.vn-combat-art-image {
+  position: absolute;
+  top: 10%;
+  width: min(42vw, 34rem, 68vh);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 .8rem 1.3rem rgb(0 0 0 / 58%));
+  will-change: opacity, transform;
+}
+
+.vn-combat-art-layer.is-player .vn-combat-art-image {
+  right: 14%;
+  animation: vn-combat-art-player 520ms var(--ease-out) both;
+}
+
+.vn-combat-art-layer.is-enemy .vn-combat-art-image {
+  left: 8%;
+  animation: vn-combat-art-enemy 520ms var(--ease-out) both;
+}
+
+.vn-combat-art-fallback {
+  position: absolute;
+  top: 5.25rem;
+  left: 50%;
+  padding: .45rem .7rem;
+  border: 1px solid var(--color-vn-rule);
+  background: var(--color-vn-chrome);
+  color: var(--color-vn-chrome-ink);
+  font-size: var(--text-xs);
+  transform: translateX(-50%);
+}
+
+@media (orientation: landscape) and (max-width: 59.99rem) {
+  .vn-combat-art-image {
+    top: 5%;
+    width: min(47vw, 72vh);
+  }
+
+  .vn-combat-art-layer.is-player .vn-combat-art-image { right: 10%; }
+  .vn-combat-art-layer.is-enemy .vn-combat-art-image { left: 5%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vn-combat-art-image { opacity: .9; animation: none !important; }
+}
+
+html[data-reduce-motion="true"] .vn-combat-art-image {
+  opacity: .9;
+  animation: none !important;
+}
 .story-frame.is-stage-shake .vn-stage,
 .story-frame.is-stage-shake .vn-character-layer { animation: vn-impact-shake 360ms var(--ease-out) both; }
 .scene-copy.is-scene-fade { animation: vn-dialogue-fade var(--dur-normal) var(--ease-out) both; }
@@ -3492,6 +3641,15 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     padding: var(--space-4);
   }
 
+  .settings-list {
+    grid-auto-rows: max-content;
+  }
+
+  .settings-list > .settings-note,
+  .settings-list > .settings-row {
+    min-height: max-content;
+  }
+
   .menu-page-header {
     grid-template-columns: auto minmax(0, 1fr);
     gap: var(--space-4);
@@ -3851,6 +4009,20 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
   .story-frame.is-battling .battle-panel > .primary-button {
     bottom: var(--vn-utility-clearance);
   }
+}
+
+/* Keep formal home-view art above legacy procedural menu backgrounds. */
+.game-shell.menu-shell,
+.game-shell.archive-shell,
+.game-shell.settings-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #050707;
+}
+
+.game-shell.menu-shell > .main-menu {
+  background: transparent;
 }
 
 /* Hallmark · battle remains inside the visual-novel stage instead of becoming a separate HUD. */

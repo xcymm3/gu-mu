@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "task_id": "visual-art-expansion-v1",
+  "spec_sha256": "1cd3ca17dfb2be2052410a4dcb91a44688761dcf0f0c014d982bf47586168c9e",
+  "items": [
+    {
+      "id": "WI-001",
+      "title": "建立可审计的类型化资源合同与运行时清单",
+      "ac_ids": [
+        "AC1"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-002",
+      "title": "补齐六名角色的 30 格状态矩阵并接入真实触发",
+      "ac_ids": [
+        "AC2"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-003",
+      "title": "生成并接入九结局与七个关键节点的 16 张独立 CG",
+      "ac_ids": [
+        "AC3"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-004",
+      "title": "以统一暗黑国风系统重做首页、设置页与存档页",
+      "ac_ids": [
+        "AC4"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-005",
+      "title": "接入七类战斗位图特效及触发、层级、时序与降级",
+      "ac_ids": [
+        "AC5"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-006",
+      "title": "建立正式美术质量复核与 ImageGen 逐文件溯源",
+      "ac_ids": [
+        "AC6"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-007",
+      "title": "完成 56 张资源压缩、解码、加载预算与卫生审计",
+      "ac_ids": [
+        "AC7"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-008",
+      "title": "验证四视口布局、可读性、键盘与动态偏好",
+      "ac_ids": [
+        "AC8"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-009",
+      "title": "通过真实页面覆盖四路线、七节点与九结局",
+      "ac_ids": [
+        "AC9"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-010",
+      "title": "验证六槽存读档、快存快读与战斗全链路回归",
+      "ac_ids": [
+        "AC10"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-011",
+      "title": "补齐自动化质量门并通过生产静态导出",
+      "ac_ids": [
+        "AC11"
+      ],
+      "mandatory": true
+    },
+    {
+      "id": "WI-012",
+      "title": "产出可复现的 criterion-level proof 与结构化验证入口",
+      "ac_ids": [
+        "AC12"
+      ],
+      "mandatory": true
+    }
+  ]
+}

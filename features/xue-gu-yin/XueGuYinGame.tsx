@@ -5,7 +5,17 @@ import { useEffect, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
 import { useVisualNovelAudio, type VisualNovelAudioEngine } from "@/features/xue-gu-yin/audio/VisualNovelAudio";
-import { getVisualAsset, visualAssetManifest, type BackgroundAssetKey } from "@/lib/xue-gu-yin/assets";
+import {
+  battleCharacterStateAssets,
+  combatActionEffectAssets,
+  enemyCombatEffectAsset,
+  getEndingCgAsset,
+  getFormalVisualAsset,
+  getVisualAsset,
+  type BackgroundAssetKey,
+  type CombatEffectAssetKey,
+  type UiAssetKey,
+} from "@/lib/xue-gu-yin/assets";
 import { defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile, type AudioAssetKey, type AudioSettings, type SfxAssetKey } from "@/lib/xue-gu-yin/audio";
 import { actionCost } from "@/lib/xue-gu-yin/combat";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey, type BacklogEntry } from "@/lib/xue-gu-yin/reading";
@@ -63,6 +73,7 @@ type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
 type BattleFeedback = { result: string; nextCue?: string; enemyCondition: string; hasEnded: boolean; emphasis?: "danger" | "success" };
 type StageEffect = { effect: "fade" | "flash" | "shake" | "darken"; tone: "neutral" | "danger" };
+type CombatArtEffect = { id: number; assetKey: CombatEffectAssetKey; phase: "player" | "enemy" };
 
 const modalFocusableSelector = [
   "button:not([disabled])",
@@ -225,34 +236,6 @@ function useNarrativeLimit() {
   return limit;
 }
 
-function useVisualAssetPreloader() {
-  useEffect(() => {
-    const sources = [...new Set(Object.values(visualAssetManifest).flatMap((asset) => asset.kind === "image" ? [asset.src] : []))];
-    const images: HTMLImageElement[] = [];
-    const preload = () => {
-      for (const source of sources) {
-        const image = new window.Image();
-        image.decoding = "async";
-        image.src = source;
-        images.push(image);
-      }
-    };
-    const idleWindow = window as unknown as {
-      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
-      cancelIdleCallback?: (handle: number) => void;
-    };
-    let cancel: () => void;
-    if (typeof idleWindow.requestIdleCallback === "function") {
-      const idleId = idleWindow.requestIdleCallback(preload, { timeout: 1800 });
-      cancel = () => idleWindow.cancelIdleCallback?.(idleId);
-    } else {
-      const timeoutId = globalThis.setTimeout(preload, 650);
-      cancel = () => globalThis.clearTimeout(timeoutId);
-    }
-    return () => { cancel(); images.length = 0; };
-  }, []);
-}
-
 function inferSpeaker(text: string) {
   const firstQuote = text.search(/[“「『]/);
   if (firstQuote < 0) return "旁白";
@@ -291,6 +274,7 @@ function VisualNovelCharacters({ activeSpeaker, characters }: { activeSpeaker: s
       const isActive = activeSpeaker === characterLabels[character.id];
       return <div
         className={`vn-character-slot is-visible is-${character.position}${isActive ? " is-speaking" : ""}`}
+        data-asset-key={character.asset}
         data-character={character.id}
         data-expression={character.expression}
         key={character.id}
@@ -310,13 +294,42 @@ function CharacterImage({ label, src }: { label: string; src: string }) {
 function StageImage({ alt, className, src }: { alt: string; className: string; src: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) return <div className="vn-asset-fallback" role="img" aria-label={`${alt}（资源加载失败，已使用安全背景）`}><span>场景暂缺</span></div>;
-  return <Image alt="" className={className} fill priority sizes="100vw" src={src} unoptimized onError={() => setFailed(true)} />;
+  return <Image alt={alt} className={className} fill preload sizes="100vw" src={src} unoptimized onError={() => setFailed(true)} />;
 }
 
 function VisualNovelEffects({ effects, token }: { effects: StageEffect[]; token: string }) {
   if (!effects.length) return null;
   return <div className="vn-effect-layer" key={token} aria-hidden="true">
     {effects.map((effect, index) => <span className={`vn-effect is-${effect.effect} is-${effect.tone}`} key={`${effect.effect}-${index}`} />)}
+  </div>;
+}
+
+function CombatArtEffectLayer({ effect }: { effect: CombatArtEffect }) {
+  const [failed, setFailed] = useState(false);
+  const asset = getFormalVisualAsset(effect.assetKey);
+
+  return <div
+    className={`vn-combat-art-layer is-${effect.phase}`}
+    data-combat-effect-key={asset.key}
+    data-combat-effect-phase={effect.phase}
+    role="status"
+  >
+    {failed
+      ? <span className="vn-combat-art-fallback" data-combat-effect-fallback="true">特效资源未载入，战斗照常结算</span>
+      : <Image
+          alt=""
+          aria-hidden="true"
+          className="vn-combat-art-image"
+          height={asset.height}
+          sizes="(max-width: 844px) 48vw, 36vw"
+          src={asset.src}
+          unoptimized
+          width={asset.width}
+          onError={() => {
+            console.warn(`[combat-art] ${asset.key} 加载失败，继续使用文字战斗反馈`);
+            setFailed(true);
+          }}
+        />}
   </div>;
 }
 
@@ -337,20 +350,19 @@ function SceneAudioCue({ act, audio, background, inBattle }: { act: number; audi
 }
 
 const battleActorAssets = {
-  "铜皮傀儡": { asset: "character.enemy.tong-pi-kui-lei", label: "铜皮傀儡" },
-  "血傀儡": { asset: "character.enemy.xue-kui-lei", label: "血傀儡" },
-  "赵黎": { asset: "character.zhao-li.wary", label: "赵黎" },
-  "乔无咎": { asset: "character.qiao-wujiu.smug", label: "乔无咎" },
-  "苏衍": { asset: "character.su-yan.awakened", label: "苏衍" },
+  "铜皮傀儡": { battle: "character.enemy.tong-pi-kui-lei", injured: "character.enemy.tong-pi-kui-lei", label: "铜皮傀儡" },
+  "血傀儡": { battle: "character.enemy.xue-kui-lei", injured: "character.enemy.xue-kui-lei", label: "血傀儡" },
+  ...battleCharacterStateAssets,
 } as const;
 
 function BattleStageActor({ defeated, enemyCondition, enemyName, reacting }: { defeated: boolean; enemyCondition: string; enemyName: string; reacting: boolean }) {
   const actor = battleActorAssets[enemyName as keyof typeof battleActorAssets];
-  const asset = actor ? getVisualAsset(actor.asset) : null;
+  const assetKey = actor ? actor[defeated || enemyCondition === "重伤" ? "injured" : "battle"] : null;
+  const asset = assetKey ? getVisualAsset(assetKey) : null;
   const construct = enemyName.includes("傀儡");
   const conditionTone = enemyCondition === "健康" ? "is-healthy" : enemyCondition === "重伤" ? "is-critical" : "is-wounded";
   return <div className={`vn-battle-actor-layer${reacting ? " is-reacting" : ""}${defeated ? " is-defeated" : ""}`} aria-hidden="true">
-    <div className={`vn-battle-actor${construct ? " is-construct" : " is-cultivator"}`} data-enemy={enemyName}>
+    <div className={`vn-battle-actor${construct ? " is-construct" : " is-cultivator"}`} data-asset-key={assetKey ?? undefined} data-enemy={enemyName}>
       {asset?.kind === "image"
         ? <CharacterImage label={actor.label} src={asset.src} />
         : <div className="vn-battle-construct"><i /><i /><i /><span /></div>}
@@ -362,7 +374,7 @@ function BattleStageActor({ defeated, enemyCondition, enemyName, reacting }: { d
 function VisualNovelStage({ activeSpeaker, background, battleActor, characters, effects, effectToken }: { activeSpeaker: string; background: BackgroundAssetKey; battleActor?: { defeated: boolean; enemyCondition: string; enemyName: string; reacting: boolean }; characters: PresentedCharacter[]; effects: StageEffect[]; effectToken: string }) {
   const asset = getVisualAsset(background);
   return <>
-    <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} key={background} role="img" aria-label={asset.alt}>
+    <div className={`vn-stage ${asset.kind === "css" ? asset.className : "vn-stage--image"}`} data-asset-key={background} key={background} role="img" aria-label={asset.alt}>
       {asset.kind === "image" ? <StageImage alt={asset.alt} className="vn-stage-image" src={asset.src} /> : null}
       <span className="vn-stage-moon" /><span className="vn-stage-mountain vn-stage-mountain--far" /><span className="vn-stage-mountain vn-stage-mountain--near" /><span className="vn-stage-gate" />
     </div>
@@ -606,7 +618,6 @@ function buildBattleResultText(game: GameState, won: boolean): string {
 }
 
 export function XueGuYinGame() {
-  useVisualAssetPreloader();
   const [game, setGame] = useState<GameState>(initialGame);
   const [seenEndings, setSeenEndings] = useState<string[]>([]);
   const [saveSlots, setSaveSlots] = useState<SaveSlots>(emptySaveSlots);
@@ -631,8 +642,11 @@ export function XueGuYinGame() {
   const [quickSave, setQuickSave] = useState<SaveSlot | null>(null);
   const [quickNotice, setQuickNotice] = useState("");
   const [combatEffect, setCombatEffect] = useState<{ id: number; effect: "flash" | "shake" | "darken"; tone: "neutral" | "danger" } | null>(null);
+  const [combatArtEffect, setCombatArtEffect] = useState<CombatArtEffect | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
   const storageLoadedRef = useRef(false);
+  const combatSequenceRef = useRef(0);
+  const combatTimersRef = useRef<number[]>([]);
   const narrativeLimit = useNarrativeLimit();
   const role = getRole(game.roleId);
   const scene = scenes[game.sceneId];
@@ -692,6 +706,11 @@ export function XueGuYinGame() {
     const timer = window.setTimeout(() => setCombatEffect(null), 520);
     return () => window.clearTimeout(timer);
   }, [combatEffect]);
+
+  useEffect(() => () => {
+    combatSequenceRef.current += 1;
+    for (const timer of combatTimersRef.current) window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (copyRef.current) copyRef.current.scrollTop = 0;
@@ -790,7 +809,7 @@ export function XueGuYinGame() {
   }
 
   function handleBattle(action: GuAction) {
-    if (pendingBattleState) return;
+    if (pendingBattleState || combatArtEffect) return;
     const next = resolveBattleTurn(game, action);
     if (next === game) return;
     const feedback = describeBattleTurn(game, next, action);
@@ -798,17 +817,49 @@ export function XueGuYinGame() {
     const sfx: SfxAssetKey = lost ? "sfx.battle-danger" : action === "armor" ? "sfx.battle-guard" : action === "heal" ? "sfx.battle-heal" : "sfx.battle-hit";
     audio.playSfx(sfx);
     setCombatEffect({ id: Date.now(), effect: lost ? "darken" : action === "armor" ? "shake" : action === "heal" ? "flash" : "shake", tone: lost ? "danger" : "neutral" });
-    if (feedback.hasEnded) {
-      const battle = game.battle!;
-      const won = Boolean(battle.victoryFlag && next.flags.includes(battle.victoryFlag));
-      setPendingBattleState(next);
-      setBattleResult({ won, text: buildBattleResultText(game, won) });
-      setTransientPage(0);
-      setBattleFeedback(null);
-      return;
+
+    for (const timer of combatTimersRef.current) window.clearTimeout(timer);
+    combatTimersRef.current = [];
+    const sequenceId = combatSequenceRef.current + 1;
+    combatSequenceRef.current = sequenceId;
+    const reduced = reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const duration = reduced ? 120 : 520;
+    const playerAssetKey = action === "rest" ? null : combatActionEffectAssets[action];
+    const enemyCanAct = Boolean(lost || !feedback.hasEnded);
+
+    const finishTurn = () => {
+      if (combatSequenceRef.current !== sequenceId) return;
+      setCombatArtEffect(null);
+      combatTimersRef.current = [];
+      if (feedback.hasEnded) {
+        const battle = game.battle!;
+        const won = Boolean(battle.victoryFlag && next.flags.includes(battle.victoryFlag));
+        setPendingBattleState(next);
+        setBattleResult({ won, text: buildBattleResultText(game, won) });
+        setTransientPage(0);
+        setBattleFeedback(null);
+        return;
+      }
+      setBattleFeedback(feedback);
+      setGame(next);
+    };
+
+    const playEnemyOrFinish = () => {
+      if (combatSequenceRef.current !== sequenceId) return;
+      if (!enemyCanAct) {
+        finishTurn();
+        return;
+      }
+      setCombatArtEffect({ id: sequenceId * 10 + 2, assetKey: enemyCombatEffectAsset, phase: "enemy" });
+      combatTimersRef.current.push(window.setTimeout(finishTurn, duration));
+    };
+
+    if (playerAssetKey) {
+      setCombatArtEffect({ id: sequenceId * 10 + 1, assetKey: playerAssetKey, phase: "player" });
+      combatTimersRef.current.push(window.setTimeout(playEnemyOrFinish, duration));
+    } else {
+      playEnemyOrFinish();
     }
-    setBattleFeedback(feedback);
-    setGame(next);
   }
 
   function continueBattle() {
@@ -1008,6 +1059,7 @@ export function XueGuYinGame() {
           effectToken={effectToken}
           effects={stageEffects}
         />
+        {combatArtEffect ? <CombatArtEffectLayer effect={combatArtEffect} key={combatArtEffect.id} /> : null}
         <div className="vn-play-layout">
         <VisualNovelRail act={scene.act} node={scene.node} roleName={role.name} />
         <div className="vn-story-core">
@@ -1022,7 +1074,7 @@ export function XueGuYinGame() {
             <div className="scene-copy vn-text-reveal" key={`battle-result-${transientPageIndex}-${presentedText}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
             <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
-        </> : battle ? <BattleScene battleFeedback={battleFeedback} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
+        </> : battle ? <BattleScene battleFeedback={battleFeedback} busy={Boolean(combatArtEffect)} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
           <header className="status-bar">
             <div><span>修士</span><strong>{role.name}</strong></div>
             <div className="health-stat"><span>命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
@@ -1151,8 +1203,7 @@ function BacklogOverlay({ entries, onClose }: { entries: BacklogEntry[]; onClose
 
 function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlockedCount }: { onArchive: () => void; onSaves: () => void; onSettings: () => void; onStart: () => void; saveSlots: SaveSlots; unlockedCount: number }) {
   const saveCount = saveSlots.filter(Boolean).length;
-  return <main className="game-shell menu-shell"><section className="game-frame main-menu" aria-labelledby="menu-title">
-      <div className="menu-stage" aria-hidden="true"><span className="menu-stage-moon" /><span className="menu-stage-gate" /><Image alt="" className="menu-character" height={1536} priority sizes="(min-width: 960px) 44vw, 0px" src="/characters/ji-qinghan-v1.webp" unoptimized width={1024} /></div>
+  return <main className="game-shell menu-shell"><ViewArtwork assetKey="ui.main-menu" priority /><section className="game-frame main-menu" aria-labelledby="menu-title">
       <header className="menu-intro"><div className="menu-title-row"><XueGuYinMark className="xue-gu-yin-mark" /><div><p className="eyebrow">{storyMeta.subtitle}</p><h1 id="menu-title">{storyMeta.title}</h1></div></div><p>一座蛊墓，六名四转修士。每一次抉择都在塑造你；大雾落下时，你会循着自己的本心走上不同血路。</p></header>
       <nav className="menu-index" aria-label="主界面菜单">
         <button className="menu-action menu-action-primary" onClick={onStart}><span><strong>开始游戏</strong><small>择一身份，重入蛊墓</small></span></button>
@@ -1165,7 +1216,7 @@ function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlocked
 }
 
 function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad: (slot: SaveSlot) => void; saveSlots: SaveSlots }) {
-  return <main className="game-shell archive-shell"><section className="game-frame archive-card save-archive" aria-labelledby="save-title">
+  return <main className="game-shell archive-shell"><ViewArtwork assetKey="ui.saves" /><section className="game-frame archive-card save-archive" aria-labelledby="save-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">六卷行迹</p><h1 id="save-title">读取存档</h1></div></header>
     <p className="save-archive-copy">存档只保存于当前浏览器。读取任意一卷，将从该处继续行走。</p>
     <div className="save-archive-list">{saveSlots.map((slot, index) => {
@@ -1221,7 +1272,7 @@ function GameSettings({ audioSettings, onAudioChange, onBack, onClearEndings, on
     onClearEndings();
     setConfirmClear(false);
   }
-  return <main className="game-shell settings-shell"><section className="game-frame settings-card" aria-labelledby="settings-title">
+  return <main className="game-shell settings-shell"><ViewArtwork assetKey="ui.settings" /><section className="game-frame settings-card" aria-labelledby="settings-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">行囊与灯火</p><h1 id="settings-title">游戏设置</h1></div></header>
     <div className="settings-list"><div className="settings-note theme-setting"><strong>界面主题</strong><p>选择蛊墓在此设备上的明暗样式。</p><div aria-label="选择界面主题" className="theme-options" role="group">{(["system", "light", "dark"] as ThemePreference[]).map((theme) => <button aria-pressed={themePreference === theme} className="theme-option" key={theme} onClick={() => onThemeChange(theme)}>{theme === "system" ? "跟随系统" : theme === "light" ? "亮色" : "暗色"}</button>)}</div></div>
       <AudioMixer settings={audioSettings} onChange={onAudioChange} />
@@ -1230,6 +1281,13 @@ function GameSettings({ audioSettings, onAudioChange, onBack, onClearEndings, on
       <button className={`settings-row settings-danger${confirmClear ? " is-confirming" : ""}`} onClick={clearEndings}><span><strong>{confirmClear ? "再次点击，确认清除" : "清除结局记录"}</strong><small>{confirmClear ? "此操作无法撤回" : "只清除本设备上的图鉴进度"}</small></span><em>{confirmClear ? "确认" : "清除"}</em></button>
     </div>
   </section></main>;
+}
+
+function ViewArtwork({ assetKey, priority = false }: { assetKey: UiAssetKey; priority?: boolean }) {
+  const asset = getFormalVisualAsset(assetKey);
+  return <div className="view-artwork" data-asset-key={asset.key}>
+    <Image alt={asset.alt} className="view-artwork-image" fill priority={priority} sizes="100vw" src={asset.src} unoptimized />
+  </div>;
 }
 
 function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: RoleId) => void }) {
@@ -1244,7 +1302,7 @@ function RoleSelect({ onBack, onSelect }: { onBack: () => void; onSelect: (id: R
   </section></main>;
 }
 
-function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFeedback: BattleFeedback | null; game: GameState; onAction: (action: GuAction) => void; onOpenMenu: () => void }) {
+function BattleScene({ battleFeedback, busy, game, onAction, onOpenMenu }: { battleFeedback: BattleFeedback | null; busy: boolean; game: GameState; onAction: (action: GuAction) => void; onOpenMenu: () => void }) {
   const battle = game.battle;
   const role = getRole(game.roleId);
   const [showHelp, setShowHelp] = useState(false);
@@ -1269,7 +1327,7 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
       <div><span>修士</span><strong>{role.name}</strong></div>
       <div className="health-stat"><span>生命</span><strong>{game.health}/{game.maxHealth}</strong><i style={{ width: `${(game.health / game.maxHealth) * 100}%` }} /></div>
       <div className="battle-essence"><span>真元</span><strong>{game.essence}/{game.maxEssence}</strong><i style={{ width: `${(game.essence / game.maxEssence) * 100}%` }} /></div>
-      <nav className="battle-status-actions" aria-label="战斗辅助功能"><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" onClick={() => setShowHelp(true)}>?</button><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" onClick={onOpenMenu}>菜单</button></nav>
+      <nav className="battle-status-actions" aria-label="战斗辅助功能"><button className="battle-help-button" type="button" aria-label="查看蛊斗说明" disabled={busy} onClick={() => setShowHelp(true)}>?</button><button className="game-menu-trigger" type="button" aria-label="打开游戏菜单" disabled={busy} onClick={onOpenMenu}>菜单</button></nav>
     </header>
     <section className={`scene battle-scene${battleFeedback?.emphasis ? ` is-${battleFeedback.emphasis}` : ""}`} aria-live="polite">
       <p className="vn-speaker">{battle.enemyName}</p>
@@ -1281,7 +1339,7 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
         const cost = actionCost(action.id);
         const lacksEssence = game.essence < cost;
         const resourceText = action.id === "rest" ? "恢复 3 真元" : lacksEssence ? `真元不足 · 需 ${cost}` : `消耗 ${cost} 真元`;
-        return <button className="choice-button battle-choice-button" key={action.id} disabled={lacksEssence} aria-label={`${action.name}，${action.description}，${resourceText}`} onClick={() => onAction(action.id)}><span><strong>{action.name}</strong><small>{action.description}</small></span><em className={lacksEssence ? "is-insufficient" : ""}>{resourceText}</em></button>;
+        return <button className="choice-button battle-choice-button" key={action.id} disabled={lacksEssence || busy} aria-label={`${action.name}，${action.description}，${busy ? "蛊术施放中" : resourceText}`} onClick={() => onAction(action.id)}><span><strong>{action.name}</strong><small>{action.description}</small></span><em className={lacksEssence ? "is-insufficient" : ""}>{busy ? "施放中" : resourceText}</em></button>;
       })}
     </nav>
     {showHelp ? <div className="battle-help-backdrop" role="presentation" onClick={() => setShowHelp(false)}><section className="battle-help-dialog" ref={helpDialogRef} role="dialog" aria-modal="true" aria-label="蛊斗说明" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
@@ -1296,10 +1354,10 @@ function BattleScene({ battleFeedback, game, onAction, onOpenMenu }: { battleFee
 function EndingScreen({ game, seenEndings, onReplay, onChangeRole, onMenu }: { game: GameState; seenEndings: string[]; onReplay: () => void; onChangeRole: () => void; onMenu: () => void }) {
   const ending = game.endingId ? endings[game.endingId] : null;
   if (!ending) return null;
-  const background = getVisualAsset(ending.background);
+  const endingCg = getEndingCgAsset(ending.id);
   return <main className={`game-shell ending-shell ending-shell--${ending.id}`}><section className="ending-stage" aria-labelledby="ending-title">
-    <div className="ending-stage-background" aria-hidden="true">
-      {background.kind === "image" ? <StageImage alt={background.alt} className="ending-stage-image" src={background.src} /> : <div className={background.className} />}
+    <div className="ending-stage-background" data-asset-key={endingCg.key}>
+      <StageImage alt={endingCg.alt} className="ending-stage-image" src={endingCg.src} />
     </div>
     <div className="ending-stage-shade" aria-hidden="true" />
     <article className="ending-card">

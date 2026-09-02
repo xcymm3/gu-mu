@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "task_id": "visual-art-expansion-v1",
+  "plan_sha256": "6a279a65f7460e03f32e0759909992d531c059956295ac9551de6fa7098e3979",
+  "items": [
+    {
+      "id": "WI-001",
+      "state": "implemented",
+      "note": "完整 56 项类型化生产合同、稳定 asset key 与生产解析入口均已落地；placeholder 别名及发布文件已移除。Node 审计验证文件、解码、大小写、哈希与运行时映射，production Playwright 全路线诊断覆盖 pageerror、console.error、HTTP >=400 与 requestfailed，视觉专项测试覆盖首页按需请求和 UI/战斗真实引用。",
+      "proof": [
+        "lib/xue-gu-yin/assets.ts",
+        "tests/release.test.ts",
+        "tests/game.test.ts"
+      ]
+    },
+    {
+      "id": "WI-002",
+      "state": "implemented",
+      "note": "六名角色 30/30 张独立 1024x1536 透明 WebP 已全部进入生产清单并具备真实触发：24 格由语义匹配的剧情阅读 beat 展示，赵黎、乔无咎、苏衍的 battle/injured 六格由人形敌手战斗健康/重伤阶段切换。角色 DOM 暴露稳定 data-asset-key；30 格触发合同自动测试、98 项 Node 测试、lint 与 production static export 均新鲜通过，浏览器矩阵报告留待 evidence 阶段生成。",
+      "proof": [
+        "public/characters/ji-qinghan-neutral-v1.webp",
+        "public/characters/ji-qinghan-alert-v1.webp",
+        "public/characters/ji-qinghan-softened-v1.webp",
+        "public/characters/ji-qinghan-injured-v1.webp",
+        "public/characters/ji-qinghan-battle-v1.webp",
+        "public/characters/zhao-li-neutral-v1.webp",
+        "public/characters/zhao-li-amused-v1.webp",
+        "public/characters/zhao-li-wary-v1.webp",
+        "public/characters/zhao-li-injured-v1.webp",
+        "public/characters/zhao-li-battle-v1.webp",
+        "public/characters/xue-feng-neutral-v1.webp",
+        "public/characters/xue-feng-smiling-v1.webp",
+        "public/characters/xue-feng-panicked-v1.webp",
+        "public/characters/xue-feng-greedy-v1.webp",
+        "public/characters/xue-feng-injured-v1.webp",
+        "public/characters/xue-feng-battle-v1.webp",
+        "lib/xue-gu-yin/assets.ts",
+        ".agent/tasks/visual-art-expansion-v1/raw/art-generation.json",
+        "public/characters/su-ying-neutral-v1.webp",
+        "public/characters/su-ying-wary-v1.webp",
+        "public/characters/su-ying-sad-v1.webp",
+        "public/characters/su-ying-injured-v1.webp",
+        "public/characters/su-ying-battle-v1.webp",
+        ".agent/tasks/visual-art-expansion-v1/raw/su-ying-alpha-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/su-ying-q38-review.png",
+        "public/characters/qiao-wujiu-neutral-v1.webp",
+        "public/characters/qiao-wujiu-calm-v1.webp",
+        "public/characters/qiao-wujiu-smug-v1.webp",
+        "public/characters/qiao-wujiu-injured-v1.webp",
+        "public/characters/qiao-wujiu-battle-v1.webp",
+        "public/characters/su-yan-neutral-v1.webp",
+        "public/characters/su-yan-awakened-v1.webp",
+        "public/characters/su-yan-injured-v1.webp",
+        "public/characters/su-yan-battle-v1.webp",
+        ".agent/tasks/visual-art-expansion-v1/raw/qiao-su-yan-q42-review.png"
+        ,"lib/xue-gu-yin/story/events/act1.ts"
+        ,"lib/xue-gu-yin/story/events/act2.ts"
+        ,"lib/xue-gu-yin/story/routes/ji.ts"
+        ,"lib/xue-gu-yin/story/routes/su.ts"
+        ,"lib/xue-gu-yin/story/routes/traitor.ts"
+        ,"features/xue-gu-yin/XueGuYinGame.tsx"
+        ,"tests/release.test.ts"
+      ]
+    },
+    {
+      "id": "WI-003",
+      "state": "implemented",
+      "note": "16/16 张独立 1600x900 正式 CG 已生成、压缩并接入：七个关键节点沿原生阅读事件展示，九个结局由类型化 endingId→asset 映射在 EndingScreen 展示唯一正式 CG，并提供稳定 data-asset-key。九张结局 contact sheet 已完成叙事、身份、构图与生成瑕疵目视复核；浏览器路线矩阵留待 evidence 阶段。",
+      "proof": [
+        "public/cg/scenes/zhaoAwakening-v1.webp",
+        "public/cg/scenes/jiDestroyGu-v1.webp",
+        "public/cg/scenes/suCoffin-v1.webp",
+        "public/cg/scenes/traitorBloodTaken-v1.webp",
+        "public/cg/scenes/gate-v1.webp",
+        "public/cg/scenes/bloodThreshold-v1.webp",
+        "public/cg/scenes/fog-v1.webp",
+        "lib/xue-gu-yin/story/events/act1.ts",
+        "lib/xue-gu-yin/story/events/act2.ts",
+        "lib/xue-gu-yin/story/routes/zhao.ts",
+        "lib/xue-gu-yin/story/routes/ji.ts",
+        "lib/xue-gu-yin/story/routes/su.ts",
+        "lib/xue-gu-yin/story/routes/traitor.ts",
+        "tests/game.test.ts",
+        "public/cg/endings/demon-v1.webp",
+        "public/cg/endings/severed-v1.webp",
+        "public/cg/endings/true-v1.webp",
+        "public/cg/endings/deathByZhao-v1.webp",
+        "public/cg/endings/deathByMaster-v1.webp",
+        "public/cg/endings/deathByQiao-v1.webp",
+        "public/cg/endings/deathByBloodGuard-v1.webp",
+        "public/cg/endings/trapped-v1.webp",
+        "public/cg/endings/traitor-v1.webp",
+        "features/xue-gu-yin/XueGuYinGame.tsx",
+        ".agent/tasks/visual-art-expansion-v1/raw/ending-cg-review.png"
+      ]
+    },
+    {
+      "id": "WI-004",
+      "state": "implemented",
+      "note": "三张独立 1600x900 正式 UI 主视觉已生成、压缩并通过 ViewArtwork 的稳定 asset key 分别接入 main-menu、settings、saves。fix iteration 1 在 fresh production export 上确认 844x390 设置页采用固定标题与独立滚动内容区；五组设置无相互覆盖或自身裁切，底部清除按钮可通过内部滚动完整到达。",
+      "proof": [
+        "public/ui/main-menu-v1.webp",
+        "public/ui/settings-v1.webp",
+        "public/ui/saves-v1.webp",
+        "features/xue-gu-yin/XueGuYinGame.tsx",
+        "app/globals.css",
+        "tests/release.test.ts"
+      ]
+    },
+    {
+      "id": "WI-005",
+      "state": "implemented",
+      "note": "七类独立 768x768 透明 WebP 已生成并由类型化 action→asset 映射真实触发；玩家特效先播放，敌方仍可行动时再播放 enemy-attack，正常动态每段 520ms，系统/应用减少动态每段 120ms。图层位于人物之上、正文与控件之下且 pointer-events:none；播放期间按钮禁用，图片失败显示明确文字降级并照常结算。fix iteration 1 的 isolated 5/5 与完整 16/16 production E2E 均新鲜通过，未复现敌方特效时序失败。",
+      "proof": [
+        "public/effects/player-blood-attack-v1.webp",
+        "public/effects/player-armor-guard-v1.webp",
+        "public/effects/player-heal-gu-v1.webp",
+        "public/effects/player-sword-gu-v1.webp",
+        "public/effects/player-charm-gu-v1.webp",
+        "public/effects/player-blooddemon-gu-v1.webp",
+        "public/effects/enemy-attack-v1.webp",
+        "lib/xue-gu-yin/assets.ts",
+        "features/xue-gu-yin/XueGuYinGame.tsx",
+        "app/globals.css",
+        "tests/release.test.ts",
+        ".agent/tasks/visual-art-expansion-v1/raw/effects-generation-review.png"
+      ]
+    },
+    {
+      "id": "WI-006",
+      "state": "implemented",
+      "note": "已逐文件记录 56/56 张正式美术的 ImageGen 调用、参考图、完整提示词、原始输出标识/路径和允许的后处理链。九张结局完成统一 contact sheet 目视复核；deathByZhao 初稿因赵黎年龄漂移未采用，并记录单点身份修正的两次调用。全部正式资源均可追溯到本任务内置 ImageGen 输出。",
+      "proof": [
+        ".agent/tasks/visual-art-expansion-v1/raw/art-generation.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/imagegen-originals",
+        ".agent/tasks/visual-art-expansion-v1/raw/su-ying-q38-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/ji-zhao-q45-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/qiao-su-yan-q42-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/route-climax-cg-candidates.png"
+        ,"public/cg/scenes/gate-v1.webp"
+        ,"public/cg/scenes/bloodThreshold-v1.webp"
+        ,"public/cg/scenes/fog-v1.webp"
+        ,"public/ui/main-menu-v1.webp"
+        ,"public/ui/settings-v1.webp"
+        ,"public/ui/saves-v1.webp"
+        ,"public/effects/player-blood-attack-v1.webp"
+        ,"public/effects/player-armor-guard-v1.webp"
+        ,"public/effects/player-heal-gu-v1.webp"
+        ,"public/effects/player-sword-gu-v1.webp"
+        ,"public/effects/player-charm-gu-v1.webp"
+        ,"public/effects/player-blooddemon-gu-v1.webp"
+        ,"public/effects/enemy-attack-v1.webp"
+        ,".agent/tasks/visual-art-expansion-v1/raw/effects-generation-review.png"
+        ,".agent/tasks/visual-art-expansion-v1/raw/ending-cg-review.png"
+        ,"public/cg/endings/demon-v1.webp"
+        ,"public/cg/endings/severed-v1.webp"
+        ,"public/cg/endings/true-v1.webp"
+        ,"public/cg/endings/deathByZhao-v1.webp"
+        ,"public/cg/endings/deathByMaster-v1.webp"
+        ,"public/cg/endings/deathByQiao-v1.webp"
+        ,"public/cg/endings/deathByBloodGuard-v1.webp"
+        ,"public/cg/endings/trapped-v1.webp"
+        ,"public/cg/endings/traitor-v1.webp"
+      ]
+    },
+    {
+      "id": "WI-007",
+      "state": "implemented",
+      "note": "56/56 张正式资源均可解码、尺寸与分类阈值合格、SHA-256 唯一，总量 5,165,122 bytes。移除会在首页空闲时请求约 30 张背景/角色图的全量预加载器后，production 专项测试确认全新上下文首页只请求 ui.main-menu 一张正式图片且远低于 2.5 MiB；剧情、结局和战斗继续按当前节点加载。",
+      "proof": [
+        "public/characters/ji-qinghan-neutral-v1.webp",
+        "public/characters/ji-qinghan-alert-v1.webp",
+        "public/characters/ji-qinghan-softened-v1.webp",
+        "public/characters/ji-qinghan-injured-v1.webp",
+        "public/characters/ji-qinghan-battle-v1.webp",
+        "public/characters/zhao-li-neutral-v1.webp",
+        "public/characters/zhao-li-amused-v1.webp",
+        "public/characters/zhao-li-wary-v1.webp",
+        "public/characters/zhao-li-injured-v1.webp",
+        "public/characters/zhao-li-battle-v1.webp",
+        "public/characters/xue-feng-neutral-v1.webp",
+        "public/characters/xue-feng-smiling-v1.webp",
+        "public/characters/xue-feng-panicked-v1.webp",
+        "public/characters/xue-feng-greedy-v1.webp",
+        "public/characters/xue-feng-injured-v1.webp",
+        "public/characters/xue-feng-battle-v1.webp",
+        ".agent/tasks/visual-art-expansion-v1/raw/art-generation.json",
+        "public/characters/su-ying-neutral-v1.webp",
+        "public/characters/su-ying-wary-v1.webp",
+        "public/characters/su-ying-sad-v1.webp",
+        "public/characters/su-ying-injured-v1.webp",
+        "public/characters/su-ying-battle-v1.webp",
+        ".agent/tasks/visual-art-expansion-v1/raw/su-ying-alpha-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/su-ying-q38-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/ji-zhao-q45-review.png",
+        ".agent/tasks/visual-art-expansion-v1/raw/qiao-su-yan-q42-review.png",
+        "public/cg/scenes/zhaoAwakening-v1.webp",
+        "public/cg/scenes/jiDestroyGu-v1.webp",
+        "public/cg/scenes/suCoffin-v1.webp",
+        "public/cg/scenes/traitorBloodTaken-v1.webp"
+        ,"public/cg/scenes/gate-v1.webp"
+        ,"public/cg/scenes/bloodThreshold-v1.webp"
+        ,"public/cg/scenes/fog-v1.webp"
+        ,"public/ui/main-menu-v1.webp"
+        ,"public/ui/settings-v1.webp"
+        ,"public/ui/saves-v1.webp"
+        ,"public/effects/player-blood-attack-v1.webp"
+        ,"public/effects/player-armor-guard-v1.webp"
+        ,"public/effects/player-heal-gu-v1.webp"
+        ,"public/effects/player-sword-gu-v1.webp"
+        ,"public/effects/player-charm-gu-v1.webp"
+        ,"public/effects/player-blooddemon-gu-v1.webp"
+        ,"public/effects/enemy-attack-v1.webp"
+        ,"public/cg/endings/demon-v1.webp"
+        ,"public/cg/endings/severed-v1.webp"
+        ,"public/cg/endings/true-v1.webp"
+        ,"public/cg/endings/deathByZhao-v1.webp"
+        ,"public/cg/endings/deathByMaster-v1.webp"
+        ,"public/cg/endings/deathByQiao-v1.webp"
+        ,"public/cg/endings/deathByBloodGuard-v1.webp"
+        ,"public/cg/endings/trapped-v1.webp"
+        ,"public/cg/endings/traitor-v1.webp"
+      ]
+    },
+    {
+      "id": "WI-008",
+      "state": "implemented",
+      "note": "视觉专项测试在 1366x768、1920x1080、844x390、390x844 四个合同视口逐页验证 main-menu、settings、saves 正式主视觉、六槽结构与全局无溢出；844x390 另验证设置分组逐项不重叠、不自裁切、滚动到底可达及固定标题命中层级。fix iteration 1 的 fresh top/bottom 截图与完整视觉基线、键盘焦点和减少动态测试全部通过。",
+      "proof": ["tests/e2e/visual-art-expansion.spec.ts", "tests/e2e/visual-baseline.spec.ts", "app/globals.css"]
+    },
+    {
+      "id": "WI-009",
+      "state": "implemented",
+      "note": "七个关键节点与九个结局已全部使用唯一正式 CG 的生产映射；公开 UI 全路线测试逐节点断言稳定 data-asset-key 可见。合并后的 production Playwright 于 build iteration 12 新鲜通过 16/16（7.4 分钟），其中六条长流程覆盖四条正式路线、七节点和九结局，无绕过生产页面的组件直挂。",
+      "proof": ["lib/xue-gu-yin/story/events/act1.ts", "lib/xue-gu-yin/story/events/act2.ts", "lib/xue-gu-yin/story/routes/zhao.ts", "lib/xue-gu-yin/story/routes/ji.ts", "lib/xue-gu-yin/story/routes/su.ts", "lib/xue-gu-yin/story/routes/traitor.ts", "tests/game.test.ts"]
+    },
+    {
+      "id": "WI-010",
+      "state": "implemented",
+      "note": "既有 production Playwright 已通过手动槽位存读、快速存读、返回首页后读档、胜败战斗与九结局链路；新增专项测试以生产 createSaveSlot 生成版本 6 无视觉元数据夹具，并从公开读取存档入口恢复 scene、战斗、生命和真元。六类玩家特效、敌方反击、正常/减少动态与请求失败降级均通过公开按钮验证。",
+      "proof": ["tests/e2e/playthrough.spec.ts", "tests/e2e/full-routes.spec.ts", "tests/e2e/visual-art-expansion.spec.ts", "lib/xue-gu-yin/save.ts"]
+    },
+    {
+      "id": "WI-011",
+      "state": "implemented",
+      "note": "自动门覆盖 30 格角色、16 张 CG、3 张 UI、7 类特效、唯一哈希、映射、首屏预算、四视口与版本 6 兼容。fix iteration 1 重新通过 pnpm test（98/98）、pnpm lint、pnpm build、规定的 pnpm exec playwright 视觉专项（5/5）、完整 pnpm test:e2e:run（16/16，7.9 分钟）与 proof:visual:static；全部浏览器证据来自本轮 fresh out/。",
+      "proof": [
+        ".agent/tasks/visual-art-expansion-v1/raw/checkpoints"
+      ]
+    },
+    {
+      "id": "WI-012",
+      "state": "implemented",
+      "note": "build iteration 13 已补齐可复现 proof 生成链路。fix iteration 1 从 fresh production export 重生成 30/30 角色、16/16 CG、三页四视口、七类特效、首屏预算、版本 6 夹具、路线/结局、存读档、胜负、减少动态与请求失败的固定 JSON/截图，并将 AC1–AC12 evidence 刷新为无已知缺口的 PASS 候选；结构化 proof validators 均作为本轮最终门执行。",
+      "proof": [
+        ".agent/tasks/visual-art-expansion-v1/raw/art-generation.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/checkpoints",
+        ".agent/tasks/visual-art-expansion-v1/raw/asset-inventory.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/runtime-reference-report.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/contact-sheets/manifest.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/character-runtime-matrix.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/cg-runtime-matrix.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/ui-runtime-report.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/effect-runtime-matrix.json",
+        ".agent/tasks/visual-art-expansion-v1/raw/screenshots",
+        "scripts/generate-visual-art-static-proof.mjs",
+        "scripts/validate-task-proof.mjs",
+        "tests/e2e/full-routes.spec.ts",
+        "tests/e2e/visual-art-expansion.spec.ts"
+      ]
+    }
+  ]
+}

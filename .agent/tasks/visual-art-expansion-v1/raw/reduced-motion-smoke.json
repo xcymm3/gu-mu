@@ -1,0 +1,13 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/visual-art-expansion.spec.ts",
+  "reduced_motion_duration_ms": 356,
+  "reduced_motion_limit_ms": 700,
+  "failed_request_fallback_visible": true,
+  "next_turn_available_after_fallback": true,
+  "screenshots": [
+    "raw/screenshots/save-and-combat/effect-reduced-motion.png",
+    "raw/screenshots/save-and-combat/effect-request-fallback.png"
+  ],
+  "status": "PASS"
+}

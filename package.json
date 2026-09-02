@@ -15,6 +15,8 @@
     "test:e2e:production": "playwright test --config=playwright.production.config.ts",
     "verify:fast": "pnpm test && pnpm lint && pnpm build",
     "verify": "pnpm verify:fast && pnpm test:e2e:run",
+    "proof:visual:static": "node --experimental-strip-types scripts/generate-visual-art-static-proof.mjs",
+    "proof:visual:runtime": "playwright test tests/e2e/full-routes.spec.ts tests/e2e/visual-art-expansion.spec.ts --reporter=line",
     "loop:start": "pwsh -NoLogo -NoProfile -File ./scripts/run-continuous-loop.ps1",
     "loop:cycle": "pwsh -NoLogo -NoProfile -File ./scripts/run-loop.ps1",
     "loop:dry-run": "pwsh -NoLogo -NoProfile -File ./scripts/run-continuous-loop.ps1 -DryRun",

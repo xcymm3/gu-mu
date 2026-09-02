@@ -1,0 +1,45 @@
+{
+  "version": 6,
+  "savedAt": "2026-09-01T00:00:00.000Z",
+  "game": {
+    "roleId": "healer",
+    "sceneId": "puppets",
+    "route": null,
+    "routeLocked": false,
+    "personality": {
+      "power": 0,
+      "compassion": 0,
+      "insight": 0,
+      "scheme": 0
+    },
+    "health": 40,
+    "maxHealth": 40,
+    "essence": 40,
+    "maxEssence": 40,
+    "time": 0,
+    "flags": [
+      "血魔蛊"
+    ],
+    "battle": {
+      "enemyName": "铜皮傀儡",
+      "enemyHealth": 12,
+      "victoryNext": "fog",
+      "defeatNext": "ending",
+      "victoryFlag": "傀儡已毁",
+      "defeatFlag": "死于铜皮傀儡",
+      "defeatEnding": "deathByBloodGuard",
+      "enemyMaxHealth": 12,
+      "turn": 0,
+      "intent": {
+        "id": "pounce",
+        "damage": 2,
+        "cue": "铜皮傀儡周身齿轮嘎吱作响，躯干猛地一沉，背后的牵机丝随之绷紧。"
+      }
+    },
+    "endingId": null
+  },
+  "narrative": {
+    "sceneId": "puppets",
+    "page": 0
+  }
+}

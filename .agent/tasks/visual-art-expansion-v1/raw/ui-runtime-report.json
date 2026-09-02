@@ -1,0 +1,90 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/visual-art-expansion.spec.ts",
+  "entries": [
+    {
+      "key": "ui.main-menu",
+      "trigger": "1366x768:main-menu",
+      "requested_path": "/ui/main-menu-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.settings",
+      "trigger": "1366x768:settings",
+      "requested_path": "/ui/settings-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.saves",
+      "trigger": "1366x768:saves",
+      "requested_path": "/ui/saves-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.main-menu",
+      "trigger": "1920x1080:main-menu",
+      "requested_path": "/ui/main-menu-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.settings",
+      "trigger": "1920x1080:settings",
+      "requested_path": "/ui/settings-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.saves",
+      "trigger": "1920x1080:saves",
+      "requested_path": "/ui/saves-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.main-menu",
+      "trigger": "844x390:main-menu",
+      "requested_path": "/ui/main-menu-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.settings",
+      "trigger": "844x390:settings",
+      "requested_path": "/ui/settings-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.saves",
+      "trigger": "844x390:saves",
+      "requested_path": "/ui/saves-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.main-menu",
+      "trigger": "390x844:main-menu",
+      "requested_path": "/ui/main-menu-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.settings",
+      "trigger": "390x844:settings",
+      "requested_path": "/ui/settings-v1.webp",
+      "attached": true,
+      "visible": true
+    },
+    {
+      "key": "ui.saves",
+      "trigger": "390x844:saves",
+      "requested_path": "/ui/saves-v1.webp",
+      "attached": true,
+      "visible": true
+    }
+  ]
+}

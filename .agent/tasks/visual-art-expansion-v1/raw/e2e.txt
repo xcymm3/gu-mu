@@ -1,0 +1,33 @@
+command=pnpm test:e2e:run
+started_at=2026-09-02T03:57:55.2265635Z
+finished_at=2026-09-02T04:05:29.5352904Z
+exit_code=0
+
+$ playwright test
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 16 tests using 1 worker
+
+
+(node:4068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/16] tests\e2e\full-routes.spec.ts:458:1 › 赵黎路线以真实存档复现三场关键战斗胜败并通关
+[2/16] tests\e2e\full-routes.spec.ts:493:1 › 纪清寒路线由游方蛊医经公开行动通关
+[3/16] tests\e2e\full-routes.spec.ts:502:1 › 游方蛊医在苏莹路线无法击败墓主并进入对应结局
+[4/16] tests\e2e\full-routes.spec.ts:515:1 › 世家之子以固定随机结果完成苏莹真结局
+[5/16] tests\e2e\full-routes.spec.ts:524:1 › 乔无咎权谋路线无需战斗篡改即可完整通关
+[6/16] tests\e2e\full-routes.spec.ts:533:1 › 大雾超时选择可由真实页面解锁困墓结局
+[7/16] tests\e2e\playthrough.spec.ts:79:1 › 主菜单到读档工具链均经过玩家公开操作
+[8/16] tests\e2e\playthrough.spec.ts:138:1 › 共通线选择可经真实页面推进到首场战斗
+[9/16] tests\e2e\visual-art-expansion.spec.ts:266:1 › 全新上下文首页满足图片请求与传输预算
+[10/16] tests\e2e\visual-art-expansion.spec.ts:297:1 › 三页正式主视觉在四个合同视口保持可达且无全局溢出
+[11/16] tests\e2e\visual-art-expansion.spec.ts:341:1 › 六类玩家位图特效均先于敌方反击且回合可继续
+[12/16] tests\e2e\visual-art-expansion.spec.ts:371:1 › 减少动态与特效请求失败均保留文字反馈和下一回合
+[13/16] tests\e2e\visual-art-expansion.spec.ts:406:1 › 版本 6 存档缺少视觉元数据时仍由公开读档入口恢复
+[14/16] tests\e2e\visual-baseline.spec.ts:330:1 › 关键界面生成桌面视觉基线并保持布局安全
+[15/16] tests\e2e\visual-baseline.spec.ts:397:1 › 桌面边界与手机横竖屏生成可复现截图
+[16/16] tests\e2e\visual-baseline.spec.ts:425:1 › 键盘焦点与减少动态可自动验证
+  Slow test file: tests\e2e\full-routes.spec.ts (5.9m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  16 passed (7.5m)

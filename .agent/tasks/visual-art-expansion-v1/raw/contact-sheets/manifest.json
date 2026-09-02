@@ -1,0 +1,371 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_at": "2026-09-02T04:12:02.652Z",
+  "generator": "scripts/generate-visual-art-static-proof.mjs",
+  "sheets": {
+    "character": {
+      "file": "raw/contact-sheets/characters.png",
+      "tile": "6x5",
+      "geometry": "180x270+10+24",
+      "cells": [
+        {
+          "index": 0,
+          "key": "character.ji-qinghan.neutral",
+          "source": "public/characters/ji-qinghan-neutral-v1.webp",
+          "sha256": "C7B033FD70F483861705346FFE6CC2460DAAEFA6B75C6B954DF4D3040C55F53B"
+        },
+        {
+          "index": 1,
+          "key": "character.ji-qinghan.alert",
+          "source": "public/characters/ji-qinghan-alert-v1.webp",
+          "sha256": "8C4F2817B3A55CA1E567AAF0E027BCC4494EAC06B04CCC1F8CC2A0F1A0CFCCF5"
+        },
+        {
+          "index": 2,
+          "key": "character.ji-qinghan.softened",
+          "source": "public/characters/ji-qinghan-softened-v1.webp",
+          "sha256": "3E79F13FAC19024675FB5EB5EA6222146E669A11DC5CD73072A485DA12A5F687"
+        },
+        {
+          "index": 3,
+          "key": "character.ji-qinghan.injured",
+          "source": "public/characters/ji-qinghan-injured-v1.webp",
+          "sha256": "8322B1BFF2DDBEA03A6ED5284DD1B49B8636F378B7B4A194C0D4A5F93D1697D7"
+        },
+        {
+          "index": 4,
+          "key": "character.ji-qinghan.battle",
+          "source": "public/characters/ji-qinghan-battle-v1.webp",
+          "sha256": "1B2A10A6E53590E906541C54BB4796AD7DBC994BC4AC1EA1FF0D8F8CD9B91A2F"
+        },
+        {
+          "index": 5,
+          "key": "character.zhao-li.neutral",
+          "source": "public/characters/zhao-li-neutral-v1.webp",
+          "sha256": "6A94EFC3B5BD4309070C5ECA8C6C9B3D719F5BFFB57C9D665B4E714444E26330"
+        },
+        {
+          "index": 6,
+          "key": "character.zhao-li.amused",
+          "source": "public/characters/zhao-li-amused-v1.webp",
+          "sha256": "14522A7864592DF0819B0B0C63DD0DF66B02E490C7BE3E623D50274FA54005C8"
+        },
+        {
+          "index": 7,
+          "key": "character.zhao-li.wary",
+          "source": "public/characters/zhao-li-wary-v1.webp",
+          "sha256": "A1115FF7B5396CFC3AEE726C3C791880853C11A9139F842923F04C83E38F5FF8"
+        },
+        {
+          "index": 8,
+          "key": "character.zhao-li.injured",
+          "source": "public/characters/zhao-li-injured-v1.webp",
+          "sha256": "5AF64240FD54BE2EB464F6D9FD52CCA187E6A7344B7F30DF2C8F512624493B10"
+        },
+        {
+          "index": 9,
+          "key": "character.zhao-li.battle",
+          "source": "public/characters/zhao-li-battle-v1.webp",
+          "sha256": "72EDB99D0C1215D79AEDA204DEE974B31A8C972FAF1743B618353A1D5CB2FF8C"
+        },
+        {
+          "index": 10,
+          "key": "character.xue-feng.neutral",
+          "source": "public/characters/xue-feng-neutral-v1.webp",
+          "sha256": "D6B1AF7C5D6C52068882A546E0FDDE9500E8F2D6861EB8D20A62850FAE32B651"
+        },
+        {
+          "index": 11,
+          "key": "character.xue-feng.smiling",
+          "source": "public/characters/xue-feng-smiling-v1.webp",
+          "sha256": "4204D843E5C74C6B401CA78C708C062F1348B3019C5CB7526C7C3457035CE9F9"
+        },
+        {
+          "index": 12,
+          "key": "character.xue-feng.panicked",
+          "source": "public/characters/xue-feng-panicked-v1.webp",
+          "sha256": "08FAB05664D485B3225F93D68E9BC129FC3F29A05B018009FCC134A66D84F04D"
+        },
+        {
+          "index": 13,
+          "key": "character.xue-feng.greedy",
+          "source": "public/characters/xue-feng-greedy-v1.webp",
+          "sha256": "98FF469772076F74ACB1AD082A659479E07CBC53AF70F15A5C92E6F376028BA4"
+        },
+        {
+          "index": 14,
+          "key": "character.xue-feng.injured",
+          "source": "public/characters/xue-feng-injured-v1.webp",
+          "sha256": "D8EFC0BF49863EC50184F6A55859070E79416604F9C0D3A0FBEF34409B9EDC72"
+        },
+        {
+          "index": 15,
+          "key": "character.xue-feng.battle",
+          "source": "public/characters/xue-feng-battle-v1.webp",
+          "sha256": "89321B40CE63ED609EE94EEE6387EA6760E6525A5688871D881EC049A7137B5D"
+        },
+        {
+          "index": 16,
+          "key": "character.su-ying.neutral",
+          "source": "public/characters/su-ying-neutral-v1.webp",
+          "sha256": "141972C76D4D8E117711448C4A22992582A1054E6C633846C5C040796F3CCA96"
+        },
+        {
+          "index": 17,
+          "key": "character.su-ying.wary",
+          "source": "public/characters/su-ying-wary-v1.webp",
+          "sha256": "880402E7DA7E7B2A3A97C7AB4F874333FBF33320B6E24339DA6C08D2A7735AE8"
+        },
+        {
+          "index": 18,
+          "key": "character.su-ying.sad",
+          "source": "public/characters/su-ying-sad-v1.webp",
+          "sha256": "8CE7BA2D68D93E8E84C9705427B8A912FA40CC1B8159B8586D31F6A4C9253F56"
+        },
+        {
+          "index": 19,
+          "key": "character.su-ying.injured",
+          "source": "public/characters/su-ying-injured-v1.webp",
+          "sha256": "5CFD7B517FD97FE924FF796C3CCE58EEBA46ECEB2AA9E5576AD6DAD003CB9D65"
+        },
+        {
+          "index": 20,
+          "key": "character.su-ying.battle",
+          "source": "public/characters/su-ying-battle-v1.webp",
+          "sha256": "F5216141CDB76004752A82CCF57BB6F89C0CFBC6672114D0F1140C73AA82717C"
+        },
+        {
+          "index": 21,
+          "key": "character.qiao-wujiu.neutral",
+          "source": "public/characters/qiao-wujiu-neutral-v1.webp",
+          "sha256": "C781D335E2D0E1A045FF0224AE8B461A107AF008C9EE4EE99B6BF2069B90AA45"
+        },
+        {
+          "index": 22,
+          "key": "character.qiao-wujiu.calm",
+          "source": "public/characters/qiao-wujiu-calm-v1.webp",
+          "sha256": "B994973477A8EB03797E0EB6642EC1C0DFE29D6B0A5789F5D7592A6E3DAB3087"
+        },
+        {
+          "index": 23,
+          "key": "character.qiao-wujiu.smug",
+          "source": "public/characters/qiao-wujiu-smug-v1.webp",
+          "sha256": "0DEDC26C8B152D83B46EB2C4885D64316903E31CF3A598440DE18DBB1B834D45"
+        },
+        {
+          "index": 24,
+          "key": "character.qiao-wujiu.injured",
+          "source": "public/characters/qiao-wujiu-injured-v1.webp",
+          "sha256": "6F86F4DB577EB0F45CF29824D6CE1FAE65B7CA7225CF6B4E7EA535ABC630F6A5"
+        },
+        {
+          "index": 25,
+          "key": "character.qiao-wujiu.battle",
+          "source": "public/characters/qiao-wujiu-battle-v1.webp",
+          "sha256": "8E92E15009157748F8C55E756AD398E7621DBA7F55B597D6F079C71B74E12158"
+        },
+        {
+          "index": 26,
+          "key": "character.su-yan.neutral",
+          "source": "public/characters/su-yan-neutral-v1.webp",
+          "sha256": "6A97F3FA740AD459B816A3BE9E811DDB5FFF8B7C6D1618445A302C8B8536C8E9"
+        },
+        {
+          "index": 27,
+          "key": "character.su-yan.awakened",
+          "source": "public/characters/su-yan-awakened-v1.webp",
+          "sha256": "4F7E2A36AB3518033A0211CCCE83EF764FC54C0A22E8432FEA0AA600E3B914A5"
+        },
+        {
+          "index": 28,
+          "key": "character.su-yan.injured",
+          "source": "public/characters/su-yan-injured-v1.webp",
+          "sha256": "C21952B34A410F6A33FC485A935BB772F3D42CFC1B3A0660BAB19B497FFEC8CC"
+        },
+        {
+          "index": 29,
+          "key": "character.su-yan.battle",
+          "source": "public/characters/su-yan-battle-v1.webp",
+          "sha256": "2387C8B5B67C2947C4A12EDB52BA6F3859DEDE64C9731D90EF37AC133B9E36CE"
+        }
+      ]
+    },
+    "cg": {
+      "file": "raw/contact-sheets/cg.png",
+      "tile": "4x4",
+      "geometry": "300x169+10+24",
+      "cells": [
+        {
+          "index": 0,
+          "key": "cg.ending.demon",
+          "source": "public/cg/endings/demon-v1.webp",
+          "sha256": "249179CE7CAC01144A8CBB99679BEC3FEBC41C95A318A9AAA79B143D604CBA08"
+        },
+        {
+          "index": 1,
+          "key": "cg.ending.severed",
+          "source": "public/cg/endings/severed-v1.webp",
+          "sha256": "37146DF99A9C3F256D163A3BDD260F5723069B1E3A31801FAF6D94A3DCD165E4"
+        },
+        {
+          "index": 2,
+          "key": "cg.ending.true",
+          "source": "public/cg/endings/true-v1.webp",
+          "sha256": "DB845D92D1804F33149DAB977443740D70585833282690615451CF620F7A8ABD"
+        },
+        {
+          "index": 3,
+          "key": "cg.ending.deathByZhao",
+          "source": "public/cg/endings/deathByZhao-v1.webp",
+          "sha256": "DB28A08CB47E945B5A8AFE8800794516DC34F2FEC2013F1B2CE2890C4905224C"
+        },
+        {
+          "index": 4,
+          "key": "cg.ending.deathByMaster",
+          "source": "public/cg/endings/deathByMaster-v1.webp",
+          "sha256": "6BD76A1AC882A8D4361210512D884C63FFAB2E30A9A4D4C50C53C458B6912FE3"
+        },
+        {
+          "index": 5,
+          "key": "cg.ending.deathByQiao",
+          "source": "public/cg/endings/deathByQiao-v1.webp",
+          "sha256": "3A52A2B7252756BA664824B8C1D6947265895545B001049048BC8F101971BB70"
+        },
+        {
+          "index": 6,
+          "key": "cg.ending.deathByBloodGuard",
+          "source": "public/cg/endings/deathByBloodGuard-v1.webp",
+          "sha256": "9AB7E6CAF0FD156BACF266FCCB5E90973B963BAFEC895BEB36B8712EC5A7F440"
+        },
+        {
+          "index": 7,
+          "key": "cg.ending.trapped",
+          "source": "public/cg/endings/trapped-v1.webp",
+          "sha256": "CED3CDA6990A3687B98DB77576DB81742726ED6051EFFDF65BABCE9E66AE42F2"
+        },
+        {
+          "index": 8,
+          "key": "cg.ending.traitor",
+          "source": "public/cg/endings/traitor-v1.webp",
+          "sha256": "08BB42BD1E04DAAAD33A72E1EF9C8F5DDE3D58529D252EF24427EF7CDF7B301C"
+        },
+        {
+          "index": 9,
+          "key": "cg.scene.gate",
+          "source": "public/cg/scenes/gate-v1.webp",
+          "sha256": "302569A0F01A334BDA1A26CFB1E02840F94ABEAE59943029AAD4BF0E841FB6D9"
+        },
+        {
+          "index": 10,
+          "key": "cg.scene.bloodThreshold",
+          "source": "public/cg/scenes/bloodThreshold-v1.webp",
+          "sha256": "129A707CCA03EF4A2521315E427CF6C19463066FD35F0074623008608588F71E"
+        },
+        {
+          "index": 11,
+          "key": "cg.scene.fog",
+          "source": "public/cg/scenes/fog-v1.webp",
+          "sha256": "33164D1C446A90E0307118F1AB51F69CE4A177102B0E37B38B3E16E19C40F516"
+        },
+        {
+          "index": 12,
+          "key": "cg.scene.zhaoAwakening",
+          "source": "public/cg/scenes/zhaoAwakening-v1.webp",
+          "sha256": "C01A2765BD00891E03E4E797693136B254EFD271C3DAF9A080AC6716134699C5"
+        },
+        {
+          "index": 13,
+          "key": "cg.scene.jiDestroyGu",
+          "source": "public/cg/scenes/jiDestroyGu-v1.webp",
+          "sha256": "0E64BC80355479B5512883658EDBCAD612D17087E3595E9865CE2E2953C90805"
+        },
+        {
+          "index": 14,
+          "key": "cg.scene.suCoffin",
+          "source": "public/cg/scenes/suCoffin-v1.webp",
+          "sha256": "ABE5F95850B243DA7DFB2334DAF33679F181DFFEC15D1D5B8117681C08470640"
+        },
+        {
+          "index": 15,
+          "key": "cg.scene.traitorBloodTaken",
+          "source": "public/cg/scenes/traitorBloodTaken-v1.webp",
+          "sha256": "233D5FFBAB9F48E23BB6960499101E8FE738930488D412F41A3BB50291DE99AD"
+        }
+      ]
+    },
+    "ui": {
+      "file": "raw/contact-sheets/ui.png",
+      "tile": "3x1",
+      "geometry": "400x225+12+24",
+      "cells": [
+        {
+          "index": 0,
+          "key": "ui.main-menu",
+          "source": "public/ui/main-menu-v1.webp",
+          "sha256": "47E9555651E8584A1B7BCCAD1FBEB54AE60A886898DC67857CAF1991C4AF1200"
+        },
+        {
+          "index": 1,
+          "key": "ui.settings",
+          "source": "public/ui/settings-v1.webp",
+          "sha256": "933048DB9147ACD85A7D3CD527CE301BC62E6750462098839B2B12673C5EBD17"
+        },
+        {
+          "index": 2,
+          "key": "ui.saves",
+          "source": "public/ui/saves-v1.webp",
+          "sha256": "911ADC175D81E5B77974DF7C80F595BB3C285A5706CFBE99E80F4D11EAA103FA"
+        }
+      ]
+    },
+    "effect": {
+      "file": "raw/contact-sheets/effects.png",
+      "tile": "4x2",
+      "geometry": "260x260+10+24",
+      "cells": [
+        {
+          "index": 0,
+          "key": "effect.player-blood-attack",
+          "source": "public/effects/player-blood-attack-v1.webp",
+          "sha256": "71B9F86BFEB43388511AB0DE9BEB75D1D39A031DCEC783ECCB1EE57937990251"
+        },
+        {
+          "index": 1,
+          "key": "effect.player-armor-guard",
+          "source": "public/effects/player-armor-guard-v1.webp",
+          "sha256": "65317367435F24A9DDC0D512B166A091C79DC40D8F09ACDCCF16DCA0E33FD440"
+        },
+        {
+          "index": 2,
+          "key": "effect.player-heal-gu",
+          "source": "public/effects/player-heal-gu-v1.webp",
+          "sha256": "A0601A8B4BE7017058E468273689A6D354436839ED5A179D63620EB288028D7C"
+        },
+        {
+          "index": 3,
+          "key": "effect.player-sword-gu",
+          "source": "public/effects/player-sword-gu-v1.webp",
+          "sha256": "70E1F23644898BE19390CC2C598C91E568D0F6FFC518B49E87366644BDCC02D0"
+        },
+        {
+          "index": 4,
+          "key": "effect.player-charm-gu",
+          "source": "public/effects/player-charm-gu-v1.webp",
+          "sha256": "8F544EC59129C42F5553098EC85CE3B5618FDA0F035BC5543085F776E15868E4"
+        },
+        {
+          "index": 5,
+          "key": "effect.player-blooddemon-gu",
+          "source": "public/effects/player-blooddemon-gu-v1.webp",
+          "sha256": "3651C9AFE0F4D1B31F49C382A4D71E49623DBA58AB568689781EF26A3ADACAE2"
+        },
+        {
+          "index": 6,
+          "key": "effect.enemy-attack",
+          "source": "public/effects/enemy-attack-v1.webp",
+          "sha256": "DCE57C0661A2686F262EB5C8934DD8564D840670BC97525A165ADEF74D04235D"
+        }
+      ]
+    }
+  }
+}

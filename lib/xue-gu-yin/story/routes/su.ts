@@ -55,12 +55,15 @@ const suBloodGateEvents: VisualNovelEvent[] = [
 
 const suBloodGuardEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "cut" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "battle" },
   { type: "narration", text: "血傀儡从半圆旧阵中完全站起，身量接近常人两倍。粗重骨架外覆着早已失去生机的皮肉，左腕拖着一条暗沉锁链，右臂则被炼得格外粗壮。胸骨中央没有心脏，只有一枚拳头大小的暗红血核，正将阵槽送来的血气分往双肩与右膝。\n\n苏莹留在半圆阵线之外，依照棺前残文按住两处旧阵节点，使傀儡无法继续从祖阵抽取更多血气。新凿阵线仍在从远处输送血光，她无法同时切断两套阵纹，也不能让已经醒来的守墓旧物重新伏下。\n\n血傀儡转向你，左腕锁链从石面缓缓抬起。它守住黑棺前唯一的缺口。苏莹看着血光流向，迅速指出双肩、右膝与旧阵相接的位置：“我压住阵路。你截断三处连接，再破胸口血核。”\n\n你停在半圆阵内，血傀儡已经举起锁链。" },
 ];
 
 const suCoffinEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.blood-chamber", transition: "fade" },
-  { type: "character", action: "show", character: "su-ying", position: "right", expression: "sad" },
+  { type: "background", asset: "cg.scene.suCoffin", transition: "fade" },
+  { type: "character", action: "show", character: "su-ying", position: "right", expression: "injured" },
+  { type: "narration", text: "旧阵散去后，苏莹才松开按住阵点的手。她袖口沾着血水，气息也因强行截断阵路而显得不稳，却仍先俯身检查黑棺。" },
+  { type: "character", action: "expression", character: "su-ying", position: "right", expression: "sad" },
   { type: "narration", text: "黑棺前的薄雾渐渐散开。棺盖没有封死，边缘留着数道较新的凿痕，石屑中还夹着断裂的牵机丝。有人曾从外侧强行撬动，却只掀开棺盖表层，没有找到真正的开启阵点；这些痕迹还不足以表明动手者是谁。" },
   { type: "narration", text: "你与苏莹推开已经松动的棺盖。棺内没有尸骨，底部只留着一道人形凹腔。凹腔四周分布着密集细槽，向下穿过棺底，与石殿导血槽相连；槽中仍有暗红液体缓慢流动。这里不像埋葬死者的棺椁，更像供某具身体蜕换、转运血气的阵器。" },
   { type: "narration", text: "棺壁原本刻有大段铭文，靠近棺首的位置却被仔细刮去。苏莹检查残面，发现明面字迹虽已消失，石层深处仍压着一层用于校准阵路的反刻底纹。旧玉先前能够照出苏氏旧印，或许也能使这些底纹显形。" },
@@ -69,8 +72,9 @@ const suCoffinEvents: VisualNovelEvent[] = [
 
 const suMasterTruthEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.blood-chamber", transition: "fade" },
+  { type: "character", action: "show", character: "su-yan", position: "left", expression: "neutral" },
   { type: "narration", text: "窄井中的阵光升到棺底后便不再上行。一方与人形凹腔等宽的石台沿井壁缓慢抬起，台上躺着一名形容枯槁的男子。暗红细线从他背后垂入井底，随着每一次微弱呼吸，将血气送入干瘪的四肢。" },
-  { type: "character", action: "show", character: "su-yan", position: "left", expression: "awakened" },
+  { type: "character", action: "expression", character: "su-yan", position: "left", expression: "awakened" },
   { type: "narration", text: "石台与黑棺底部齐平时，男子睁开眼。石殿中的苏氏旧纹同时亮起，棺内人形凹腔也开始向他的身形收拢。苏莹依据棺上落款与旧阵反应，认出此人正是墓主苏衍，却没有靠近。" },
   { type: "character", action: "show", character: "su-ying", position: "right", expression: "wary" },
   { type: "narration", text: "苏衍先看向她掌心尚未散去的血钥印记，又看了一眼你手中的旧玉。进入祖阵的苏氏后人与稳定旁枢之物都已来到棺前，正合返生阵所需。" },

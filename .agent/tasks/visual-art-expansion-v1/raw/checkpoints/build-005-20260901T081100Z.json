@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "task_id": "visual-art-expansion-v1",
+  "phase": "build",
+  "iteration": 5,
+  "started_at": "2026-09-01T07:45:00.0000000Z",
+  "ended_at": "2026-09-01T08:11:00.0000000Z",
+  "head_before": "eeb58125a123511dffd85ca2b0173de6703e799f",
+  "head_after": "eeb58125a123511dffd85ca2b0173de6703e799f",
+  "git_status_before": [
+    "M lib/xue-gu-yin/assets.ts",
+    "M tests/game.test.ts",
+    "M tests/release.test.ts",
+    "30 格角色矩阵中已有 21 格工作树资源"
+  ],
+  "git_status_after": [
+    "M lib/xue-gu-yin/assets.ts",
+    "M tests/game.test.ts",
+    "M tests/release.test.ts",
+    "30 格角色矩阵资源均已在工作树"
+  ],
+  "changed_files": [
+    "lib/xue-gu-yin/assets.ts",
+    "tests/game.test.ts",
+    "public/characters/qiao-wujiu-neutral-v1.webp",
+    "public/characters/qiao-wujiu-calm-v1.webp",
+    "public/characters/qiao-wujiu-smug-v1.webp",
+    "public/characters/qiao-wujiu-injured-v1.webp",
+    "public/characters/qiao-wujiu-battle-v1.webp",
+    "public/characters/su-yan-neutral-v1.webp",
+    "public/characters/su-yan-awakened-v1.webp",
+    "public/characters/su-yan-injured-v1.webp",
+    "public/characters/su-yan-battle-v1.webp",
+    ".agent/tasks/visual-art-expansion-v1/progress.json",
+    ".agent/tasks/visual-art-expansion-v1/raw/art-generation.json",
+    ".agent/tasks/visual-art-expansion-v1/raw/qiao-su-yan-q42-review.png",
+    ".agent/tasks/visual-art-expansion-v1/raw/imagegen-originals"
+  ],
+  "commands": [
+    {"command": "built-in ImageGen: generate five Qiao Wujiu and four Su Yan state portraits", "exit_code": 0, "summary": "nine independent adopted chroma outputs"},
+    {"command": "ImageMagick chroma alpha cleanup, green despill and WebP quality 42 compression", "exit_code": 0, "summary": "nine 1024x1536 alpha WebP outputs"},
+    {"command": "ImageMagick decode, dimension, alpha, size and SHA-256 audit", "exit_code": 0, "summary": "30/30 matrix files pass and all hashes are unique"},
+    {"command": "Get-Content art-generation.json | ConvertFrom-Json", "exit_code": 0, "summary": "30 traced final assets"},
+    {"command": "pnpm test before updating legacy path assertions", "exit_code": 1, "summary": "91/93; two expected paths still named baseline assets"},
+    {"command": "pnpm test after updating legacy path assertions", "exit_code": 0, "summary": "93/93 passed"}
+  ],
+  "completed_ac": [],
+  "known_gaps": [
+    "AC2 has all 30 final character state assets, but injured/battle representative production triggers and browser matrix proof remain.",
+    "AC3-AC5 production art and runtime integrations are not started.",
+    "AC6-AC12 remain incomplete because the remaining 26 formal assets, browser matrices, screenshots, audits and evidence are not yet available."
+  ],
+  "next_action": "Generate and integrate the representative vertical-slice scene CGs and one ending CG, then continue the complete 16-CG matrix."
+}

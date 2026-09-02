@@ -1,0 +1,6 @@
+command=Get-Content -LiteralPath .agent/tasks/visual-art-expansion-v1/evidence.json -Encoding utf8 -Raw | ConvertFrom-Json | Out-Null
+started_at=2026-09-02T02:47:11.2149316Z
+finished_at=2026-09-02T02:47:11.2292504Z
+exit_code=0
+
+PASS: evidence.json is valid JSON.

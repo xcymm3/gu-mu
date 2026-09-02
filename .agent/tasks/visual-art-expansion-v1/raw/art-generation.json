@@ -1,0 +1,1064 @@
+{
+  "schema_version": 1,
+  "task_id": "visual-art-expansion-v1",
+  "generator": "built-in ImageGen",
+  "assets": [
+    {
+      "key": "character.ji-qinghan.neutral",
+      "final_path": "public/characters/ji-qinghan-neutral-v1.webp",
+      "generated_at": "2026-09-01T06:22:08.4772646Z",
+      "reference_images": [
+        "public/characters/ji-qinghan-v1.webp"
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: production visual-novel character sprite source, 1024×1536 portrait\nPrimary request: Generate a new full-body neutral-state sprite of 纪清寒 (Ji Qinghan) for the Chinese dark xianxia visual novel《血蛊引》, photographed against a perfectly flat chroma-key background.\nInput images: Image 1 is the locked identity, costume, palette, silhouette, weapon and rendering-style reference.\nScene/backdrop: a single perfectly uniform flat vivid chroma green backdrop, RGB #00FF00, edge-to-edge, no checkerboard, no texture, no gradient, no floor, no cast shadow, no scenery.\nSubject: exactly one adult Chinese female cultivator, full body visible head-to-toe, calm restrained neutral expression, poised upright stance, one hand resting naturally near the black-silver sword sheath.\nStyle/medium: polished semi-realistic dark Chinese xianxia game character art, painterly but crisp production sprite, consistent with the reference.\nComposition/framing: centered, generous clean green margin around hair, sleeves, sword and feet; no crop; 2:3 portrait.\nLighting/mood: cold moonlit rim light, quiet and guarded.\nColor palette: preserve the reference's ice-white, pale blue, silver and ink-black costume exactly; do not reflect green onto the subject.\nMaterials/textures: preserve embroidered frost motifs, silver hair ornament, translucent sleeve layers, black-silver waist armor and sword fittings.\nConstraints: preserve the same face shape, apparent age, eye color, hairstyle, hair ornament, costume construction, embroidery, body proportions, weapon, palette and silhouette from Image 1; change only pose/expression enough to create a unique neutral state; anatomically correct hands; all fingers and limbs complete; no text, no Chinese characters, no watermark, no logo, no border.\nAvoid: checkerboard background, white/grey background, multiple green tones, background noise, green costume elements, green spill, extra people, extra limbs, malformed hands, cropped hair or feet, duplicate sword, modern objects, scenery, photoreal photography, chibi, anime cel shading, sexualized pose.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-47e82f75-a067-49c4-a0f6-48f3500e6e41.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05b9c-b613-74c0-b19c-7ac83923e0e2/exec-47e82f75-a067-49c4-a0f6-48f3500e6e41.png",
+          "adopted": false,
+          "note": "透明请求被模型烘成棋盘格背景。"
+        },
+        {
+          "sequence": 2,
+          "output_id": "exec-caf9bb60-4e0a-49d7-bb4c-114be0c2c555.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05b9c-b613-74c0-b19c-7ac83923e0e2/exec-caf9bb60-4e0a-49d7-bb4c-114be0c2c555.png",
+          "adopted": false,
+          "note": "背景抽取请求仍返回不透明棋盘格。"
+        },
+        {
+          "sequence": 3,
+          "output_id": "exec-7656d677-1080-4af3-bc88-8c7184bf981b.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05b9c-b613-74c0-b19c-7ac83923e0e2/exec-7656d677-1080-4af3-bc88-8c7184bf981b.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿执行允许的透明通道清理。"
+        }
+      ],
+      "postprocessing": [
+        "ImageMagick -fuzz 28% 将 #00ff00 chroma 背景写入 alpha 通道",
+        "ImageMagick 将绿色溢出通道限制为 min(g,max(r,b))，仅清理透明边缘",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 82958,
+        "sha256": "C7B033FD70F483861705346FFE6CC2460DAAEFA6B75C6B954DF4D3040C55F53B"
+      }
+    },
+    {
+      "key": "character.ji-qinghan.alert",
+      "final_path": "public/characters/ji-qinghan-alert-v1.webp",
+      "generated_at": "2026-09-01T06:41:24.7256331Z",
+      "reference_images": [
+        "public/characters/ji-qinghan-v1.webp",
+        "public/characters/ji-qinghan-neutral-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body character state portrait of Ji Qinghan on a perfectly uniform #00FF00 chroma field for transparent-channel cleanup. Preserve her exact young adult identity, oval face, pale complexion, blue-gray eyes, long black half-up hair, silver ice-flower ornament, forehead jewel, earrings, white and icy-blue layered hanfu, black waist belt, frost embroidery, boots and black-silver sheathed sword. Create an unmistakably alert state: sharply focused eyes, slightly drawn brows, guarded three-quarter stance, one hand gripping the sheath and the other signaling companions to halt. Premium semi-realistic dark Chinese fantasy visual-novel painting, complete head-to-toe 2:3 framing with generous margin. Exact flat green background only; no checkerboard, texture, shadow, scenery or green spill. Anatomically correct face and hands; exactly two hands and feet; no crop, redesign, extra limbs, duplicate weapon, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-f1a33a34-d887-4a24-aec5-b706c5b57bed.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-f1a33a34-d887-4a24-aec5-b706c5b57bed.png",
+          "adopted": false,
+          "note": "透明请求被模型烘成棋盘格背景。"
+        },
+        {
+          "sequence": 2,
+          "output_id": "exec-e49ea7d7-5d1b-4644-9057-a6c878109964.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-e49ea7d7-5d1b-4644-9057-a6c878109964.png",
+          "adopted": false,
+          "note": "背景抽取编辑返回带不透明光晕的背景。"
+        },
+        {
+          "sequence": 3,
+          "output_id": "exec-6c4d62df-df53-4ca5-86ea-4d9da5613176.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-6c4d62df-df53-4ca5-86ea-4d9da5613176.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿执行允许的透明通道清理。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 94724,
+        "sha256": "8C4F2817B3A55CA1E567AAF0E027BCC4494EAC06B04CCC1F8CC2A0F1A0CFCCF5"
+      }
+    },
+    {
+      "key": "character.ji-qinghan.softened",
+      "final_path": "public/characters/ji-qinghan-softened-v1.webp",
+      "generated_at": "2026-09-01T06:43:26.1369829Z",
+      "reference_images": [
+        "public/characters/ji-qinghan-v1.webp",
+        "public/characters/ji-qinghan-neutral-v1.webp",
+        "public/characters/ji-qinghan-alert-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body softened-state portrait of Ji Qinghan on exact flat #00FF00 chroma green. Preserve her locked face, age, blue-gray eyes, long black half-up hair, silver ice ornament, forehead jewel, earrings, white/icy-blue hanfu, black waist belt, embroidery, boots, sheathed black-silver sword, proportions and silhouette. Show guarded reserve briefly eased: warm gentle eyes, relaxed brow, restrained almost-smile, released shoulders, one hand resting over the other near her waist; trusting but not cheerful or coquettish. Premium semi-realistic dark Chinese fantasy visual-novel painting, complete head-to-toe 2:3 frame with generous margin and an independent pose. Uniform green background only; no gradient, checkerboard, floor, shadow, glow, scenery or spill. Anatomically correct hands, exactly two hands and feet, no crop, redesign, extra limbs, duplicate weapon, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-6ff633b3-05ff-481b-aa17-76e3377556e4.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-6ff633b3-05ff-481b-aa17-76e3377556e4.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 78792,
+        "sha256": "3E79F13FAC19024675FB5EB5EA6222146E669A11DC5CD73072A485DA12A5F687"
+      }
+    },
+    {
+      "key": "character.ji-qinghan.injured",
+      "final_path": "public/characters/ji-qinghan-injured-v1.webp",
+      "generated_at": "2026-09-01T06:45:00.2978961Z",
+      "reference_images": [
+        "public/characters/ji-qinghan-v1.webp",
+        "public/characters/ji-qinghan-neutral-v1.webp",
+        "public/characters/ji-qinghan-alert-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body injured-state portrait of Ji Qinghan on exact flat #00FF00 chroma green. Preserve her locked young adult identity, oval face, pale complexion, blue-gray eyes, long black half-up hair, silver ice ornament, forehead jewel, earrings, white/icy-blue hanfu, black waist belt, frost embroidery, boots, sheathed black-silver sword, proportions and palette. She remains standing after battle with a controlled pained expression, bent knee, guarded torso, one hand pressing a localized dark blood-stained tear at the upper sleeve/ribs, small cheek cut and loosened hair; serious and readable but non-graphic, dignified and resolved. Premium semi-realistic dark Chinese fantasy visual-novel painting, full head-to-toe 2:3 frame with margin. Uniform green only; no gradient, checkerboard, floor, shadow, glow, scenery or spill. Anatomically correct, exactly two hands and feet, no gore, crop, redesign, extra limbs, duplicate weapon, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-c2931d33-6e14-43fb-81da-24ac5cf05116.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-c2931d33-6e14-43fb-81da-24ac5cf05116.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 74404,
+        "sha256": "8322B1BFF2DDBEA03A6ED5284DD1B49B8636F378B7B4A194C0D4A5F93D1697D7"
+      }
+    },
+    {
+      "key": "character.ji-qinghan.battle",
+      "final_path": "public/characters/ji-qinghan-battle-v1.webp",
+      "generated_at": "2026-09-01T06:46:37.3921073Z",
+      "reference_images": [
+        "public/characters/ji-qinghan-v1.webp",
+        "public/characters/ji-qinghan-neutral-v1.webp",
+        "public/characters/ji-qinghan-alert-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body battle-state portrait of Ji Qinghan on exact flat #00FF00 chroma green. Preserve her locked young adult identity, face, blue-gray eyes, long black half-up hair, silver ice ornament, forehead jewel, earrings, white/icy-blue hanfu, black waist belt, frost embroidery, boots, exact black-silver sword, proportions and palette. Show active disciplined combat: fierce focused eyes, low balanced three-quarter stance, drawn sword held diagonally forward in her right hand, left hand making a precise two-finger ward, sleeves and hair swept by motion. Premium semi-realistic dark Chinese fantasy visual-novel painting, full head-to-toe 2:3 frame with complete sword and generous margin. Uniform green only; no gradient, checkerboard, shadow, scenery or spill. Anatomically correct, exactly two hands and feet, no crop, redesign, extra limbs, duplicate weapon, background magic, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-3c8594b2-50dc-424b-b21e-3181c05214cb.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-3c8594b2-50dc-424b-b21e-3181c05214cb.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 95834,
+        "sha256": "1B2A10A6E53590E906541C54BB4796AD7DBC994BC4AC1EA1FF0D8F8CD9B91A2F"
+      }
+    },
+    {
+      "key": "character.zhao-li.neutral",
+      "final_path": "public/characters/zhao-li-neutral-v1.webp",
+      "generated_at": "2026-09-01T06:48:40.9620327Z",
+      "reference_images": [
+        "public/characters/zhao-li-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body neutral-state portrait of Zhao Li on exact flat #00FF00 chroma green. Preserve his locked young adult Chinese male identity, pale angular face, red eyes, long black half-up hair with red accents, black gloves, black/deep-red layered hanfu, silver thorn embroidery, waist fittings, hanging blood-gu vial, tall boots, lean proportions and silhouette. Show cool unreadable calculation: upright stance, level eyes, relaxed mouth, one hand safely holding a small red gu at chest height and the other near his waist; not amused or hostile. Premium semi-realistic dark Chinese fantasy visual-novel painting, complete head-to-toe 2:3 framing with generous margin and independent pose. Uniform green only; no gradient, checkerboard, floor, shadow, glow, scenery or spill. Anatomically correct, exactly two hands and feet, coherent small gu, no crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-d58365cd-94fc-41d3-9f4b-be84d5134913.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-d58365cd-94fc-41d3-9f4b-be84d5134913.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 68196,
+        "sha256": "6A94EFC3B5BD4309070C5ECA8C6C9B3D719F5BFFB57C9D665B4E714444E26330"
+      }
+    },
+    {
+      "key": "character.zhao-li.amused",
+      "final_path": "public/characters/zhao-li-amused-v1.webp",
+      "generated_at": "2026-09-01T06:50:08.3256720Z",
+      "reference_images": [
+        "public/characters/zhao-li-v1.webp",
+        "public/characters/zhao-li-neutral-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body amused-state portrait of Zhao Li on exact flat #00FF00 chroma green. Preserve locked pale angular face, red eyes, long black half-up hair, red accents, black gloves, black/deep-red hanfu, silver thorn embroidery, waist fittings, gu vial, tall boots, lean proportions and silhouette. Show dangerous amusement: narrow knowing smile, one brow subtly raised, slight head tilt, small blood-red gu balanced between gloved fingertips near his face, other hand behind his back; not friendly joy. Premium semi-realistic dark Chinese fantasy visual-novel painting, full head-to-toe 2:3 frame with generous margin and new pose. Uniform green only; no gradient, checkerboard, shadow, scenery or spill. Anatomically correct, exactly two hands and feet, no broad grin, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-1bb1c410-93bb-458b-9021-b3db9d78d548.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-1bb1c410-93bb-458b-9021-b3db9d78d548.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 69640,
+        "sha256": "14522A7864592DF0819B0B0C63DD0DF66B02E490C7BE3E623D50274FA54005C8"
+      }
+    },
+    {
+      "key": "character.zhao-li.wary",
+      "final_path": "public/characters/zhao-li-wary-v1.webp",
+      "generated_at": "2026-09-01T06:51:49.8565606Z",
+      "reference_images": [
+        "public/characters/zhao-li-v1.webp",
+        "public/characters/zhao-li-neutral-v1.webp",
+        "public/characters/zhao-li-amused-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body wary-state portrait of Zhao Li on exact flat #00FF00 chroma green. Preserve locked pale angular face, red eyes, long black half-up hair, red accents, black gloves, black/deep-red hanfu, silver thorn embroidery, waist fittings, gu vial, tall boots, lean proportions and silhouette. Show suspicion and vigilance: smile gone, eyes narrowed sideways, shoulders angled defensively, one hand half-raised to command blood gu and the other protecting his vial. Premium semi-realistic dark Chinese fantasy visual-novel painting, full head-to-toe 2:3 frame with generous margin and guarded new pose. Uniform green only; no gradient, checkerboard, shadow, scenery or spill. Anatomically correct, exactly two hands and feet, no rage, fear, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-d9bf3659-b223-4137-8a04-65dc27683da4.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-d9bf3659-b223-4137-8a04-65dc27683da4.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 73386,
+        "sha256": "A1115FF7B5396CFC3AEE726C3C791880853C11A9139F842923F04C83E38F5FF8"
+      }
+    },
+    {
+      "key": "character.zhao-li.injured",
+      "final_path": "public/characters/zhao-li-injured-v1.webp",
+      "generated_at": "2026-09-01T06:53:22.2900249Z",
+      "reference_images": [
+        "public/characters/zhao-li-v1.webp",
+        "public/characters/zhao-li-neutral-v1.webp",
+        "public/characters/zhao-li-wary-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body injured-state portrait of Zhao Li on exact flat #00FF00 chroma green. Preserve locked pale angular face, red eyes, long black half-up hair, red accents, black gloves, black/deep-red hanfu, silver embroidery, fittings, gu vial, boots, lean proportions and silhouette. Show blood-gu backlash: strained pale face, defiant eyes, one hand clamped over a localized dark blood-stained wound beneath left ribs, the other steadying the hanging gu vial, slightly hunched but controlled, optional thin blood trace at mouth; serious and readable but non-graphic. Premium semi-realistic dark Chinese fantasy visual-novel painting, full head-to-toe 2:3 frame with margin. Uniform green only; no gradient, checkerboard, shadow, scenery or spill. Anatomically correct, exactly two hands and feet, no gore, unconscious pose, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-e619b33e-1816-4672-8e1a-139fdb859f8f.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-e619b33e-1816-4672-8e1a-139fdb859f8f.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 79484,
+        "sha256": "5AF64240FD54BE2EB464F6D9FD52CCA187E6A7344B7F30DF2C8F512624493B10"
+      }
+    },
+    {
+      "key": "character.zhao-li.battle",
+      "final_path": "public/characters/zhao-li-battle-v1.webp",
+      "generated_at": "2026-09-01T06:54:50.5940985Z",
+      "reference_images": [
+        "public/characters/zhao-li-v1.webp",
+        "public/characters/zhao-li-neutral-v1.webp",
+        "public/characters/zhao-li-wary-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Production full-body battle-state portrait of Zhao Li on exact flat #00FF00 chroma green. Preserve locked pale angular face, red eyes, long black half-up hair, red accents, black gloves, black/deep-red hanfu, silver embroidery, fittings, gu vial, boots, lean proportions and silhouette. Show active blood-gu combat: low balanced three-quarter stance, fierce eyes, right hand driving a small coherent red gu forward, left hand controlling taut dark-red blood threads close to his body, robes and hair swept by motion. Premium semi-realistic dark Chinese fantasy visual-novel painting, full head-to-toe 2:3 frame with all threads and margin. Uniform green only; no gradient, checkerboard, shadow, scenery or spill. Anatomically correct, exactly two hands and feet, no gore, large background magic field, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-ba41773e-7949-40ea-84d7-46c8bd29ee4c.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bad-8e40-7243-bed1-08a66ea1f966/exec-ba41773e-7949-40ea-84d7-46c8bd29ee4c.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 83818,
+        "sha256": "72EDB99D0C1215D79AEDA204DEE974B31A8C972FAF1743B618353A1D5CB2FF8C"
+      }
+    },
+    {
+      "key": "character.xue-feng.neutral",
+      "final_path": "public/characters/xue-feng-neutral-v1.webp",
+      "generated_at": "2026-09-01T07:02:00Z",
+      "reference_images": [
+        "public/characters/xue-feng-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, costume, palette, silhouette and painting-style reference for Xue Feng. Primary request: create an independent neutral-state portrait of the same Xue Feng on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve his middle-aged Chinese male identity, broad friendly round face, warm brown eyes, black topknot, short mustache and pointed goatee, stocky build, layered brown/olive/ochre merchant-traveler hanfu, embroidered borders, dark belt, braided cords, jade pendants, pouches, gu containers, tall boots and large travel pack. Expression and pose: cautious neutral appraisal, smile absent, lips relaxed, eyes attentive, upright stance, both hands naturally resting apart near belt and pack strap. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 framing, generous clean margin, all props inside frame. Backdrop: perfectly flat #00FF00 only. Constraints: anatomically correct face and hands; exactly two hands and two feet; coherent costume and props; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate objects, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-f07315d9-6dad-4e57-ae80-774fa97c832f.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-f07315d9-6dad-4e57-ae80-774fa97c832f.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 77372,
+        "sha256": "D6B1AF7C5D6C52068882A546E0FDDE9500E8F2D6861EB8D20A62850FAE32B651"
+      }
+    },
+    {
+      "key": "character.xue-feng.smiling",
+      "final_path": "public/characters/xue-feng-smiling-v1.webp",
+      "generated_at": "2026-09-01T07:04:00Z",
+      "reference_images": [
+        "public/characters/xue-feng-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, costume, palette, silhouette and painting-style reference for Xue Feng. Primary request: create an independent smiling-state portrait of the same Xue Feng on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve his middle-aged Chinese male identity, broad round face, warm brown eyes, black topknot, short mustache and pointed goatee, stocky build, layered brown/olive/ochre merchant-traveler hanfu, embroidered borders, dark belt, braided cords, jade pendants, pouches, gu containers, tall boots and large travel pack. Expression and pose: Show his practiced ingratiating smile: warm narrowed eyes, raised cheeks, deferential half-bow, both hands clasped politely at chest height; visibly charming but calculating, not neutral. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 framing, generous clean margin, all props inside frame. Backdrop: perfectly flat #00FF00 only. Constraints: anatomically correct face and hands; exactly two hands and two feet; coherent costume and props; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate objects, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-c75f2164-c015-419b-98b1-3f726b8de27c.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-c75f2164-c015-419b-98b1-3f726b8de27c.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 76078,
+        "sha256": "4204D843E5C74C6B401CA78C708C062F1348B3019C5CB7526C7C3457035CE9F9"
+      }
+    },
+    {
+      "key": "character.xue-feng.panicked",
+      "final_path": "public/characters/xue-feng-panicked-v1.webp",
+      "generated_at": "2026-09-01T07:05:00Z",
+      "reference_images": [
+        "public/characters/xue-feng-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, costume, palette, silhouette and painting-style reference for Xue Feng. Primary request: create an independent panicked-state portrait of the same Xue Feng on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve his middle-aged Chinese male identity, broad round face, warm brown eyes, black topknot, short mustache and pointed goatee, stocky build, layered brown/olive/ochre merchant-traveler hanfu, embroidered borders, dark belt, braided cords, jade pendants, pouches, gu containers, tall boots and large travel pack. Expression and pose: Show sudden panic: eyes wide, brows lifted, mouth slightly open, shoulders recoiling, one hand raised defensively and the other clutching the strap of his travel pack; readable fear without slapstick. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 framing, generous clean margin, all props inside frame. Backdrop: perfectly flat #00FF00 only. Constraints: anatomically correct face and hands; exactly two hands and two feet; coherent costume and props; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate objects, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-967a681e-9ada-4fa8-a8f8-0aeed48094ef.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-967a681e-9ada-4fa8-a8f8-0aeed48094ef.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 84460,
+        "sha256": "08FAB05664D485B3225F93D68E9BC129FC3F29A05B018009FCC134A66D84F04D"
+      }
+    },
+    {
+      "key": "character.xue-feng.greedy",
+      "final_path": "public/characters/xue-feng-greedy-v1.webp",
+      "generated_at": "2026-09-01T07:07:00Z",
+      "reference_images": [
+        "public/characters/xue-feng-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, costume, palette, silhouette and painting-style reference for Xue Feng. Primary request: create an independent greedy-state portrait of the same Xue Feng on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve his middle-aged Chinese male identity, broad round face, warm brown eyes, black topknot, short mustache and pointed goatee, stocky build, layered brown/olive/ochre merchant-traveler hanfu, embroidered borders, dark belt, braided cords, jade pendants, pouches, gu containers, tall boots and large travel pack. Expression and pose: Show avarice breaking through: eyes fixed intensely on a small ancient jade token held safely between fingers, eager tight smile, torso leaning forward, other hand guarding his pouches; covetous but not caricatured. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 framing, generous clean margin, all props inside frame. Backdrop: perfectly flat #00FF00 only. Constraints: anatomically correct face and hands; exactly two hands and two feet; coherent costume and props; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate objects, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-ebc1ab79-70a4-4512-8df2-a02daf32e961.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-ebc1ab79-70a4-4512-8df2-a02daf32e961.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 96704,
+        "sha256": "98FF469772076F74ACB1AD082A659479E07CBC53AF70F15A5C92E6F376028BA4"
+      }
+    },
+    {
+      "key": "character.xue-feng.injured",
+      "final_path": "public/characters/xue-feng-injured-v1.webp",
+      "generated_at": "2026-09-01T07:08:00Z",
+      "reference_images": [
+        "public/characters/xue-feng-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, costume, palette, silhouette and painting-style reference for Xue Feng. Primary request: create an independent injured-state portrait of the same Xue Feng on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve his middle-aged Chinese male identity, broad round face, warm brown eyes, black topknot, short mustache and pointed goatee, stocky build, layered brown/olive/ochre merchant-traveler hanfu, embroidered borders, dark belt, braided cords, jade pendants, pouches, gu containers, tall boots and large travel pack. Expression and pose: Show him wounded but desperate to survive: strained face, bent stance, one hand pressing a localized dark blood-stained tear at his side and the other gripping a bronze gu canister for support; non-graphic, conscious and readable. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 framing, generous clean margin, all props inside frame. Backdrop: perfectly flat #00FF00 only. Constraints: anatomically correct face and hands; exactly two hands and two feet; coherent costume and props; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate objects, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-dc1c2248-df0a-4781-b6c8-971fd9a98199.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-dc1c2248-df0a-4781-b6c8-971fd9a98199.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 93170,
+        "sha256": "D8EFC0BF49863EC50184F6A55859070E79416604F9C0D3A0FBEF34409B9EDC72"
+      }
+    },
+    {
+      "key": "character.xue-feng.battle",
+      "final_path": "public/characters/xue-feng-battle-v1.webp",
+      "generated_at": "2026-09-01T07:09:00Z",
+      "reference_images": [
+        "public/characters/xue-feng-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, costume, palette, silhouette and painting-style reference for Xue Feng. Primary request: create an independent battle-state portrait of the same Xue Feng on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve his middle-aged Chinese male identity, broad round face, warm brown eyes, black topknot, short mustache and pointed goatee, stocky build, layered brown/olive/ochre merchant-traveler hanfu, embroidered borders, dark belt, braided cords, jade pendants, pouches, gu containers, tall boots and large travel pack. Expression and pose: Show active improvised combat: determined face, grounded wide stance, one hand thrusting a bronze smoke-gu canister forward and the other shielding his torso with his reinforced travel pack, robes and cords swept by motion. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 framing, generous clean margin, all props inside frame. Backdrop: perfectly flat #00FF00 only. Constraints: anatomically correct face and hands; exactly two hands and two feet; coherent costume and props; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate objects, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-1b701fc8-a349-4cfa-b9ae-6c05eb8df26f.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-1b701fc8-a349-4cfa-b9ae-6c05eb8df26f.png",
+          "adopted": true,
+          "note": "采用纯绿色 chroma 背景源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "保持 1024x1536，WebP quality 45 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 96498,
+        "sha256": "89321B40CE63ED609EE94EEE6387EA6760E6525A5688871D881EC049A7137B5D"
+      }
+    },
+    {
+      "key": "character.su-ying.neutral",
+      "final_path": "public/characters/su-ying-neutral-v1.webp",
+      "generated_at": "2026-09-01T07:18:26.3499616Z",
+      "reference_images": [
+        "public/characters/su-ying-v1.webp"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, face, costume, palette, silhouette, tomb-map prop and painting-style reference for Su Ying. Primary request: create an independent neutral-state portrait of the same Su Ying on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve her young Chinese woman identity, pale oval face, grey-green eyes, very long thick side braid with muted green ornaments, layered distressed charcoal/grey/moss-green hanfu with vine embroidery, braided belt, small gu vials, wrist wraps, boots and rolled ancient tomb map. Expression and pose: calm restrained neutral expression, upright stance, map held naturally at her side. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition: complete head-to-toe 2:3 frame with generous clean margin. Backdrop: perfectly flat #00FF00 only. Constraints: preserve all identity anchors; anatomically correct face and hands; exactly two hands and two feet; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-6736441c-cff3-4a43-a56b-532ff6268c69.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bc5-ed75-7f80-b568-722a5d28d0be/exec-6736441c-cff3-4a43-a56b-532ff6268c69.png",
+          "adopted": true,
+          "note": "上一轮保全的纯绿色 chroma 候选经本轮目视筛查后采用。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 38 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 61598,
+        "sha256": "141972C76D4D8E117711448C4A22992582A1054E6C633846C5C040796F3CCA96"
+      }
+    },
+    {
+      "key": "character.su-ying.wary",
+      "final_path": "public/characters/su-ying-wary-v1.webp",
+      "generated_at": "2026-09-01T07:24:37.7311260Z",
+      "reference_images": [
+        ".agent/tasks/visual-art-expansion-v1/raw/imagegen-originals/su-ying-neutral-v1-candidate.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, face, costume, palette, silhouette, tomb-map prop and painting-style reference for Su Ying. Primary request: create an independent wary-state portrait of the same Su Ying on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Subject: preserve her young Chinese woman identity, pale oval face, grey-green eyes, very long thick side braid with muted green ornaments, layered distressed charcoal/grey/moss-green hanfu with vine embroidery, braided belt, small gu vials, wrist wraps, boots, and rolled ancient tomb map. Expression and pose: visibly wary and alert, brows slightly drawn, eyes scanning to the side, torso turned three-quarter, one hand gripping the rolled tomb map close to her chest and the other raised defensively near a hidden gu vial; controlled caution, not fear. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition/framing: complete head-to-toe 2:3 frame, generous clean margin, all hair, cloth ribbons and props inside frame. Scene/backdrop: perfectly flat uniform #00FF00 only. Constraints: preserve face, age, braid, outfit design, palette, body proportions and all identity anchors; anatomically correct face and hands; exactly two hands and two feet; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-cddf0f73-cb21-4971-b829-8b20768ce823.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bd8-a1df-7a70-8b1c-94efbeb062ae/exec-cddf0f73-cb21-4971-b829-8b20768ce823.png",
+          "adopted": true,
+          "note": "采用身份与戒备语义清晰的纯绿色 chroma 源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 38 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 64960,
+        "sha256": "880402E7DA7E7B2A3A97C7AB4F874333FBF33320B6E24339DA6C08D2A7735AE8"
+      }
+    },
+    {
+      "key": "character.su-ying.sad",
+      "final_path": "public/characters/su-ying-sad-v1.webp",
+      "generated_at": "2026-09-01T07:25:50.0847154Z",
+      "reference_images": [
+        ".agent/tasks/visual-art-expansion-v1/raw/imagegen-originals/su-ying-neutral-v1-candidate.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, face, costume, palette, silhouette, tomb-map prop and painting-style reference for Su Ying. Primary request: create an independent sad-state portrait of the same Su Ying on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Subject: preserve her young Chinese woman identity, pale oval face, grey-green eyes, very long thick side braid with muted green ornaments, layered distressed charcoal/grey/moss-green hanfu with vine embroidery, braided belt, small gu vials, wrist wraps, boots, and rolled ancient tomb map. Expression and pose: restrained grief, eyes lowered and moist but no tears streaming, brows softly pinched, lips pressed, shoulders slightly drawn inward, holding the rolled tomb map against her heart with both hands; dignified sorrow, conscious and calm. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition/framing: complete head-to-toe 2:3 frame, generous clean margin, all hair, cloth ribbons and props inside frame. Scene/backdrop: perfectly flat uniform #00FF00 only. Constraints: preserve face, age, braid, outfit design, palette, body proportions and all identity anchors; anatomically correct face and hands; exactly two hands and two feet; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-48fef28b-bf89-447a-b964-625150aea361.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bd8-a1df-7a70-8b1c-94efbeb062ae/exec-48fef28b-bf89-447a-b964-625150aea361.png",
+          "adopted": true,
+          "note": "采用身份与克制悲伤语义清晰的纯绿色 chroma 源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 38 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 58764,
+        "sha256": "8CE7BA2D68D93E8E84C9705427B8A912FA40CC1B8159B8586D31F6A4C9253F56"
+      }
+    },
+    {
+      "key": "character.su-ying.injured",
+      "final_path": "public/characters/su-ying-injured-v1.webp",
+      "generated_at": "2026-09-01T07:27:01.5551434Z",
+      "reference_images": [
+        ".agent/tasks/visual-art-expansion-v1/raw/imagegen-originals/su-ying-neutral-v1-candidate.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, face, costume, palette, silhouette, tomb-map prop and painting-style reference for Su Ying. Primary request: create an independent injured-state portrait of the same Su Ying on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Subject: preserve her young Chinese woman identity, pale oval face, grey-green eyes, very long thick side braid with muted green ornaments, layered distressed charcoal/grey/moss-green hanfu with vine embroidery, braided belt, small gu vials, wrist wraps, boots, and rolled ancient tomb map. Expression and pose: wounded but resolute, strained pale face, one knee slightly bent, one hand pressing a localized dark blood-stained tear at her side, the other arm protecting the rolled tomb map against her body; conscious and still standing, non-graphic. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition/framing: complete head-to-toe 2:3 frame, generous clean margin, all hair, cloth ribbons and props inside frame. Scene/backdrop: perfectly flat uniform #00FF00 only. Constraints: preserve face, age, braid, outfit design, palette, body proportions and all identity anchors; anatomically correct face and hands; exactly two hands and two feet; no gore, severed clothing beyond the small wound, shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-f2300bf9-ef86-4727-ad0c-7c19c076d3f7.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bd8-a1df-7a70-8b1c-94efbeb062ae/exec-f2300bf9-ef86-4727-ad0c-7c19c076d3f7.png",
+          "adopted": true,
+          "note": "采用身份与负伤语义清晰的纯绿色 chroma 源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 38 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 60120,
+        "sha256": "5CFD7B517FD97FE924FF796C3CCE58EEBA46ECEB2AA9E5576AD6DAD003CB9D65"
+      }
+    },
+    {
+      "key": "character.su-ying.battle",
+      "final_path": "public/characters/su-ying-battle-v1.webp",
+      "generated_at": "2026-09-01T07:28:20.3183532Z",
+      "reference_images": [
+        ".agent/tasks/visual-art-expansion-v1/raw/imagegen-originals/su-ying-neutral-v1-candidate.png"
+      ],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Input image: identity, face, costume, palette, silhouette, tomb-map prop and painting-style reference for Su Ying. Primary request: create an independent battle-state portrait of the same Su Ying on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Subject: preserve her young Chinese woman identity, pale oval face, grey-green eyes, very long thick side braid with muted green ornaments, layered distressed charcoal/grey/moss-green hanfu with vine embroidery, braided belt, small gu vials, wrist wraps, boots, and rolled ancient tomb map. Expression and pose: active defensive combat, focused fierce eyes, grounded three-quarter stance, the rolled tomb map unfurled only slightly between her hands as a coherent ancient formation guide, one hand forming a precise warding gesture close to the map, robe hems and braid lifted by motion; no giant background magic field. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel painting matching the reference. Composition/framing: complete head-to-toe 2:3 frame, generous clean margin, all hair, cloth ribbons, hands, feet and map inside frame. Scene/backdrop: perfectly flat uniform #00FF00 only. Constraints: preserve face, age, braid, outfit design, palette, body proportions and all identity anchors; anatomically correct face and hands; exactly two hands and two feet; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [
+        {
+          "sequence": 1,
+          "output_id": "exec-4a74adb8-5f42-4a40-9d98-f60f2d5714ad.png",
+          "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bd8-a1df-7a70-8b1c-94efbeb062ae/exec-4a74adb8-5f42-4a40-9d98-f60f2d5714ad.png",
+          "adopted": true,
+          "note": "首次 battle 调用因本地参考图读取故障未产生输出；第二次调用成功并采用该纯绿色 chroma 源稿。"
+        }
+      ],
+      "postprocessing": [
+        "复制采用源稿到 raw/imagegen-originals",
+        "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道",
+        "将绿色溢出限制为 min(g,max(r,b))",
+        "保持 1024x1536，WebP quality 38 压缩"
+      ],
+      "inspection": {
+        "format": "WEBP",
+        "width": 1024,
+        "height": 1536,
+        "alpha": true,
+        "bytes": 83678,
+        "sha256": "F5216141CDB76004752A82CCF57BB6F89C0CFBC6672114D0F1140C73AA82717C"
+      }
+    },
+    {
+      "key": "character.qiao-wujiu.neutral",
+      "final_path": "public/characters/qiao-wujiu-neutral-v1.webp",
+      "generated_at": "2026-09-01T07:49:36.2843191Z",
+      "reference_images": ["public/characters/qiao-wujiu-v1.webp"],
+      "prompt": "Use case: identity-preserve. Asset type: production visual-novel full-body character state portrait. Image 1 is the identity, face, costume, palette, silhouette, mechanism-prop and painting-style reference for Qiao Wujiu. Create an independent neutral-state portrait of the same Qiao Wujiu on an exact uniform #00FF00 chroma field for later transparent-channel cleanup. Preserve the mature Chinese man identity, long black hair in the same ornate bronze crown, sharp brows and narrow eyes, short moustache and pointed goatee, layered black charcoal and ash-grey hanfu, bronze shoulder filigree, bronze mechanism ornaments, jade beads, wide sleeves, and black shoes. Neutral calculating gaze, upright head-to-toe stance, one hand naturally holding a small bronze deputy seal at waist height, the other relaxed beside him; calm and unreadable. Premium semi-realistic dark Chinese fantasy visual-novel painting matching Image 1. Complete head-to-toe 2:3 frame with generous clean margin. Perfectly flat uniform #00FF00 only. Preserve all identity anchors; make a genuinely new rendered pose; correct anatomy, exactly two hands and feet; no shadow, texture, gradient, checkerboard, scenery, green spill, crop, redesign, extra limbs, duplicate props, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-b2eeef70-3d54-4815-bd8f-42bfc547c423.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-b2eeef70-3d54-4815-bd8f-42bfc547c423.png", "adopted": true, "note": "采用身份与中性状态清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 51014, "sha256": "C781D335E2D0E1A045FF0224AE8B461A107AF008C9EE4EE99B6BF2069B90AA45"}
+    },
+    {
+      "key": "character.qiao-wujiu.calm",
+      "final_path": "public/characters/qiao-wujiu-calm-v1.webp",
+      "generated_at": "2026-09-01T07:50:44.4386826Z",
+      "reference_images": ["public/characters/qiao-wujiu-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Qiao Wujiu calm-state portrait using Image 1 as identity, face, costume, palette, silhouette, mechanism-prop and style reference. Preserve his mature face, long black hair, bronze crown, sharp eyes, moustache and goatee, black/ash-grey hanfu, bronze filigree and mechanism ornaments. Composed strategic calm, lowered eyelids, balanced stance, bronze deputy seal in one open palm and the other hand lightly touching a thin mechanism wire; no smile. Complete head-to-toe 2:3 frame on perfectly uniform #00FF00 for alpha cleanup. New independent rendered pose, exact identity anchors, correct anatomy, exactly two hands and feet, no scenery, shadow, texture, gradient, crop, green spill, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-d0db4d95-1ee6-4303-96bc-6a194d499a8d.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-d0db4d95-1ee6-4303-96bc-6a194d499a8d.png", "adopted": true, "note": "采用身份与从容谋算语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 57156, "sha256": "B994973477A8EB03797E0EB6642EC1C0DFE29D6B0A5789F5D7592A6E3DAB3087"}
+    },
+    {
+      "key": "character.qiao-wujiu.smug",
+      "final_path": "public/characters/qiao-wujiu-smug-v1.webp",
+      "generated_at": "2026-09-01T07:51:40.3889961Z",
+      "reference_images": ["public/characters/qiao-wujiu-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Qiao Wujiu smug-state portrait using Image 1 as identity and style reference. Preserve his mature face, long black hair, bronze crown, moustache and goatee, black/ash-grey hanfu and bronze mechanism ornaments. Self-satisfied control with one eyebrow raised and restrained crooked smile; one hand displays the bronze deputy seal while the other pinches taut mechanism wire as if a trap has closed. Complete head-to-toe 2:3 frame on perfectly uniform #00FF00 for alpha cleanup. New independent rendered pose, exact identity anchors, correct anatomy, exactly two hands and feet, no scenery, shadow, texture, gradient, crop, green spill, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-8ef4a3eb-0be1-4e82-900e-dfddea916f31.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-8ef4a3eb-0be1-4e82-900e-dfddea916f31.png", "adopted": true, "note": "采用身份与自得掌控语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 64038, "sha256": "0DEDC26C8B152D83B46EB2C4885D64316903E31CF3A598440DE18DBB1B834D45"}
+    },
+    {
+      "key": "character.qiao-wujiu.injured",
+      "final_path": "public/characters/qiao-wujiu-injured-v1.webp",
+      "generated_at": "2026-09-01T07:55:22.5036037Z",
+      "reference_images": ["public/characters/qiao-wujiu-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Qiao Wujiu injured-state portrait using Image 1 as identity and style reference. Preserve his face, long black hair, bronze crown, facial hair, black/ash-grey hanfu and mechanism ornaments. Wounded but calculating, one knee flexed, one hand pressing a localized non-graphic blood-stained tear at the ribs and the other still gripping mechanism wires; conscious and standing. Complete head-to-toe 2:3 frame on perfectly uniform #00FF00 for alpha cleanup. New independent pose, correct anatomy, exactly two hands and feet; no gore, scenery, shadow, texture, gradient, crop, green spill, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-3a7d8925-697e-4d16-ad53-85a61f4ec083.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-3a7d8925-697e-4d16-ad53-85a61f4ec083.png", "adopted": true, "note": "采用身份与负伤语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 58246, "sha256": "6F86F4DB577EB0F45CF29824D6CE1FAE65B7CA7225CF6B4E7EA535ABC630F6A5"}
+    },
+    {
+      "key": "character.qiao-wujiu.battle",
+      "final_path": "public/characters/qiao-wujiu-battle-v1.webp",
+      "generated_at": "2026-09-01T07:56:27.3833221Z",
+      "reference_images": ["public/characters/qiao-wujiu-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Qiao Wujiu battle-state portrait using Image 1 as identity and style reference. Preserve his mature face, hair, crown, facial hair, black/ash-grey hanfu and bronze ornaments. Active mechanism-master combat with fierce gaze and grounded stance, one hand casting thin bronze mechanism wires at an off-frame opponent while the other commands a compact bronze seal mechanism; sleeves and hair lifted by motion. Complete head-to-toe 2:3 frame on perfectly uniform #00FF00. New independent pose, correct anatomy, exactly two hands and feet; no giant magic field, scenery, shadow, crop, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-c4cd9b9a-fd0f-4965-8de6-1f683ba1bce5.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-c4cd9b9a-fd0f-4965-8de6-1f683ba1bce5.png", "adopted": true, "note": "采用身份与牵机丝战斗语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 72296, "sha256": "8E92E15009157748F8C55E756AD398E7621DBA7F55B597D6F079C71B74E12158"}
+    },
+    {
+      "key": "character.su-yan.neutral",
+      "final_path": "public/characters/su-yan-neutral-v1.webp",
+      "generated_at": "2026-09-01T07:57:21.4251769Z",
+      "reference_images": ["public/characters/su-yan-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Su Yan neutral-state portrait using Image 1 as identity, costume, palette and style reference. Preserve his extremely pale angular face, red eyes, very long black hair with prominent white forelocks, black-gold crown with red stones, black-red robes with white trim, gold insect ornaments, jade discs, red tassels, long nails and black boots. Cold dormant composure, upright stance, one hand lowered and the other near the jade-disc belt ornament; no spell casting. Complete head-to-toe 2:3 frame on uniform #00FF00 for alpha cleanup. New independent pose, exact identity anchors and correct anatomy; no scenery, shadow, crop, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-68a16dd6-8f13-4abd-9787-2acc64a5a909.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-68a16dd6-8f13-4abd-9787-2acc64a5a909.png", "adopted": true, "note": "采用身份与冷漠中性语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 76658, "sha256": "6A97F3FA740AD459B816A3BE9E811DDB5FFF8B7C6D1618445A302C8B8536C8E9"}
+    },
+    {
+      "key": "character.su-yan.awakened",
+      "final_path": "public/characters/su-yan-awakened-v1.webp",
+      "generated_at": "2026-09-01T07:58:59.8184252Z",
+      "reference_images": ["public/characters/su-yan-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Su Yan awakened-state portrait using Image 1 as identity and style reference. Preserve his pale face, red eyes, black hair with white forelocks, crown, black-red-white robes and jade ornaments. Newly awakened authority: sharply focused red eyes, chin lifted, one hand raised as if sensing returning blood flow and the other open away from the body. Complete head-to-toe 2:3 frame on uniform #00FF00. New independent pose, exact identity anchors and correct anatomy; no coffin, giant magic field, scenery, shadow, crop, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-f32bba10-d412-443e-b5ee-d8a195151aa4.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-f32bba10-d412-443e-b5ee-d8a195151aa4.png", "adopted": true, "note": "采用身份与苏醒语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 93126, "sha256": "4F7E2A36AB3518033A0211CCCE83EF764FC54C0A22E8432FEA0AA600E3B914A5"}
+    },
+    {
+      "key": "character.su-yan.injured",
+      "final_path": "public/characters/su-yan-injured-v1.webp",
+      "generated_at": "2026-09-01T08:00:07.8475113Z",
+      "reference_images": ["public/characters/su-yan-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Su Yan injured-state portrait using Image 1 as identity and style reference. Preserve his pale face, red eyes, black hair with white forelocks, crown, black-red-white robes and jade ornaments. Unstable after forced resurrection, pained but imperious, one knee flexed, one hand pressing a localized non-graphic blood-stained upper-torso tear and the other bracing outward; conscious and dangerous. Complete head-to-toe 2:3 frame on uniform #00FF00. New independent pose, correct anatomy; no gore, giant magic field, scenery, shadow, crop, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-93c62506-c0fb-426f-8b3e-df13b30f7f9e.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-93c62506-c0fb-426f-8b3e-df13b30f7f9e.png", "adopted": true, "note": "采用身份与返生未稳负伤语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 92282, "sha256": "C21952B34A410F6A33FC485A935BB772F3D42CFC1B3A0660BAB19B497FFEC8CC"}
+    },
+    {
+      "key": "character.su-yan.battle",
+      "final_path": "public/characters/su-yan-battle-v1.webp",
+      "generated_at": "2026-09-01T08:00:59.6492925Z",
+      "reference_images": ["public/characters/su-yan-v1.webp"],
+      "prompt": "Use case: identity-preserve. Production full-body Su Yan battle-state portrait using Image 1 as identity and style reference. Preserve his pale face, red eyes, black hair with white forelocks, crown, black-red-white robes and jade ornaments. Active ancestral-array combat with fierce focus and grounded stance, one hand thrust forward with controlled claw-like fingers while the other commands the central jade-disc talisman; hair and ribbons lifted by force. Complete head-to-toe 2:3 frame on uniform #00FF00. New independent pose, correct anatomy; no giant magic field, scenery, shadow, crop, redesign, extra limbs, text, watermark, logo or frame.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-3555c1af-f47c-47bc-86c8-844bd1b41694.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05bef-7c45-7a72-955a-c1c5f03793d0/exec-3555c1af-f47c-47bc-86c8-844bd1b41694.png", "adopted": true, "note": "采用身份与祖阵战斗语义清晰的纯绿色 chroma 源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "ImageMagick -fuzz 28% 将 #00ff00 写入 alpha 通道", "将绿色溢出限制为 min(g,max(r,b))", "保持 1024x1536，WebP quality 42 压缩"],
+      "inspection": {"format": "WEBP", "width": 1024, "height": 1536, "alpha": true, "bytes": 95026, "sha256": "2387C8B5B67C2947C4A12EDB52BA6F3859DEDE64C9731D90EF37AC133B9E36CE"}
+    },
+    {
+      "key": "cg.scene.zhaoAwakening",
+      "final_path": "public/cg/scenes/zhaoAwakening-v1.webp",
+      "generated_at": "2026-09-01T08:12:58Z",
+      "reference_images": ["public/backgrounds/blood-chamber-v1.webp", "public/characters/zhao-li-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel route-climax CG for the game 《蛊墓无休》. Input images: Image 1 is the blood-chamber environment and painting-style reference; Image 2 is Zhao Li's exact identity, face, costume, palette, silhouette and blood-gu reference. Primary request: Zhao Li awakens the five-turn blood-pattern gu before an ancient blood pool inside the underground tomb. Scene/backdrop: vast black-stone blood chamber, cracked bronze gu vessels, dim ritual carvings, dark red pool reflecting ruined pillars. Subject: preserve Zhao Li as the same young Chinese man with his established face, black-red layered robes and blood-gu identity; he stands near the pool with blood-pattern lines rising around one forearm, grim and controlled rather than triumphant, while the unseen protagonist remains only as a distant foreground silhouette. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching the supplied game references. Composition/framing: cinematic 16:9 landscape, Zhao Li and the awakened gu on the right-center, readable negative space and environment on the left; keep the focal face and blood-gu well clear of likely bottom dialogue UI. Lighting/mood: oppressive crimson reflections against ink-black stone, dangerous awakening, restrained supernatural glow. Constraints: narrative-accurate ancient Chinese tomb, Zhao Li remains alive and recognizable, no modern objects, no text, no calligraphy, no UI, no border, no watermark, no logo, no gore, no extra limbs, no malformed hands, no duplicate people, no giant decorative magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-8a560022-00b0-41a9-b1ca-7e0efb345567.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c04-da62-71a1-9ae8-5d5f6e509678/exec-8a560022-00b0-41a9-b1ca-7e0efb345567.png", "adopted": true, "note": "采用赵黎身份、血池蛊茧与路线觉醒语义均清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 135220, "sha256": "C01A2765BD00891E03E4E797693136B254EFD271C3DAF9A080AC6716134699C5"}
+    },
+    {
+      "key": "cg.scene.jiDestroyGu",
+      "final_path": "public/cg/scenes/jiDestroyGu-v1.webp",
+      "generated_at": "2026-09-01T08:14:13Z",
+      "reference_images": ["public/backgrounds/blood-chamber-v1.webp", "public/characters/ji-qinghan-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel route-climax CG for the game 《蛊墓无休》. Input images: Image 1 is the blood-chamber environment and painting-style reference; Image 2 is Ji Qinghan's exact identity, face, costume, palette, silhouette and sword reference. Primary request: Ji Qinghan and the unseen protagonist reverse the gu breath and destroy the blood-demon gu at the climax of her route. Scene/backdrop: ruined underground blood chamber of carved black stone, bronze vessels split open, blood pool light collapsing inward. Subject: preserve Ji Qinghan as the same young Chinese swordswoman with established pale face, long dark hair, white-grey layered hanfu and straight sword; she drives her sword through the central gu vessel while a second pair of protagonist hands at the lower frame channels a counter-flow, the crimson parasite disintegrating into harmless ash-like motes. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching the supplied game references. Composition/framing: cinematic 16:9 landscape, Ji Qinghan and shattered gu vessel right-center, clear readable action, focal face and sword above the bottom dialogue-safe zone, environment visible. Lighting/mood: cold silver sword light breaking oppressive crimson, desperate mutual resolve, victory not celebration. Constraints: preserve Ji Qinghan identity and costume, ancient Chinese tomb only, no modern objects, no text, no calligraphy, no UI, no border, no watermark, no logo, no gore, no extra limbs, no malformed hands, no duplicate Ji Qinghan, no decorative giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-301df9a6-42ac-4a36-9b17-d70db551ac2a.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c04-da62-71a1-9ae8-5d5f6e509678/exec-301df9a6-42ac-4a36-9b17-d70db551ac2a.png", "adopted": true, "note": "采用纪清寒身份、双人协力与毁蛊动作均清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 141624, "sha256": "0E64BC80355479B5512883658EDBCAD612D17087E3595E9865CE2E2953C90805"}
+    },
+    {
+      "key": "cg.scene.suCoffin",
+      "final_path": "public/cg/scenes/suCoffin-v1.webp",
+      "generated_at": "2026-09-01T08:17:18Z",
+      "reference_images": ["public/backgrounds/control-room-v1.webp", "public/characters/su-ying-v1.webp", "public/characters/su-yan-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel route-climax CG for the game 《蛊墓无休》. Input images: Image 1 is the control-room tomb environment and painting-style reference; Image 2 is Su Ying's exact identity, face, costume, palette, silhouette and tomb-map reference; Image 3 is Su Yan's exact identity, face, costume and palette reference. Primary request: Su Ying confronts the ancestral resurrection array at a massive opened black-stone coffin, with Su Yan's returning form only beginning to rise from the lower blood-lit shaft. Scene/backdrop: ancient underground control chamber, monumental open black coffin with worn human-shaped recess and channels descending to a crimson-lit shaft, fractured ancestral carvings and bronze mechanisms. Subject: preserve Su Ying as the same young Chinese woman with long side braid, moss-grey hanfu and rolled tomb map; she stands at the coffin's near edge comparing the map to erased inscriptions, wary and resolute. In the deep shaft behind the coffin, preserve Su Yan's pale face, white forelocks and black-red robes as a half-emerged distant figure, clearly separate from Su Ying. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching all supplied references. Composition/framing: cinematic 16:9 landscape, Su Ying and map right-center, coffin diagonally leading toward Su Yan in the upper-left depth; faces and coffin evidence clear above bottom dialogue-safe zone. Lighting/mood: cold jade map light against restrained blood-red underlight, ancestral dread and discovery. Constraints: preserve both identities, no character fusion, no modern objects, no text, no readable calligraphy, no UI, no border, no watermark, no logo, no gore, no extra limbs, no malformed hands, no duplicate people, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-243d37d0-ce91-45aa-844d-265e6d47aa79.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c04-da62-71a1-9ae8-5d5f6e509678/exec-243d37d0-ce91-45aa-844d-265e6d47aa79.png", "adopted": true, "note": "采用苏莹、黑棺、墓图与远景苏衍层次清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 94328, "sha256": "ABE5F95850B243DA7DFB2334DAF33679F181DFFEC15D1D5B8117681C08470640"}
+    },
+    {
+      "key": "cg.scene.traitorBloodTaken",
+      "final_path": "public/cg/scenes/traitorBloodTaken-v1.webp",
+      "generated_at": "2026-09-01T08:18:37Z",
+      "reference_images": ["public/backgrounds/blood-chamber-v1.webp", "public/characters/zhao-li-v1.webp", "public/characters/qiao-wujiu-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel route-climax CG for the game 《蛊墓无休》. Input images: Image 1 is the blood-chamber environment and painting-style reference; Image 2 is Zhao Li's exact identity, face, costume, palette and blood-gu reference; Image 3 is Qiao Wujiu's exact identity, face, costume, palette and bronze-mechanism reference. Primary request: Zhao Li extracts the betrayer's vital blood to stabilize the blood-demon gu while Qiao Wujiu's attempted alliance collapses. Scene/backdrop: ruined black-stone blood chamber with dark pool, bronze gu vessels and snapped mechanism wires. Subject: preserve Zhao Li at right as the same black-red robed young man, one hand controlling several thin crimson blood threads that pull life-force from the foreground betrayer shown only as a weakened anonymous silhouette; preserve Qiao Wujiu farther left as the same mature black-grey robed man with bronze crown, moustache and goatee, recoiling as his mechanism threads fall slack. The betrayer remains alive but incapacitated; non-graphic. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching supplied references. Composition/framing: cinematic 16:9 landscape, Zhao Li and blood gu right-center, Qiao Wujiu in left depth, anonymous viewpoint figure low foreground; key faces and blood-thread action clear above bottom dialogue-safe zone. Lighting/mood: sinister controlled crimson against smoky bronze-black, betrayal becoming irreversible. Constraints: preserve both named identities and their faction colors, no character fusion, no modern objects, no text, no calligraphy, no UI, no border, no watermark, no logo, no gore, no extra limbs, no malformed hands, no duplicate people, no giant decorative magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-085d71d1-f583-410c-a10a-536d70c02239.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c04-da62-71a1-9ae8-5d5f6e509678/exec-085d71d1-f583-410c-a10a-536d70c02239.png", "adopted": true, "note": "采用赵黎、乔无咎与前景背叛者三层叙事关系清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 101166, "sha256": "233D5FFBAB9F48E23BB6960499101E8FE738930488D412F41A3BB50291DE99AD"}
+    },
+    {
+      "key": "cg.scene.gate",
+      "final_path": "public/cg/scenes/gate-v1.webp",
+      "generated_at": "2026-09-01T08:36:49Z",
+      "reference_images": ["public/backgrounds/tomb-gate-v1.webp", "public/characters/ji-qinghan-v1.webp", "public/characters/zhao-li-v1.webp", "public/characters/su-ying-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel key-scene CG for the dark Chinese fantasy game 《蛊墓无休》. Input images: Image 1 is the exact ancient tomb gate environment and painterly style reference; Images 2–4 establish the exact identities, costumes, colors, silhouettes, and age of Ji Qinghan, Zhao Li, and Su Ying. Primary request: depict the story's opening key node ‘gate’: six Chinese tomb explorers first gathering before the ancient Gu tomb stone gate in heavy night rain. Preserve Ji Qinghan in white-grey swordswoman robes, Zhao Li in black-red blood-gu robes, and Su Ying in moss-grey robes with her rolled tomb map as the clearly readable front trio. Three supporting expedition members stand distinctly behind them: a wary young merchant carrying a gu vessel, a mature strategist in black-grey robes with bronze mechanism crown, and a pale black-red robed ancestral figure kept distant and enigmatic. Nobody is duplicated or fused. Scene/backdrop: exact rain-soaked monumental tomb gate, bronze lamps, wet black stone, low mist, ancient southwest-Chinese gu motifs. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching all references. Composition/framing: cinematic 16:9 landscape; six people form a readable staggered group, main trio above the bottom dialogue-safe zone, tomb gate looming behind; no vital face or narrative object in the lower 28%. Lighting/mood: cold blue-grey rain, restrained blood-red and aged-bronze accents, tense first alliance. Constraints: ancient setting only; identity and costume continuity; exactly six distinct people; coherent hands and faces; no modern objects, no text, no calligraphy, no UI, no border, no watermark, no logo, no gore, no extra limbs, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-ce0c8ac0-8082-4e2f-8daa-18e70d4742c3.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c15-952a-7580-9691-39604c9fcdd7/exec-ce0c8ac0-8082-4e2f-8daa-18e70d4742c3.png", "adopted": true, "note": "采用六人身份分层、墓门与夜雨环境均清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 108992, "sha256": "302569A0F01A334BDA1A26CFB1E02840F94ABEAE59943029AAD4BF0E841FB6D9"}
+    },
+    {
+      "key": "cg.scene.bloodThreshold",
+      "final_path": "public/cg/scenes/bloodThreshold-v1.webp",
+      "generated_at": "2026-09-01T08:36:49Z",
+      "reference_images": ["public/backgrounds/blood-chamber-v1.webp", "public/characters/ji-qinghan-v1.webp", "public/characters/zhao-li-v1.webp", "public/characters/xue-feng-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel key-scene CG for 《蛊墓无休》. Input images: Image 1 is the exact dark tomb/blood-chamber environment and painterly style reference; Images 2–4 establish exact identity and costume continuity for Ji Qinghan, Zhao Li, and Xue Feng. Primary request: depict the key node ‘bloodThreshold’: an ancient black-stone blood gate is closing while the expedition crosses its glowing sacrificial threshold line at the last instant. Ji Qinghan in white-grey robes braces a straight sword against the descending gate, Zhao Li in black-red robes reaches across the blood line with controlled urgency, and Xue Feng in merchant robes stumbles through clutching his gu vessel. Additional companions appear only as distinct backlit silhouettes already across the gate. Scene/backdrop: monumental blood-marked stone gate deep underground, bronze counterweights, cracked floor, thin crimson sacrificial channels, dust and restrained gu mist. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching references. Composition/framing: cinematic 16:9 landscape with strong diagonal crossing motion; the threshold, descending gate and three identities unmistakable; faces/action above bottom dialogue-safe zone. Lighting/mood: oppressive ink-black tomb, narrow crimson floor light and cold sword reflection, urgent but non-gory. Constraints: ancient Chinese tomb only; preserve faces, outfits and faction colors; readable spatial logic; no modern objects, no text, no calligraphy, no UI, no border, no watermark, no logo, no gore, no extra limbs, no malformed hands, no duplicate people, no decorative giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-f63cf31f-7c61-4367-8d60-1ea19b030bad.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c15-952a-7580-9691-39604c9fcdd7/exec-f63cf31f-7c61-4367-8d60-1ea19b030bad.png", "adopted": true, "note": "采用血线、降门与三人跨越动作均清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 161958, "sha256": "129A707CCA03EF4A2521315E427CF6C19463066FD35F0074623008608588F71E"}
+    },
+    {
+      "key": "cg.scene.fog",
+      "final_path": "public/cg/scenes/fog-v1.webp",
+      "generated_at": "2026-09-01T08:36:49Z",
+      "reference_images": ["public/backgrounds/fog-passage-v1.webp", "public/characters/su-ying-v1.webp", "public/characters/qiao-wujiu-v1.webp", "public/characters/ji-qinghan-v1.webp"],
+      "prompt": "Use case: illustration-story. Asset type: production visual-novel key-scene CG for 《蛊墓无休》. Input images: Image 1 is the exact fog-choked tomb passage and painterly style reference; Images 2–4 establish exact identities and costumes of Su Ying, Qiao Wujiu, and Ji Qinghan. Primary request: depict the key node ‘fog’: supernatural gu fog swallows a forked ancient tomb corridor and forces the expedition to choose routes. Su Ying in moss-grey robes holds her unfolded tomb map toward a faint jade lamp, Qiao Wujiu in black-grey robes and bronze crown studies taut mechanism threads disappearing into separate passages, and Ji Qinghan in white-grey swordswoman robes guards the rear. Three branching passage mouths should read clearly, with distant companion silhouettes separating toward them. Scene/backdrop: wet black-stone corridor, old bronze gu lamps, carved route markers rendered as abstract worn marks, dense layered white-grey poisonous fog. Style/medium: premium semi-realistic dark Chinese fantasy visual-novel CG, painterly realism matching references. Composition/framing: cinematic 16:9 landscape, branching passages form a clear decision shape; three named figures remain above the lower dialogue-safe zone, fog depth readable rather than blank. Lighting/mood: jade-cold lamp glow, ink black, muted bronze, low crimson warning glints; disorientation and mounting distrust. Constraints: preserve identities and costumes; ancient setting only; no readable text or calligraphy, no modern objects, no UI, no border, no watermark, no logo, no gore, no extra limbs, no malformed hands, no duplicate people, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-63cebbfa-832b-47fe-902a-439994e91e69.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c15-952a-7580-9691-39604c9fcdd7/exec-63cebbfa-832b-47fe-902a-439994e91e69.png", "adopted": true, "note": "采用三岔路、墓图与牵机丝决策关系均清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 102856, "sha256": "33164D1C446A90E0307118F1AB51F69CE4A177102B0E37B38B3E16E19C40F516"}
+    },
+    {
+      "key": "ui.main-menu",
+      "final_path": "public/ui/main-menu-v1.webp",
+      "generated_at": "2026-09-01T08:39:12Z",
+      "reference_images": ["public/backgrounds/tomb-gate-v1.webp", "public/backgrounds/blood-chamber-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 main-menu background artwork for the dark Chinese fantasy visual novel 《蛊墓无休》, with HTML controls overlaid later. Input images: Images 1–2 are exact environment, palette, painterly detail and dark Chinese tomb style references. Primary request: a release-quality main menu visual showing an ancient Gu tomb entrance in night rain, its massive black-stone doorway half open, a single aged bronze gu lamp and low blood-red mist guiding the eye inward. No people. Style/medium: premium semi-realistic dark Chinese fantasy concept painting, ancient southwest-Chinese tomb motifs, subtle ink-wash atmospheric depth, consistent with references. Composition/framing: cinematic 16:9 landscape; low-noise dark negative space across the left 42% for title and vertical menu controls; tomb entrance and bronze lamp concentrated on right-center; important forms above bottom safe zone; layered foreground/midground/depth. Lighting/mood: cold rain-blue and ink-black, aged bronze amber, a restrained blood-red pulse, ominous invitation rather than horror gore. Constraints: background artwork only, no interface mockup, no panel, no buttons, no text, no letters, no calligraphy, no logo, no watermark, no border, no modern objects, no characters, no flat color placeholder, no decorative giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-5efab488-1220-45aa-80c7-e82836f8021e.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c15-952a-7580-9691-39604c9fcdd7/exec-5efab488-1220-45aa-80c7-e82836f8021e.png", "adopted": true, "note": "采用左侧低噪留白与右侧半启蛊墓构图清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 33040, "sha256": "47E9555651E8584A1B7BCCAD1FBEB54AE60A886898DC67857CAF1991C4AF1200"}
+    },
+    {
+      "key": "ui.settings",
+      "final_path": "public/ui/settings-v1.webp",
+      "generated_at": "2026-09-01T08:39:12Z",
+      "reference_images": ["public/backgrounds/control-room-v1.webp", "public/backgrounds/tomb-corridor-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 settings-page background artwork for the dark Chinese fantasy visual novel 《蛊墓无休》, with accessible HTML settings controls overlaid later. Input images: Images 1–2 are exact environment, palette, materials and painterly style references. Primary request: a quiet ancient tomb control alcove arranged like a ritual tuning chamber: bronze chimes, six small gu-bell vessels, an extinguishable oil lamp, bone-and-jade sliders built into a carved black-stone table, incense haze and mechanism threads. No people and no readable markings. Style/medium: premium semi-realistic dark Chinese fantasy concept painting, ancient ritual objects and subtle ink-wash depth, consistent with references. Composition/framing: cinematic 16:9 landscape; settings apparatus and warm lamp on right half as semantic visual; calm low-detail ink-dark negative space on left 48% for the actual settings panel; clear depth and readable silhouettes. Lighting/mood: muted aged bronze and moss-jade highlights against charcoal stone, controlled low crimson accent, contemplative and legible. Constraints: background artwork only, no UI mockup, no panels, no buttons, no text, no letters, no calligraphy, no logo, no watermark, no border, no modern electronics, no people, no flat placeholder, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-7100d34e-8be9-4fdd-8834-87b0230aea50.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c15-952a-7580-9691-39604c9fcdd7/exec-7100d34e-8be9-4fdd-8834-87b0230aea50.png", "adopted": true, "note": "采用左侧低噪留白与右侧巫蛊调音器物语义清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 55968, "sha256": "933048DB9147ACD85A7D3CD527CE301BC62E6750462098839B2B12673C5EBD17"}
+    },
+    {
+      "key": "ui.saves",
+      "final_path": "public/ui/saves-v1.webp",
+      "generated_at": "2026-09-01T08:39:12Z",
+      "reference_images": ["public/backgrounds/control-room-v1.webp", "public/backgrounds/dawn-exit-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 save-archive page background artwork for the dark Chinese fantasy visual novel 《蛊墓无休》, with six HTML save-slot cards overlaid later. Input images: Images 1–2 are exact dark-tomb palette, materials, atmospheric depth and painterly style references. Primary request: an ancient subterranean archive niche for preserving six fates: six distinct rolled silk scrolls tied with weathered red cords and bronze seal tags arranged in a carved stone cabinet, an open blank scroll on a low desk, wax seal, inkstone, faint gu-moth lights. No people. The six scrolls are visual symbolism, not UI cards. Style/medium: premium semi-realistic dark Chinese fantasy concept painting, tactile silk, wax, patinated bronze and black stone, consistent with references. Composition/framing: cinematic 16:9 landscape; archive cabinet and six scrolls on right-center; low-noise charcoal negative space across left 45% for save controls; do not place critical objects along bottom dialogue-safe region. Lighting/mood: dim bronze lantern warmth, moss-jade dust motes, distant cold tomb shadows, solemn memory and consequence. Constraints: background artwork only, no UI mockup, no card grid, no text, no letters, no calligraphy, no logo, no watermark, no border, no modern objects, no people, no flat placeholder, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-89891b8b-d897-418e-9867-b4fe5ee2f113.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c15-952a-7580-9691-39604c9fcdd7/exec-89891b8b-d897-418e-9867-b4fe5ee2f113.png", "adopted": true, "note": "采用六卷封存、空白卷轴与左侧低噪留白均清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 64568, "sha256": "911ADC175D81E5B77974DF7C80F595BB3C285A5706CFBE99E80F4D11EAA103FA"}
+    },
+    {
+      "key": "effect.player-blood-attack",
+      "final_path": "public/effects/player-blood-attack-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single fast blood-qi blade slash traveling from lower left toward upper right, meant to show the player's basic blood attack striking an enemy. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one crescent-shaped dark crimson energy blade with a bright narrow impact edge, a few controlled ink-like blood wisps and tiny bronze sparks; strong directional silhouette. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, matching an ancient Gu tomb palette of charcoal black, dried blood crimson and aged bronze. Composition/framing: centered square sprite, diagonal left-to-right attack direction, effect fills about 78% of canvas with generous transparent padding, readable at small size. Lighting/mood: restrained crimson core glow, ominous and forceful, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no character, no weapon, no hands, no scenery, no text, no letters, no calligraphy, no logo, no watermark, no border, no square icon plate, no checkerboard, no white or black backdrop, no gore, no modern particles, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-fbc1bd84-ec60-4ecc-8286-850089e404cb.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-fbc1bd84-ec60-4ecc-8286-850089e404cb.png", "adopted": true, "note": "采用斜向血刃轮廓清晰、透明边缘干净的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 109356, "sha256": "71B9F86BFEB43388511AB0DE9BEB75D1D39A031DCEC783ECCB1EE57937990251"}
+    },
+    {
+      "key": "effect.player-armor-guard",
+      "final_path": "public/effects/player-armor-guard-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single ancient blood-armor guard effect closing around the player, like overlapping dark crimson lacquered scales and an aged bronze protective arc intercepting a blow. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one compact semicircular defensive shell facing right, layered blood-red translucent armor plates, restrained bronze seal sparks and an ink-smoke rim; unmistakably defensive, not an attack. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, ancient Gu tomb palette. Composition/framing: centered square sprite, protection concentrated around center-left player position, right-facing shield curvature, fills about 72% of canvas with transparent padding. Lighting/mood: muted crimson internal glow and aged bronze highlights, sturdy and ominous, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no character, no hands, no scenery, no text, no letters, no calligraphy, no logo, no watermark, no border, no icon plate, no checkerboard, no white or black backdrop, no gore, no modern sci-fi shield, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-095be745-330d-450b-95ad-60f82f73af9f.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-095be745-330d-450b-95ad-60f82f73af9f.png", "adopted": true, "note": "采用血甲鳞片闭合语义明确、正面受击方向清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 68 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 136940, "sha256": "65317367435F24A9DDC0D512B166A091C79DC40D8F09ACDCCF16DCA0E33FD440"}
+    },
+    {
+      "key": "effect.player-heal-gu",
+      "final_path": "public/effects/player-heal-gu-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single healing Gu effect circling the player: three tiny luminous jade moth-like Gu spirits weaving a gentle upward spiral with pale herbal qi and a few bronze medicine sparks. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one compact restorative spiral, moss-jade and muted amber light, three clearly separated small Gu-moth silhouettes, delicate ink-wash vapor; unmistakably healing without medical symbols. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, ancient tomb herbal ritual aesthetic. Composition/framing: centered square sprite, vertical upward circulation around center, fills about 70% of canvas with generous transparent padding, calm readable silhouette. Lighting/mood: soft moss-jade core and warm bronze points, restorative but still eerie, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no character, no hands, no scenery, no text, no letters, no calligraphy, no logo, no watermark, no border, no icon plate, no checkerboard, no white or black backdrop, no red cross, no heart icon, no gore, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-68ba2273-8adf-4f82-ac89-be4cf5355d44.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-68ba2273-8adf-4f82-ac89-be4cf5355d44.png", "adopted": true, "note": "采用三只玉色蛊蝶与向上药气回旋清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 68 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 137006, "sha256": "A0601A8B4BE7017058E468273689A6D354436839ED5A179D63620EB288028D7C"}
+    },
+    {
+      "key": "effect.player-sword-gu",
+      "final_path": "public/effects/player-sword-gu-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single sword-Gu attack effect: a narrow cold-white sword-qi thrust from lower left to upper right, braided with one small jade centipede-like Gu silhouette and black ink wind, striking an enemy. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one long piercing sword-energy stroke with a sharp impact point, cold steel core, moss-jade Gu trace and sparse aged-bronze fragments; strong left-to-right direction distinct from a blood slash. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, ancient martial and Gu-sorcery aesthetic. Composition/framing: centered square sprite, diagonal left-to-right thrust, fills about 80% of canvas with transparent padding, fast narrow silhouette. Lighting/mood: cold steel white, desaturated jade and charcoal, precise and lethal, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no character, no physical sword, no hands, no scenery, no text, no letters, no calligraphy, no logo, no watermark, no border, no icon plate, no checkerboard, no white or black backdrop, no gore, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-817de600-f0db-4525-ac0a-f6723a843889.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-817de600-f0db-4525-ac0a-f6723a843889.png", "adopted": true, "note": "采用冷白窄剑气、蛊影缠绕与命中点方向明确的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 68 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 107332, "sha256": "70E1F23644898BE19390CC2C598C91E568D0F6FFC518B49E87366644BDCC02D0"}
+    },
+    {
+      "key": "effect.player-charm-gu",
+      "final_path": "public/effects/player-charm-gu-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single charm-Gu control effect binding an enemy's awareness: an asymmetrical cage of thin aged-bronze talisman threads and dim violet-black moth-wing wisps tightening around an empty center. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one compact restraint knot with broken concentric arcs, three small dark moth silhouettes, bronze sealing pins and smoky purple ink; unmistakably control or daze, not damage. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, ancient Gu sorcery aesthetic. Composition/framing: centered square sprite, restraint closes around center-right enemy position, fills about 72% of canvas with transparent padding, readable asymmetric silhouette. Lighting/mood: dim bruised violet, charcoal and aged bronze, uncanny and restrained, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no character, no face, no hands, no scenery, no readable talisman text, no letters, no calligraphy, no logo, no watermark, no border, no icon plate, no checkerboard, no white or black backdrop, no gore, no giant complete magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-bb821930-490b-4aa0-8b2d-c966b52f16ec.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-bb821930-490b-4aa0-8b2d-c966b52f16ec.png", "adopted": true, "note": "采用紫黑蛊蝶、铜线束缚与空心控制区域清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 68 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 161342, "sha256": "8F544EC59129C42F5553098EC85CE3B5618FDA0F035BC5543085F776E15868E4"}
+    },
+    {
+      "key": "effect.player-blooddemon-gu",
+      "final_path": "public/effects/player-blooddemon-gu-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single blood-demon Gu ultimate attack effect: a huge abstract horned moth-serpent shadow made of dark crimson blood mist lunging from lower left toward upper right, with one fierce impact claw of light but no literal body parts. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one ominous predator-shaped energy silhouette, black-red smoke mass, ember-red veins, a restrained aged-bronze Gu core; much heavier and more monstrous than the basic blood slash. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, ancient forbidden Gu ritual aesthetic. Composition/framing: centered square sprite, strong left-to-right lunge, fills about 82% of canvas with transparent padding, clear impact head at upper right and trailing shadow at lower left. Lighting/mood: near-black crimson with deep red core, catastrophic and sinister, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no human character, no detailed animal anatomy, no hands, no scenery, no text, no letters, no calligraphy, no logo, no watermark, no border, no icon plate, no checkerboard, no white or black backdrop, no gore, no severed limbs, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-72f7a64c-22fb-4f69-9af7-f19481cd4607.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-72f7a64c-22fb-4f69-9af7-f19481cd4607.png", "adopted": true, "note": "采用黑红蛾蛇巨影与右上扑击方向清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 68 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 138884, "sha256": "3651C9AFE0F4D1B31F49C382A4D71E49623DBA58AB568689781EF26A3ADACAE2"}
+    },
+    {
+      "key": "effect.enemy-attack",
+      "final_path": "public/effects/enemy-attack-v1.webp",
+      "generated_at": "2026-09-01T09:09:51Z",
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept. Asset type: final transparent 2D game combat effect sprite for the dark Chinese fantasy visual novel 《蛊墓无休》. Primary request: a single enemy counterattack effect sweeping from upper right toward lower left: a heavy black-stone puppet claw strike represented by five jagged charcoal impact trails, tarnished copper fragments and poisonous green Gu dust. Scene/backdrop: genuinely transparent background, no floor, no frame, no environment. Subject: one descending diagonal impact burst, five parallel claw-like stone-energy streaks, compact collision flash and debris; unmistakably an enemy attack direction and visually distinct from all player effects. Style/medium: premium hand-painted semi-realistic Chinese dark-fantasy VFX, subtle ink-wash texture, crisp game-ready edges, ancient tomb mechanism and corpse-puppet aesthetic. Composition/framing: centered square sprite, upper-right to lower-left attack direction, fills about 78% of canvas with transparent padding, heavy downward momentum. Lighting/mood: charcoal black, patinated copper and sickly muted jade, brutal and mechanical, not neon. Constraints: exactly one effect sprite; actual transparent alpha background; no character, no literal detached hand, no scenery, no text, no letters, no calligraphy, no logo, no watermark, no border, no icon plate, no checkerboard, no white or black backdrop, no gore, no giant magic circle.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-06e91f35-fd73-4b28-9d05-15e74e9a2d3d.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c28-f444-7ea3-a5a5-24165bab2a1d/exec-06e91f35-fd73-4b28-9d05-15e74e9a2d3d.png", "adopted": true, "note": "采用五道石爪冲击、铜屑和右上至左下动势清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放至 768x768", "WebP quality 68 压缩"],
+      "inspection": {"format": "WEBP", "width": 768, "height": 768, "alpha": true, "bytes": 187696, "sha256": "DCE57C0661A2686F262EB5C8934DD8564D840670BC97525A165ADEF74D04235D"}
+    },
+    {
+      "key": "cg.ending.demon",
+      "final_path": "public/cg/endings/demon-v1.webp",
+      "generated_at": "2026-09-01T09:29:00Z",
+      "reference_images": ["public/characters/zhao-li-v1.webp", "public/backgrounds/dawn-exit-v1.webp", "public/cg/scenes/zhaoAwakening-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the clothing, age, palette and painterly identity reference for the older male Gu cultivator Zhao Li and the game's protagonist silhouette language; Image 2 is the exact dawn tomb-exit environment and palette reference; Image 3 is the exact premium dark Chinese fantasy CG brushwork, blood-Gu lighting and atmospheric reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘血蛊魔君’. The anonymous protagonist, now sole master of the five-turn Blood Demon Gu, steps across the failed ancient tomb gate into a rain-washed dawn wasteland. A small dark-crimson moth-serpent Gu glow coils close to one raised palm while nearby grass insects flee into cracks. His posture is controlled yet ominous, showing that future cultivators will fear him as the Blood-Gu Demon Lord. No other living companion exits with him. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile worn robes, wet stone, ink-wash mist and restrained detail, consistent with references. Composition/framing: cinematic wide landscape, protagonist in middle-right at medium-long distance, open bleak dawn ahead, tomb gate framing behind; preserve lower 28% and left 38% as low-detail dark negative space for ending copy; clear full-body silhouette. Lighting/mood: cold gray dawn with a restrained deep-crimson Gu rim light and aged-bronze stone reflections; triumphant, lonely, morally corrupted, never neon. Constraints: story illustration only; no UI, no panels, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern objects; no extra characters; no gore; no giant magic circle; anatomically coherent hands and limbs; no duplicated faces; no photographic style; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-10b39c24-8fda-42f5-9ca2-69626833968e.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-10b39c24-8fda-42f5-9ca2-69626833968e.png", "adopted": true, "note": "采用独自出墓、血蛊近掌与清晨荒原叙事清晰的宽幅源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 97198, "sha256": "249179CE7CAC01144A8CBB99679BEC3FEBC41C95A318A9AAA79B143D604CBA08"}
+    },
+    {
+      "key": "cg.ending.severed",
+      "final_path": "public/cg/endings/severed-v1.webp",
+      "generated_at": "2026-09-01T09:29:00Z",
+      "reference_images": ["public/characters/ji-qinghan-v1.webp", "public/cg/scenes/jiDestroyGu-v1.webp", "public/backgrounds/dawn-exit-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact face, white hair, worn pale-blue/ink robe, residual half-sword and identity reference for Ji Qinghan; Image 2 is the exact premium painterly CG style and the identity reference for Ji Qinghan after she and the protagonist sacrifice their cultivation; Image 3 is the exact muted post-tomb palette and natural daylight reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘断脉相守’. Months after escaping, mortal Ji Qinghan and the anonymous protagonist run a humble mountain herbal clinic together. Ji Qinghan calmly measures dried herbs beside a steaming medicine kettle in the back room while the protagonist wraps a seated woodcutter’s lightly scraped forearm with clean cloth at the open front counter. Her broken half-sword now hangs peacefully on the rear wall and is used only for cutting roots. Two simple stools stand side by side. The open wooden doors admit ordinary midday light. Style/medium: premium semi-realistic Chinese dark-fantasy epilogue painting softened into grounded rural warmth; tactile timber, herb bundles, worn robes, steam and ink-wash shadows; consistent faces and clothing with references. Composition/framing: cinematic wide interior, Ji Qinghan clearly recognizable at right-center, protagonist and woodcutter secondary at center, open door toward left; preserve lower 25% and far-left 32% as calm low-detail space for ending copy; all hands natural and task interactions clear. Lighting/mood: gentle neutral daylight and warm medicine-fire glow, quiet labor, earned companionship, no romantic glamour. Constraints: story illustration only; no UI, no panels, no readable signs, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern medicine or objects; no blood or battle; no intact sword; no additional patrons; no giant magic circle; anatomically coherent hands and limbs; no duplicated faces; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-37ab622c-bea6-4688-87e9-b3d34e5cad25.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-37ab622c-bea6-4688-87e9-b3d34e5cad25.png", "adopted": true, "note": "采用药铺诊治、纪清寒称药与残剑归墙叙事完整的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 95298, "sha256": "37146DF99A9C3F256D163A3BDD260F5723069B1E3A31801FAF6D94A3DCD165E4"}
+    },
+    {
+      "key": "cg.ending.true",
+      "final_path": "public/cg/endings/true-v1.webp",
+      "generated_at": "2026-09-01T09:29:00Z",
+      "reference_images": ["public/characters/su-ying-v1.webp", "public/cg/scenes/suCoffin-v1.webp", "public/backgrounds/dawn-exit-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact face, age, braided dark hair, moss-jade/ink robe, tomb map and identity reference for Su Ying; Image 2 is the exact premium painterly CG style and Su Ying identity under ancestral-array lighting; Image 3 is the exact rain-washed tomb-exit landscape and dawn palette reference. Generate a new independent composition, do not copy or crop any reference. Primary request: true ending ‘血脉归位’. Outside the finally sealed tomb at dawn, Su Ying rolls up the weathered ancestral tomb map and slips it into her sleeve; the shallow red ancestral marks on her palm have faded. The anonymous protagonist walks beside her down the wet stone slope. Ahead, Ji Qinghan, Zhao Li and Xue Feng wait at a fork in the road toward the distant Gu market, all five survivors clearly alive and leaving together. Su Ying looks forward as herself, no longer defined by the Su bloodline. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile rain-wet robes and stone, ink-wash mist, restrained elegant detail, consistent with references. Composition/framing: cinematic wide landscape, Su Ying recognizable in the middle-right foreground with rolled map and visible unmarked palm; protagonist beside but not obscuring her; three companions smaller ahead at the fork; sealed tomb behind; preserve lower 27% and left 34% as low-detail misty road for ending copy. Lighting/mood: cold rain lifting into pale eastern dawn with moss-jade and aged-bronze accents; relief, identity, open future, no celebratory spectacle. Constraints: story illustration only; exactly five travelers total; no UI, no panels, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern objects; no one dead or wounded; no glowing blood mark on Su Ying; no giant magic circle; anatomically coherent hands and limbs; no duplicated faces; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-4b45d506-3b32-43c9-900a-2dc20be28c4f.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-4b45d506-3b32-43c9-900a-2dc20be28c4f.png", "adopted": true, "note": "采用苏莹收图、五人生还离墓与雨后前路构图清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 126880, "sha256": "DB845D92D1804F33149DAB977443740D70585833282690615451CF620F7A8ABD"}
+    },
+    {
+      "key": "cg.ending.deathByZhao",
+      "final_path": "public/cg/endings/deathByZhao-v1.webp",
+      "generated_at": "2026-09-01T09:34:00Z",
+      "reference_images": ["public/characters/zhao-li-battle-v1.webp", "public/cg/scenes/zhaoAwakening-v1.webp", "public/backgrounds/blood-chamber-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 defeat-ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact elderly face, gray hair and beard, black-crimson layered robe, blood-thread Gu, clothing and identity reference for Zhao Li in battle; Image 2 is the exact premium CG brushwork, blood-pool lighting and Zhao Li identity reference; Image 3 is the exact ancient blood chamber environment reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘命丧赵黎’. At the edge of the underground blood pool after a failed duel, the anonymous protagonist has fallen to one knee in the foreground with strength drained, face turned away and no graphic wound. Zhao Li stands intact at middle-right, controlling several taut dark-crimson blood threads that lead from his moth-like Blood-Pattern Gu toward the protagonist’s fading hand. The dormant Blood Demon Gu chrysalis remains between them, still unclaimed. The outcome must unmistakably be Zhao Li’s victory, not his death. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile stone, cloth and ink-wash blood mist, restrained realism consistent with references. Composition/framing: cinematic wide landscape; fallen protagonist lower-center, Zhao Li recognizable middle-right, blood chrysalis behind; preserve left 35% and bottom 24% as low-detail dark space for ending copy; actions and thread direction readable. Lighting/mood: deep dried-crimson pool light, charcoal shadow and aged-bronze edges; fatal defeat, controlled menace, not gore or neon. Constraints: story illustration only; exactly two human figures; Zhao Li alive and victorious; protagonist defeated but not dismembered; no UI, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern objects; no extra limbs or duplicated faces; no giant magic circle; no flat placeholder. Identity correction prompt: change only the standing victorious man so he is unmistakably elderly Zhao Li from the production reference; preserve all other composition, environment, protagonist, chrysalis, threads and lighting.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-eed1c36d-77f1-4785-87f0-acf745a0395b.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-eed1c36d-77f1-4785-87f0-acf745a0395b.png", "adopted": false, "note": "构图与叙事通过，但赵黎年龄特征偏年轻。"}, {"sequence": 2, "output_id": "exec-651407b6-f30d-495f-88e1-81b4182bf53b.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-651407b6-f30d-495f-88e1-81b4182bf53b.png", "adopted": true, "note": "单点身份修正后采用：赵黎灰发、胡须、年长轮廓与黑红服饰明确。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 100706, "sha256": "DB28A08CB47E945B5A8AFE8800794516DC34F2FEC2013F1B2CE2890C4905224C"}
+    },
+    {
+      "key": "cg.ending.deathByMaster",
+      "final_path": "public/cg/endings/deathByMaster-v1.webp",
+      "generated_at": "2026-09-01T09:31:00Z",
+      "reference_images": ["public/characters/su-yan-battle-v1.webp", "public/cg/scenes/suCoffin-v1.webp", "public/backgrounds/blood-chamber-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 defeat-ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact pale ancient face, long dark hair, black-and-aged-bronze ceremonial robe, ancestral-array gestures and identity reference for resurrected tomb master Su Yan; Image 2 is the exact premium CG brushwork, black coffin and ancestral-array setting reference; Image 3 is the exact blood chamber palette and materials reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘命丧墓主’. Before the opened black stone coffin, resurrected Su Yan stands upright and victorious while the incomplete ancestral rebirth array closes around the anonymous protagonist. Broad old stone channels pull dim red life-light from the protagonist’s kneeling silhouette toward Su Yan and the coffin; Su Yan’s form has become stable while the protagonist’s strength fades. Su Ying is visible safely beyond a broken outer ring, horrified but physically unable to cross; she is not being consumed. No graphic injury. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile black stone, patinated bronze, ink-wash blood haze, consistent with references. Composition/framing: cinematic wide landscape; Su Yan recognizable center-right beside open coffin, protagonist lower-center within closing array, Su Ying small at far right outside ring; preserve left 36% and lower-left as low-detail shadow for ending copy; clear hierarchy and readable energy direction. Lighting/mood: near-black tomb with restrained deep-crimson array light and cold corpse-pale rim; ancestral horror, irrevocable defeat, not neon. Constraints: story illustration only; exactly three human figures; Su Yan alive and victorious; Su Ying alive outside array; no gore, no body horror, no exposed organs; no UI, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern objects; no extra limbs or duplicated faces; no giant floating magic circle; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-09cae0d8-3935-4b51-b6ba-4b21a6f6ad84.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-09cae0d8-3935-4b51-b6ba-4b21a6f6ad84.png", "adopted": true, "note": "采用苏衍稳定返生、主角被祖阵汲取且苏莹隔环存活的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 133066, "sha256": "6BD76A1AC882A8D4361210512D884C63FFAB2E30A9A4D4C50C53C458B6912FE3"}
+    },
+    {
+      "key": "cg.ending.deathByQiao",
+      "final_path": "public/cg/endings/deathByQiao-v1.webp",
+      "generated_at": "2026-09-01T09:31:00Z",
+      "reference_images": ["public/characters/qiao-wujiu-battle-v1.webp", "public/cg/scenes/traitorBloodTaken-v1.webp", "public/backgrounds/control-room-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 defeat-ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact mature face, topknot, black-brown ceremonial robe, main seal, mechanism threads and identity reference for Qiao Wujiu in battle; Image 2 is the exact premium CG brushwork, blood-array atmosphere and Qiao Wujiu identity reference; Image 3 is the exact ancient tomb control-room environment and mechanism reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘命丧牵机阵’. In the tomb’s control room after a failed duel, Qiao Wujiu stands alive on the raised main console, one hand pressing the bronze main seal into its socket. Below him the anonymous protagonist is trapped and collapsing behind descending stone counterweights and crossed mechanical tension wires; the escape doorway has sealed into a narrow slit. The mechanism, not a supernatural magic circle, has decisively cut off every retreat. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile carved stone, worn bronze gears, taut silk-copper control lines and restrained ink fog, consistent with references. Composition/framing: cinematic wide landscape; Qiao Wujiu recognizable upper-right, protagonist lower-middle behind mechanism, sealed door in depth; preserve left 37% and lower-left as low-detail shadow for ending copy; mechanical causality and layer depth unmistakable. Lighting/mood: dim aged-bronze lamp light, charcoal stone and narrow blood-red warning reflections; calculated betrayal and crushing finality, not gore or neon. Constraints: story illustration only; exactly two human figures; Qiao Wujiu alive and victorious; protagonist defeated but not dismembered; no UI, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern machines; no extra limbs or duplicated faces; no giant magic circle; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-9677564f-e185-40ba-bceb-3229c85b3b5f.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-9677564f-e185-40ba-bceb-3229c85b3b5f.png", "adopted": true, "note": "采用主印压台、牵机丝交错与退路封死的机关因果清晰源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 87654, "sha256": "3A52A2B7252756BA664824B8C1D6947265895545B001049048BC8F101971BB70"}
+    },
+    {
+      "key": "cg.ending.deathByBloodGuard",
+      "final_path": "public/cg/endings/deathByBloodGuard-v1.webp",
+      "generated_at": "2026-09-01T09:33:00Z",
+      "reference_images": ["public/characters/tong-pi-kui-lei-v1.webp", "public/characters/xue-kui-lei-v1.webp", "public/backgrounds/blood-chamber-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 defeat-ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Images 1–2 are the exact ancient tomb puppet silhouette, bronze-stone materials, proportions and game art references; Image 3 is the exact underground blood chamber environment and palette reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘命丧守墓傀儡’. At the half-circle old array before the black coffin, a massive blood-stained stone-and-patinated-bronze guardian puppet stands over the anonymous protagonist after winning the fight. The protagonist lies motionless but intact near a broken stone step, face hidden, one hand still reaching toward the coffin passage. The guardian’s heavy five-fingered hand is planted in cracked stone beside the protagonist, showing the final impact without gore. In the distance, a companion is trapped behind the old array line and cannot reach them. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile cracked stone, corroded bronze, wet blood-pool reflections and ink haze, consistent with references. Composition/framing: cinematic wide landscape; guardian dominates middle-right with clear full silhouette, protagonist lower-middle, black coffin passage behind; preserve left 36% and lower-left as low-detail darkness for ending copy; scale and defeat causality readable. Lighting/mood: muted deep-crimson underlight, charcoal stone and sickly jade patina; brutal ancient duty and final stillness, not neon. Constraints: story illustration only; one guardian puppet and at most two human silhouettes; puppet victorious; no gore, no dismemberment, no exposed organs; no UI, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern robot parts; no extra limbs; no giant magic circle; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-87c512ae-8987-4aff-9ab5-ec6a037009df.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-87c512ae-8987-4aff-9ab5-ec6a037009df.png", "adopted": true, "note": "采用巨大守墓傀儡、倒地主角与旧阵外同伴层级清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 81974, "sha256": "9AB7E6CAF0FD156BACF266FCCB5E90973B963BAFEC895BEB36B8712EC5A7F440"}
+    },
+    {
+      "key": "cg.ending.trapped",
+      "final_path": "public/cg/endings/trapped-v1.webp",
+      "generated_at": "2026-09-01T09:33:00Z",
+      "reference_images": ["public/cg/scenes/fog-v1.webp", "public/backgrounds/fog-passage-v1.webp", "public/backgrounds/tomb-gate-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact premium CG brushwork and dense Gu-fog crisis style reference; Image 2 is the exact interior fog-passage environment reference; Image 3 is the exact carved tomb-gate material and architecture reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘困于蛊墓’. The group waited too long in the spreading poisonous fog. Deep inside the tomb, five surviving travelers stand close together before the massive inner face of the sealed stone gate while dense white-gray Gu fog floods the corridor from behind and creeps around their boots. Their lamps are nearly extinguished; the door seam has vanished and every mechanism is dark. No one is dead yet, but there is no route out. Faces and poses show exhausted realization rather than active combat. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile wet stone, worn robes, dim bronze lamps and layered ink-wash fog, consistent with references. Composition/framing: cinematic wide landscape; sealed gate occupies middle-right, five figures in a compact readable group near it, fog corridor recedes behind; preserve left 37% and lower-left as quieter fog shadow for ending copy; silhouettes must remain distinguishable. Lighting/mood: dying amber lamp points swallowed by cold gray-white fog, claustrophobic, hopeless and still, not supernatural spectacle. Constraints: story illustration only; exactly five human figures; all alive but trapped; no open doorway or daylight; no UI, no panels, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern objects; no gore; no giant magic circle; anatomically coherent limbs; no duplicated faces; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-74a4ab4a-40be-4174-a2bb-f2cdeeb0d019.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-74a4ab4a-40be-4174-a2bb-f2cdeeb0d019.png", "adopted": true, "note": "采用五人面对无缝封门、蛊雾从后压近且无人死亡的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 76006, "sha256": "CED3CDA6990A3687B98DB77576DB81742726ED6051EFFDF65BABCE9E66AE42F2"}
+    },
+    {
+      "key": "cg.ending.traitor",
+      "final_path": "public/cg/endings/traitor-v1.webp",
+      "generated_at": "2026-09-01T09:33:00Z",
+      "reference_images": ["public/characters/zhao-li-battle-v1.webp", "public/cg/scenes/traitorBloodTaken-v1.webp", "public/backgrounds/trap-passage-v1.webp"],
+      "prompt": "Use case: stylized-concept. Asset type: final 16:9 ending CG for the dark Chinese fantasy visual novel 《蛊墓无休》. Input images: Image 1 is the exact elderly face, gray hair and beard, layered black-crimson robe, blood-thread Gu and identity reference for Zhao Li; Image 2 is the exact premium CG brushwork, Zhao Li identity and blood-thread atmosphere reference; Image 3 is the exact claustrophobic ancient trap-passage stone environment reference. Generate a new independent composition, do not copy or crop any reference. Primary request: ending ‘归途无门’. Inside a one-person-wide stone buffer chamber with no inner mechanism, the anonymous betrayer collapses while still gripping a small aged-bronze secondary seal. The front stone door is open less than one body width. Elderly Zhao Li stands outside that slit, alive but visibly strained, using intersecting dark-crimson blood threads from his Blood-Pattern Gu to drain the betrayer’s remaining vitality. A smooth sealed stone door fills the chamber behind the betrayer, proving the secondary seal cannot open the way home. No graphic wound. Style/medium: premium semi-realistic dark Chinese fantasy narrative concept painting, tactile close stone, tarnished bronze seal, restrained blood-thread light and ink shadow, consistent with references. Composition/framing: cinematic wide landscape despite cramped chamber; viewer inside with collapsing betrayer lower-center, useless sealed rear door at left depth, narrow opening and Zhao Li middle-right; preserve left 34% and bottom 24% as low-detail stone shadow for ending copy; spatial trap and thread direction unmistakable. Lighting/mood: narrow deep-crimson light through the door slit, charcoal stone, fading bronze reflection on the seal; betrayal repaid, suffocation and finality, not gore or neon. Constraints: story illustration only; exactly two human figures; Zhao Li visibly elderly, gray-haired, bearded, outside the chamber and alive; betrayer defeated inside; no gore, no dismemberment; no UI, no text, no letters, no calligraphy, no logo, no watermark, no border; no modern objects; no extra limbs or duplicated faces; no giant magic circle; no flat placeholder.",
+      "imagegen_calls": [{"sequence": 1, "output_id": "exec-88401d21-8629-4f6f-9b4c-7b191af99876.png", "original_output_path": "C:/Users/86187/.codex/generated_images/01a05c42-6587-7723-8b73-7c62b8131db4/exec-88401d21-8629-4f6f-9b4c-7b191af99876.png", "adopted": true, "note": "采用副印仍在手、后门无缝、前门狭缝与赵黎在外汲取活气均清晰的源稿。"}],
+      "postprocessing": ["复制采用源稿到 raw/imagegen-originals", "等比缩放并居中裁切至 1600x900", "WebP quality 72 压缩"],
+      "inspection": {"format": "WEBP", "width": 1600, "height": 900, "alpha": false, "bytes": 73584, "sha256": "08BB42BD1E04DAAAD33A72E1EF9C8F5DDE3D58529D252EF24427EF7CDF7B301C"}
+    }
+  ]
+}

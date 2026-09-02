@@ -1,0 +1,73 @@
+command=git status --short (after evidence generation)
+started_at=2026-09-02T02:47:46.9038351Z
+finished_at=2026-09-02T02:47:47.0436432Z
+exit_code=0
+
+ M .hallmark/preflight.json
+ M AGENTS.md
+ M app/globals.css
+ M features/xue-gu-yin/XueGuYinGame.tsx
+ M lib/xue-gu-yin/assets.ts
+ M lib/xue-gu-yin/story/events/act1.ts
+ M lib/xue-gu-yin/story/events/act2.ts
+ M lib/xue-gu-yin/story/routes/ji.ts
+ M lib/xue-gu-yin/story/routes/su.ts
+ M lib/xue-gu-yin/story/routes/traitor.ts
+ M lib/xue-gu-yin/story/routes/zhao.ts
+ M package.json
+ D public/characters/ji-qinghan-placeholder.webp
+ M tests/e2e/full-routes.spec.ts
+ M tests/e2e/visual-baselines/01-main-menu-1366x768.png
+ M tests/e2e/visual-baselines/02-settings-1366x768.png
+ M tests/e2e/visual-baselines/03-save-archive-1366x768.png
+ M tests/e2e/visual-baselines/05-dialogue-1366x768.png
+ M tests/e2e/visual-baselines/06-multiple-characters-1366x768.png
+ M tests/e2e/visual-baselines/07-three-choices-1366x768.png
+ M tests/e2e/visual-baselines/11-ending-1366x768.png
+ M tests/e2e/visual-baselines/dialogue-boundary-1280x720.png
+ M tests/e2e/visual-baselines/dialogue-boundary-1920x1080.png
+ M tests/e2e/visual-baselines/landscape-dialogue-844x390.png
+ M tests/e2e/visual-baselines/landscape-main-menu-844x390.png
+ M tests/e2e/visual-baselines/main-menu-boundary-1280x720.png
+ M tests/e2e/visual-baselines/main-menu-boundary-1920x1080.png
+ M tests/game.test.ts
+ M tests/release.test.ts
+?? .agent/durable-loop/
+?? .agent/tasks/
+?? .codex/
+?? public/cg/
+?? public/characters/ji-qinghan-alert-v1.webp
+?? public/characters/ji-qinghan-battle-v1.webp
+?? public/characters/ji-qinghan-injured-v1.webp
+?? public/characters/ji-qinghan-neutral-v1.webp
+?? public/characters/ji-qinghan-softened-v1.webp
+?? public/characters/qiao-wujiu-battle-v1.webp
+?? public/characters/qiao-wujiu-calm-v1.webp
+?? public/characters/qiao-wujiu-injured-v1.webp
+?? public/characters/qiao-wujiu-neutral-v1.webp
+?? public/characters/qiao-wujiu-smug-v1.webp
+?? public/characters/su-yan-awakened-v1.webp
+?? public/characters/su-yan-battle-v1.webp
+?? public/characters/su-yan-injured-v1.webp
+?? public/characters/su-yan-neutral-v1.webp
+?? public/characters/su-ying-battle-v1.webp
+?? public/characters/su-ying-injured-v1.webp
+?? public/characters/su-ying-neutral-v1.webp
+?? public/characters/su-ying-sad-v1.webp
+?? public/characters/su-ying-wary-v1.webp
+?? public/characters/xue-feng-battle-v1.webp
+?? public/characters/xue-feng-greedy-v1.webp
+?? public/characters/xue-feng-injured-v1.webp
+?? public/characters/xue-feng-neutral-v1.webp
+?? public/characters/xue-feng-panicked-v1.webp
+?? public/characters/xue-feng-smiling-v1.webp
+?? public/characters/zhao-li-amused-v1.webp
+?? public/characters/zhao-li-battle-v1.webp
+?? public/characters/zhao-li-injured-v1.webp
+?? public/characters/zhao-li-neutral-v1.webp
+?? public/characters/zhao-li-wary-v1.webp
+?? public/effects/
+?? public/ui/
+?? scripts/generate-visual-art-static-proof.mjs
+?? scripts/validate-task-proof.mjs
+?? tests/e2e/visual-art-expansion.spec.ts

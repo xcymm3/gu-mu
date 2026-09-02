@@ -1,0 +1,184 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "overall_status": "PASS",
+  "acceptance_criteria": [
+    {
+      "id": "AC1",
+      "text": "可审计的资源合同与运行时清单",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "pnpm test", "exit_code": 0 },
+        { "command": "pnpm build", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/asset-inventory.json", "raw/runtime-reference-report.json", "raw/character-runtime-matrix.json", "raw/cg-runtime-matrix.json", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC2",
+      "text": "六名角色的 30 格状态矩阵完整且身份一致",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/contact-sheets/characters.png", "raw/contact-sheets/manifest.json", "raw/character-runtime-matrix.json", "raw/manual-visual-review.md", "raw/screenshots/routes-and-endings"],
+      "gaps": []
+    },
+    {
+      "id": "AC3",
+      "text": "九结局与七个关键节点的 16 张独立 CG 完整接入",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/contact-sheets/cg.png", "raw/contact-sheets/manifest.json", "raw/cg-runtime-matrix.json", "raw/route-ending-smoke.json", "raw/screenshots/routes-and-endings", "raw/manual-visual-review.md"],
+      "gaps": []
+    },
+    {
+      "id": "AC4",
+      "text": "首页、设置页、存档页完成统一美术重做",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/contact-sheets/ui.png", "raw/ui-runtime-report.json", "raw/screenshots/layout", "raw/screenshots/layout/844x390-settings.png", "raw/screenshots/layout/844x390-settings-bottom.png", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC5",
+      "text": "七类战斗位图特效具备触发、层级、时序与降级",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/contact-sheets/effects.png", "raw/effect-runtime-matrix.json", "raw/save-combat-smoke.json", "raw/reduced-motion-smoke.json", "raw/screenshots/save-and-combat", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC6",
+      "text": "正式美术质量、画风一致性与生成溯源合格",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "ImageMagick 全量 WebP 解码审计", "exit_code": 0 }
+      ],
+      "proof": ["raw/art-generation.json", "raw/imagegen-originals", "raw/contact-sheets/characters.png", "raw/contact-sheets/cg.png", "raw/contact-sheets/ui.png", "raw/contact-sheets/effects.png", "raw/manual-visual-review.md", "raw/image-decode.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC7",
+      "text": "压缩、解码、加载预算和资源卫生达标",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/asset-inventory.json", "raw/image-audit.txt", "raw/image-decode.txt", "raw/file-hashes.txt", "raw/file-sizes.txt", "raw/network-budget.json", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC8",
+      "text": "桌面与手机布局、可读性和动态偏好合格",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/screenshots/layout", "raw/ui-runtime-report.json", "raw/screenshots/layout/844x390-settings.png", "raw/screenshots/layout/844x390-settings-bottom.png", "raw/reduced-motion-smoke.json", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC9",
+      "text": "四条路线、七个关键节点和九个结局可由真实页面验证",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/cg-runtime-matrix.json", "raw/character-runtime-matrix.json", "raw/route-ending-smoke.json", "raw/screenshots/routes-and-endings", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC10",
+      "text": "存档读档与战斗全链路无回归",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm test", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 }
+      ],
+      "proof": ["raw/fixtures/save-v6-no-visual-metadata.json", "raw/save-combat-smoke.json", "raw/reduced-motion-smoke.json", "raw/effect-runtime-matrix.json", "raw/screenshots/save-and-combat", "raw/fix-001-command-results.txt"],
+      "gaps": []
+    },
+    {
+      "id": "AC11",
+      "text": "自动化质量门与生产静态导出全部通过",
+      "status": "PASS",
+      "commands": [
+        { "command": "pnpm test", "exit_code": 0 },
+        { "command": "pnpm lint", "exit_code": 0 },
+        { "command": "pnpm build", "exit_code": 0 },
+        { "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line", "exit_code": 0 },
+        { "command": "pnpm test:e2e:run", "exit_code": 0 },
+        { "command": "pnpm proof:visual:static", "exit_code": 0 },
+        { "command": "Test-Path -LiteralPath out/index.html", "exit_code": 0 }
+      ],
+      "proof": ["raw/fix-001-command-results.txt", "raw/character-runtime-matrix.json", "raw/cg-runtime-matrix.json", "raw/ui-runtime-report.json", "raw/effect-runtime-matrix.json", "raw/screenshots/layout"],
+      "gaps": []
+    },
+    {
+      "id": "AC12",
+      "text": "验收标准级证明完整且可由新鲜验证器复现",
+      "status": "PASS",
+      "commands": [
+        { "command": "evidence.json PowerShell JSON 解析", "exit_code": 0 },
+        { "command": "node scripts/validate-task-proof.mjs visual-art-expansion-v1", "exit_code": 0 },
+        { "command": "deadline-carl evidence validator", "exit_code": 0 }
+      ],
+      "proof": ["evidence.md", "evidence.json", "raw/fix-001-command-results.txt", "raw/command-metadata.json", "raw/checkpoints", "raw/contact-sheets/manifest.json", "raw/manual-visual-review.md"],
+      "gaps": []
+    }
+  ],
+  "changed_files": [
+    "app/globals.css",
+    "features/xue-gu-yin/XueGuYinGame.tsx",
+    "lib/xue-gu-yin/assets.ts",
+    "lib/xue-gu-yin/story/events/act1.ts",
+    "lib/xue-gu-yin/story/events/act2.ts",
+    "lib/xue-gu-yin/story/routes/ji.ts",
+    "lib/xue-gu-yin/story/routes/su.ts",
+    "lib/xue-gu-yin/story/routes/traitor.ts",
+    "lib/xue-gu-yin/story/routes/zhao.ts",
+    "package.json",
+    "public/characters/",
+    "public/cg/",
+    "public/ui/",
+    "public/effects/",
+    "scripts/generate-visual-art-static-proof.mjs",
+    "scripts/validate-task-proof.mjs",
+    "tests/game.test.ts",
+    "tests/release.test.ts",
+    "tests/e2e/full-routes.spec.ts",
+    "tests/e2e/visual-art-expansion.spec.ts",
+    "tests/e2e/visual-baselines/",
+    ".agent/tasks/visual-art-expansion-v1/"
+  ],
+  "commands_for_fresh_verifier": [
+    "git status --short",
+    "pnpm test",
+    "pnpm lint",
+    "pnpm build",
+    "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line",
+    "pnpm test:e2e:run",
+    "pnpm proof:visual:static",
+    "Test-Path -LiteralPath out/index.html",
+    "Get-Content -LiteralPath .agent/tasks/visual-art-expansion-v1/evidence.json -Encoding utf8 -Raw | ConvertFrom-Json | Out-Null",
+    "node scripts/validate-task-proof.mjs visual-art-expansion-v1",
+    "python C:/Users/86187/.codex/skills/deadline-carl/scripts/task_loop.py validate --task-id visual-art-expansion-v1 --repo-root D:/mydoc/React/gu-mu-wu-xiu --artifact evidence"
+  ],
+  "known_gaps": []
+}

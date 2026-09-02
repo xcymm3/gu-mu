@@ -1,0 +1,400 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_at": "2026-09-02T04:12:02.651Z",
+  "manifest_source": "lib/xue-gu-yin/assets.ts#formalVisualAssetManifest",
+  "count": 56,
+  "references": [
+    {
+      "key": "character.ji-qinghan.neutral",
+      "category": "character",
+      "path": "public/characters/ji-qinghan-neutral-v1.webp",
+      "trigger": "scene expression:ji-qinghan/neutral",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.ji-qinghan.alert",
+      "category": "character",
+      "path": "public/characters/ji-qinghan-alert-v1.webp",
+      "trigger": "scene expression:ji-qinghan/alert",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.ji-qinghan.softened",
+      "category": "character",
+      "path": "public/characters/ji-qinghan-softened-v1.webp",
+      "trigger": "scene expression:ji-qinghan/softened",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.ji-qinghan.injured",
+      "category": "character",
+      "path": "public/characters/ji-qinghan-injured-v1.webp",
+      "trigger": "visual-state:ji-qinghan/injured",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.ji-qinghan.battle",
+      "category": "character",
+      "path": "public/characters/ji-qinghan-battle-v1.webp",
+      "trigger": "visual-state:ji-qinghan/battle",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.zhao-li.neutral",
+      "category": "character",
+      "path": "public/characters/zhao-li-neutral-v1.webp",
+      "trigger": "scene expression:zhao-li/neutral",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.zhao-li.amused",
+      "category": "character",
+      "path": "public/characters/zhao-li-amused-v1.webp",
+      "trigger": "scene expression:zhao-li/amused",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.zhao-li.wary",
+      "category": "character",
+      "path": "public/characters/zhao-li-wary-v1.webp",
+      "trigger": "scene expression:zhao-li/wary",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.zhao-li.injured",
+      "category": "character",
+      "path": "public/characters/zhao-li-injured-v1.webp",
+      "trigger": "visual-state:zhao-li/injured",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.zhao-li.battle",
+      "category": "character",
+      "path": "public/characters/zhao-li-battle-v1.webp",
+      "trigger": "visual-state:zhao-li/battle",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.xue-feng.neutral",
+      "category": "character",
+      "path": "public/characters/xue-feng-neutral-v1.webp",
+      "trigger": "scene expression:xue-feng/neutral",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.xue-feng.smiling",
+      "category": "character",
+      "path": "public/characters/xue-feng-smiling-v1.webp",
+      "trigger": "scene expression:xue-feng/smiling",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.xue-feng.panicked",
+      "category": "character",
+      "path": "public/characters/xue-feng-panicked-v1.webp",
+      "trigger": "scene expression:xue-feng/panicked",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.xue-feng.greedy",
+      "category": "character",
+      "path": "public/characters/xue-feng-greedy-v1.webp",
+      "trigger": "scene expression:xue-feng/greedy",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.xue-feng.injured",
+      "category": "character",
+      "path": "public/characters/xue-feng-injured-v1.webp",
+      "trigger": "visual-state:xue-feng/injured",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.xue-feng.battle",
+      "category": "character",
+      "path": "public/characters/xue-feng-battle-v1.webp",
+      "trigger": "visual-state:xue-feng/battle",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-ying.neutral",
+      "category": "character",
+      "path": "public/characters/su-ying-neutral-v1.webp",
+      "trigger": "scene expression:su-ying/neutral",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-ying.wary",
+      "category": "character",
+      "path": "public/characters/su-ying-wary-v1.webp",
+      "trigger": "scene expression:su-ying/wary",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-ying.sad",
+      "category": "character",
+      "path": "public/characters/su-ying-sad-v1.webp",
+      "trigger": "scene expression:su-ying/sad",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-ying.injured",
+      "category": "character",
+      "path": "public/characters/su-ying-injured-v1.webp",
+      "trigger": "visual-state:su-ying/injured",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-ying.battle",
+      "category": "character",
+      "path": "public/characters/su-ying-battle-v1.webp",
+      "trigger": "visual-state:su-ying/battle",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.qiao-wujiu.neutral",
+      "category": "character",
+      "path": "public/characters/qiao-wujiu-neutral-v1.webp",
+      "trigger": "scene expression:qiao-wujiu/neutral",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.qiao-wujiu.calm",
+      "category": "character",
+      "path": "public/characters/qiao-wujiu-calm-v1.webp",
+      "trigger": "scene expression:qiao-wujiu/calm",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.qiao-wujiu.smug",
+      "category": "character",
+      "path": "public/characters/qiao-wujiu-smug-v1.webp",
+      "trigger": "scene expression:qiao-wujiu/smug",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.qiao-wujiu.injured",
+      "category": "character",
+      "path": "public/characters/qiao-wujiu-injured-v1.webp",
+      "trigger": "visual-state:qiao-wujiu/injured",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.qiao-wujiu.battle",
+      "category": "character",
+      "path": "public/characters/qiao-wujiu-battle-v1.webp",
+      "trigger": "visual-state:qiao-wujiu/battle",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-yan.neutral",
+      "category": "character",
+      "path": "public/characters/su-yan-neutral-v1.webp",
+      "trigger": "scene expression:su-yan/neutral",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-yan.awakened",
+      "category": "character",
+      "path": "public/characters/su-yan-awakened-v1.webp",
+      "trigger": "scene expression:su-yan/awakened",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-yan.injured",
+      "category": "character",
+      "path": "public/characters/su-yan-injured-v1.webp",
+      "trigger": "visual-state:su-yan/injured",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "character.su-yan.battle",
+      "category": "character",
+      "path": "public/characters/su-yan-battle-v1.webp",
+      "trigger": "visual-state:su-yan/battle",
+      "runtime_observation_source": "raw/character-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.demon",
+      "category": "cg",
+      "path": "public/cg/endings/demon-v1.webp",
+      "trigger": "endingId:demon",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.severed",
+      "category": "cg",
+      "path": "public/cg/endings/severed-v1.webp",
+      "trigger": "endingId:severed",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.true",
+      "category": "cg",
+      "path": "public/cg/endings/true-v1.webp",
+      "trigger": "endingId:true",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.deathByZhao",
+      "category": "cg",
+      "path": "public/cg/endings/deathByZhao-v1.webp",
+      "trigger": "endingId:deathByZhao",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.deathByMaster",
+      "category": "cg",
+      "path": "public/cg/endings/deathByMaster-v1.webp",
+      "trigger": "endingId:deathByMaster",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.deathByQiao",
+      "category": "cg",
+      "path": "public/cg/endings/deathByQiao-v1.webp",
+      "trigger": "endingId:deathByQiao",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.deathByBloodGuard",
+      "category": "cg",
+      "path": "public/cg/endings/deathByBloodGuard-v1.webp",
+      "trigger": "endingId:deathByBloodGuard",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.trapped",
+      "category": "cg",
+      "path": "public/cg/endings/trapped-v1.webp",
+      "trigger": "endingId:trapped",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.ending.traitor",
+      "category": "cg",
+      "path": "public/cg/endings/traitor-v1.webp",
+      "trigger": "endingId:traitor",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.gate",
+      "category": "cg",
+      "path": "public/cg/scenes/gate-v1.webp",
+      "trigger": "sceneId:gate",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.bloodThreshold",
+      "category": "cg",
+      "path": "public/cg/scenes/bloodThreshold-v1.webp",
+      "trigger": "sceneId:bloodThreshold",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.fog",
+      "category": "cg",
+      "path": "public/cg/scenes/fog-v1.webp",
+      "trigger": "sceneId:fog",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.zhaoAwakening",
+      "category": "cg",
+      "path": "public/cg/scenes/zhaoAwakening-v1.webp",
+      "trigger": "sceneId:zhaoAwakening",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.jiDestroyGu",
+      "category": "cg",
+      "path": "public/cg/scenes/jiDestroyGu-v1.webp",
+      "trigger": "sceneId:jiDestroyGu",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.suCoffin",
+      "category": "cg",
+      "path": "public/cg/scenes/suCoffin-v1.webp",
+      "trigger": "sceneId:suCoffin",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "cg.scene.traitorBloodTaken",
+      "category": "cg",
+      "path": "public/cg/scenes/traitorBloodTaken-v1.webp",
+      "trigger": "sceneId:traitorBloodTaken",
+      "runtime_observation_source": "raw/cg-runtime-matrix.json"
+    },
+    {
+      "key": "ui.main-menu",
+      "category": "ui",
+      "path": "public/ui/main-menu-v1.webp",
+      "trigger": "homeView:menu",
+      "runtime_observation_source": "raw/ui-runtime-report.json"
+    },
+    {
+      "key": "ui.settings",
+      "category": "ui",
+      "path": "public/ui/settings-v1.webp",
+      "trigger": "homeView:settings",
+      "runtime_observation_source": "raw/ui-runtime-report.json"
+    },
+    {
+      "key": "ui.saves",
+      "category": "ui",
+      "path": "public/ui/saves-v1.webp",
+      "trigger": "homeView:saves",
+      "runtime_observation_source": "raw/ui-runtime-report.json"
+    },
+    {
+      "key": "effect.player-blood-attack",
+      "category": "effect",
+      "path": "public/effects/player-blood-attack-v1.webp",
+      "trigger": "battle-action:blood",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    },
+    {
+      "key": "effect.player-armor-guard",
+      "category": "effect",
+      "path": "public/effects/player-armor-guard-v1.webp",
+      "trigger": "battle-action:armor",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    },
+    {
+      "key": "effect.player-heal-gu",
+      "category": "effect",
+      "path": "public/effects/player-heal-gu-v1.webp",
+      "trigger": "battle-action:heal",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    },
+    {
+      "key": "effect.player-sword-gu",
+      "category": "effect",
+      "path": "public/effects/player-sword-gu-v1.webp",
+      "trigger": "battle-action:sword",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    },
+    {
+      "key": "effect.player-charm-gu",
+      "category": "effect",
+      "path": "public/effects/player-charm-gu-v1.webp",
+      "trigger": "battle-action:charm",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    },
+    {
+      "key": "effect.player-blooddemon-gu",
+      "category": "effect",
+      "path": "public/effects/player-blooddemon-gu-v1.webp",
+      "trigger": "battle-action:blooddemon",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    },
+    {
+      "key": "effect.enemy-attack",
+      "category": "effect",
+      "path": "public/effects/enemy-attack-v1.webp",
+      "trigger": "battle-event:enemy-attack",
+      "runtime_observation_source": "raw/effect-runtime-matrix.json"
+    }
+  ]
+}

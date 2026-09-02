@@ -1,0 +1,87 @@
+command=pnpm test:e2e:run -- tests/e2e/visual-art-expansion.spec.ts --reporter=line
+started_at=2026-09-02T02:38:05.0278031Z
+finished_at=2026-09-02T02:39:08.2606022Z
+exit_code=1
+
+$ playwright test "tests/e2e/visual-art-expansion.spec.ts" "--reporter=line"
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 5 tests using 1 worker
+
+(node:22004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/5] tests\e2e\visual-art-expansion.spec.ts:158:1 › 全新上下文首页满足图片请求与传输预算
+[2/5] tests\e2e\visual-art-expansion.spec.ts:189:1 › 三页正式主视觉在四个合同视口保持可达且无全局溢出
+[3/5] tests\e2e\visual-art-expansion.spec.ts:223:1 › 六类玩家位图特效均先于敌方反击且回合可继续
+  1) tests\e2e\visual-art-expansion.spec.ts:223:1 › 六类玩家位图特效均先于敌方反击且回合可继续 ──────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-combat-effect-key="effect.enemy-attack"]')
+    Expected: visible
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 8000ms
+      - waiting for locator('[data-combat-effect-key="effect.enemy-attack"]')
+
+
+      240 |     await page.screenshot({ path: path.join(saveCombatScreenshotRoot, `effect-${item.action}-player.png`) });
+      241 |     const enemyEffect = page.locator(`[data-combat-effect-key="${enemyCombatEffectAsset}"]`);
+    > 242 |     await expect(enemyEffect).toBeVisible();
+          |                               ^
+      243 |     effectRuntimeEntries.push({
+      244 |       action: item.action,
+      245 |       key: enemyCombatEffectAsset,
+        at D:\mydoc\React\gu-mu-wu-xiu\tests\e2e\visual-art-expansion.spec.ts:242:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\error-context.md
+
+    Error Context: test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\error-context.md
+
+    attachment #9: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\playwright\visual-art-expansion-六类玩家位图特效均先于敌方反击且回合可继续\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+(node:37292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[4/5] tests\e2e\visual-art-expansion.spec.ts:257:1 › 减少动态与特效请求失败均保留文字反馈和下一回合
+[5/5] tests\e2e\visual-art-expansion.spec.ts:292:1 › 版本 6 存档缺少视觉元数据时仍由公开读档入口恢复
+  1 failed
+    tests\e2e\visual-art-expansion.spec.ts:223:1 › 六类玩家位图特效均先于敌方反击且回合可继续 ───────────────────────────
+  4 passed (59.1s)
+[ELIFECYCLE] Command failed with exit code 1.

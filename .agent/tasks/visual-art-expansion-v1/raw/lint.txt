@@ -1,0 +1,6 @@
+command=pnpm lint
+started_at=2026-09-02T03:44:55.9493648Z
+finished_at=2026-09-02T03:45:10.0730349Z
+exit_code=0
+
+$ eslint

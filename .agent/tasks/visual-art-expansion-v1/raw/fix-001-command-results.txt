@@ -1,0 +1,39 @@
+Task: visual-art-expansion-v1
+Phase: fix
+Run date: 2026-09-02 Asia/Shanghai
+Repository HEAD before and after checks: eeb58125a123511dffd85ca2b0173de6703e799f
+
+pnpm build
+exit_code=0
+result=Next.js 16.3.0 compiled, type-checked, generated 5/5 static pages, and finalized the production export.
+
+pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line
+exit_code=0
+result=5 passed (39.2s) against the freshly generated out directory.
+
+pnpm test
+exit_code=0
+result=98 tests passed; 0 failed, skipped, or cancelled.
+
+pnpm lint
+exit_code=0
+result=ESLint completed with no findings.
+
+pnpm proof:visual:static
+exit_code=0
+result=PASS: audited 56 unique formal assets (5165122 bytes) and generated four contact sheets.
+
+pnpm test:e2e:run
+exit_code=0
+result=16 passed (7.9m) against the freshly generated out directory. The suite regenerated character-runtime-matrix.json, cg-runtime-matrix.json, ui-runtime-report.json, effect-runtime-matrix.json, network-budget.json, route/save/combat reports, and screenshots.
+
+844x390 settings proof
+result=The visual test asserted a nonzero internal scroll region, five uncompressed groups, pairwise non-overlap, no child self-clipping, full reachability of the final control after scrolling, stable header bounds, and header hit-test ownership. Fresh top and bottom screenshots were generated.
+
+node scripts/validate-task-proof.mjs visual-art-expansion-v1
+exit_code=0
+result=PASS: evidence is structurally valid and all proof paths are contained in the task directory.
+
+deadline-carl task_loop.py validate --artifact evidence
+exit_code=0
+result=valid=true; missing_files=[]; errors=[].

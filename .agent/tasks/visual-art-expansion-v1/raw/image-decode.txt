@@ -1,0 +1,6324 @@
+command=Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -Filter *.webp | ForEach-Object { magick identify -verbose $_.FullName }
+started_at=2026-09-02T04:06:11.1671095Z
+finished_at=2026-09-02T04:06:44.5845320Z
+exit_code=0
+
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\ji-qinghan-alert-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 89.8523 (0.352362)
+      median: 55 (0.215686)
+      standard deviation: 83.0798 (0.325803)
+      kurtosis: -1.32796
+      skewness: 0.508837
+      entropy: 0.831126
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 99.9886 (0.392112)
+      median: 66 (0.258824)
+      standard deviation: 83.8011 (0.328632)
+      kurtosis: -1.50444
+      skewness: 0.394691
+      entropy: 0.831558
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 110.318 (0.432619)
+      median: 75 (0.294118)
+      standard deviation: 92.3221 (0.362047)
+      kurtosis: -1.6773
+      skewness: 0.277957
+      entropy: 0.81281
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 130.028 (0.509912)
+      median: 255 (1)
+      standard deviation: 127.475 (0.499902)
+      kurtosis: -1.99843
+      skewness: -0.0396577
+      entropy: 0.999716
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 107.547 (0.421751)
+      median: 112.75 (0.442157)
+      standard deviation: 96.6695 (0.379096)
+      kurtosis: -1.62703
+      skewness: 0.285457
+      entropy: 0.868803
+  Alpha: srgba(25,37,33,0)   #19252100
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:38:23+00:00
+    date:modify: 2026-09-01T07:40:53+00:00
+    date:timestamp: 2026-09-02T04:06:11+00:00
+    signature: 6c0708d2f2c467028f5265dec83bf5490253a56ea9776fe8171b77c0d8ef88e1
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 94724B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 35.5849MP
+  User time: 0.044u
+  Elapsed time: 0:01.044
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\ji-qinghan-battle-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 90.5476 (0.355089)
+      median: 64 (0.25098)
+      standard deviation: 80.399 (0.31529)
+      kurtosis: -1.3536
+      skewness: 0.457741
+      entropy: 0.811654
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 97.7334 (0.383268)
+      median: 77 (0.301961)
+      standard deviation: 83.6634 (0.328092)
+      kurtosis: -1.56051
+      skewness: 0.307882
+      entropy: 0.804547
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 101.767 (0.399087)
+      median: 83 (0.32549)
+      standard deviation: 91.2347 (0.357783)
+      kurtosis: -1.66251
+      skewness: 0.228788
+      entropy: 0.81919
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 128.466 (0.503789)
+      median: 255 (1)
+      standard deviation: 127.496 (0.499986)
+      kurtosis: -1.99977
+      skewness: -0.0151549
+      entropy: 0.999959
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 104.629 (0.410308)
+      median: 119.75 (0.469608)
+      standard deviation: 95.6984 (0.375288)
+      kurtosis: -1.6441
+      skewness: 0.244814
+      entropy: 0.858837
+  Alpha: srgba(32,35,32,0)   #20232000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:46:48+00:00
+    date:modify: 2026-09-01T07:40:58+00:00
+    date:timestamp: 2026-09-02T04:06:12+00:00
+    signature: 7cc35a28624b4a24bbb6951cc7ed8be732eac85cb8662bc6b3f6ccffe00efa3a
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 95834B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 52.2302MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\ji-qinghan-injured-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 72.7757 (0.285395)
+      median: 12 (0.0470588)
+      standard deviation: 81.844 (0.320957)
+      kurtosis: -1.11993
+      skewness: 0.752674
+      entropy: 0.722789
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 77.5632 (0.30417)
+      median: 13 (0.0509804)
+      standard deviation: 84.8391 (0.332702)
+      kurtosis: -1.31787
+      skewness: 0.65941
+      entropy: 0.726965
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 84.7135 (0.33221)
+      median: 12 (0.0470588)
+      standard deviation: 92.7425 (0.363696)
+      kurtosis: -1.50094
+      skewness: 0.570918
+      entropy: 0.707868
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 103.074 (0.404214)
+      median: 0 (0)
+      standard deviation: 125.139 (0.490739)
+      kurtosis: -1.84761
+      skewness: 0.390376
+      entropy: 0.973362
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 84.5317 (0.331497)
+      median: 9.25 (0.0362745)
+      standard deviation: 96.141 (0.377024)
+      kurtosis: -1.44659
+      skewness: 0.593344
+      entropy: 0.782746
+  Alpha: srgba(23,23,23,0)   #17171700
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:45:10+00:00
+    date:modify: 2026-09-01T07:40:57+00:00
+    date:timestamp: 2026-09-02T04:06:12+00:00
+    signature: a2c83650cee4f757be2df0adc66280a2f7566b6ff0da046cd41412c3c5074f84
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 74404B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 41.0138MP
+  User time: 0.038u
+  Elapsed time: 0:01.038
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\ji-qinghan-neutral-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 84.9017 (0.332948)
+      median: 39 (0.152941)
+      standard deviation: 84.8869 (0.33289)
+      kurtosis: -1.35682
+      skewness: 0.537494
+      entropy: 0.771816
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 91.5012 (0.358828)
+      median: 44 (0.172549)
+      standard deviation: 88.4186 (0.346739)
+      kurtosis: -1.55519
+      skewness: 0.412523
+      entropy: 0.772911
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 96.6387 (0.378975)
+      median: 50 (0.196078)
+      standard deviation: 95.2345 (0.373469)
+      kurtosis: -1.65636
+      skewness: 0.340044
+      entropy: 0.793966
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 121.911 (0.478083)
+      median: 0 (0)
+      standard deviation: 127.377 (0.49952)
+      kurtosis: -1.9923
+      skewness: 0.0877511
+      entropy: 0.998614
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 98.7382 (0.387209)
+      median: 33.25 (0.130392)
+      standard deviation: 98.9794 (0.388154)
+      kurtosis: -1.64017
+      skewness: 0.344453
+      entropy: 0.834327
+  Alpha: srgba(27,27,27,0)   #1B1B1B00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:27:54+00:00
+    date:modify: 2026-09-01T07:40:52+00:00
+    date:timestamp: 2026-09-02T04:06:13+00:00
+    signature: 93c0631ba9647deb1abc172693c769dcc471c56333f50ba781ec8bdd127567dc
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 82958B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 54.6454MP
+  User time: 0.029u
+  Elapsed time: 0:01.028
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\ji-qinghan-softened-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 85.2918 (0.334478)
+      median: 32 (0.12549)
+      standard deviation: 81.6321 (0.320126)
+      kurtosis: -1.22007
+      skewness: 0.634953
+      entropy: 0.794334
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 91.2825 (0.35797)
+      median: 35 (0.137255)
+      standard deviation: 84.8276 (0.332657)
+      kurtosis: -1.44442
+      skewness: 0.513946
+      entropy: 0.786333
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 95.0322 (0.372675)
+      median: 34 (0.133333)
+      standard deviation: 92.0219 (0.36087)
+      kurtosis: -1.57302
+      skewness: 0.429182
+      entropy: 0.805641
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 117.771 (0.461846)
+      median: 0 (0)
+      standard deviation: 127.128 (0.498542)
+      kurtosis: -1.97657
+      skewness: 0.153062
+      entropy: 0.995796
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 97.3443 (0.381742)
+      median: 25.25 (0.0990196)
+      standard deviation: 96.4025 (0.378049)
+      kurtosis: -1.55352
+      skewness: 0.432786
+      entropy: 0.845526
+  Alpha: srgba(32,35,32,0)   #20232000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:43:42+00:00
+    date:modify: 2026-09-01T07:40:55+00:00
+    date:timestamp: 2026-09-02T04:06:14+00:00
+    signature: 6dd417ecf089fdf2b4f1ba6532a6196db4e2c0be81158ff33853deb483f128f6
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 78792B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 41.793MP
+  User time: 0.038u
+  Elapsed time: 0:01.037
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\ji-qinghan-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 127.36 (0.499452)
+      median: 139 (0.545098)
+      standard deviation: 70.0718 (0.274791)
+      kurtosis: -0.852381
+      skewness: -0.411369
+      entropy: 0.93865
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 135.208 (0.530228)
+      median: 153 (0.6)
+      standard deviation: 71.6862 (0.281122)
+      kurtosis: -0.78479
+      skewness: -0.567912
+      entropy: 0.934052
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 150.634 (0.590723)
+      median: 175 (0.686275)
+      standard deviation: 76.1942 (0.298801)
+      kurtosis: -0.631985
+      skewness: -0.751497
+      entropy: 0.926638
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 134.172 (0.526164)
+      median: 245 (0.960784)
+      standard deviation: 123.913 (0.485935)
+      kurtosis: -1.96584
+      skewness: -0.13399
+      entropy: 0.352263
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 136.844 (0.536642)
+      median: 178 (0.698039)
+      standard deviation: 85.4664 (0.335162)
+      kurtosis: -1.05875
+      skewness: -0.466192
+      entropy: 0.787901
+  Alpha: srgba(1,1,1,0)   #01010100
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-24T01:04:38+00:00
+    date:modify: 2026-08-24T01:04:39+00:00
+    date:timestamp: 2026-09-02T04:06:14+00:00
+    signature: 481e1fd1355e47d2a24866f609b933e8eafd7b6d59431f7a7cc9efc341be4eeb
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 365012B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 24.138MP
+  User time: 0.065u
+  Elapsed time: 0:01.065
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\qiao-wujiu-battle-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 41.155 (0.161392)
+      median: 25 (0.0980392)
+      standard deviation: 42.0992 (0.165095)
+      kurtosis: 1.84333
+      skewness: 1.49003
+      entropy: 0.745019
+    Green:
+      min: 0  (0)
+      max: 250 (0.980392)
+      mean: 39.3404 (0.154276)
+      median: 24 (0.0941176)
+      standard deviation: 39.1595 (0.153567)
+      kurtosis: 1.7275
+      skewness: 1.47787
+      entropy: 0.750312
+    Blue:
+      min: 0  (0)
+      max: 247 (0.968627)
+      mean: 39.1085 (0.153367)
+      median: 25 (0.0980392)
+      standard deviation: 39.64 (0.155451)
+      kurtosis: 1.26507
+      skewness: 1.35175
+      entropy: 0.77914
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 134.323 (0.526756)
+      median: 255 (1)
+      standard deviation: 127.317 (0.499284)
+      kurtosis: -1.98851
+      skewness: -0.107176
+      entropy: 0.997933
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 63.4817 (0.248948)
+      median: 82.25 (0.322549)
+      standard deviation: 62.054 (0.243349)
+      kurtosis: 0.711847
+      skewness: 1.05312
+      entropy: 0.818101
+  Alpha: srgba(24,24,24,0)   #18181800
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:02:07+00:00
+    date:modify: 2026-09-01T08:02:12+00:00
+    date:timestamp: 2026-09-02T04:06:15+00:00
+    signature: f1afb3a278935e1e55c3d80b2a676bc594f58e3a721602c954a4a538a5be43b6
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 72296B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 35.8535MP
+  User time: 0.044u
+  Elapsed time: 0:01.043
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\qiao-wujiu-calm-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 33.7455 (0.132335)
+      median: 10 (0.0392157)
+      standard deviation: 44.2214 (0.173417)
+      kurtosis: 2.70682
+      skewness: 1.81899
+      entropy: 0.707418
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 33.5493 (0.131566)
+      median: 13 (0.0509804)
+      standard deviation: 39.0766 (0.153241)
+      kurtosis: 2.93751
+      skewness: 1.90309
+      entropy: 0.701856
+    Blue:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 33.8512 (0.13275)
+      median: 12 (0.0470588)
+      standard deviation: 39.0867 (0.153281)
+      kurtosis: 2.7765
+      skewness: 1.87806
+      entropy: 0.710057
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 114.482 (0.448948)
+      median: 0 (0)
+      standard deviation: 126.834 (0.497387)
+      kurtosis: -1.95786
+      skewness: 0.205281
+      entropy: 0.992467
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 53.9069 (0.2114)
+      median: 8.75 (0.0343137)
+      standard deviation: 62.3046 (0.244332)
+      kurtosis: 1.61574
+      skewness: 1.45135
+      entropy: 0.777949
+  Alpha: srgba(13,25,21,0)   #0D191500
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:01:54+00:00
+    date:modify: 2026-09-01T08:01:58+00:00
+    date:timestamp: 2026-09-02T04:06:16+00:00
+    signature: ed9519c0d57a9e388b893632a839d8a54d3e5e34ebb9a586a637399c73f89f17
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 57156B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 42.0662MP
+  User time: 0.037u
+  Elapsed time: 0:01.037
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\qiao-wujiu-injured-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.2128 (0.142011)
+      median: 14 (0.054902)
+      standard deviation: 45.1235 (0.176955)
+      kurtosis: 2.30279
+      skewness: 1.67625
+      entropy: 0.691455
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 34.5575 (0.13552)
+      median: 14 (0.054902)
+      standard deviation: 42.1348 (0.165234)
+      kurtosis: 2.09555
+      skewness: 1.63485
+      entropy: 0.692535
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 35.7395 (0.140155)
+      median: 13 (0.0509804)
+      standard deviation: 43.1948 (0.169391)
+      kurtosis: 1.71426
+      skewness: 1.53268
+      entropy: 0.699134
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 119.337 (0.467987)
+      median: 0 (0)
+      standard deviation: 127.238 (0.498974)
+      kurtosis: -1.98354
+      skewness: 0.128315
+      entropy: 0.997041
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 56.4616 (0.221418)
+      median: 10.25 (0.0401961)
+      standard deviation: 64.4229 (0.252639)
+      kurtosis: 1.03227
+      skewness: 1.24302
+      entropy: 0.770041
+  Alpha: srgba(17,17,17,0)   #11111100
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:02:02+00:00
+    date:modify: 2026-09-01T08:02:06+00:00
+    date:timestamp: 2026-09-02T04:06:16+00:00
+    signature: 03bf22b1d6bebc09f9ef3648291fd80322b060da814ece408186d165daa19759
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 58246B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 60.4615MP
+  User time: 0.026u
+  Elapsed time: 0:01.026
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\qiao-wujiu-neutral-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 37.2619 (0.146125)
+      median: 15 (0.0588235)
+      standard deviation: 39.2369 (0.15387)
+      kurtosis: 2.97157
+      skewness: 1.81537
+      entropy: 0.71783
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.4177 (0.142815)
+      median: 17 (0.0666667)
+      standard deviation: 35.7443 (0.140174)
+      kurtosis: 3.02846
+      skewness: 1.8663
+      entropy: 0.711013
+    Blue:
+      min: 0  (0)
+      max: 248 (0.972549)
+      mean: 36.1289 (0.141682)
+      median: 16 (0.0627451)
+      standard deviation: 35.2244 (0.138135)
+      kurtosis: 2.7487
+      skewness: 1.79564
+      entropy: 0.719738
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 113.998 (0.447049)
+      median: 0 (0)
+      standard deviation: 126.783 (0.497188)
+      kurtosis: -1.95463
+      skewness: 0.213
+      entropy: 0.991895
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 55.9515 (0.219418)
+      median: 12 (0.0470588)
+      standard deviation: 59.2472 (0.232342)
+      kurtosis: 1.69852
+      skewness: 1.42258
+      entropy: 0.785119
+  Alpha: srgba(26,29,26,0)   #1A1D1A00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:01:50+00:00
+    date:modify: 2026-09-01T08:01:54+00:00
+    date:timestamp: 2026-09-02T04:06:17+00:00
+    signature: 0d8dc40e54ad11e154f623ddfedd64919cebe303f5a91dff5c34386305d33389
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 51014B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 45.9489MP
+  User time: 0.034u
+  Elapsed time: 0:01.034
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\qiao-wujiu-smug-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 41.2052 (0.161589)
+      median: 21 (0.0823529)
+      standard deviation: 42.7103 (0.167491)
+      kurtosis: 2.38449
+      skewness: 1.70576
+      entropy: 0.736692
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 40.8579 (0.160227)
+      median: 21 (0.0823529)
+      standard deviation: 39.0757 (0.153238)
+      kurtosis: 2.38555
+      skewness: 1.74092
+      entropy: 0.725558
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 40.3052 (0.15806)
+      median: 21 (0.0823529)
+      standard deviation: 38.5659 (0.151239)
+      kurtosis: 2.19795
+      skewness: 1.69657
+      entropy: 0.738435
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 131.81 (0.5169)
+      median: 255 (1)
+      standard deviation: 127.427 (0.499714)
+      kurtosis: -1.99543
+      skewness: -0.0676401
+      entropy: 0.999176
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 63.5444 (0.249194)
+      median: 79.5 (0.311765)
+      standard deviation: 61.9448 (0.242921)
+      kurtosis: 1.24314
+      skewness: 1.2689
+      entropy: 0.799965
+  Alpha: srgba(31,31,31,0)   #1F1F1F00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:01:58+00:00
+    date:modify: 2026-09-01T08:02:02+00:00
+    date:timestamp: 2026-09-02T04:06:17+00:00
+    signature: beb84da43206dce0f9f2c7db166282253d099718bc8d317d024f162a0f61ba7a
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 64038B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 51.7541MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\qiao-wujiu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 51.1744 (0.200684)
+      median: 45 (0.176471)
+      standard deviation: 41.7854 (0.163864)
+      kurtosis: 1.08524
+      skewness: 0.991729
+      entropy: 0.826037
+    Green:
+      min: 0  (0)
+      max: 243 (0.952941)
+      mean: 47.1677 (0.184971)
+      median: 42 (0.164706)
+      standard deviation: 38.5252 (0.151079)
+      kurtosis: 1.03975
+      skewness: 1.00419
+      entropy: 0.819766
+    Blue:
+      min: 0  (0)
+      max: 238 (0.933333)
+      mean: 46.375 (0.181863)
+      median: 43 (0.168627)
+      standard deviation: 37.6729 (0.147737)
+      kurtosis: 0.884152
+      skewness: 0.973217
+      entropy: 0.819586
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 131.998 (0.517637)
+      median: 250 (0.980392)
+      standard deviation: 125.601 (0.492555)
+      kurtosis: -1.98613
+      skewness: -0.0908503
+      entropy: 0.251621
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 69.1786 (0.271289)
+      median: 95 (0.372549)
+      standard deviation: 60.8962 (0.238809)
+      kurtosis: 0.255753
+      skewness: 0.719572
+      entropy: 0.679252
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-24T01:04:41+00:00
+    date:modify: 2026-08-24T01:04:41+00:00
+    date:timestamp: 2026-09-02T04:06:18+00:00
+    signature: f6d2afc4450857f241f50f1a4903f48e82c5a23c1ab896d657bc9b90854e1d58
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 276522B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 34.4919MP
+  User time: 0.046u
+  Elapsed time: 0:01.045
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-yan-awakened-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.2982 (0.142346)
+      median: 22 (0.0862745)
+      standard deviation: 41.7163 (0.163593)
+      kurtosis: 5.02573
+      skewness: 2.07465
+      entropy: 0.762909
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 29.3041 (0.114918)
+      median: 16 (0.0627451)
+      standard deviation: 33.5411 (0.131534)
+      kurtosis: 12.3558
+      skewness: 3.27607
+      entropy: 0.700005
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 28.1281 (0.110306)
+      median: 15 (0.0588235)
+      standard deviation: 33.3487 (0.130779)
+      kurtosis: 12.5548
+      skewness: 3.32165
+      entropy: 0.691851
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 135.96 (0.533178)
+      median: 255 (1)
+      standard deviation: 127.219 (0.498898)
+      kurtosis: -1.98231
+      skewness: -0.133004
+      entropy: 0.996822
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 57.4227 (0.225187)
+      median: 77 (0.301961)
+      standard deviation: 58.9563 (0.231201)
+      kurtosis: 6.98852
+      skewness: 2.13484
+      entropy: 0.787897
+  Alpha: srgba(16,29,24,0)   #101D1800
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:02:20+00:00
+    date:modify: 2026-09-01T08:02:25+00:00
+    date:timestamp: 2026-09-02T04:06:18+00:00
+    signature: b3edd99699d4fd1682b3ca920bccac37e3af2d63b51c562ec262bbd83ea79300
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 93126B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 46.2886MP
+  User time: 0.034u
+  Elapsed time: 0:01.033
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-yan-battle-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 34.9808 (0.13718)
+      median: 20 (0.0784314)
+      standard deviation: 40.1729 (0.157541)
+      kurtosis: 4.95341
+      skewness: 2.09326
+      entropy: 0.749449
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 25.6632 (0.10064)
+      median: 13 (0.0509804)
+      standard deviation: 33.025 (0.12951)
+      kurtosis: 11.2978
+      skewness: 3.14171
+      entropy: 0.694304
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.9318 (0.0938504)
+      median: 12 (0.0470588)
+      standard deviation: 32.5941 (0.12782)
+      kurtosis: 12.4603
+      skewness: 3.33358
+      entropy: 0.681631
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 116.085 (0.455236)
+      median: 0 (0)
+      standard deviation: 126.988 (0.497992)
+      kurtosis: -1.96768
+      skewness: 0.179776
+      entropy: 0.994211
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 50.1653 (0.196727)
+      median: 11.25 (0.0441176)
+      standard deviation: 58.195 (0.228216)
+      kurtosis: 6.68596
+      skewness: 2.18708
+      entropy: 0.779899
+  Alpha: srgba(22,22,22,0)   #16161600
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:02:33+00:00
+    date:modify: 2026-09-01T08:02:58+00:00
+    date:timestamp: 2026-09-02T04:06:19+00:00
+    signature: 23397eca1ff8feddde8928c5ececb6104a683c10ccd0fdd2ea91c13a5cc81e34
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 95026B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 47.9498MP
+  User time: 0.033u
+  Elapsed time: 0:01.032
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-yan-injured-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.3242 (0.142448)
+      median: 19 (0.0745098)
+      standard deviation: 43.9931 (0.172522)
+      kurtosis: 4.75082
+      skewness: 2.16819
+      entropy: 0.752619
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 27.4389 (0.107604)
+      median: 12 (0.0470588)
+      standard deviation: 38.0854 (0.149355)
+      kurtosis: 9.27465
+      skewness: 3.01359
+      entropy: 0.698256
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.1924 (0.102715)
+      median: 11 (0.0431373)
+      standard deviation: 38.0452 (0.149197)
+      kurtosis: 9.53848
+      skewness: 3.06906
+      entropy: 0.680818
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 130.826 (0.513043)
+      median: 255 (1)
+      standard deviation: 127.457 (0.49983)
+      kurtosis: -1.99728
+      skewness: -0.0521901
+      entropy: 0.999509
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 55.1954 (0.216453)
+      median: 74.25 (0.291176)
+      standard deviation: 61.8951 (0.242726)
+      kurtosis: 5.39167
+      skewness: 2.04966
+      entropy: 0.7828
+  Alpha: srgba(22,22,22,0)   #16161600
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:02:27+00:00
+    date:modify: 2026-09-01T08:02:32+00:00
+    date:timestamp: 2026-09-02T04:06:19+00:00
+    signature: ae5eea534f41a9ff96f76847570db306a1f7904c808375abc0cb4b60c9b4810f
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 92282B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 41.7691MP
+  User time: 0.038u
+  Elapsed time: 0:01.037
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-yan-neutral-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 32.7458 (0.128415)
+      median: 13 (0.0509804)
+      standard deviation: 39.5074 (0.154931)
+      kurtosis: 8.07456
+      skewness: 2.67232
+      entropy: 0.686247
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.1243 (0.102448)
+      median: 15 (0.0588235)
+      standard deviation: 31.807 (0.124733)
+      kurtosis: 18.0599
+      skewness: 4.03431
+      entropy: 0.640099
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.4683 (0.103797)
+      median: 16 (0.0627451)
+      standard deviation: 31.6648 (0.124176)
+      kurtosis: 18.2421
+      skewness: 4.06664
+      entropy: 0.656491
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 107.388 (0.42113)
+      median: 0 (0)
+      standard deviation: 125.904 (0.49374)
+      kurtosis: -1.89793
+      skewness: 0.31948
+      entropy: 0.981976
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 48.1816 (0.188948)
+      median: 11 (0.0431373)
+      standard deviation: 57.2207 (0.224395)
+      kurtosis: 10.6196
+      skewness: 2.77319
+      entropy: 0.741203
+  Alpha: srgba(28,28,28,0)   #1C1C1C00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:02:14+00:00
+    date:modify: 2026-09-01T08:02:19+00:00
+    date:timestamp: 2026-09-02T04:06:20+00:00
+    signature: 574e719f0fa662aa9e1af3cbf3157ef5c2cb51aaf60c215935258594b8bcb2ec
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 76658B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 40.7886MP
+  User time: 0.039u
+  Elapsed time: 0:01.038
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-yan-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 148.193 (0.581149)
+      median: 150 (0.588235)
+      standard deviation: 98.2431 (0.385267)
+      kurtosis: -1.75232
+      skewness: -0.130132
+      entropy: 0.815155
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 136.844 (0.536643)
+      median: 143 (0.560784)
+      standard deviation: 107.417 (0.421243)
+      kurtosis: -1.85959
+      skewness: -0.0428063
+      entropy: 0.779164
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 137.049 (0.537448)
+      median: 146 (0.572549)
+      standard deviation: 107.349 (0.420976)
+      kurtosis: -1.86093
+      skewness: -0.0453989
+      entropy: 0.779738
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 141.512 (0.554949)
+      median: 255 (1)
+      standard deviation: 126.728 (0.496972)
+      kurtosis: -1.9511
+      skewness: -0.221134
+      entropy: 0.99127
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 140.9 (0.552547)
+      median: 173.5 (0.680392)
+      standard deviation: 109.934 (0.431114)
+      kurtosis: -1.85599
+      skewness: -0.109868
+      entropy: 0.841332
+  Alpha: srgba(253,253,253,0)   #FDFDFD00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-24T01:29:36+00:00
+    date:modify: 2026-08-24T01:30:26+00:00
+    date:timestamp: 2026-09-02T04:06:21+00:00
+    signature: 44459f19a8a0600adc0b7763b236d2033ad916e93ec7248b07ac875c3e5efaf2
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 321722B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 32.7786MP
+  User time: 0.048u
+  Elapsed time: 0:01.047
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-ying-battle-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 46.9503 (0.184119)
+      median: 18 (0.0705882)
+      standard deviation: 46.241 (0.181337)
+      kurtosis: 1.69716
+      skewness: 1.53769
+      entropy: 0.731183
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 47.8935 (0.187818)
+      median: 23 (0.0901961)
+      standard deviation: 41.4121 (0.1624)
+      kurtosis: 1.79924
+      skewness: 1.56225
+      entropy: 0.730562
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 45.1617 (0.177105)
+      median: 22 (0.0862745)
+      standard deviation: 38.1658 (0.14967)
+      kurtosis: 2.08529
+      skewness: 1.62293
+      entropy: 0.722489
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 105.331 (0.413063)
+      median: 0 (0)
+      standard deviation: 125.558 (0.492384)
+      kurtosis: -1.8753
+      skewness: 0.353126
+      entropy: 0.978081
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 61.3341 (0.240526)
+      median: 15.75 (0.0617647)
+      standard deviation: 62.8442 (0.246448)
+      kurtosis: 0.926598
+      skewness: 1.269
+      entropy: 0.790579
+  Alpha: srgba(35,35,35,0)   #23232300
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:37:14+00:00
+    date:modify: 2026-09-01T07:37:15+00:00
+    date:timestamp: 2026-09-02T04:06:21+00:00
+    signature: b271cbe178ee5e514b050be3eb7fc1582883348d7ed2680611a9c60461782805
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 83678B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 58.3809MP
+  User time: 0.027u
+  Elapsed time: 0:01.026
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-ying-injured-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 40.3265 (0.158143)
+      median: 17 (0.0666667)
+      standard deviation: 39.6848 (0.155627)
+      kurtosis: 3.42589
+      skewness: 1.87283
+      entropy: 0.651054
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 38.89 (0.15251)
+      median: 17 (0.0666667)
+      standard deviation: 36.3563 (0.142574)
+      kurtosis: 3.24362
+      skewness: 1.84464
+      entropy: 0.65969
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.0399 (0.141333)
+      median: 16 (0.0627451)
+      standard deviation: 35.6139 (0.139662)
+      kurtosis: 3.23945
+      skewness: 1.84104
+      entropy: 0.683879
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 89.9978 (0.352933)
+      median: 0 (0)
+      standard deviation: 121.86 (0.477882)
+      kurtosis: -1.62117
+      skewness: 0.615496
+      entropy: 0.93666
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 51.3135 (0.20123)
+      median: 12.5 (0.0490196)
+      standard deviation: 58.3787 (0.228936)
+      kurtosis: 2.07195
+      skewness: 1.5435
+      entropy: 0.732821
+  Alpha: srgba(35,35,35,0)   #23232300
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:37:13+00:00
+    date:modify: 2026-09-01T07:37:13+00:00
+    date:timestamp: 2026-09-02T04:06:22+00:00
+    signature: a038a7d447554dead46e30b2361a73990f35c329dc3ba32f30c852db34e66f44
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 60120B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 42.5085MP
+  User time: 0.037u
+  Elapsed time: 0:01.037
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-ying-neutral-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 40.5656 (0.159081)
+      median: 14 (0.054902)
+      standard deviation: 44.4386 (0.174269)
+      kurtosis: 3.57059
+      skewness: 1.92563
+      entropy: 0.653
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 39.4435 (0.15468)
+      median: 15 (0.0588235)
+      standard deviation: 41.9687 (0.164583)
+      kurtosis: 3.27671
+      skewness: 1.87091
+      entropy: 0.648613
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.8695 (0.144586)
+      median: 14 (0.054902)
+      standard deviation: 40.5643 (0.159076)
+      kurtosis: 3.42543
+      skewness: 1.90992
+      entropy: 0.672156
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 86.4945 (0.339194)
+      median: 0 (0)
+      standard deviation: 120.726 (0.473436)
+      kurtosis: -1.53853
+      skewness: 0.679314
+      entropy: 0.924045
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 50.8433 (0.199385)
+      median: 10.75 (0.0421569)
+      standard deviation: 61.9244 (0.242841)
+      kurtosis: 2.18355
+      skewness: 1.59644
+      entropy: 0.724454
+  Alpha: srgba(31,31,31,0)   #1F1F1F00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:37:09+00:00
+    date:modify: 2026-09-01T07:37:09+00:00
+    date:timestamp: 2026-09-02T04:06:22+00:00
+    signature: 03419cb30ffba659bd3dd48d7bf273d68ba0c48d675f1acd76eb1dde3cb5c644
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 61598B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 54.9282MP
+  User time: 0.029u
+  Elapsed time: 0:01.028
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-ying-sad-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.5745 (0.143429)
+      median: 13 (0.0509804)
+      standard deviation: 42.2526 (0.165697)
+      kurtosis: 4.29171
+      skewness: 2.06801
+      entropy: 0.657042
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 37.998 (0.149012)
+      median: 18 (0.0705882)
+      standard deviation: 37.7623 (0.148087)
+      kurtosis: 4.50358
+      skewness: 2.12367
+      entropy: 0.659994
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.6879 (0.143874)
+      median: 18 (0.0705882)
+      standard deviation: 36.0269 (0.141282)
+      kurtosis: 4.80866
+      skewness: 2.19638
+      entropy: 0.65658
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 82.589 (0.323879)
+      median: 0 (0)
+      standard deviation: 119.328 (0.467954)
+      kurtosis: -1.4334
+      skewness: 0.752728
+      entropy: 0.90855
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 48.4623 (0.190048)
+      median: 12.25 (0.0480392)
+      standard deviation: 58.8425 (0.230755)
+      kurtosis: 3.04264
+      skewness: 1.7852
+      entropy: 0.720541
+  Alpha: srgba(30,30,30,0)   #1E1E1E00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:37:12+00:00
+    date:modify: 2026-09-01T07:37:12+00:00
+    date:timestamp: 2026-09-02T04:06:23+00:00
+    signature: 080bfa378ef20ff07d592ecca3f93539be8efb4ca3a4827d942a6ecb9cfee3ce
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 58764B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 52.1802MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-ying-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 64.9985 (0.254896)
+      median: 66 (0.258824)
+      standard deviation: 55.6594 (0.218272)
+      kurtosis: -0.434313
+      skewness: 0.438216
+      entropy: 0.777854
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 62.2184 (0.243994)
+      median: 65 (0.254902)
+      standard deviation: 52.1523 (0.204519)
+      kurtosis: -0.495264
+      skewness: 0.360024
+      entropy: 0.769698
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 55.9394 (0.21937)
+      median: 58 (0.227451)
+      standard deviation: 47.91 (0.187882)
+      kurtosis: -0.190743
+      skewness: 0.486333
+      entropy: 0.758642
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 84.8143 (0.332605)
+      median: 0 (0)
+      standard deviation: 118.541 (0.464868)
+      kurtosis: -1.50762
+      skewness: 0.695371
+      entropy: 0.22689
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 66.9927 (0.262716)
+      median: 47.25 (0.185294)
+      standard deviation: 68.5657 (0.268885)
+      kurtosis: -0.656986
+      skewness: 0.494986
+      entropy: 0.633271
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-24T01:04:40+00:00
+    date:modify: 2026-08-24T01:04:41+00:00
+    date:timestamp: 2026-09-02T04:06:24+00:00
+    signature: 7c10080cdf567e39c2bc396cc28915ac5c59345c13ffd76593d7d5675d2efdf1
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 262406B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 32.2102MP
+  User time: 0.049u
+  Elapsed time: 0:01.048
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\su-ying-wary-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 42.142 (0.165263)
+      median: 17 (0.0666667)
+      standard deviation: 41.0204 (0.160864)
+      kurtosis: 3.23334
+      skewness: 1.81571
+      entropy: 0.678869
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 41.2575 (0.161794)
+      median: 19 (0.0745098)
+      standard deviation: 38.3701 (0.150471)
+      kurtosis: 3.06429
+      skewness: 1.78914
+      entropy: 0.683415
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 38.8666 (0.152418)
+      median: 17 (0.0666667)
+      standard deviation: 36.6521 (0.143734)
+      kurtosis: 3.37152
+      skewness: 1.85576
+      entropy: 0.678849
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 93.5842 (0.366997)
+      median: 0 (0)
+      standard deviation: 122.906 (0.481986)
+      kurtosis: -1.69541
+      skewness: 0.551897
+      entropy: 0.948338
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 53.9626 (0.211618)
+      median: 13.25 (0.0519608)
+      standard deviation: 59.7373 (0.234264)
+      kurtosis: 1.99343
+      skewness: 1.50313
+      entropy: 0.747368
+  Alpha: srgba(36,36,36,0)   #24242400
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:37:11+00:00
+    date:modify: 2026-09-01T07:37:11+00:00
+    date:timestamp: 2026-09-02T04:06:24+00:00
+    signature: 0aa7eec625bb6ffd1c1d37bc893fd852ca86bd313469acfba32615a4bfc1ab4e
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 64960B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 46.1554MP
+  User time: 0.034u
+  Elapsed time: 0:01.034
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\tong-pi-kui-lei-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 52.6457 (0.206454)
+      median: 54 (0.211765)
+      standard deviation: 44.6975 (0.175284)
+      kurtosis: 1.0604
+      skewness: 0.78247
+      entropy: 0.808532
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.8303 (0.144432)
+      median: 33 (0.129412)
+      standard deviation: 37.2086 (0.145916)
+      kurtosis: 4.16469
+      skewness: 1.66101
+      entropy: 0.764261
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 28.5296 (0.111881)
+      median: 24 (0.0941176)
+      standard deviation: 30.6771 (0.120303)
+      kurtosis: 5.45985
+      skewness: 1.85925
+      entropy: 0.716887
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 100.076 (0.392456)
+      median: 0 (0)
+      standard deviation: 122.84 (0.481727)
+      kurtosis: -1.81032
+      skewness: 0.425382
+      entropy: 0.231663
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 54.5205 (0.213806)
+      median: 27.75 (0.108824)
+      standard deviation: 58.8559 (0.230808)
+      kurtosis: 2.21866
+      skewness: 1.18203
+      entropy: 0.630336
+  Alpha: srgba(1,1,1,0)   #01010100
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-25T09:22:49+00:00
+    date:modify: 2026-08-25T09:27:00+00:00
+    date:timestamp: 2026-09-02T04:06:25+00:00
+    signature: f527ee07a1be9cb1b9970ed9659435a850aac1c6512a3bf1e97a2c1ce5b8fd35
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 279106B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 32.7388MP
+  User time: 0.048u
+  Elapsed time: 0:01.048
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-battle-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 35.9719 (0.141066)
+      median: 8 (0.0313725)
+      standard deviation: 46.0415 (0.180555)
+      kurtosis: 2.81969
+      skewness: 1.70563
+      entropy: 0.709474
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 160.781 (0.630512)
+      median: 242 (0.94902)
+      standard deviation: 97.54 (0.38251)
+      kurtosis: -1.72808
+      skewness: -0.321161
+      entropy: 0.733736
+    Blue:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 21.7254 (0.0851977)
+      median: 6 (0.0235294)
+      standard deviation: 29.809 (0.116898)
+      kurtosis: 7.89645
+      skewness: 2.55715
+      entropy: 0.669946
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 115.123 (0.451462)
+      median: 0 (0)
+      standard deviation: 126.898 (0.497639)
+      kurtosis: -1.96195
+      skewness: 0.195071
+      entropy: 0.993192
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 83.4002 (0.32706)
+      median: 64 (0.25098)
+      standard deviation: 75.0721 (0.2944)
+      kurtosis: 1.75653
+      skewness: 1.03417
+      entropy: 0.776587
+  Alpha: srgba(7,246,11,0)   #07F60B00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:10:04+00:00
+    date:modify: 2026-09-01T07:14:46+00:00
+    date:timestamp: 2026-09-02T04:06:26+00:00
+    signature: ea53781207f9f052f9372a6e4714a4638c7c5661b49bf434a55aa70db07d8b89
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 96498B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 32.4073MP
+  User time: 0.049u
+  Elapsed time: 0:01.048
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-greedy-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 41.9572 (0.164538)
+      median: 11 (0.0431373)
+      standard deviation: 48.4072 (0.189832)
+      kurtosis: 2.31549
+      skewness: 1.65198
+      entropy: 0.737236
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 156.439 (0.613488)
+      median: 219 (0.858824)
+      standard deviation: 97.0486 (0.380583)
+      kurtosis: -1.74524
+      skewness: -0.249369
+      entropy: 0.758318
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 28.0711 (0.110083)
+      median: 13 (0.0509804)
+      standard deviation: 30.7691 (0.120663)
+      kurtosis: 7.18014
+      skewness: 2.49801
+      entropy: 0.682815
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 122.879 (0.48188)
+      median: 0 (0)
+      standard deviation: 127.416 (0.499672)
+      kurtosis: -1.99474
+      skewness: 0.0725294
+      entropy: 0.999052
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 87.3368 (0.342497)
+      median: 60.75 (0.238235)
+      standard deviation: 75.9103 (0.297687)
+      kurtosis: 1.43891
+      skewness: 0.993286
+      entropy: 0.794355
+  Alpha: srgba(18,240,22,0)   #12F01600
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:09:59+00:00
+    date:modify: 2026-09-01T07:14:40+00:00
+    date:timestamp: 2026-09-02T04:06:26+00:00
+    signature: 5a7786e2127cd954a46bc022361e1d32ba8875b0eeec63acf5d75f85a7e2f734
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 96704B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 54.5247MP
+  User time: 0.029u
+  Elapsed time: 0:01.028
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-injured-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 39.8015 (0.156084)
+      median: 17 (0.0666667)
+      standard deviation: 46.5762 (0.182652)
+      kurtosis: 1.99535
+      skewness: 1.51677
+      entropy: 0.736867
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 150.627 (0.590693)
+      median: 153 (0.6)
+      standard deviation: 98.6681 (0.386934)
+      kurtosis: -1.81302
+      skewness: -0.117209
+      entropy: 0.759532
+    Blue:
+      min: 0  (0)
+      max: 250 (0.980392)
+      mean: 23.5209 (0.0922387)
+      median: 9 (0.0352941)
+      standard deviation: 28.5626 (0.11201)
+      kurtosis: 6.44223
+      skewness: 2.31404
+      entropy: 0.692054
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 128.969 (0.50576)
+      median: 255 (1)
+      standard deviation: 127.492 (0.499967)
+      kurtosis: -1.99947
+      skewness: -0.0230423
+      entropy: 0.999904
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 85.7295 (0.336194)
+      median: 108.5 (0.42549)
+      standard deviation: 75.3246 (0.295391)
+      kurtosis: 1.15627
+      skewness: 0.922639
+      entropy: 0.797089
+  Alpha: srgba(13,244,16,0)   #0DF41000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:10:01+00:00
+    date:modify: 2026-09-01T07:14:43+00:00
+    date:timestamp: 2026-09-02T04:06:27+00:00
+    signature: 0f3f2b24c7c3dafbe51c2b49cc06c97d442748fd5ca479ac8fb7cd9a257ac796
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 93170B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 57.3097MP
+  User time: 0.027u
+  Elapsed time: 0:01.027
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-neutral-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 39.5729 (0.155188)
+      median: 11 (0.0431373)
+      standard deviation: 48.8604 (0.191609)
+      kurtosis: 2.88094
+      skewness: 1.78994
+      entropy: 0.731623
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 163.107 (0.639636)
+      median: 241 (0.945098)
+      standard deviation: 93.2024 (0.3655)
+      kurtosis: -1.60633
+      skewness: -0.445928
+      entropy: 0.748693
+    Blue:
+      min: 0  (0)
+      max: 244 (0.956863)
+      mean: 31.2157 (0.122414)
+      median: 22 (0.0862745)
+      standard deviation: 28.4667 (0.111634)
+      kurtosis: 10.3888
+      skewness: 2.95547
+      entropy: 0.679187
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 111.072 (0.435577)
+      median: 0 (0)
+      standard deviation: 126.437 (0.495833)
+      kurtosis: -1.93248
+      skewness: 0.259856
+      entropy: 0.987991
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 86.242 (0.338204)
+      median: 68.5 (0.268627)
+      standard deviation: 74.2417 (0.291144)
+      kurtosis: 2.43274
+      skewness: 1.13983
+      entropy: 0.786874
+  Alpha: srgba(15,238,31,0)   #0FEE1F00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:09:51+00:00
+    date:modify: 2026-09-01T07:14:29+00:00
+    date:timestamp: 2026-09-02T04:06:27+00:00
+    signature: fbd1082176a8ad37031296a839ed22b994a1818fc8247b79fb141467b54fa3e6
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 77372B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 56.6831MP
+  User time: 0.028u
+  Elapsed time: 0:01.027
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-panicked-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 39.1927 (0.153697)
+      median: 11 (0.0431373)
+      standard deviation: 46.3672 (0.181832)
+      kurtosis: 2.3599
+      skewness: 1.63179
+      entropy: 0.74642
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 153.888 (0.603481)
+      median: 188 (0.737255)
+      standard deviation: 97.7212 (0.38322)
+      kurtosis: -1.78142
+      skewness: -0.189587
+      entropy: 0.771722
+    Blue:
+      min: 0  (0)
+      max: 245 (0.960784)
+      mean: 26.9656 (0.105747)
+      median: 15 (0.0588235)
+      standard deviation: 27.5677 (0.108109)
+      kurtosis: 8.9488
+      skewness: 2.70272
+      entropy: 0.700389
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 123.672 (0.48499)
+      median: 0 (0)
+      standard deviation: 127.443 (0.499775)
+      kurtosis: -1.99639
+      skewness: 0.0600678
+      entropy: 0.99935
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 85.9296 (0.336979)
+      median: 53.5 (0.209804)
+      standard deviation: 74.7747 (0.293234)
+      kurtosis: 1.88272
+      skewness: 1.05125
+      entropy: 0.80447
+  Alpha: srgba(13,242,24,0)   #0DF21800
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:09:56+00:00
+    date:modify: 2026-09-01T07:14:36+00:00
+    date:timestamp: 2026-09-02T04:06:28+00:00
+    signature: 18e5c5947cbecbdb6b6836ca0ff584cee5f2c1f7c92d79163f427c0d2cbebf2b
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 84460B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 52.3506MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-smiling-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 40.0633 (0.157111)
+      median: 13 (0.0509804)
+      standard deviation: 44.9409 (0.176239)
+      kurtosis: 3.21489
+      skewness: 1.83872
+      entropy: 0.712111
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 163.613 (0.641618)
+      median: 241 (0.945098)
+      standard deviation: 92.8953 (0.364295)
+      kurtosis: -1.62159
+      skewness: -0.453448
+      entropy: 0.737228
+    Blue:
+      min: 0  (0)
+      max: 252 (0.988235)
+      mean: 25.2878 (0.0991678)
+      median: 12 (0.0470588)
+      standard deviation: 28.2716 (0.110869)
+      kurtosis: 8.67023
+      skewness: 2.71596
+      entropy: 0.660143
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 108.378 (0.425011)
+      median: 0 (0)
+      standard deviation: 126.058 (0.494345)
+      kurtosis: -1.90796
+      skewness: 0.303386
+      entropy: 0.983713
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 84.3354 (0.330727)
+      median: 66.5 (0.260784)
+      standard deviation: 73.0414 (0.286437)
+      kurtosis: 2.08889
+      skewness: 1.10116
+      entropy: 0.773299
+  Alpha: srgba(22,235,20,0)   #16EB1400
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T07:09:53+00:00
+    date:modify: 2026-09-01T07:14:32+00:00
+    date:timestamp: 2026-09-02T04:06:28+00:00
+    signature: 72740b14c674b87aa23ca3485ab0be1d913d431b7afc133f30fdf96604a7cbfd
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 76078B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 55.1967MP
+  User time: 0.028u
+  Elapsed time: 0:01.028
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-feng-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 56.0192 (0.219683)
+      median: 56 (0.219608)
+      standard deviation: 48.0265 (0.188339)
+      kurtosis: 0.917149
+      skewness: 0.868682
+      entropy: 0.796004
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 43.3679 (0.17007)
+      median: 42 (0.164706)
+      standard deviation: 38.6084 (0.151405)
+      kurtosis: 1.81353
+      skewness: 1.07839
+      entropy: 0.761875
+    Blue:
+      min: 0  (0)
+      max: 241 (0.945098)
+      mean: 31.5093 (0.123566)
+      median: 30 (0.117647)
+      standard deviation: 30.8543 (0.120997)
+      kurtosis: 4.87476
+      skewness: 1.70796
+      entropy: 0.7212
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 112.62 (0.441647)
+      median: 0 (0)
+      standard deviation: 125.163 (0.490836)
+      kurtosis: -1.94775
+      skewness: 0.21845
+      entropy: 0.217998
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 60.8791 (0.238742)
+      median: 32 (0.12549)
+      standard deviation: 60.6631 (0.237895)
+      kurtosis: 1.41442
+      skewness: 0.968371
+      entropy: 0.624269
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-24T01:04:39+00:00
+    date:modify: 2026-08-24T01:04:40+00:00
+    date:timestamp: 2026-09-02T04:06:29+00:00
+    signature: a6ae50ae53d7f61c238c9670d5a0d81ecd9a3b6995b5c54a77601c0d0347cf9f
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 273528B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 26.0091MP
+  User time: 0.060u
+  Elapsed time: 0:01.060
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\xue-kui-lei-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 49.298 (0.193325)
+      median: 49 (0.192157)
+      standard deviation: 38.542 (0.151145)
+      kurtosis: 3.63073
+      skewness: 1.31766
+      entropy: 0.821815
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 34.3092 (0.134546)
+      median: 32 (0.12549)
+      standard deviation: 31.4342 (0.123272)
+      kurtosis: 7.26178
+      skewness: 1.96994
+      entropy: 0.771588
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 32.732 (0.128361)
+      median: 31 (0.121569)
+      standard deviation: 29.9536 (0.117465)
+      kurtosis: 6.86301
+      skewness: 1.87154
+      entropy: 0.756524
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 130.47 (0.511646)
+      median: 246 (0.964706)
+      standard deviation: 125.461 (0.492005)
+      kurtosis: -1.98658
+      skewness: -0.0649028
+      entropy: 0.257037
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 61.7022 (0.24197)
+      median: 89.5 (0.35098)
+      standard deviation: 56.3478 (0.220972)
+      kurtosis: 3.94223
+      skewness: 1.27356
+      entropy: 0.651741
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-25T09:22:50+00:00
+    date:modify: 2026-08-25T09:27:01+00:00
+    date:timestamp: 2026-09-02T04:06:30+00:00
+    signature: d214c6178ae481e1f2f16ab97c0fff1e281f708eda6a198afd4f24525657901b
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 351690B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 33.9618MP
+  User time: 0.046u
+  Elapsed time: 0:01.046
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\zhao-li-amused-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 27.1311 (0.106396)
+      median: 13 (0.0509804)
+      standard deviation: 29.0068 (0.113752)
+      kurtosis: 13.9642
+      skewness: 3.11435
+      entropy: 0.643091
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.4981 (0.0882278)
+      median: 12 (0.0470588)
+      standard deviation: 24.3113 (0.0953385)
+      kurtosis: 22.5955
+      skewness: 4.02308
+      entropy: 0.615066
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.028 (0.0863843)
+      median: 12 (0.0470588)
+      standard deviation: 23.9598 (0.09396)
+      kurtosis: 25.4191
+      skewness: 4.27848
+      entropy: 0.603466
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 106.564 (0.417899)
+      median: 0 (0)
+      standard deviation: 125.769 (0.493214)
+      kurtosis: -1.88917
+      skewness: 0.332921
+      entropy: 0.980463
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 44.5554 (0.174727)
+      median: 9.25 (0.0362745)
+      standard deviation: 50.7618 (0.199066)
+      kurtosis: 15.0224
+      skewness: 2.93721
+      entropy: 0.710522
+  Alpha: srgba(28,28,28,0)   #1C1C1C00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:50:21+00:00
+    date:modify: 2026-09-01T07:41:01+00:00
+    date:timestamp: 2026-09-02T04:06:30+00:00
+    signature: 401097fc682b358c1c1383bdefeded7fc48374f2cd9d4e46b85993f3f21913f7
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 69640B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 61.7975MP
+  User time: 0.025u
+  Elapsed time: 0:01.025
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\zhao-li-battle-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 27.8324 (0.109147)
+      median: 10 (0.0392157)
+      standard deviation: 32.1486 (0.126073)
+      kurtosis: 8.3298
+      skewness: 2.48838
+      entropy: 0.667605
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 21.0655 (0.0826097)
+      median: 10 (0.0392157)
+      standard deviation: 24.9237 (0.09774)
+      kurtosis: 19.0712
+      skewness: 3.66099
+      entropy: 0.643949
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 19.2861 (0.0756316)
+      median: 8 (0.0313725)
+      standard deviation: 24.8344 (0.0973899)
+      kurtosis: 19.2708
+      skewness: 3.6648
+      entropy: 0.656197
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 103.966 (0.407711)
+      median: 0 (0)
+      standard deviation: 125.309 (0.491409)
+      kurtosis: -1.85892
+      skewness: 0.375609
+      entropy: 0.975283
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 43.0376 (0.168775)
+      median: 7 (0.027451)
+      standard deviation: 51.804 (0.203153)
+      kurtosis: 11.2032
+      skewness: 2.54744
+      entropy: 0.735758
+  Alpha: srgba(23,23,23,0)   #17171700
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:55:04+00:00
+    date:modify: 2026-09-01T07:41:06+00:00
+    date:timestamp: 2026-09-02T04:06:31+00:00
+    signature: f0d4adb89c35e36e1eda9e8a0502e63350f07880c265ee42bcc464fee6de05e7
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 83818B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 62.0259MP
+  User time: 0.025u
+  Elapsed time: 0:01.025
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\zhao-li-injured-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.7573 (0.10493)
+      median: 10 (0.0392157)
+      standard deviation: 32.1852 (0.126216)
+      kurtosis: 8.94442
+      skewness: 2.50769
+      entropy: 0.693593
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.0454 (0.0864525)
+      median: 11 (0.0431373)
+      standard deviation: 25.7081 (0.100816)
+      kurtosis: 18.3661
+      skewness: 3.61621
+      entropy: 0.653065
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 21.2119 (0.0831837)
+      median: 11 (0.0431373)
+      standard deviation: 25.4244 (0.0997037)
+      kurtosis: 19.3872
+      skewness: 3.71218
+      entropy: 0.665737
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 114.089 (0.447408)
+      median: 0 (0)
+      standard deviation: 126.793 (0.497227)
+      kurtosis: -1.95525
+      skewness: 0.211541
+      entropy: 0.992004
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 46.0259 (0.180494)
+      median: 8 (0.0313725)
+      standard deviation: 52.5276 (0.205991)
+      kurtosis: 11.1856
+      skewness: 2.5119
+      entropy: 0.7511
+  Alpha: srgba(21,21,21,0)   #15151500
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:53:31+00:00
+    date:modify: 2026-09-01T07:41:04+00:00
+    date:timestamp: 2026-09-02T04:06:31+00:00
+    signature: 36cba964a33ec1f49554369e451260cf15a83270a9b4fbd5f7e69912335b914f
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 79484B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 50.9983MP
+  User time: 0.031u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\zhao-li-neutral-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.0825 (0.102284)
+      median: 10 (0.0392157)
+      standard deviation: 30.7542 (0.120605)
+      kurtosis: 10.5292
+      skewness: 2.6719
+      entropy: 0.679945
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.9723 (0.0900873)
+      median: 12 (0.0470588)
+      standard deviation: 25.1418 (0.0985954)
+      kurtosis: 20.2189
+      skewness: 3.79281
+      entropy: 0.637482
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.6261 (0.0887299)
+      median: 12 (0.0470588)
+      standard deviation: 24.8171 (0.0973218)
+      kurtosis: 20.9885
+      skewness: 3.85209
+      entropy: 0.65524
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 109.932 (0.431107)
+      median: 0 (0)
+      standard deviation: 126.284 (0.495231)
+      kurtosis: -1.92259
+      skewness: 0.278227
+      entropy: 0.986261
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 45.4033 (0.178052)
+      median: 8.5 (0.0333333)
+      standard deviation: 51.7493 (0.202938)
+      kurtosis: 12.4535
+      skewness: 2.64876
+      entropy: 0.739732
+  Alpha: srgba(13,25,21,0)   #0D191500
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:48:52+00:00
+    date:modify: 2026-09-01T07:41:00+00:00
+    date:timestamp: 2026-09-02T04:06:32+00:00
+    signature: b182c250fdbae1a410106069e028a407bdbbdf531dd020dd648b3610c91a39fa
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 68196B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 56.5483MP
+  User time: 0.028u
+  Elapsed time: 0:01.027
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\zhao-li-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 40.8639 (0.160251)
+      median: 41 (0.160784)
+      standard deviation: 30.138 (0.118188)
+      kurtosis: 7.39558
+      skewness: 1.67539
+      entropy: 0.77515
+    Green:
+      min: 0  (0)
+      max: 253 (0.992157)
+      mean: 29.3944 (0.115272)
+      median: 29 (0.113725)
+      standard deviation: 24.8825 (0.0975783)
+      kurtosis: 17.1389
+      skewness: 3.02201
+      entropy: 0.724064
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 31.0286 (0.121681)
+      median: 31 (0.121569)
+      standard deviation: 25.338 (0.0993648)
+      kurtosis: 14.6485
+      skewness: 2.70813
+      entropy: 0.732539
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 120.249 (0.471566)
+      median: 2 (0.00784314)
+      standard deviation: 124.835 (0.489548)
+      kurtosis: -1.98163
+      skewness: 0.0905185
+      entropy: 0.303746
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 55.3841 (0.217193)
+      median: 25.75 (0.10098)
+      standard deviation: 51.2983 (0.20117)
+      kurtosis: 9.30034
+      skewness: 1.87401
+      entropy: 0.633875
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-08-24T01:04:37+00:00
+    date:modify: 2026-08-24T01:04:38+00:00
+    date:timestamp: 2026-09-02T04:06:33+00:00
+    signature: 34ac12e35f1b7f4c05606d68a1c1e74c590dc9ede8c07dcdef378cdcfc17b54e
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 296678B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 32.3188MP
+  User time: 0.049u
+  Elapsed time: 0:01.048
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\characters\zhao-li-wary-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1024x1536+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 1-bit
+  Channel statistics:
+    Pixels: 1572864
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 28.7824 (0.112872)
+      median: 14 (0.054902)
+      standard deviation: 29.0558 (0.113944)
+      kurtosis: 11.7035
+      skewness: 2.88202
+      entropy: 0.685747
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.0103 (0.0902363)
+      median: 14 (0.054902)
+      standard deviation: 23.925 (0.0938235)
+      kurtosis: 21.4082
+      skewness: 3.8971
+      entropy: 0.655342
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 21.3693 (0.0838012)
+      median: 12 (0.0470588)
+      standard deviation: 23.8122 (0.0933812)
+      kurtosis: 22.1136
+      skewness: 3.95846
+      entropy: 0.652809
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 112.698 (0.441954)
+      median: 0 (0)
+      standard deviation: 126.638 (0.496619)
+      kurtosis: -1.94536
+      skewness: 0.233763
+      entropy: 0.990256
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 46.4651 (0.182216)
+      median: 10 (0.0392157)
+      standard deviation: 50.8577 (0.199442)
+      kurtosis: 13.32
+      skewness: 2.74284
+      entropy: 0.746039
+  Alpha: srgba(30,33,29,0)   #1E211D00
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1024x1536+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T06:52:00+00:00
+    date:modify: 2026-09-01T07:41:02+00:00
+    date:timestamp: 2026-09-02T04:06:33+00:00
+    signature: 03ed8a2c7fac70d964830feb4f06b28a919b184cae23fdc13634028640c263ba
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 73386B
+  Number pixels: 1.57286M
+  Pixel cache type: Memory
+  Pixels per second: 52.1953MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\deathByBloodGuard-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 27.79 (0.10898)
+      median: 21 (0.0823529)
+      standard deviation: 24.1441 (0.0946827)
+      kurtosis: 10.5543
+      skewness: 2.50961
+      entropy: 0.758915
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 17.339 (0.067996)
+      median: 13 (0.0509804)
+      standard deviation: 16.8071 (0.0659103)
+      kurtosis: 29.6948
+      skewness: 4.10942
+      entropy: 0.67252
+    Blue:
+      min: 0  (0)
+      max: 249 (0.976471)
+      mean: 15.697 (0.0615567)
+      median: 12 (0.0470588)
+      standard deviation: 15.3713 (0.0602797)
+      kurtosis: 31.9784
+      skewness: 4.21873
+      entropy: 0.662678
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 20.2753 (0.0795111)
+      median: 15.3333 (0.0601307)
+      standard deviation: 18.7742 (0.0736242)
+      kurtosis: 24.0758
+      skewness: 3.61258
+      entropy: 0.698038
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:50+00:00
+    date:modify: 2026-09-01T09:35:50+00:00
+    date:timestamp: 2026-09-02T04:06:34+00:00
+    signature: aefb9974bdd5540445e4410a76fc1057b436ced70daf3473afc9030539b2be0c
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 81974B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 55.2147MP
+  User time: 0.026u
+  Elapsed time: 0:01.026
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\deathByMaster-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.5291 (0.0922711)
+      median: 16 (0.0627451)
+      standard deviation: 25.4947 (0.0999794)
+      kurtosis: 13.874
+      skewness: 3.15476
+      entropy: 0.735688
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 17.7195 (0.0694881)
+      median: 14 (0.054902)
+      standard deviation: 16.8341 (0.0660159)
+      kurtosis: 23.5554
+      skewness: 3.81193
+      entropy: 0.683376
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 19.6797 (0.0771751)
+      median: 16 (0.0627451)
+      standard deviation: 16.94 (0.0664312)
+      kurtosis: 23.3838
+      skewness: 3.74263
+      entropy: 0.687472
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 20.3094 (0.0796448)
+      median: 15.3333 (0.0601307)
+      standard deviation: 19.7563 (0.0774755)
+      kurtosis: 20.2711
+      skewness: 3.56977
+      entropy: 0.702179
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:49+00:00
+    date:modify: 2026-09-01T09:35:49+00:00
+    date:timestamp: 2026-09-02T04:06:34+00:00
+    signature: e18a48cdcbd436b8a5779f6b464c57901d4ce62bc9cfaa1dcd372335dce16287
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 133066B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 48.5288MP
+  User time: 0.030u
+  Elapsed time: 0:01.029
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\deathByQiao-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 25.5648 (0.100254)
+      median: 19 (0.0745098)
+      standard deviation: 21.6134 (0.0847584)
+      kurtosis: 17.5218
+      skewness: 3.31383
+      entropy: 0.719656
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.2054 (0.0870798)
+      median: 17 (0.0666667)
+      standard deviation: 17.7302 (0.0695302)
+      kurtosis: 25.0973
+      skewness: 3.91231
+      entropy: 0.684278
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 20.4529 (0.0802074)
+      median: 17 (0.0666667)
+      standard deviation: 16.577 (0.0650078)
+      kurtosis: 28.1267
+      skewness: 4.14979
+      entropy: 0.672146
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.741 (0.0891804)
+      median: 17.6667 (0.069281)
+      standard deviation: 18.6402 (0.0730988)
+      kurtosis: 23.5819
+      skewness: 3.79198
+      entropy: 0.692027
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:50+00:00
+    date:modify: 2026-09-01T09:35:50+00:00
+    date:timestamp: 2026-09-02T04:06:35+00:00
+    signature: b66b5d0af2b98249e9f7232a263dc693406e2894a70b8dec9e708e2535477864
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 87654B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 60.7334MP
+  User time: 0.024u
+  Elapsed time: 0:01.023
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\deathByZhao-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.6991 (0.089016)
+      median: 13 (0.0509804)
+      standard deviation: 25.9157 (0.10163)
+      kurtosis: 8.74298
+      skewness: 2.57049
+      entropy: 0.728284
+    Green:
+      min: 0  (0)
+      max: 241 (0.945098)
+      mean: 11.7778 (0.0461875)
+      median: 8 (0.0313725)
+      standard deviation: 13.6456 (0.0535123)
+      kurtosis: 29.5592
+      skewness: 4.26084
+      entropy: 0.629289
+    Blue:
+      min: 0  (0)
+      max: 229 (0.898039)
+      mean: 10.6054 (0.0415896)
+      median: 7 (0.027451)
+      standard deviation: 12.9593 (0.0508209)
+      kurtosis: 29.9087
+      skewness: 4.30233
+      entropy: 0.621629
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 15.0274 (0.058931)
+      median: 9.33333 (0.0366013)
+      standard deviation: 17.5069 (0.0686545)
+      kurtosis: 22.737
+      skewness: 3.71122
+      entropy: 0.659734
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:49+00:00
+    date:modify: 2026-09-01T09:35:49+00:00
+    date:timestamp: 2026-09-02T04:06:35+00:00
+    signature: 872dc6920d2077b2bb6b4f3858942d0682eafdcd4df09d52c2b17622a36bdfb1
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 100706B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 45.4263MP
+  User time: 0.032u
+  Elapsed time: 0:01.031
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\demon-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 53.6505 (0.210394)
+      median: 35 (0.137255)
+      standard deviation: 44.9691 (0.176349)
+      kurtosis: 3.94167
+      skewness: 2.0499
+      entropy: 0.799636
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 52.8252 (0.207158)
+      median: 35 (0.137255)
+      standard deviation: 42.669 (0.16733)
+      kurtosis: 3.22601
+      skewness: 1.90739
+      entropy: 0.806052
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 52.343 (0.205267)
+      median: 37 (0.145098)
+      standard deviation: 38.4468 (0.150772)
+      kurtosis: 2.40515
+      skewness: 1.73553
+      entropy: 0.803444
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 52.9396 (0.207606)
+      median: 35.6667 (0.139869)
+      standard deviation: 42.0283 (0.164817)
+      kurtosis: 3.19095
+      skewness: 1.89761
+      entropy: 0.803044
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:47+00:00
+    date:modify: 2026-09-01T09:35:47+00:00
+    date:timestamp: 2026-09-02T04:06:36+00:00
+    signature: 5bb18a7634876a2d8ef65d2d57054d5ed03356823dd7df5326c72589827a49e4
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 97198B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 47.7905MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\severed-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 73.5106 (0.288277)
+      median: 66 (0.258824)
+      standard deviation: 37.1667 (0.145752)
+      kurtosis: 3.09983
+      skewness: 1.70083
+      entropy: 0.837876
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 68.5425 (0.268794)
+      median: 60 (0.235294)
+      standard deviation: 36.3512 (0.142554)
+      kurtosis: 3.37271
+      skewness: 1.78205
+      entropy: 0.829301
+    Blue:
+      min: 0  (0)
+      max: 250 (0.980392)
+      mean: 62.215 (0.24398)
+      median: 53 (0.207843)
+      standard deviation: 34.9603 (0.137099)
+      kurtosis: 3.59565
+      skewness: 1.83699
+      entropy: 0.82757
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 68.0894 (0.267017)
+      median: 59.6667 (0.233987)
+      standard deviation: 36.1594 (0.141801)
+      kurtosis: 3.35606
+      skewness: 1.77329
+      entropy: 0.831582
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:48+00:00
+    date:modify: 2026-09-01T09:35:48+00:00
+    date:timestamp: 2026-09-02T04:06:36+00:00
+    signature: aa0430cbffd3be17d05d9a01cf32af2a1495ad320e302402ffbf040382f81db1
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 95298B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 46.7539MP
+  User time: 0.031u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\traitor-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 16.3938 (0.0642895)
+      median: 10 (0.0392157)
+      standard deviation: 18.7787 (0.073642)
+      kurtosis: 18.3305
+      skewness: 3.54994
+      entropy: 0.661619
+    Green:
+      min: 0  (0)
+      max: 237 (0.929412)
+      mean: 11.9155 (0.0467275)
+      median: 9 (0.0352941)
+      standard deviation: 10.9775 (0.043049)
+      kurtosis: 30.4105
+      skewness: 4.12972
+      entropy: 0.624473
+    Blue:
+      min: 0  (0)
+      max: 228 (0.894118)
+      mean: 10.1984 (0.0399939)
+      median: 8 (0.0313725)
+      standard deviation: 10.3065 (0.0404177)
+      kurtosis: 35.3195
+      skewness: 4.54345
+      entropy: 0.604552
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 12.8359 (0.050337)
+      median: 9 (0.0352941)
+      standard deviation: 13.3542 (0.0523696)
+      kurtosis: 28.0202
+      skewness: 4.07437
+      entropy: 0.630215
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:51+00:00
+    date:modify: 2026-09-01T09:35:51+00:00
+    date:timestamp: 2026-09-02T04:06:36+00:00
+    signature: f2bd22097b876e937d10b070f803ebe33d9e525d751e03abdc67196c5efc59d4
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 73584B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 44.5597MP
+  User time: 0.032u
+  Elapsed time: 0:01.032
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\trapped-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 200 (0.784314)
+      mean: 24.5078 (0.0961089)
+      median: 20 (0.0784314)
+      standard deviation: 15.6446 (0.0613512)
+      kurtosis: 4.22564
+      skewness: 1.77876
+      entropy: 0.740149
+    Green:
+      min: 0  (0)
+      max: 207 (0.811765)
+      mean: 27.5271 (0.107949)
+      median: 22 (0.0862745)
+      standard deviation: 17.3208 (0.0679248)
+      kurtosis: 4.14124
+      skewness: 1.82647
+      entropy: 0.760234
+    Blue:
+      min: 0  (0)
+      max: 207 (0.811765)
+      mean: 27.637 (0.10838)
+      median: 22 (0.0862745)
+      standard deviation: 17.7628 (0.0696578)
+      kurtosis: 3.84394
+      skewness: 1.77402
+      entropy: 0.765982
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 207 (0.811765)
+      mean: 26.5573 (0.104146)
+      median: 21.3333 (0.0836601)
+      standard deviation: 16.9094 (0.0663113)
+      kurtosis: 4.07028
+      skewness: 1.79308
+      entropy: 0.755455
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:51+00:00
+    date:modify: 2026-09-01T09:35:51+00:00
+    date:timestamp: 2026-09-02T04:06:37+00:00
+    signature: fdceb39b1b45bf442af2f3c7776d062db665ad95b6d738a52e150e34b01194d4
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 76006B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 56.7821MP
+  User time: 0.025u
+  Elapsed time: 0:01.025
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\endings\true-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 67.9623 (0.266519)
+      median: 55 (0.215686)
+      standard deviation: 47.5688 (0.186544)
+      kurtosis: 3.47364
+      skewness: 1.9201
+      entropy: 0.861483
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 69.0705 (0.270865)
+      median: 57 (0.223529)
+      standard deviation: 43.9748 (0.17245)
+      kurtosis: 3.03991
+      skewness: 1.8017
+      entropy: 0.858353
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 66.6913 (0.261535)
+      median: 56 (0.219608)
+      standard deviation: 40.0133 (0.156915)
+      kurtosis: 2.16353
+      skewness: 1.61047
+      entropy: 0.850852
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 67.908 (0.266306)
+      median: 56 (0.219608)
+      standard deviation: 43.8523 (0.17197)
+      kurtosis: 2.89236
+      skewness: 1.77742
+      entropy: 0.856896
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:35:48+00:00
+    date:modify: 2026-09-01T09:35:48+00:00
+    date:timestamp: 2026-09-02T04:06:37+00:00
+    signature: 28faf4be3066d20cfa7c42a7b3e13081c79eb7366b01d7bb21b293e19018b8b5
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 126880B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 47.9979MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\bloodThreshold-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 34.7028 (0.136089)
+      median: 24 (0.0941176)
+      standard deviation: 32.8361 (0.128769)
+      kurtosis: 6.59254
+      skewness: 2.20629
+      entropy: 0.806776
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 29.961 (0.117494)
+      median: 21 (0.0823529)
+      standard deviation: 27.2823 (0.10699)
+      kurtosis: 7.61279
+      skewness: 2.34211
+      entropy: 0.772185
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 30.6691 (0.120271)
+      median: 21 (0.0823529)
+      standard deviation: 27.4214 (0.107535)
+      kurtosis: 6.65271
+      skewness: 2.22253
+      entropy: 0.774242
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 31.7776 (0.124618)
+      median: 22 (0.0862745)
+      standard deviation: 29.18 (0.114431)
+      kurtosis: 6.95268
+      skewness: 2.25698
+      entropy: 0.784401
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:40:08+00:00
+    date:modify: 2026-09-01T08:40:08+00:00
+    date:timestamp: 2026-09-02T04:06:38+00:00
+    signature: 358ea885f7689290a0812c49a4ac8e7cfe9f4b92609434a61718fdfe16029306
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 161958B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 43.9897MP
+  User time: 0.033u
+  Elapsed time: 0:01.032
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\fog-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 249 (0.976471)
+      mean: 39.1474 (0.153519)
+      median: 33 (0.129412)
+      standard deviation: 25.5685 (0.100269)
+      kurtosis: 2.36873
+      skewness: 1.36967
+      entropy: 0.81021
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 44.3262 (0.173828)
+      median: 37 (0.145098)
+      standard deviation: 28.0647 (0.110058)
+      kurtosis: 2.34485
+      skewness: 1.3666
+      entropy: 0.818366
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 43.1925 (0.169382)
+      median: 36 (0.141176)
+      standard deviation: 28.0342 (0.109938)
+      kurtosis: 2.17177
+      skewness: 1.34472
+      entropy: 0.818161
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 42.222 (0.165577)
+      median: 35.3333 (0.138562)
+      standard deviation: 27.2225 (0.106755)
+      kurtosis: 2.29512
+      skewness: 1.36033
+      entropy: 0.815579
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:40:08+00:00
+    date:modify: 2026-09-01T08:40:09+00:00
+    date:timestamp: 2026-09-02T04:06:38+00:00
+    signature: 9b94d84eb6695855a295a53e9b94b5893b0a27c32d72dec88076026afbfcc754
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 102856B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 51.9475MP
+  User time: 0.028u
+  Elapsed time: 0:01.027
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\gate-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.1521 (0.102557)
+      median: 16 (0.0627451)
+      standard deviation: 28.6083 (0.11219)
+      kurtosis: 6.78254
+      skewness: 2.44153
+      entropy: 0.750649
+    Green:
+      min: 0  (0)
+      max: 244 (0.956863)
+      mean: 33.4751 (0.131275)
+      median: 24 (0.0941176)
+      standard deviation: 28.15 (0.110392)
+      kurtosis: 5.73869
+      skewness: 2.2115
+      entropy: 0.784174
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 39.9849 (0.156803)
+      median: 30 (0.117647)
+      standard deviation: 30.5361 (0.11975)
+      kurtosis: 4.50755
+      skewness: 1.9753
+      entropy: 0.801887
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 33.204 (0.130212)
+      median: 23.3333 (0.0915033)
+      standard deviation: 29.0982 (0.11411)
+      kurtosis: 5.67626
+      skewness: 2.20944
+      entropy: 0.778903
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:40:07+00:00
+    date:modify: 2026-09-01T08:40:07+00:00
+    date:timestamp: 2026-09-02T04:06:39+00:00
+    signature: 3ad0afd823bbf0e89cef9a02ce16dca88c069c1bef721029f1416819f34740b5
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 108992B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 42.6423MP
+  User time: 0.034u
+  Elapsed time: 0:01.033
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\jiDestroyGu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 54.088 (0.21211)
+      median: 39 (0.152941)
+      standard deviation: 43.6965 (0.171359)
+      kurtosis: 1.78027
+      skewness: 1.46871
+      entropy: 0.871305
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 50.922 (0.199694)
+      median: 35 (0.137255)
+      standard deviation: 42.3945 (0.166253)
+      kurtosis: 2.22924
+      skewness: 1.59205
+      entropy: 0.857323
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 59.4324 (0.233068)
+      median: 41 (0.160784)
+      standard deviation: 47.2409 (0.185259)
+      kurtosis: 1.67818
+      skewness: 1.46072
+      entropy: 0.882212
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 54.8141 (0.214957)
+      median: 38.3333 (0.150327)
+      standard deviation: 44.444 (0.17429)
+      kurtosis: 1.8959
+      skewness: 1.50716
+      entropy: 0.87028
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:20:04+00:00
+    date:modify: 2026-09-01T08:20:04+00:00
+    date:timestamp: 2026-09-02T04:06:39+00:00
+    signature: bf0bff1c89a80159955a72b5a0ba4440c52463c63b7b1287c32b594752798f7f
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 141624B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 47.4411MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\suCoffin-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 32.4414 (0.127221)
+      median: 26 (0.101961)
+      standard deviation: 21.3356 (0.0836691)
+      kurtosis: 11.9672
+      skewness: 2.90529
+      entropy: 0.724198
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 31.9175 (0.125167)
+      median: 27 (0.105882)
+      standard deviation: 18.7723 (0.0736167)
+      kurtosis: 12.8453
+      skewness: 2.99271
+      entropy: 0.710679
+    Blue:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 30.5667 (0.119869)
+      median: 26 (0.101961)
+      standard deviation: 17.7538 (0.0696227)
+      kurtosis: 13.7191
+      skewness: 3.09018
+      entropy: 0.701897
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 31.6419 (0.124086)
+      median: 26.3333 (0.103268)
+      standard deviation: 19.2872 (0.0756362)
+      kurtosis: 12.8439
+      skewness: 2.99606
+      entropy: 0.712258
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:20:04+00:00
+    date:modify: 2026-09-01T08:20:05+00:00
+    date:timestamp: 2026-09-02T04:06:40+00:00
+    signature: 3e46965cfd3e2b0c2af85d051405bb58e3fa7f3ec0a2c3c1a8fcd6c7bb54a3a1
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 94328B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 45.7056MP
+  User time: 0.032u
+  Elapsed time: 0:01.031
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\traitorBloodTaken-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 35.2618 (0.138282)
+      median: 27 (0.105882)
+      standard deviation: 30.6982 (0.120385)
+      kurtosis: 9.94775
+      skewness: 2.71681
+      entropy: 0.787463
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.4277 (0.0918732)
+      median: 18 (0.0705882)
+      standard deviation: 21.8184 (0.0855623)
+      kurtosis: 20.8976
+      skewness: 3.87996
+      entropy: 0.707428
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.787 (0.0932825)
+      median: 19 (0.0745098)
+      standard deviation: 21.6142 (0.0847616)
+      kurtosis: 20.2341
+      skewness: 3.79583
+      entropy: 0.709269
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 27.4922 (0.107812)
+      median: 21.3333 (0.0836601)
+      standard deviation: 24.7103 (0.096903)
+      kurtosis: 17.0265
+      skewness: 3.4642
+      entropy: 0.73472
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:20:05+00:00
+    date:modify: 2026-09-01T08:20:06+00:00
+    date:timestamp: 2026-09-02T04:06:40+00:00
+    signature: 9bc51169822131516ca81b8aa9aa71ba5aa45bba1a899993cc8256308632f012
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 101166B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 47.3873MP
+  User time: 0.030u
+  Elapsed time: 0:01.030
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\cg\scenes\zhaoAwakening-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 31.6672 (0.124185)
+      median: 19 (0.0745098)
+      standard deviation: 34.6265 (0.13579)
+      kurtosis: 4.40265
+      skewness: 1.9542
+      entropy: 0.801999
+    Green:
+      min: 0  (0)
+      max: 242 (0.94902)
+      mean: 17.1009 (0.0670623)
+      median: 12 (0.0470588)
+      standard deviation: 19.2694 (0.0755664)
+      kurtosis: 13.5241
+      skewness: 3.03914
+      entropy: 0.703062
+    Blue:
+      min: 0  (0)
+      max: 236 (0.92549)
+      mean: 18.0051 (0.0706083)
+      median: 13 (0.0509804)
+      standard deviation: 19.2769 (0.0755958)
+      kurtosis: 11.7961
+      skewness: 2.83178
+      entropy: 0.71605
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 22.2577 (0.0872852)
+      median: 14.6667 (0.0575163)
+      standard deviation: 24.391 (0.0956509)
+      kurtosis: 9.9076
+      skewness: 2.60837
+      entropy: 0.740371
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:20:03+00:00
+    date:modify: 2026-09-01T08:20:03+00:00
+    date:timestamp: 2026-09-02T04:06:40+00:00
+    signature: 7734784f8d22fae08c65a2174257a38c9dfcc2db3baa6ad033eeb0ffc4252235
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 135220B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 48.1504MP
+  User time: 0.030u
+  Elapsed time: 0:01.029
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\ui\main-menu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 13.208 (0.0517962)
+      median: 10 (0.0392157)
+      standard deviation: 12.7949 (0.0501761)
+      kurtosis: 26.956
+      skewness: 4.07308
+      entropy: 0.62195
+    Green:
+      min: 0  (0)
+      max: 203 (0.796078)
+      mean: 13.6331 (0.053463)
+      median: 11 (0.0431373)
+      standard deviation: 11.1927 (0.0438931)
+      kurtosis: 29.5981
+      skewness: 3.96163
+      entropy: 0.642034
+    Blue:
+      min: 0  (0)
+      max: 201 (0.788235)
+      mean: 15.7213 (0.0616522)
+      median: 13 (0.0509804)
+      standard deviation: 13.1626 (0.0516182)
+      kurtosis: 23.1119
+      skewness: 3.60443
+      entropy: 0.675048
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 14.1875 (0.0556371)
+      median: 11.3333 (0.0444444)
+      standard deviation: 12.3834 (0.0485625)
+      kurtosis: 26.5553
+      skewness: 3.87971
+      entropy: 0.646344
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:40:09+00:00
+    date:modify: 2026-09-01T08:40:09+00:00
+    date:timestamp: 2026-09-02T04:06:41+00:00
+    signature: 69f241e9ab4e63796aabca283929ce3a480e271dd722d2ab2fc52014fd5cd0ae
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 33040B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 79.0071MP
+  User time: 0.018u
+  Elapsed time: 0:01.018
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\ui\saves-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 27.1606 (0.106512)
+      median: 22 (0.0862745)
+      standard deviation: 17.1899 (0.0674112)
+      kurtosis: 19.9289
+      skewness: 3.91959
+      entropy: 0.622492
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.79 (0.105059)
+      median: 23 (0.0901961)
+      standard deviation: 15.0227 (0.0589126)
+      kurtosis: 21.8576
+      skewness: 4.01832
+      entropy: 0.622013
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 24.3361 (0.0954358)
+      median: 21 (0.0823529)
+      standard deviation: 12.2463 (0.0480248)
+      kurtosis: 26.7276
+      skewness: 4.29321
+      entropy: 0.596706
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.0956 (0.102335)
+      median: 22 (0.0862745)
+      standard deviation: 14.8196 (0.0581162)
+      kurtosis: 22.838
+      skewness: 4.07704
+      entropy: 0.613737
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:40:10+00:00
+    date:modify: 2026-09-01T08:40:10+00:00
+    date:timestamp: 2026-09-02T04:06:41+00:00
+    signature: 296c7f27fe454378c358228776df26c0ac50403c380196c7331955b02d759a98
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 64568B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 71.6735MP
+  User time: 0.020u
+  Elapsed time: 0:01.020
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\ui\settings-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 1600x900+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColor
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 3.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+  Channel statistics:
+    Pixels: 1440000
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 21.5031 (0.0843258)
+      median: 17 (0.0666667)
+      standard deviation: 13.3284 (0.0522681)
+      kurtosis: 37.2473
+      skewness: 4.81453
+      entropy: 0.589891
+    Green:
+      min: 0  (0)
+      max: 248 (0.972549)
+      mean: 20.8947 (0.08194)
+      median: 17 (0.0666667)
+      standard deviation: 12.2806 (0.0481593)
+      kurtosis: 39.2953
+      skewness: 4.89285
+      entropy: 0.595639
+    Blue:
+      min: 0  (0)
+      max: 230 (0.901961)
+      mean: 19.9867 (0.0783792)
+      median: 18 (0.0705882)
+      standard deviation: 10.7594 (0.0421938)
+      kurtosis: 43.0005
+      skewness: 4.97944
+      entropy: 0.602386
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 20.7948 (0.0815483)
+      median: 17.3333 (0.0679739)
+      standard deviation: 12.1228 (0.0475404)
+      kurtosis: 39.8477
+      skewness: 4.89561
+      entropy: 0.595972
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 1600x900+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T08:40:09+00:00
+    date:modify: 2026-09-01T08:40:10+00:00
+    date:timestamp: 2026-09-02T04:06:42+00:00
+    signature: 2765d935bd7421f62e045039dc7f2a208568c5cfefb28cb0c7894a62fe95e582
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 55968B
+  Number pixels: 1.44M
+  Pixel cache type: Memory
+  Pixels per second: 68.8995MP
+  User time: 0.021u
+  Elapsed time: 0:01.020
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\enemy-attack-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 32.3206 (0.126747)
+      median: 10 (0.0392157)
+      standard deviation: 42.3474 (0.166068)
+      kurtosis: 2.74031
+      skewness: 1.56617
+      entropy: 0.608337
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.0961 (0.141553)
+      median: 13 (0.0509804)
+      standard deviation: 46.8892 (0.183879)
+      kurtosis: 2.01581
+      skewness: 1.45715
+      entropy: 0.62964
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 26.7873 (0.105048)
+      median: 6 (0.0235294)
+      standard deviation: 36.2285 (0.142072)
+      kurtosis: 3.12875
+      skewness: 1.66489
+      entropy: 0.587235
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 87.6582 (0.343758)
+      median: 1 (0.00392157)
+      standard deviation: 113.298 (0.444308)
+      kurtosis: -1.51249
+      skewness: 0.638755
+      entropy: 0.503572
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 45.7155 (0.179277)
+      median: 7.5 (0.0294118)
+      standard deviation: 59.6909 (0.234082)
+      kurtosis: 1.59309
+      skewness: 1.33174
+      entropy: 0.582196
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:01:04+00:00
+    date:modify: 2026-09-01T09:03:43+00:00
+    date:timestamp: 2026-09-02T04:06:42+00:00
+    signature: 3dba84b5a8f97ac6e8d4cec6c8af0fab2743328065b9f1384ecd5f3d28d112f3
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 187696B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 31.0913MP
+  User time: 0.019u
+  Elapsed time: 0:01.018
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\player-armor-guard-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 42.4744 (0.166566)
+      median: 2 (0.00784314)
+      standard deviation: 60.5562 (0.237475)
+      kurtosis: 2.04927
+      skewness: 1.60167
+      entropy: 0.61656
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 18.7671 (0.0735965)
+      median: 0 (0)
+      standard deviation: 36.3795 (0.142665)
+      kurtosis: 11.8775
+      skewness: 3.17464
+      entropy: 0.53135
+    Blue:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 15.3577 (0.0602261)
+      median: 0 (0)
+      standard deviation: 29.2749 (0.114804)
+      kurtosis: 13.2529
+      skewness: 3.26534
+      entropy: 0.503065
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 93.071 (0.364984)
+      median: 0 (0)
+      standard deviation: 116.344 (0.45625)
+      kurtosis: -1.65568
+      skewness: 0.527949
+      entropy: 0.408809
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 42.4175 (0.166343)
+      median: 0.5 (0.00196078)
+      standard deviation: 60.6386 (0.237798)
+      kurtosis: 6.381
+      skewness: 2.1424
+      entropy: 0.514946
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:00:28+00:00
+    date:modify: 2026-09-01T09:01:04+00:00
+    date:timestamp: 2026-09-02T04:06:43+00:00
+    signature: b9a517cf86712ca12f517509d5e19e70a1d8a6c941445d37237d260b44861bf9
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 136940B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 31.647MP
+  User time: 0.019u
+  Elapsed time: 0:01.018
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\player-blood-attack-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 28.813 (0.112992)
+      median: 0 (0)
+      standard deviation: 54.3729 (0.213227)
+      kurtosis: 5.68344
+      skewness: 2.40933
+      entropy: 0.481282
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 7.30268 (0.028638)
+      median: 0 (0)
+      standard deviation: 26.7051 (0.104726)
+      kurtosis: 44.1459
+      skewness: 6.1655
+      entropy: 0.32703
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 5.8893 (0.0230953)
+      median: 0 (0)
+      standard deviation: 22.8212 (0.0894949)
+      kurtosis: 53.6464
+      skewness: 6.68327
+      entropy: 0.287202
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 51.8422 (0.203303)
+      median: 0 (0)
+      standard deviation: 96.1464 (0.377045)
+      kurtosis: 0.151313
+      skewness: 1.42886
+      entropy: 0.354446
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.4618 (0.0920071)
+      median: 0 (0)
+      standard deviation: 50.0114 (0.196123)
+      kurtosis: 25.9068
+      skewness: 4.17174
+      entropy: 0.36249
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:00:05+00:00
+    date:modify: 2026-09-01T09:00:27+00:00
+    date:timestamp: 2026-09-02T04:06:43+00:00
+    signature: b59827523dd1b22cf54109465546f50a9ca1c257d5031ea09fa654a74cea7045
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 109356B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 42.1728MP
+  User time: 0.014u
+  Elapsed time: 0:01.013
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\player-blooddemon-gu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 36.6459 (0.143709)
+      median: 19 (0.0745098)
+      standard deviation: 48.9196 (0.191842)
+      kurtosis: 4.00406
+      skewness: 1.84553
+      entropy: 0.641584
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 6.71669 (0.02634)
+      median: 0 (0)
+      standard deviation: 14.4333 (0.0566011)
+      kurtosis: 62.8792
+      skewness: 6.16504
+      entropy: 0.432167
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 6.31727 (0.0247736)
+      median: 0 (0)
+      standard deviation: 13.7316 (0.0538494)
+      kurtosis: 57.9703
+      skewness: 5.86445
+      entropy: 0.409219
+    Alpha:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 99.0412 (0.388397)
+      median: 1 (0.00392157)
+      standard deviation: 117.8 (0.46196)
+      kurtosis: -1.76097
+      skewness: 0.424878
+      entropy: 0.44537
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 37.1803 (0.145805)
+      median: 5 (0.0196078)
+      standard deviation: 48.7211 (0.191063)
+      kurtosis: 30.7732
+      skewness: 3.57497
+      entropy: 0.482085
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:01:03+00:00
+    date:modify: 2026-09-01T09:03:09+00:00
+    date:timestamp: 2026-09-02T04:06:43+00:00
+    signature: 2e230f0b5b311eb9919c0c30a83d57e9bf3e61bdf0d16db80a1dfcfa37b7ee0a
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 138884B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 30.4017MP
+  User time: 0.019u
+  Elapsed time: 0:01.019
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\player-charm-gu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 20.3243 (0.0797032)
+      median: 1 (0.00392157)
+      standard deviation: 27.8867 (0.10936)
+      kurtosis: 3.70452
+      skewness: 1.60206
+      entropy: 0.537937
+    Green:
+      min: 0  (0)
+      max: 250 (0.980392)
+      mean: 14.7346 (0.0577827)
+      median: 0 (0)
+      standard deviation: 21.3869 (0.0838702)
+      kurtosis: 6.86486
+      skewness: 1.98143
+      entropy: 0.487694
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 23.892 (0.0936942)
+      median: 1 (0.00392157)
+      standard deviation: 33.4026 (0.13099)
+      kurtosis: 2.91044
+      skewness: 1.56455
+      entropy: 0.553914
+    Alpha:
+      min: 0  (0)
+      max: 254 (0.996078)
+      mean: 71.5548 (0.280607)
+      median: 0 (0)
+      standard deviation: 104.644 (0.41037)
+      kurtosis: -1.04401
+      skewness: 0.907596
+      entropy: 0.485325
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 32.6264 (0.127947)
+      median: 0.5 (0.00196078)
+      standard deviation: 46.8301 (0.183647)
+      kurtosis: 3.10895
+      skewness: 1.51391
+      entropy: 0.516217
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:01:02+00:00
+    date:modify: 2026-09-01T09:02:34+00:00
+    date:timestamp: 2026-09-02T04:06:43+00:00
+    signature: bf9db9a605ac9d6e69d8733813ae4d9c55ebca40795353f29a02249a2bb819b0
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 161342B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 34.978MP
+  User time: 0.017u
+  Elapsed time: 0:01.016
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\player-heal-gu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 90.5854 (0.355237)
+      median: 2 (0.00784314)
+      standard deviation: 102.942 (0.403692)
+      kurtosis: -1.62951
+      skewness: 0.402521
+      entropy: 0.583069
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 90.9662 (0.35673)
+      median: 0 (0)
+      standard deviation: 103.065 (0.404178)
+      kurtosis: -1.63236
+      skewness: 0.3881
+      entropy: 0.552063
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 55.4836 (0.217583)
+      median: 0 (0)
+      standard deviation: 73.3526 (0.287657)
+      kurtosis: -0.44953
+      skewness: 0.939133
+      entropy: 0.565181
+    Alpha:
+      min: 0  (0)
+      max: 253 (0.992157)
+      mean: 51.6848 (0.202685)
+      median: 0 (0)
+      standard deviation: 95.6759 (0.3752)
+      kurtosis: 0.229057
+      skewness: 1.45288
+      entropy: 0.394557
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 72.18 (0.283059)
+      median: 0.5 (0.00196078)
+      standard deviation: 93.7588 (0.367682)
+      kurtosis: -0.870584
+      skewness: 0.79566
+      entropy: 0.523717
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:01:01+00:00
+    date:modify: 2026-09-01T09:01:42+00:00
+    date:timestamp: 2026-09-02T04:06:44+00:00
+    signature: b68449082fba642af9f8a58ebe23eaf226cc3f427e6d8bc558e1d97decdaed60
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 137006B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 38.0883MP
+  User time: 0.015u
+  Elapsed time: 0:01.015
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org
+Image:
+  Filename: D:\mydoc\React\gu-mu-wu-xiu\public\effects\player-sword-gu-v1.webp
+  Permissions: rw-rw-rw-
+  Format: WEBP (WebP Image Format)
+  Mime type: image/webp
+  Class: DirectClass
+  Geometry: 768x768+0+0
+  Units: Undefined
+  Colorspace: sRGB
+  Type: TrueColorAlpha
+  Base type: Undefined
+  Endianness: Undefined
+  Depth: 8-bit
+  Channels: 4.0
+  Channel depth:
+    Red: 8-bit
+    Green: 8-bit
+    Blue: 8-bit
+    Alpha: 8-bit
+  Channel statistics:
+    Pixels: 589824
+    Red:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 28.5112 (0.111809)
+      median: 0 (0)
+      standard deviation: 57.3563 (0.224927)
+      kurtosis: 4.65039
+      skewness: 2.28177
+      entropy: 0.410455
+    Green:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 31.3112 (0.122789)
+      median: 0 (0)
+      standard deviation: 61.5939 (0.241545)
+      kurtosis: 3.75914
+      skewness: 2.13667
+      entropy: 0.420065
+    Blue:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 30.551 (0.119808)
+      median: 0 (0)
+      standard deviation: 61.031 (0.239337)
+      kurtosis: 4.10609
+      skewness: 2.20606
+      entropy: 0.41128
+    Alpha:
+      min: 0  (0)
+      max: 253 (0.992157)
+      mean: 40.7082 (0.15964)
+      median: 0 (0)
+      standard deviation: 86.6945 (0.339978)
+      kurtosis: 1.46487
+      skewness: 1.81794
+      entropy: 0.326578
+  Image statistics:
+    Overall:
+      min: 0  (0)
+      max: 255 (1)
+      mean: 32.7704 (0.128511)
+      median: 0 (0)
+      standard deviation: 66.6689 (0.261447)
+      kurtosis: 3.49512
+      skewness: 2.11061
+      entropy: 0.392095
+  Alpha: none   #00000000
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33,0.03)
+    green primary: (0.3,0.6,0.1)
+    blue primary: (0.15,0.06,0.79)
+    white point: (0.3127,0.329,0.3583)
+  Matte color: grey74
+  Background color: white
+  Border color: srgb(223,223,223)
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 768x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2026-09-01T09:01:02+00:00
+    date:modify: 2026-09-01T09:01:51+00:00
+    date:timestamp: 2026-09-02T04:06:44+00:00
+    signature: 01b2861e6bfd29316ff79d4bfb5dbb3b9ccd2f07fc3334f41732ee58e0d340ad
+  Artifacts:
+    verbose: true
+  Tainted: False
+  Filesize: 107332B
+  Number pixels: 589824
+  Pixel cache type: Memory
+  Pixels per second: 47.1361MP
+  User time: 0.013u
+  Elapsed time: 0:01.012
+  Version: ImageMagick 7.1.1-47 Q16 x64 82572af:20250329 https://imagemagick.org

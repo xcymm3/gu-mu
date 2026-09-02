@@ -1,0 +1,32 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "phase": "evidence",
+  "iteration": 1,
+  "started_at": "2026-09-02T02:23:00.000Z",
+  "finished_at": "2026-09-02T02:47:30.7829098Z",
+  "head_before": "eeb58125a123511dffd85ca2b0173de6703e799f",
+  "head_after": "eeb58125a123511dffd85ca2b0173de6703e799f",
+  "git_status_before": "raw/git-status.txt",
+  "git_status_after": "raw/git-status-final.txt",
+  "changed_files_this_iteration": [
+    ".agent/tasks/visual-art-expansion-v1/evidence.md",
+    ".agent/tasks/visual-art-expansion-v1/evidence.json",
+    ".agent/tasks/visual-art-expansion-v1/raw/command-metadata.json",
+    ".agent/tasks/visual-art-expansion-v1/raw/manual-visual-review.md",
+    ".agent/tasks/visual-art-expansion-v1/raw/run-evidence-command.ps1",
+    ".agent/tasks/visual-art-expansion-v1/raw/checkpoints/evidence-001-20260902T022300Z.json",
+    ".agent/tasks/visual-art-expansion-v1/raw generated logs, matrices, screenshots, inventory and contact sheets"
+  ],
+  "commands": "raw/command-metadata.json",
+  "acceptance_criteria_passed": ["AC6"],
+  "acceptance_criteria_failed": ["AC4", "AC8", "AC11", "AC12"],
+  "acceptance_criteria_unknown": ["AC1", "AC2", "AC3", "AC5", "AC7", "AC9", "AC10"],
+  "known_gaps": [
+    "pnpm build fails at tests/e2e/full-routes.spec.ts:177.",
+    "844x390 settings controls overlap and clip without usable page scroll.",
+    "Prescribed pnpm exec playwright command cannot resolve playwright on Windows.",
+    "One isolated enemy-effect timing check failed before an immediate passing retry.",
+    "Browser proof used pre-existing out after fresh build failure."
+  ],
+  "recommended_next_action": "Enter fix phase, apply the smallest fixes for the build type error, 844x390 settings layout, portable isolated test command, and effect timing determinism; then regenerate fresh-export evidence."
+}

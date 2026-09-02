@@ -1,0 +1,19 @@
+command=pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line
+started_at=2026-09-02T03:57:08.4567237Z
+finished_at=2026-09-02T03:57:46.2304908Z
+exit_code=0
+
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 5 tests using 1 worker
+
+
+
+(node:20176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/5] tests\e2e\visual-art-expansion.spec.ts:266:1 › 全新上下文首页满足图片请求与传输预算
+[2/5] tests\e2e\visual-art-expansion.spec.ts:297:1 › 三页正式主视觉在四个合同视口保持可达且无全局溢出
+[3/5] tests\e2e\visual-art-expansion.spec.ts:341:1 › 六类玩家位图特效均先于敌方反击且回合可继续
+[4/5] tests\e2e\visual-art-expansion.spec.ts:371:1 › 减少动态与特效请求失败均保留文字反馈和下一回合
+[5/5] tests\e2e\visual-art-expansion.spec.ts:406:1 › 版本 6 存档缺少视觉元数据时仍由公开读档入口恢复
+  5 passed (35.7s)

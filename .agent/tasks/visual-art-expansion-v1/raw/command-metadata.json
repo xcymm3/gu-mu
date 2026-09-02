@@ -1,0 +1,146 @@
+[
+  {
+    "name": "git-status",
+    "command": "git status --short",
+    "started_at": "2026-09-02T02:25:58.4257935Z",
+    "finished_at": "2026-09-02T02:25:58.7440523Z",
+    "exit_code": 0,
+    "log": "raw/git-status.txt"
+  },
+  {
+    "name": "visual-e2e-equivalent",
+    "command": "pnpm test:e2e:run -- tests/e2e/visual-art-expansion.spec.ts --reporter=line",
+    "started_at": "2026-09-02T02:38:05.0278031Z",
+    "finished_at": "2026-09-02T02:39:08.2606022Z",
+    "exit_code": 1,
+    "log": "raw/visual-e2e-equivalent.txt"
+  },
+  {
+    "name": "out-index",
+    "command": "Test-Path -LiteralPath out/index.html",
+    "started_at": "2026-09-02T02:40:27.1840163Z",
+    "finished_at": "2026-09-02T02:40:27.1906247Z",
+    "exit_code": 0,
+    "log": "raw/out-index.txt"
+  },
+  {
+    "name": "forbidden-patterns",
+    "command": "rg -n 'placeholder|TODO|screenshot|kind:\\s*['\"]css['\"]|\\.svg|<canvas' lib features app public tests",
+    "started_at": "2026-09-02T02:40:27.5528205Z",
+    "finished_at": "2026-09-02T02:40:27.6421185Z",
+    "exit_code": 0,
+    "log": "raw/forbidden-patterns.txt"
+  },
+  {
+    "name": "file-hashes",
+    "command": "Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -File | Get-FileHash -Algorithm SHA256",
+    "started_at": "2026-09-02T02:40:54.976012Z",
+    "finished_at": "2026-09-02T02:40:55.2094508Z",
+    "exit_code": 0,
+    "log": "raw/file-hashes.txt"
+  },
+  {
+    "name": "file-sizes",
+    "command": "Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -File | Select-Object FullName,Length",
+    "started_at": "2026-09-02T02:40:55.3090614Z",
+    "finished_at": "2026-09-02T02:40:55.3684038Z",
+    "exit_code": 0,
+    "log": "raw/file-sizes.txt"
+  },
+  {
+    "name": "visual-e2e-retry",
+    "command": "pnpm test:e2e:run -- tests/e2e/visual-art-expansion.spec.ts --reporter=line (retry after isolated timing failure)",
+    "started_at": "2026-09-02T02:41:24.4469416Z",
+    "finished_at": "2026-09-02T02:42:04.2756465Z",
+    "exit_code": 0,
+    "log": "raw/visual-e2e-retry.txt"
+  },
+  {
+    "name": "json-parse",
+    "command": "Get-Content -LiteralPath .agent/tasks/visual-art-expansion-v1/evidence.json -Encoding utf8 -Raw | ConvertFrom-Json | Out-Null",
+    "started_at": "2026-09-02T02:47:11.2149316Z",
+    "finished_at": "2026-09-02T02:47:11.2292504Z",
+    "exit_code": 0,
+    "log": "raw/evidence-json-parse.txt"
+  },
+  {
+    "name": "git-status-final",
+    "command": "git status --short (after evidence generation)",
+    "started_at": "2026-09-02T02:47:46.9038351Z",
+    "finished_at": "2026-09-02T02:47:47.0436432Z",
+    "exit_code": 0,
+    "log": "raw/git-status-final.txt"
+  },
+  {
+    "name": "proof-validator",
+    "command": "node scripts/validate-task-proof.mjs visual-art-expansion-v1",
+    "started_at": "2026-09-02T02:47:47.130444Z",
+    "finished_at": "2026-09-02T02:47:47.3113575Z",
+    "exit_code": 0,
+    "log": "raw/proof-validation.txt"
+  },
+  {
+    "name": "deadline-validator",
+    "command": "python \"C:\\Users\\86187\\.codex\\skills\\deadline-carl\\scripts\\task_loop.py\" validate --task-id visual-art-expansion-v1 --repo-root \"D:\\mydoc\\React\\gu-mu-wu-xiu\" --artifact evidence",
+    "started_at": "2026-09-02T02:47:47.3360228Z",
+    "finished_at": "2026-09-02T02:47:47.5445192Z",
+    "exit_code": 0,
+    "log": "raw/deadline-validator.txt"
+  },
+  {
+    "name": "unit",
+    "command": "pnpm test",
+    "started_at": "2026-09-02T03:44:48.0111511Z",
+    "finished_at": "2026-09-02T03:44:50.5923866Z",
+    "exit_code": 0,
+    "log": "raw/unit.txt"
+  },
+  {
+    "name": "lint",
+    "command": "pnpm lint",
+    "started_at": "2026-09-02T03:44:55.9493648Z",
+    "finished_at": "2026-09-02T03:45:10.0730349Z",
+    "exit_code": 0,
+    "log": "raw/lint.txt"
+  },
+  {
+    "name": "visual-e2e",
+    "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line",
+    "started_at": "2026-09-02T03:57:08.4567237Z",
+    "finished_at": "2026-09-02T03:57:46.2304908Z",
+    "exit_code": 0,
+    "log": "raw/visual-e2e.txt"
+  },
+  {
+    "name": "e2e",
+    "command": "pnpm test:e2e:run",
+    "started_at": "2026-09-02T03:57:55.2265635Z",
+    "finished_at": "2026-09-02T04:05:29.5352904Z",
+    "exit_code": 0,
+    "log": "raw/e2e.txt"
+  },
+  {
+    "name": "static-proof",
+    "command": "pnpm proof:visual:static",
+    "started_at": "2026-09-02T04:05:43.3052519Z",
+    "finished_at": "2026-09-02T04:06:05.1788085Z",
+    "exit_code": 0,
+    "log": "raw/static-proof.txt"
+  },
+  {
+    "name": "image-decode",
+    "command": "Get-ChildItem public/characters,public/cg,public/ui,public/effects -Recurse -Filter *.webp | ForEach-Object { magick identify -verbose $_.FullName }",
+    "started_at": "2026-09-02T04:06:11.1671095Z",
+    "finished_at": "2026-09-02T04:06:44.584532Z",
+    "exit_code": 0,
+    "log": "raw/image-decode.txt"
+  },
+  {
+    "name": "build",
+    "command": "pnpm build",
+    "started_at": "2026-09-02T04:06:52.1662061Z",
+    "finished_at": "2026-09-02T04:07:15.1745914Z",
+    "exit_code": 0,
+    "log": "raw/build.txt"
+  }
+]

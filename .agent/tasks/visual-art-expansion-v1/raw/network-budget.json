@@ -1,0 +1,18 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/visual-art-expansion.spec.ts",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "maximum_bytes": 2621440,
+  "transferred_bytes": 33040,
+  "requests": [
+    {
+      "encodedBodySize": 33040,
+      "name": "http://127.0.0.1:4173/ui/main-menu-v1.webp",
+      "path": "/ui/main-menu-v1.webp"
+    }
+  ],
+  "status": "PASS"
+}

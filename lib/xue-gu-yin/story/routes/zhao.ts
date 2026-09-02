@@ -53,7 +53,7 @@ const zhaoBloodGuardEvents: VisualNovelEvent[] = [
 ];
 
 const zhaoAwakeningEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.blood-chamber", transition: "fade" },
+  { type: "background", asset: "cg.scene.zhaoAwakening", transition: "fade" },
   { type: "character", action: "show", character: "zhao-li", position: "left", expression: "wary" },
   { type: "narration", text: "血傀儡倒在池边，胸腔血核已经裂成两半，里面储存的祭血却没有散尽，正沿着断裂骨架缓慢流回血池。\n\n赵黎终于越过祭线。血纹蛊抢在祭血流尽前伏上血核，抽出数股暗红血线，将它们送入蛊茧下方的阵眼。随后，他从袖中取出一只黑色小瓶。瓶塞开启时，数种驳杂的气血先后逸出，显然是他沿途收集所得。\n\n你没有上前阻止。蛊茧尚未完全打开，此时毁掉阵眼，谁也拿不到里面的五转蛊。赵黎在等蛊出茧，你同样在等。\n\n你将冰寒蛊简移到掌边，看着他把瓶中精血倒进阵眼。\n\n环形血池中的五条祭线同时亮起。蛊茧先是向内收缩，随即从顶部裂开数道细缝。暗红液体沿茧壳流下，一只巴掌大小的深红蛊虫从裂口中缓缓探出。它背部薄翼紧贴躯壳，数根血丝仍与蛊茧相连，复眼也尚未完全睁开。\n\n血魔蛊已经苏醒，却还没有接纳任何人的真元。\n\n赵黎截断送入阵眼的血线，转身面对你。" },
   { type: "dialogue", speaker: "zhao-li", displayName: "赵黎", text: "血门已开，蛊也出了茧。先前的约定到此为止。你我谁还能站着，谁便取蛊。", expression: "wary", position: "left" },

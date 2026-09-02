@@ -3,9 +3,9 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 
-import { visualAssetManifest } from "../lib/xue-gu-yin/assets.ts";
+import { battleCharacterStateAssets, combatActionEffectAssets, endingCgAssets, enemyCombatEffectAsset, formalVisualAssetManifest, visualAssetManifest, type CombatEffectAssetKey } from "../lib/xue-gu-yin/assets.ts";
 import { audioAssetManifest } from "../lib/xue-gu-yin/audio.ts";
-import { chooseRole, endingAccess, endings, resolveEnding, scenes, storyMeta } from "../lib/xue-gu-yin/game.ts";
+import { chooseRole, endingAccess, endings, resolveEnding, resolveScenePresentation, scenes, storyMeta } from "../lib/xue-gu-yin/game.ts";
 import { canonicalReleasePaths, releaseMeta, validateCanonicalPaths, validateEndingAccess, validateStoryGraph } from "../lib/xue-gu-yin/release.ts";
 import { createSaveSlot, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT } from "../lib/xue-gu-yin/save.ts";
 
@@ -97,6 +97,100 @@ test("发布视觉资源均为正式图片且满足单文件与总体积预算",
   assert.ok(total <= 4_500_000, `视觉资源总量超过 4.5 MB：${total}`);
 });
 
+test("美术扩展合同完整枚举 30 张角色、16 张 CG、3 张界面和 7 张特效", () => {
+  const assets = Object.values(formalVisualAssetManifest);
+  const count = (category: string) => assets.filter((asset) => asset.category === category).length;
+
+  assert.equal(assets.length, 56);
+  assert.equal(count("character"), 30);
+  assert.equal(count("cg"), 16);
+  assert.equal(count("ui"), 3);
+  assert.equal(count("effect"), 7);
+  assert.equal(new Set(assets.map((asset) => asset.key)).size, assets.length);
+  assert.equal(new Set(assets.map((asset) => asset.src)).size, assets.length);
+
+  for (const asset of assets) {
+    assert.equal(asset.kind, "image");
+    assert.match(asset.src, /^\/[a-z0-9/]+(?:[A-Z][A-Za-z0-9]*)?(?:-[a-z0-9]+)*-v1\.webp$/);
+    assert.doesNotMatch(`${asset.key} ${asset.src} ${asset.alt}`, /placeholder|temp|TODO|test|screenshot/i);
+    assert.ok(asset.alt.length > 0, `${asset.key} 缺少中文替代文本`);
+    assert.ok(asset.purpose.length > 0, `${asset.key} 缺少用途说明`);
+    assert.ok(asset.trigger.length > 0, `${asset.key} 缺少运行时触发点`);
+  }
+});
+
+test("六名角色的 30 个正式状态均有剧情或人形敌手战斗触发", () => {
+  const triggered = new Set<string>();
+  const routeForScene = (sceneId: string) => {
+    if (sceneId.startsWith("zhao")) return "zhao" as const;
+    if (sceneId.startsWith("ji")) return "ji" as const;
+    if (sceneId.startsWith("su")) return "su" as const;
+    if (sceneId.startsWith("traitor")) return "traitor" as const;
+    return null;
+  };
+
+  for (const [sceneId, scene] of Object.entries(scenes)) {
+    for (const roleId of ["healer", "swordsman", "heir"] as const) {
+      const route = routeForScene(sceneId);
+      const game = {
+        ...chooseRole(roleId),
+        sceneId,
+        route,
+        routeLocked: route !== null,
+        flags: ["血刃蛊", "血甲蛊", "血魔蛊", "傀儡已毁", "纪清寒线血傀儡已毁", "苏莹线血傀儡已毁", "赵黎线血傀儡已毁"],
+      };
+      const presentation = resolveScenePresentation(game, scene);
+      for (const beat of presentation.beats) {
+        for (const character of beat.characters) triggered.add(character.asset);
+      }
+    }
+  }
+
+  for (const actor of Object.values(battleCharacterStateAssets)) {
+    triggered.add(actor.battle);
+    triggered.add(actor.injured);
+  }
+
+  const required = Object.values(formalVisualAssetManifest)
+    .filter((asset) => asset.category === "character")
+    .map((asset) => asset.key);
+  assert.equal(required.length, 30);
+  assert.deepEqual(required.filter((key) => !triggered.has(key)), []);
+});
+
+test("九个结局各自映射并展示唯一正式 CG", () => {
+  assert.deepEqual(Object.keys(endingCgAssets), Object.keys(endings));
+  assert.equal(new Set(Object.values(endingCgAssets)).size, 9);
+
+  for (const [endingId, key] of Object.entries(endingCgAssets)) {
+    const asset = formalVisualAssetManifest[key];
+    assert.equal(asset.category, "cg");
+    assert.equal(asset.trigger, `endingId:${endingId}`);
+    assert.equal(asset.width, 1600);
+    assert.equal(asset.height, 900);
+    assert.equal(existsSync(path.join(process.cwd(), "public", asset.src.replace(/^\//, ""))), true, `${asset.src} 不存在`);
+  }
+
+  const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
+  assert.match(game, /getEndingCgAsset\(ending\.id\)/);
+  assert.match(game, /data-asset-key=\{endingCg\.key\}/);
+});
+
+test("六类玩家蛊术和敌方反击均映射到独立正式位图特效", () => {
+  assert.deepEqual(Object.keys(combatActionEffectAssets), ["blood", "armor", "heal", "sword", "charm", "blooddemon"]);
+  const effectKeys: CombatEffectAssetKey[] = [...Object.values(combatActionEffectAssets), enemyCombatEffectAsset];
+  assert.equal(new Set(effectKeys).size, 7);
+
+  for (const key of effectKeys) {
+    const asset = formalVisualAssetManifest[key];
+    assert.equal(asset.category, "effect");
+    assert.equal(asset.alpha, true);
+    assert.equal(asset.width, 768);
+    assert.equal(asset.height, 768);
+    assert.equal(existsSync(path.join(process.cwd(), "public", asset.src.replace(/^\//, ""))), true, `${asset.src} 不存在`);
+  }
+});
+
 test("原创本地音频均可读取且满足单文件与总体积预算", () => {
   let total = 0;
   for (const [key, asset] of Object.entries(audioAssetManifest)) {
@@ -132,9 +226,11 @@ test("原创本地音频均可读取且满足单文件与总体积预算", () =>
   assert.ok(total <= 2_600_000, `音频资源总量超过 2.6 MB：${total}`);
 });
 
-test("主菜单复用正式纪清寒立绘且不再引用旧占位文件", () => {
+test("主菜单、设置与存档页各自引用独立正式主视觉且不再引用旧占位文件", () => {
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
-  assert.match(game, /menu-character[\s\S]{0,240}src="\/characters\/ji-qinghan-v1\.webp"/);
+  assert.match(game, /ViewArtwork assetKey="ui\.main-menu"/);
+  assert.match(game, /ViewArtwork assetKey="ui\.settings"/);
+  assert.match(game, /ViewArtwork assetKey="ui\.saves"/);
   assert.doesNotMatch(game, /ji-qinghan-placeholder\.webp/);
 });
 

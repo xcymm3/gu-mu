@@ -1,4 +1,6 @@
 import { expect, test as base, type Locator, type Page } from "@playwright/test";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
 
 import {
   applyChoice,
@@ -17,6 +19,11 @@ import {
   type GuAction,
   type RoleId,
 } from "../../lib/xue-gu-yin/game";
+import {
+  endingCgAssets,
+  formalVisualAssetManifest,
+  type FormalCharacterAssetKey,
+} from "../../lib/xue-gu-yin/assets";
 
 type BrowserDiagnostics = { failures: string[] };
 type Fixtures = { browserDiagnostics: BrowserDiagnostics };
@@ -43,6 +50,32 @@ const test = base.extend<Fixtures>({
   },
 });
 
+const taskId = "visual-art-expansion-v1";
+const proofRawRoot = path.resolve(process.cwd(), ".agent", "tasks", taskId, "raw");
+const routeScreenshotRoot = path.join(proofRawRoot, "screenshots", "routes-and-endings");
+const saveCombatScreenshotRoot = path.join(proofRawRoot, "screenshots", "save-and-combat");
+const characterRuntimeEntries = new Map<string, Record<string, unknown>>();
+const cgRuntimeEntries = new Map<string, Record<string, unknown>>();
+const capturedSaveCombatScreenshots = new Set<string>();
+const expectedCharacterKeys = Object.values(formalVisualAssetManifest)
+  .filter((asset) => asset.category === "character")
+  .map((asset) => asset.key as FormalCharacterAssetKey);
+const expectedCgKeys = Object.values(formalVisualAssetManifest)
+  .filter((asset) => asset.category === "cg")
+  .map((asset) => asset.key);
+
+function isExpectedCharacterKey(key: string): key is FormalCharacterAssetKey {
+  return expectedCharacterKeys.includes(key as FormalCharacterAssetKey);
+}
+
+async function writeProofJson(fileName: string, value: unknown) {
+  await writeFile(path.join(proofRawRoot, fileName), `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
+function proofFileName(key: string) {
+  return key.replaceAll(".", "-");
+}
+
 const roleLabels: Record<RoleId, string> = {
   healer: "游方蛊医",
   swordsman: "流浪剑修",
@@ -64,6 +97,16 @@ const commonChoices: Record<FormalRoute | "trapped", string[]> = {
 };
 
 const actionOrder: GuAction[] = ["blooddemon", "sword", "charm", "blood", "heal", "armor", "rest"];
+
+const sceneCgAssets = {
+  gate: "cg.scene.gate",
+  bloodThreshold: "cg.scene.bloodThreshold",
+  fog: "cg.scene.fog",
+  zhaoAwakening: "cg.scene.zhaoAwakening",
+  jiDestroyGu: "cg.scene.jiDestroyGu",
+  suCoffin: "cg.scene.suCoffin",
+  traitorBloodTaken: "cg.scene.traitorBloodTaken",
+} as const;
 
 function battleStateKey(game: GameState): string {
   const battle = game.battle;
@@ -134,6 +177,53 @@ class BrowserPlaythrough {
     return this.page.getByLabel("血蛊引游戏界面");
   }
 
+  private async captureCharacterRuntimeState() {
+    const locators = this.page.locator('.vn-character-slot[data-asset-key^="character."], .vn-battle-actor[data-asset-key^="character."]');
+    for (let index = 0; index < await locators.count(); index += 1) {
+      const locator = locators.nth(index);
+      const key = await locator.getAttribute("data-asset-key");
+      if (!key || !isExpectedCharacterKey(key) || characterRuntimeEntries.has(key) || !(await locator.isVisible())) continue;
+      const source = await locator.locator("img").first().getAttribute("src");
+      characterRuntimeEntries.set(key, {
+        key,
+        scene_id: this.game.sceneId,
+        ending_id: this.game.endingId ?? null,
+        expression: await locator.getAttribute("data-expression"),
+        character: await locator.getAttribute("data-character"),
+        enemy: await locator.getAttribute("data-enemy"),
+        requested_path: source ? new URL(source, this.page.url()).pathname : null,
+        visible: true,
+        trigger: "public UI playthrough",
+      });
+    }
+  }
+
+  private async captureSaveCombatScreenshot(name: string) {
+    if (capturedSaveCombatScreenshots.has(name)) return;
+    await this.page.screenshot({ path: path.join(saveCombatScreenshotRoot, `${name}.png`) });
+    capturedSaveCombatScreenshots.add(name);
+  }
+
+  private async captureCgRuntimeState(key: string, kind: "scene" | "ending", id: string, locator: Locator) {
+    if (cgRuntimeEntries.has(key)) return;
+    const image = locator.locator("img").first();
+    await expect(image).toBeVisible();
+    await image.evaluate((node: HTMLImageElement) => node.decode());
+    const source = await image.getAttribute("src");
+    const screenshot = `raw/screenshots/routes-and-endings/${proofFileName(key)}.png`;
+    await this.page.screenshot({ path: path.join(routeScreenshotRoot, `${proofFileName(key)}.png`) });
+    cgRuntimeEntries.set(key, {
+      key,
+      kind,
+      id,
+      route: this.game.route,
+      requested_path: source ? new URL(source, this.page.url()).pathname : null,
+      visible: true,
+      screenshot,
+      trigger: "public UI playthrough",
+    });
+  }
+
   async open() {
     await this.page.addInitScript(() => {
       window.localStorage.clear();
@@ -158,10 +248,18 @@ class BrowserPlaythrough {
   private async expectCurrentScene() {
     const scene = scenes[this.game.sceneId];
     await expect(this.stage).toHaveAttribute("data-scene-id", scene.id);
+    const cgAsset = sceneCgAssets[scene.id as keyof typeof sceneCgAssets];
+    if (cgAsset) {
+      const cgStage = this.page.locator(`.vn-stage[data-asset-key="${cgAsset}"]`);
+      await expect(cgStage).toBeVisible();
+      await this.captureCgRuntimeState(cgAsset, "scene", scene.id, cgStage);
+    }
+    await this.captureCharacterRuntimeState();
   }
 
   private async advanceUntilVisible(target: Locator, label: string, limit = 360) {
     for (let attempt = 0; attempt < limit; attempt += 1) {
+      await this.captureCharacterRuntimeState();
       if (await target.isVisible()) return;
       await this.stage.click({ position: { x: 8, y: 8 } });
     }
@@ -175,6 +273,21 @@ class BrowserPlaythrough {
       : this.page.locator(`.story-frame[data-scene-id="${next.sceneId}"]`);
     await this.advanceUntilVisible(target, label);
     this.game = next;
+    if (next.endingId) {
+      const endingStage = this.page.locator(".ending-stage-background");
+      await expect(endingStage).toHaveAttribute(
+        "data-asset-key",
+        endingCgAssets[next.endingId as keyof typeof endingCgAssets],
+      );
+      await this.captureCgRuntimeState(
+        endingCgAssets[next.endingId as keyof typeof endingCgAssets],
+        "ending",
+        next.endingId,
+        endingStage,
+      );
+    } else {
+      await this.expectCurrentScene();
+    }
   }
 
   async takeChoice(choiceId?: string) {
@@ -209,6 +322,7 @@ class BrowserPlaythrough {
     const battle = this.game.battle;
     if (!battle) throw new Error(`场景 ${scene.id} 未能通过共享入口开启战斗`);
     await expect(this.page.getByText(battle.enemyName, { exact: true }).first()).toBeVisible();
+    await this.captureCharacterRuntimeState();
 
     if (options.expectNoWinningPlan) {
       expect(findBattlePlan(this.game, "win"), `${getRole(this.game.roleId)?.name} 不应能击败 ${battle.enemyName}`).toBeNull();
@@ -233,10 +347,12 @@ class BrowserPlaythrough {
       await expect(actionButton).toBeEnabled();
       await actionButton.click();
       this.game = resolveBattleTurn(this.game, action);
+      await this.captureCharacterRuntimeState();
     }
 
     await expect(this.page.getByRole("navigation", { name: "选择本回合蛊术" })).toBeHidden();
     await this.settleAt(this.game, `${battle.enemyName} ${outcome === "win" ? "胜利" : "战败"}结算`);
+    await this.captureSaveCombatScreenshot(`battle-${outcome}`);
   }
 
   async runCommon(route: FormalRoute | "trapped", roleId: RoleId) {
@@ -276,6 +392,7 @@ class BrowserPlaythrough {
     const slot = menu.locator(".save-slot").nth(slotIndex);
     await slot.getByRole("button", { name: "存入", exact: true }).click();
     await expect(slot).toContainText(getRole(this.game.roleId)!.name);
+    await this.captureSaveCombatScreenshot("manual-save-slot");
     this.savedGames.set(slotIndex, this.game);
     await this.page.getByRole("button", { name: "关闭游戏菜单", exact: true }).click();
   }
@@ -290,6 +407,7 @@ class BrowserPlaythrough {
     this.game = saved;
     await this.expectCurrentScene();
     await expect(this.page.getByRole("button", { name: "放出本命蛊", exact: true })).toBeVisible();
+    await this.captureSaveCombatScreenshot("manual-load-restored");
   }
 
   async expectEnding(endingId: string) {
@@ -300,6 +418,41 @@ class BrowserPlaythrough {
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1366, height: 768 });
+});
+
+test.beforeAll(async () => {
+  await mkdir(routeScreenshotRoot, { recursive: true });
+  await mkdir(saveCombatScreenshotRoot, { recursive: true });
+});
+
+test.afterAll(async () => {
+  const missingCharacterKeys = expectedCharacterKeys.filter((key) => !characterRuntimeEntries.has(key));
+  const missingCgKeys = expectedCgKeys.filter((key) => !cgRuntimeEntries.has(key));
+  await writeProofJson("character-runtime-matrix.json", {
+    task_id: taskId,
+    generated_by: "tests/e2e/full-routes.spec.ts",
+    expected_keys: expectedCharacterKeys,
+    entries: [...characterRuntimeEntries.values()],
+    missing_keys: missingCharacterKeys,
+  });
+  await writeProofJson("cg-runtime-matrix.json", {
+    task_id: taskId,
+    generated_by: "tests/e2e/full-routes.spec.ts",
+    expected_keys: expectedCgKeys,
+    entries: [...cgRuntimeEntries.values()],
+    missing_keys: missingCgKeys,
+  });
+  await writeProofJson("route-ending-smoke.json", {
+    task_id: taskId,
+    generated_by: "tests/e2e/full-routes.spec.ts",
+    routes: ["zhao", "ji", "su", "traitor"],
+    scene_cg_keys: [...cgRuntimeEntries.values()].filter((entry) => entry.kind === "scene").map((entry) => entry.key),
+    ending_cg_keys: [...cgRuntimeEntries.values()].filter((entry) => entry.kind === "ending").map((entry) => entry.key),
+    screenshots: "raw/screenshots/routes-and-endings/",
+    missing_keys: missingCgKeys,
+  });
+  expect(missingCharacterKeys, "30 格正式角色状态必须全部由公开路线运行时观察到").toEqual([]);
+  expect(missingCgKeys, "7 个关键节点与 9 个结局 CG 必须全部由公开路线运行时观察到").toEqual([]);
 });
 
 test("赵黎路线以真实存档复现三场关键战斗胜败并通关", async ({ page, browserDiagnostics }) => {

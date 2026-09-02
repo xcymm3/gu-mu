@@ -1,0 +1,185 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/full-routes.spec.ts",
+  "expected_keys": [
+    "cg.ending.demon",
+    "cg.ending.severed",
+    "cg.ending.true",
+    "cg.ending.deathByZhao",
+    "cg.ending.deathByMaster",
+    "cg.ending.deathByQiao",
+    "cg.ending.deathByBloodGuard",
+    "cg.ending.trapped",
+    "cg.ending.traitor",
+    "cg.scene.gate",
+    "cg.scene.bloodThreshold",
+    "cg.scene.fog",
+    "cg.scene.zhaoAwakening",
+    "cg.scene.jiDestroyGu",
+    "cg.scene.suCoffin",
+    "cg.scene.traitorBloodTaken"
+  ],
+  "entries": [
+    {
+      "key": "cg.scene.gate",
+      "kind": "scene",
+      "id": "gate",
+      "route": null,
+      "requested_path": "/cg/scenes/gate-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-gate.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.scene.bloodThreshold",
+      "kind": "scene",
+      "id": "bloodThreshold",
+      "route": null,
+      "requested_path": "/cg/scenes/bloodThreshold-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-bloodThreshold.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.scene.fog",
+      "kind": "scene",
+      "id": "fog",
+      "route": null,
+      "requested_path": "/cg/scenes/fog-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-fog.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.deathByBloodGuard",
+      "kind": "ending",
+      "id": "deathByBloodGuard",
+      "route": "zhao",
+      "requested_path": "/cg/endings/deathByBloodGuard-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-deathByBloodGuard.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.scene.zhaoAwakening",
+      "kind": "scene",
+      "id": "zhaoAwakening",
+      "route": "zhao",
+      "requested_path": "/cg/scenes/zhaoAwakening-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-zhaoAwakening.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.deathByZhao",
+      "kind": "ending",
+      "id": "deathByZhao",
+      "route": "zhao",
+      "requested_path": "/cg/endings/deathByZhao-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-deathByZhao.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.deathByQiao",
+      "kind": "ending",
+      "id": "deathByQiao",
+      "route": "zhao",
+      "requested_path": "/cg/endings/deathByQiao-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-deathByQiao.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.demon",
+      "kind": "ending",
+      "id": "demon",
+      "route": "zhao",
+      "requested_path": "/cg/endings/demon-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-demon.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.scene.jiDestroyGu",
+      "kind": "scene",
+      "id": "jiDestroyGu",
+      "route": "ji",
+      "requested_path": "/cg/scenes/jiDestroyGu-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-jiDestroyGu.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.severed",
+      "kind": "ending",
+      "id": "severed",
+      "route": "ji",
+      "requested_path": "/cg/endings/severed-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-severed.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.scene.suCoffin",
+      "kind": "scene",
+      "id": "suCoffin",
+      "route": "su",
+      "requested_path": "/cg/scenes/suCoffin-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-suCoffin.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.deathByMaster",
+      "kind": "ending",
+      "id": "deathByMaster",
+      "route": "su",
+      "requested_path": "/cg/endings/deathByMaster-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-deathByMaster.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.true",
+      "kind": "ending",
+      "id": "true",
+      "route": "su",
+      "requested_path": "/cg/endings/true-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-true.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.scene.traitorBloodTaken",
+      "kind": "scene",
+      "id": "traitorBloodTaken",
+      "route": "traitor",
+      "requested_path": "/cg/scenes/traitorBloodTaken-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-scene-traitorBloodTaken.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.traitor",
+      "kind": "ending",
+      "id": "traitor",
+      "route": "traitor",
+      "requested_path": "/cg/endings/traitor-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-traitor.png",
+      "trigger": "public UI playthrough"
+    },
+    {
+      "key": "cg.ending.trapped",
+      "kind": "ending",
+      "id": "trapped",
+      "route": null,
+      "requested_path": "/cg/endings/trapped-v1.webp",
+      "visible": true,
+      "screenshot": "raw/screenshots/routes-and-endings/cg-ending-trapped.png",
+      "trigger": "public UI playthrough"
+    }
+  ],
+  "missing_keys": []
+}

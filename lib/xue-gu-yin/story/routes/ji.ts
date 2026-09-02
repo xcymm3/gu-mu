@@ -58,8 +58,9 @@ const jiArrayTruthEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.control-room", transition: "fade" },
   { type: "narration", text: "你来到祭殿西侧，沿墙缝向上摸索。方才缩回来的细线穿过一块略微凹陷的石板，没入墙后。你以真元压住线身，再顺着它收缩的方向推动石板，里面随即传来一声轻响。\n\n石板向侧面退开尺许，露出一条狭窄的检修夹道。夹道只有数丈长，尽头接着一间高出血池半层的石室。几根控制线从夹道两侧穿过，分别缠在室内的石轮与扳杆上。即使站在石室入口，仍能透过身后的墙缝看见祭殿里的石柱，也能听见蛊茧收缩时带起的水声。\n\n乔无咎站在控制台前，正试图转动其中一只石轮。连接血池的细线随着他的动作逐寸绷紧，可外侧祭线已经断开，石轮转过半圈便被卡住。\n\n第一幕中用来带路的泛黄兽皮残图，此刻就摊在他手边。图上原有的猩红标记正与环形血池的位置相合；标记周围又添了许多细小墨线，分别指向沿途经过的石闸、幻阵与祭殿控制槽。那些线条深浅不一，显然不是同时画上去的。\n\n乔无咎松开石轮，转身看向夹道。到了这一步，他已不再遮掩，也没有急着收起那张残图。" },
   { type: "dialogue", speaker: "qiao-wujiu", displayName: "乔无咎", text: "带你们进来，本就是要有人把这些阵位走活。几条散修的命换一只五转蛊，原算不得亏。可你们偏要回头救人，倒让我白等了这许多年。", expression: "smug", position: "left" },
+  { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "battle" },
   { type: "narration", text: "身后传来轻微的脚步声。纪清寒只走到西墙入口便停了下来。从这里回望，地面的几处断口已经重新泛起暗红微光；赵黎等人还在石柱后方，中央蛊茧也没有停止收缩。\n\n她看清控制台上的残图，又看了一眼仍在缓慢转动的石轮，残剑随即横在身前。" },
-  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "这里必须有人守住。控制线若再接上一根，外面的人便会重新被拖回去。", expression: "alert", position: "right" },
+  { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "这里必须有人守住。控制线若再接上一根，外面的人便会重新被拖回去。", expression: "battle", position: "right" },
   { type: "narration", text: "乔无咎身后的几根扳杆已经开始自行下沉。你站在控制室入口，再向前一步便会进入他的攻击范围。纪清寒没有催促，只等着你的回答。" },
 ];
 
@@ -69,7 +70,7 @@ const jiQiaoDuelEvents: VisualNovelEvent[] = [
 ];
 
 const jiDestroyGuEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.blood-chamber", transition: "fade" },
+  { type: "background", asset: "cg.scene.jiDestroyGu", transition: "fade" },
   { type: "narration", text: "你沿夹道回到祭殿时，环形血池已经漫过最下方一级石阶。赵黎、薛逢与苏莹仍留在石柱后方，纪清寒则持着残剑守在池边。\n\n控制石轮虽已锁死，悬在池心上方的蛊茧却没有停止蜕变。茧壳中央裂开一道细缝，一片尚未完全展开的复眼正在缝隙后缓慢转动。它还不能脱离蛊茧，池中余下的血光却仍在沿茧壳向上攀升。\n\n蛊茧后方，那团灰白养魂蛊材也显出了原貌。数根暗红细丝从蛊茧底部穿出，扎进蛊材内部。外侧祭线断开后，蛊材原本温和的微光迅速黯淡，积存在其中的血光反而沿细丝流回茧内。\n\n纪清寒看着那团蛊材，取出包着魂丝的白绢。银线末端仍在微弱发亮，灰白蛊材却已经无法再与它呼应。她将白绢收回衣襟，没有伸手去取蛊材。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "它所谓的生机，都是从祭线另一端取来的。这东西不能带走。", expression: "softened", position: "right" },
   { type: "narration", text: "她以残剑向前送出一线剑气。剑气刚触及茧壳，地面残阵便亮起数段暗红纹路，将外来真元引入血池。下一刻，那道真元随血光回到蛊茧，壳后的复眼也随之张开了一分。\n\n普通真元只会成为它最后蜕变的养分。苏莹贴近池边辨认片刻，指向蛊茧下方相对而立的两处阵眼。那里的血光仍在彼此补回，与开启血门时的左右双锁如出一辙。" },
@@ -84,6 +85,7 @@ const jiDestroyGuEvents: VisualNovelEvent[] = [
 
 const jiAftermathEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.dawn-exit", transition: "fade" },
+  { type: "character", action: "show", character: "ji-qinghan", position: "right", expression: "injured" },
   { type: "narration", text: "灰白蛊尘落尽后，纪清寒伸出的手仍停在血池对面。你握住她的手，借力从阵眼旁站起。\n\n体内已经感受不到本命蛊的回应，往日随念而动的真元也没有再出现。纪清寒的情形与你相同。两人仍能站立行走，只是从这一刻起，墓中任何一处需要真元应对的禁制都不能再贸然触碰。\n\n石柱后方，赵黎最先自行起身。他收回血纹蛊，冷眼扫过正在熄灭的阵纹：“主阵虽毁，石梁与墓道未必还在。原路走不通。”\n\n薛逢扶着石柱站稳，试着走了几步。他没有再去看散落池边的器物，只低声道：“薛某走得动，不必留人照看。”\n\n苏莹也从地上起身。祭线带来的虚弱尚未完全退去，却不妨碍她缓慢行走。五人越过已经平静的血池，先后进入西墙后的控制室。\n\n乔无咎的尸身仍在控制台旁，泛黄兽皮残图摊在石面上。苏莹逐条辨认他后来补画的细线，很快发现其中一条从控制室后方绕出，避开血池、幻阵与来路上的石梁，最后停在墓门内侧。\n\n线尾旁边画着一道向下的短痕。苏莹依照标记摸到控制台下方，从积灰中找出一根横置石闩。石闩连着墙内配重，不需真元便能开启。众人合力将它拉到尽头，控制室后方的一块窄石板随之缓缓升起，露出仅容一人通行的检修甬道。\n\n没有蛊光从门后涌出，只有一股带着湿土气息的冷风穿过缝隙。乔无咎为自己留下的退路，终于落到了被他送进祭阵的人手中。\n\n出发前，纪清寒取出包着魂丝的白绢。银线末端的微光比先前更弱，却还没有熄灭。她看了片刻，将白绢重新收入衣襟，残剑也仍握在手中。" },
   { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "还来得及。先出去，再想别的办法。", expression: "softened", position: "right" },
   { type: "narration", text: "赵黎已经站到甬道入口，薛逢与苏莹也做好了动身的准备。你与纪清寒留在队尾，等前面三人依次进入，才一同迈向那道窄门。" },

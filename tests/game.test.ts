@@ -124,9 +124,14 @@ test("五幕节点合同固定为共通线三、七与分线四、六、二", ()
 });
 
 test("第一幕三个节点均使用原生阅读事件", () => {
+  const backgrounds = {
+    gate: "cg.scene.gate",
+    rainMark: "background.tomb-gate",
+    bloodThreshold: "cg.scene.bloodThreshold",
+  } as const;
   for (const sceneId of ["gate", "rainMark", "bloodThreshold"] as const) {
     const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
-    assert.equal(presentation.background, "background.tomb-gate");
+    assert.equal(presentation.background, backgrounds[sceneId]);
     assert.equal(scenes[sceneId].text, undefined);
     assert.equal(presentation.choices.length, scenes[sceneId].choices?.length);
     assert.ok(presentation.events.some((event) => event.type === "narration"));
@@ -183,7 +188,7 @@ test("原生视觉小说事件可以与旧场景并存", () => {
     chapter: "测试",
     title: "原生事件",
     events: [
-      { type: "character", action: "show", character: "ji-qinghan", asset: "character.ji-qinghan.placeholder", position: "right", expression: "alert" },
+      { type: "character", action: "show", character: "ji-qinghan", asset: "character.ji-qinghan.neutral", position: "right", expression: "alert" },
       { type: "dialogue", speaker: "ji-qinghan", displayName: "纪清寒", text: "别动。", expression: "alert", position: "center" },
       { type: "choice", choices: [{ id: "wait", label: "停下", next: "gate" }] },
     ],
@@ -286,11 +291,11 @@ test("角色显隐事件会按顺序生成舞台最终阵容", () => {
   });
 });
 
-test("资源键全部从统一清单解析，纪清寒兼容键指向正式立绘", () => {
+test("资源键全部从统一清单解析，纪清寒中性状态指向独立正式立绘", () => {
   assert.ok(Object.keys(visualAssetManifest).length >= 10);
-  const portrait = getVisualAsset("character.ji-qinghan.placeholder");
+  const portrait = getVisualAsset("character.ji-qinghan.neutral");
   assert.equal(portrait.kind, "image");
-  if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-v1.webp");
+  if (portrait.kind === "image") assert.equal(portrait.src, "/characters/ji-qinghan-neutral-v1.webp");
 });
 
 test("第二幕七个固定节点均已迁移为原生阅读事件", () => {
@@ -388,7 +393,7 @@ test("第三幕正式背景、场景位置与苏衍透明立绘均从资源清�
     ["background.fog-passage", "/backgrounds/fog-passage-v1.webp"],
     ["background.trap-passage", "/backgrounds/trap-passage-v1.webp"],
     ["background.control-room", "/backgrounds/control-room-v1.webp"],
-    ["character.su-yan.neutral", "/characters/su-yan-v1.webp"],
+    ["character.su-yan.neutral", "/characters/su-yan-neutral-v1.webp"],
   ] as const;
   for (const [key, src] of assets) {
     const asset = getVisualAsset(key);
@@ -473,6 +478,34 @@ test("第四、五幕四条路线各自拥有六个高潮节点与两个收束�
   }
 });
 
+test("四条路线高潮场景分别展示唯一正式 CG", () => {
+  const routeClimaxCg = {
+    zhaoAwakening: "cg.scene.zhaoAwakening",
+    jiDestroyGu: "cg.scene.jiDestroyGu",
+    suCoffin: "cg.scene.suCoffin",
+    traitorBloodTaken: "cg.scene.traitorBloodTaken",
+  } as const;
+
+  for (const [sceneId, assetKey] of Object.entries(routeClimaxCg)) {
+    const presentation = resolveScenePresentation(chooseRole(), scenes[sceneId]);
+    assert.equal(presentation.background, assetKey, `${sceneId} 未展示冻结映射中的高潮 CG`);
+    const asset = getVisualAsset(assetKey);
+    assert.equal(asset.kind, "image");
+    assert.match(asset.src, /^\/cg\/scenes\/.+-v1\.webp$/);
+  }
+});
+
+test("三个公共关键节点展示各自唯一正式 CG", () => {
+  const expected = {
+    gate: "cg.scene.gate",
+    bloodThreshold: "cg.scene.bloodThreshold",
+    fog: "cg.scene.fog",
+  } as const;
+  for (const [sceneId, assetKey] of Object.entries(expected)) {
+    assert.equal(resolveScenePresentation(chooseRole(), scenes[sceneId]).background, assetKey);
+  }
+});
+
 test("四条路线从第三幕结束后不再重新汇合", () => {
   for (const route of ["zhao", "ji", "su", "traitor"] as const) {
     const actThreeLast = scenes[actThreeRouteSceneIds[route][3]];
@@ -542,11 +575,28 @@ test("终局背景与每个结局的视觉舞台资源均已登记", () => {
 
 test("五名主要人物基础立绘均从透明 WebP 资源加载", () => {
   const portraits = [
-    ["character.zhao-li.neutral", "/characters/zhao-li-v1.webp"],
-    ["character.ji-qinghan.neutral", "/characters/ji-qinghan-v1.webp"],
-    ["character.xue-feng.neutral", "/characters/xue-feng-v1.webp"],
-    ["character.su-ying.neutral", "/characters/su-ying-v1.webp"],
-    ["character.qiao-wujiu.neutral", "/characters/qiao-wujiu-v1.webp"],
+    ["character.zhao-li.neutral", "/characters/zhao-li-neutral-v1.webp"],
+    ["character.ji-qinghan.neutral", "/characters/ji-qinghan-neutral-v1.webp"],
+    ["character.xue-feng.neutral", "/characters/xue-feng-neutral-v1.webp"],
+    ["character.xue-feng.smiling", "/characters/xue-feng-smiling-v1.webp"],
+    ["character.xue-feng.panicked", "/characters/xue-feng-panicked-v1.webp"],
+    ["character.xue-feng.greedy", "/characters/xue-feng-greedy-v1.webp"],
+    ["character.xue-feng.injured", "/characters/xue-feng-injured-v1.webp"],
+    ["character.xue-feng.battle", "/characters/xue-feng-battle-v1.webp"],
+    ["character.su-ying.neutral", "/characters/su-ying-neutral-v1.webp"],
+    ["character.su-ying.wary", "/characters/su-ying-wary-v1.webp"],
+    ["character.su-ying.sad", "/characters/su-ying-sad-v1.webp"],
+    ["character.su-ying.injured", "/characters/su-ying-injured-v1.webp"],
+    ["character.su-ying.battle", "/characters/su-ying-battle-v1.webp"],
+    ["character.qiao-wujiu.neutral", "/characters/qiao-wujiu-neutral-v1.webp"],
+    ["character.qiao-wujiu.calm", "/characters/qiao-wujiu-calm-v1.webp"],
+    ["character.qiao-wujiu.smug", "/characters/qiao-wujiu-smug-v1.webp"],
+    ["character.qiao-wujiu.injured", "/characters/qiao-wujiu-injured-v1.webp"],
+    ["character.qiao-wujiu.battle", "/characters/qiao-wujiu-battle-v1.webp"],
+    ["character.su-yan.neutral", "/characters/su-yan-neutral-v1.webp"],
+    ["character.su-yan.awakened", "/characters/su-yan-awakened-v1.webp"],
+    ["character.su-yan.injured", "/characters/su-yan-injured-v1.webp"],
+    ["character.su-yan.battle", "/characters/su-yan-battle-v1.webp"],
   ] as const;
   for (const [key, src] of portraits) {
     const portrait = getVisualAsset(key);

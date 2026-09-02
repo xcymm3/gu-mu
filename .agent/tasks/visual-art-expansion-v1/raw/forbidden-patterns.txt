@@ -1,0 +1,53 @@
+started_at=2026-09-02T03:28:37.5607968Z
+tests\release.test.ts:115:    assert.doesNotMatch(`${asset.key} ${asset.src} ${asset.alt}`, /placeholder|temp|TODO|test|screenshot/i);
+tests\release.test.ts:234:  assert.doesNotMatch(game, /ji-qinghan-placeholder\.webp/);
+features\xue-gu-yin\XueGuYinGame.tsx:282:        {asset.kind === "image" ? <CharacterImage key={asset.src} label={characterLabels[character.id]} src={asset.src} /> : <div className={`vn-character-placeholder ${asset.className}`}><span>{characterLabels[character.id]}</span></div>}
+features\xue-gu-yin\XueGuYinGame.tsx:290:  if (failed) return <div className="vn-character-placeholder vn-asset-fallback-character"><span>{label}</span></div>;
+app\globals.css:3005:  .vn-placeholder-tomb-corridor {
+app\globals.css:3011:  .vn-placeholder-tomb-corridor .vn-stage-moon,
+app\globals.css:3012:  .vn-placeholder-tomb-corridor .vn-stage-mountain,
+app\globals.css:3013:  .vn-placeholder-tomb-corridor::after {
+app\globals.css:3017:  .vn-placeholder-tomb-corridor .vn-stage-gate {
+app\globals.css:3027:  .vn-placeholder-fog-passage {
+app\globals.css:3033:  .vn-placeholder-fog-passage::before {
+app\globals.css:3039:  .vn-placeholder-fog-passage .vn-stage-gate {
+app\globals.css:3043:  .vn-placeholder-blood-chamber {
+app\globals.css:3049:  .vn-placeholder-blood-chamber .vn-stage-moon,
+app\globals.css:3050:  .vn-placeholder-blood-chamber .vn-stage-mountain,
+app\globals.css:3051:  .vn-placeholder-blood-chamber .vn-stage-gate {
+app\globals.css:3055:  .vn-placeholder-blood-chamber::after {
+app\globals.css:3091:  .vn-character-placeholder {
+app\globals.css:3097:  .vn-character-placeholder::before {
+app\globals.css:3112:  .vn-character-placeholder::after {
+app\globals.css:3126:  .vn-character-placeholder span {
+app\globals.css:3141:  .vn-placeholder-xue-feng::after { right: 0; left: 0; }
+app\globals.css:3142:  .vn-placeholder-su-ying { inset-inline: 16%; }
+app\globals.css:3143:  .vn-placeholder-qiao-wujiu::before,
+app\globals.css:3144:  .vn-placeholder-su-yan::before { box-shadow: 0 0 3rem var(--color-vn-blood-glow); }
+lib\xue-gu-yin\assets.ts:3:  | { kind: "css"; className: string; alt: string };
+tests\e2e\visual-art-expansion.spec.ts:22:const layoutScreenshotRoot = path.join(proofRawRoot, "screenshots", "layout");
+tests\e2e\visual-art-expansion.spec.ts:23:const saveCombatScreenshotRoot = path.join(proofRawRoot, "screenshots", "save-and-combat");
+tests\e2e\visual-art-expansion.spec.ts:199:    screenshots: "raw/screenshots/save-and-combat/",
+tests\e2e\visual-art-expansion.spec.ts:245:    await page.screenshot({ path: path.join(layoutScreenshotRoot, `${viewport.width}x${viewport.height}-main-menu.png`) });
+tests\e2e\visual-art-expansion.spec.ts:254:    await page.screenshot({ path: path.join(layoutScreenshotRoot, `${viewport.width}x${viewport.height}-settings.png`) });
+tests\e2e\visual-art-expansion.spec.ts:257:      await page.screenshot({ path: path.join(layoutScreenshotRoot, "844x390-settings-bottom.png") });
+tests\e2e\visual-art-expansion.spec.ts:271:    await page.screenshot({ path: path.join(layoutScreenshotRoot, `${viewport.width}x${viewport.height}-saves.png`) });
+tests\e2e\visual-art-expansion.spec.ts:292:    await page.screenshot({ path: path.join(saveCombatScreenshotRoot, `effect-${item.action}-player.png`) });
+tests\e2e\visual-art-expansion.spec.ts:303:    await page.screenshot({ path: path.join(saveCombatScreenshotRoot, `effect-${item.action}-enemy.png`) });
+tests\e2e\visual-art-expansion.spec.ts:318:  await reduced.page.screenshot({ path: path.join(saveCombatScreenshotRoot, "effect-reduced-motion.png") });
+tests\e2e\visual-art-expansion.spec.ts:326:  await failed.page.screenshot({ path: path.join(saveCombatScreenshotRoot, "effect-request-fallback.png") });
+tests\e2e\visual-art-expansion.spec.ts:335:    screenshots: [
+tests\e2e\visual-art-expansion.spec.ts:336:      "raw/screenshots/save-and-combat/effect-reduced-motion.png",
+tests\e2e\visual-art-expansion.spec.ts:337:      "raw/screenshots/save-and-combat/effect-request-fallback.png",
+tests\e2e\visual-art-expansion.spec.ts:353:  await page.screenshot({ path: path.join(saveCombatScreenshotRoot, "save-v6-restored-battle.png") });
+tests\e2e\static-server.mjs:15:  ".svg": "image/svg+xml",
+tests\e2e\visual-baseline.spec.ts:131:  await page.screenshot({
+tests\e2e\full-routes.spec.ts:55:const routeScreenshotRoot = path.join(proofRawRoot, "screenshots", "routes-and-endings");
+tests\e2e\full-routes.spec.ts:56:const saveCombatScreenshotRoot = path.join(proofRawRoot, "screenshots", "save-and-combat");
+tests\e2e\full-routes.spec.ts:203:    await this.page.screenshot({ path: path.join(saveCombatScreenshotRoot, `${name}.png`) });
+tests\e2e\full-routes.spec.ts:213:    const screenshot = `raw/screenshots/routes-and-endings/${proofFileName(key)}.png`;
+tests\e2e\full-routes.spec.ts:214:    await this.page.screenshot({ path: path.join(routeScreenshotRoot, `${proofFileName(key)}.png`) });
+tests\e2e\full-routes.spec.ts:222:      screenshot,
+tests\e2e\full-routes.spec.ts:451:    screenshots: "raw/screenshots/routes-and-endings/",
+finished_at=2026-09-02T03:28:37.7029834Z
+exit_code=0

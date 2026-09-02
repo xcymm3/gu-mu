@@ -16,13 +16,13 @@ const traitorTrailConvergence = "暗门后没有外界风声，只有牵机丝�
 
 const traitorKnifeEvents: VisualNovelEvent[] = [
   { type: "background", asset: "background.trap-passage", transition: "fade" },
-  { type: "character", action: "show", character: "xue-feng", position: "left", expression: "panicked" },
+  { type: "character", action: "show", character: "xue-feng", position: "left", expression: "battle" },
   { type: "narration", text: "夹道尽头比来路稍宽，石壁内嵌着一处半人高的检修龛。数根牵机丝从龛中穿墙而过，门边另有一道形如印齿的凹槽。薛逢走到这里以后，右手始终拢在袖中，脚步也比先前慢了许多。" },
   { type: "narration", text: "你没有催促，只盯着龛内的牵机丝。薛逢袖口微动时，其中一根细丝也跟着轻颤，显然不是脚步震动所致。你骤然扣住他的手腕向外一带，一枚牵机副印随之落在石面上。" },
-  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "道友莫急！这东西只能开几道外门，碰不得墓里的核心禁制。", expression: "panicked", position: "left" },
+  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "道友莫急！这东西只能开几道外门，碰不得墓里的核心禁制。", expression: "battle", position: "left" },
   { type: "narration", text: "你拾起副印，抵近门边凹槽。印齿尚未完全嵌入，龛内一根牵机丝便自行松开，墙后的门栓也向内退了半寸。副印与此处机关确实同出一套，薛逢再难用听声辨位搪塞过去。" },
   { type: "narration", text: "追问之下，他只得承认自己收了乔无咎的好处，事先进入墓中维护外围翻板与暗门，此番又负责把同行之人引到预定路径。至于墓穴核心如何运转、控制室后还有哪些道路，乔无咎从未让他知晓。这枚副印能打开眼前内门，也仅此而已。" },
-  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "薛某可以带你去见他，也能当面对质。留我一命，门后还有什么安排，我替道友问个清楚。", expression: "panicked", position: "left" },
+  { type: "dialogue", speaker: "xue-feng", displayName: "薛逢", text: "薛某可以带你去见他，也能当面对质。留我一命，门后还有什么安排，我替道友问个清楚。", expression: "injured", position: "left" },
   { type: "narration", text: "他说话时上身未动，右脚却贴着石面悄然向后挪去。检修龛最下方，一根原本松垂的牵机丝被他的脚跟一点点压紧，墙后随即传来一声极轻的机括咬合。你不动声色地催起本命蛊；只要他的脚跟再落下半寸，这道警线便会把夹道里的变故传入控制室。" },
 ];
 
@@ -106,7 +106,7 @@ const traitorZhaoArrivesEvents: VisualNovelEvent[] = [
 ];
 
 const traitorBloodTakenEvents: VisualNovelEvent[] = [
-  { type: "background", asset: "background.blood-ruin", transition: "fade" },
+  { type: "background", asset: "cg.scene.traitorBloodTaken", transition: "fade" },
   { type: "narration", text: "乔无咎先转动主印，血池周围几根后来添入的细线立即收紧，从左右两侧压向旧检修口。你同时以副印升起外围石板，封住赵黎退向控制室的空隙。两套机关各自推进，试图把他的活动范围压在池边。" },
   { type: "narration", text: "赵黎没有迎着细线硬闯。他一路循这些新凿线路而来，早已看清它们与祖阵旧纹的交接位置。血纹蛊贴着血气掠向池沿，他本人则侧移数步，隔空击中固定交接处的一枚石扣。" },
   { type: "narration", text: "石扣碎开，数根新增细线顿时失去约束，沿原路猛然回弹。主台两处线槽被绞在一起，乔无咎双手压住主印，仍试图将它们重新分开；副台上的外围石板也因牵机丝错位，开始断续起落。" },

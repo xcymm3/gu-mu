@@ -1,9 +1,10 @@
 {
-  "date": "2026-08-24",
+  "date": "2026-09-01",
   "framework": "Next.js 16.3.0",
   "font_stack": "Geist + Geist Mono via next/font",
   "palette": "OKLCH custom properties in tokens.css",
-  "motion": "single opacity reveal plus explicit button feedback; no animation library",
+  "motion": "CSS transform/opacity transitions with explicit reduced-motion handling; no animation library",
   "spacing": "4-point CSS custom property scale",
-  "scope": "shared full-screen visual novel for desktop and mobile landscape, with a mobile portrait rotation prompt"
+  "scope": "shared full-screen visual novel for desktop and mobile landscape, with a mobile portrait rotation prompt",
+  "refresh_reason": "package.json is newer than the previous preflight cache"
 }

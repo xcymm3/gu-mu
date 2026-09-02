@@ -1,134 +1,129 @@
 {
   "task_id": "visual-art-expansion-v1",
   "phase": "verify",
-  "verified_at": "2026-09-02T12:40:31.5980969+08:00",
-  "verified_head": "840d8ad3fe4477a165366a3dfc13cd75416af2c4",
-  "overall_verdict": "FAIL",
-  "summary": "Fresh verification passes the current production build, 98 unit tests, lint, the 16-test production browser suite, the isolated 5-test visual suite, 64-file WebP decoding, the 56-item formal-art audit, runtime matrices, and both structural validators. Manual inspection also confirms the repaired 844x390 settings layout and the required art sheets. AC12 nevertheless fails because raw/manual-visual-review.md is still the pre-fix review: it names baseline eeb5812, says the fresh build failed, marks AC8 FAIL, and concludes the task does not pass, directly contradicting the current evidence bundle's all-PASS/no-gaps claim.",
+  "verified_at": "2026-09-02T13:12:43.3632784+08:00",
+  "verified_head": "fb24808a06f7e6ef86e5ed7e62c1f9f77ea9e0ca",
+  "overall_verdict": "PASS",
+  "summary": "Fresh independent verification passes AC1–AC12 on the current repository state. The prescribed unit, lint, production build, complete and isolated Playwright, WebP decode, hash/size, formal-art, JSON, proof-structure, and deadline-carl gates all pass. Independent visual review covers all four contact sheets, current route/ending/save/combat evidence, the repaired four-viewport home surfaces, and additional read-only 1920x1080 plus 844x390 battle/CG/ending checks. No production or evidence gap remains.",
   "criteria": [
     {
       "id": "AC1",
       "status": "PASS",
-      "reason": "The typed 56-item formal manifest, current unit assertions, fresh production build, 30/30 character matrix, 16/16 CG matrix, runtime request checks, unique hashes, and full WebP decode audit pass. Forbidden-pattern hits are confined to explicit non-art fallbacks, legacy background typing, negative tests, proof screenshots, and the static server SVG MIME table."
+      "reason": "The typed manifest enumerates exactly 56 formal assets across four categories. Fresh unit/static audits, 64-file decode/hash checks, complete runtime matrices, and production browser tests confirm existing paths, unique hashes, successful requests, runtime reachability, and no forbidden token in any formal key/path/alt; rg candidates are confined to non-art fallbacks, legacy CSS typing, negative tests, proof screenshots, and SVG MIME handling."
     },
     {
       "id": "AC2",
       "status": "PASS",
-      "reason": "Fresh public-UI E2E produces a complete 30/30 runtime matrix with successful visible requests. Independent inspection of the regenerated character contact sheet and representative originals confirms six stable identities, distinct required states, usable transparency, and no decisive watermark, text, limb, costume, or crop defect."
+      "reason": "Fresh unit and public-UI browser coverage confirm all 30 character-state keys with no missing runtime entry. Independent inspection of the contact sheet and representative originals confirms stable identities, clothing, palettes, silhouettes, readable state changes, usable transparency, and no release-blocking watermark, text, anatomy, costume, or crop defect."
     },
     {
       "id": "AC3",
       "status": "PASS",
-      "reason": "Fresh public-UI E2E reaches all seven scene CGs and nine unique ending CGs with no missing keys. The regenerated CG sheet and representative runtime frames are distinct, narratively legible, consistent with the dark tomb art direction, and not visibly stretched or critically obscured."
+      "reason": "The production suite freshly reaches all seven scene CGs and nine unique ending CGs through public UI with no missing keys or diagnostics. The 16-cell sheet and runtime frames are distinct, narratively aligned, consistently styled, and unstretched; supplemental 1920x1080 and 844x390 checks keep representative CG and ending subjects readable with zero overflow."
     },
     {
       "id": "AC4",
       "status": "PASS",
-      "reason": "The three unique formal UI artworks are present and visible at all four contract viewports. Fresh 844x390 top/bottom screenshots and automated bounding-box, clipping, hit-testing, and scroll-reachability assertions confirm the repaired settings content is non-overlapping and fully reachable."
+      "reason": "Three unique formal UI artworks render at all four contract viewports. Fresh browser assertions pass control reachability, no overflow, fixed-header hit testing, non-overlapping settings groups, scroll-bottom reachability, focus-visible behavior, and preserved states/content; visual inspection confirms a coherent tomb/gu dark-Chinese language and readable panels."
     },
     {
       "id": "AC5",
       "status": "PASS",
-      "reason": "Fresh full and isolated browser runs exercise six player effects and the enemy response in order, including request abort, next-turn recovery, and reduced motion. Production code uses 120 ms per reduced-motion art phase, normal phases use 520 ms, and rendered effect layers remain non-interactive and below controls."
+      "reason": "Fresh browser runs observe all six player effects before the enemy response, with continued turns, request-abort fallback, and reduced-motion recovery. Source inspection confirms 520 ms normal and 120 ms reduced phases. Supplemental 1920x1080 and 844x390 checks measure effect z-index 4 below dialogue 5 and controls 7, pointer-events none, bounded images, and readable opposing directions."
     },
     {
       "id": "AC6",
       "status": "PASS",
-      "reason": "The current trace contains 56 unique complete records, 56 repository-retained originals, adopted ImageGen call IDs, full prompts, references, and allowed post-processing. Independent inspection of all four regenerated contact sheets plus representative full-resolution files finds a coherent semi-realistic dark Chinese fantasy style and no decisive disqualifying artifact."
+      "reason": "art-generation.json has 56 unique records, exactly one adopted ImageGen output per record, 56 unique adopted output IDs, complete prompts, allowed post-processing, inspections, and 56 retained originals. Independent review of all four contact sheets and representative originals finds coherent semi-realistic dark Chinese-fantasy art without a decisive watermark, generated text, modern object, anatomy, alpha, or narrative defect."
     },
     {
       "id": "AC7",
       "status": "PASS",
-      "reason": "The read-only decode audit passes all 64 discovered release WebPs; the formal audit passes 56 unique hashes and reports 5,165,122 total bytes with all class-specific limits met. A fresh clean-context homepage observation requests one image totaling 33,040 bytes, below both frozen thresholds."
+      "reason": "Fresh ImageMagick verification decodes all 64 release WebPs. The formal audit passes 56 unique hashes, class dimensions/alpha/byte limits, and 5,165,122 total bytes; independent grouping finds zero duplicate SHA-256 groups. Fresh browser evidence reports one homepage image request totaling 33,040 bytes with no eager matrix preload."
     },
     {
       "id": "AC8",
       "status": "PASS",
-      "reason": "Fresh browser coverage passes the four required viewports, no-global-overflow checks, internal settings scrolling, contrast thresholds, focus-visible traversal, deterministic screenshots, portrait rotation prompt, and reduced-motion behavior. Manual inspection of the repaired 844x390 settings top and bottom confirms no remaining overlap or unreachable control."
+      "reason": "Fresh browser suites pass four viewports, deterministic screenshots, overflow, 844x390 settings scrolling/hit testing, portrait prompt, focus, contrast, touch targets, and reduced motion. Independent screenshot review plus supplemental 1920x1080 and 844x390 gameplay runs show no overflow, clipped primary control, stretch, or release-blocking obstruction."
     },
     {
       "id": "AC9",
       "status": "PASS",
-      "reason": "The fresh 16-test production suite passes all four routes, seven required scene nodes, and nine endings through the public UI, regenerating complete matrices and runtime screenshots from the just-built out/ export without missing asset keys."
+      "reason": "The fresh 16-test production suite passes all four routes, seven required nodes, and nine endings through public UI against the newly built out/ export. Runtime matrices contain 30/30 character and 16/16 CG entries with no missing key, and captured pages identify the active scene/ending and mapped asset."
     },
     {
       "id": "AC10",
       "status": "PASS",
-      "reason": "Fresh unit and production browser coverage passes manual and quick save/load, return-to-menu reload, version-6 missing-visual-metadata compatibility, all required combat actions and effects, request degradation, reduced motion, and victory/failure flows."
+      "reason": "Fresh unit and production browser coverage passes six-slot manual behavior, quick save/load, return-to-menu reload, version-6 missing-visual-metadata compatibility, scene/battle/resource restoration, all required actions/effects, degradation, reduced motion, and victory/failure flows without changing frozen combat or save semantics."
     },
     {
       "id": "AC11",
       "status": "PASS",
-      "reason": "The prescribed gates pass freshly in sequence: pnpm test 98/98, pnpm lint, pnpm build, pnpm test:e2e:run 16/16, and the isolated visual-art suite 5/5. The new build produced out/index.html before browser execution."
+      "reason": "All current-state gates pass: pnpm test 98/98, pnpm lint, pnpm build with fresh out/index.html, pnpm test:e2e:run 16/16, isolated visual-art Playwright 5/5, and proof:visual:static for 56 unique assets and four contact sheets. No test was skipped or weakened."
     },
     {
       "id": "AC12",
-      "status": "FAIL",
-      "reason": "Both JSON/proof validators pass structurally, but the required raw/manual-visual-review.md is stale and internally contradicts evidence.md/evidence.json: it identifies the pre-fix baseline, says the current build failed, marks AC8 FAIL, and concludes the task does not pass. Therefore the criterion-level bundle is not wholly current or internally consistent despite valid schema and paths."
+      "status": "PASS",
+      "reason": "evidence.json parses, all fixed proof paths exist, the refreshed manual review is consistent with the fb24808 evidence state, scripts/validate-task-proof.mjs reports PASS, and deadline-carl reports valid=true with no missing file or schema error. Criterion statuses, commands, paths, and gaps are complete and internally consistent."
     }
   ],
   "commands_run": [
     {
       "command": "git status --short",
       "exit_code": 0,
-      "result": "Current task artifacts and pre-existing unrelated changes enumerated; no cleanup or history rewrite performed."
+      "result": "Only pre-existing unrelated AGENTS.md/.hallmark changes and supervisor-owned untracked .agent/durable-loop and .codex paths were present initially."
     },
     {
       "command": "pnpm test",
       "exit_code": 0,
-      "duration_seconds": 2.39,
+      "duration_seconds": 2.19,
       "result": "98/98 tests passed."
     },
     {
       "command": "pnpm lint",
       "exit_code": 0,
-      "duration_seconds": 13.75,
+      "duration_seconds": 11.90,
       "result": "ESLint passed."
     },
     {
       "command": "pnpm build",
       "exit_code": 0,
-      "duration_seconds": 12.47,
-      "result": "Next.js 16.3.0 production build and static export passed; out/index.html was freshly generated."
+      "duration_seconds": 12.54,
+      "result": "Next.js 16.3.0 production build and static export passed."
     },
     {
       "command": "pnpm test:e2e:run",
       "exit_code": 0,
-      "duration_seconds": 438,
-      "result": "16/16 Playwright tests passed against the fresh static export in 7.3 minutes."
+      "duration_seconds": 444,
+      "result": "16/16 Playwright tests passed against the fresh static export in 7.4 minutes."
     },
     {
       "command": "pnpm exec playwright test tests/e2e/visual-art-expansion.spec.ts --reporter=line",
       "exit_code": 0,
-      "duration_seconds": 32.7,
+      "duration_seconds": 34.3,
       "result": "5/5 isolated visual-art tests passed."
-    },
-    {
-      "command": "ImageMagick full WebP decode audit",
-      "exit_code": 0,
-      "duration_seconds": 29.78,
-      "result": "64/64 discovered WebP files decoded."
-    },
-    {
-      "command": "SHA-256 audit",
-      "exit_code": 0,
-      "result": "All discovered release art files enumerated; no duplicate hash was observed, and the formal 56-item audit independently enforces uniqueness."
-    },
-    {
-      "command": "File-size audit",
-      "exit_code": 0,
-      "result": "All release art files enumerated; formal item and total thresholds pass."
-    },
-    {
-      "command": "rg forbidden-pattern candidate audit",
-      "exit_code": 0,
-      "result": "Candidates classified as explicit runtime fallbacks, legacy non-formal CSS asset typing, negative tests, proof screenshot code, or static-server MIME handling; no formal-art key/path/alt violation found."
     },
     {
       "command": "pnpm proof:visual:static",
       "exit_code": 0,
-      "duration_seconds": 16.32,
-      "result": "PASS: 56 unique formal assets, 5,165,122 bytes, four regenerated contact sheets."
+      "duration_seconds": 16.89,
+      "result": "PASS: 56 unique formal assets, 5,165,122 bytes, and four contact sheets."
+    },
+    {
+      "command": "ImageMagick full WebP decode audit",
+      "exit_code": 0,
+      "duration_seconds": 27.25,
+      "result": "64/64 discovered WebP files decoded successfully."
+    },
+    {
+      "command": "SHA-256 and file-size audits",
+      "exit_code": 0,
+      "result": "64 release files enumerated, zero duplicate hash groups, and all formal byte thresholds passed."
+    },
+    {
+      "command": "rg forbidden-pattern candidate audit",
+      "exit_code": 0,
+      "result": "All hits classified as non-formal fallback/CSS typing, negative test, screenshot proof code, or SVG MIME handling."
     },
     {
       "command": "Test-Path -LiteralPath out/index.html",
@@ -143,20 +138,27 @@
     {
       "command": "node scripts/validate-task-proof.mjs visual-art-expansion-v1",
       "exit_code": 0,
-      "result": "PASS: evidence is structurally valid and all proof paths are contained."
+      "result": "PASS: structurally valid evidence and contained proof paths."
     },
     {
       "command": "deadline-carl task_loop.py validate --artifact evidence",
       "exit_code": 0,
-      "result": "valid=true; no missing files or schema errors."
+      "result": "valid=true; missing_files=[]; errors=[]."
+    },
+    {
+      "command": "supplemental read-only Playwright at 1920x1080 and 844x390",
+      "exit_code": 0,
+      "duration_seconds": 13.71,
+      "result": "Battle, suCoffin CG, and demon ending rendered at both viewports with zero overflow or diagnostics; effect/dialogue/control layers were 4/5/7 and effect pointer-events was none."
     }
   ],
   "manual_checks": [
-    "Regenerated characters, CG, UI, and effects contact sheets inspected at original resolution.",
-    "Representative full-resolution character, CG, UI, and effect files inspected.",
-    "Fresh 844x390 settings top and bottom, 390x844 rotation prompt, route CG, combat effect, and restored-save screenshots inspected.",
-    "art-generation.json checked for 56 complete unique traces and 56 retained original files.",
-    "raw/manual-visual-review.md checked and found stale at lines 4-6, 38, and its final conclusion."
+    "Four contact sheets inspected through temporary 8-bit previews outside the repository; source proof files were not modified.",
+    "Representative full-resolution character, CG, UI, and effect WebPs inspected for identity, anatomy, transparency, style, narrative alignment, and release-blocking artifacts.",
+    "All task layout screenshots, route/ending montage, and representative save/combat/effect/degradation frames inspected.",
+    "Supplemental 1920x1080 and 844x390 battle, suCoffin CG, and demon ending screenshots inspected outside the repository.",
+    "art-generation.json checked for 56 records, one adopted call each, 56 unique adopted output IDs, complete prompts/post-processing, and 56 retained originals.",
+    "browser-act failed locally because its uv trampoline could not canonicalize the script path; the equivalent repository Playwright fallback passed."
   ],
   "artifacts_used": [
     ".agent/tasks/visual-art-expansion-v1/spec.md",

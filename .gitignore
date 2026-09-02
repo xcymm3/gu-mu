@@ -57,3 +57,9 @@ next-env.d.ts
 /loop/logs/
 /loop/runtime/
 /stop.md
+
+# deadline-carl:local-state:start
+/.agent/durable-loop/
+/.agent/deadline-carl-scratch/
+/.agent/tasks/*/.init-in-progress
+# deadline-carl:local-state:end

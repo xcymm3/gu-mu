@@ -385,10 +385,10 @@ function VisualNovelStage({ activeSpeaker, background, battleActor, characters, 
   </>;
 }
 
-function SceneCgOverlay({ assetKey, exiting, onDismiss }: { assetKey: SceneCgAssetKey; exiting: boolean; onDismiss: () => void }) {
+function SceneCgOverlay({ assetKey, chapter, exiting, onDismiss, title }: { assetKey: SceneCgAssetKey; chapter: string; exiting: boolean; onDismiss: () => void; title: string }) {
   const asset = getFormalVisualAsset(assetKey);
   return <button
-    aria-label={`剧情插画：${asset.alt}。点击继续`}
+    aria-label={`剧情插画：Chapter ${chapter} ${title}。点击继续`}
     className={`vn-scene-cg${exiting ? " is-exiting" : ""}`}
     data-asset-key={assetKey}
     onClick={(event) => { event.stopPropagation(); onDismiss(); }}
@@ -396,6 +396,7 @@ function SceneCgOverlay({ assetKey, exiting, onDismiss }: { assetKey: SceneCgAss
   >
     <StageImage alt={asset.alt} className="vn-scene-cg-image" src={asset.src} />
     <span className="vn-scene-cg-shade" aria-hidden="true" />
+    <span className="vn-scene-cg-title"><small>Chapter {chapter}</small><strong>{title}</strong></span>
     <span className="vn-scene-cg-hint">点击画面继续</span>
   </button>;
 }
@@ -1159,7 +1160,7 @@ export function XueGuYinGame() {
         {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}
         {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
         {showBacklog ? <BacklogOverlay entries={backlog} onClose={() => setShowBacklog(false)} /> : null}
-        {presentation.sceneCg && sceneCgActive ? <SceneCgOverlay assetKey={presentation.sceneCg} exiting={sceneCgExiting} onDismiss={dismissSceneCg} /> : null}
+        {presentation.sceneCg && sceneCgActive ? <SceneCgOverlay assetKey={presentation.sceneCg} chapter={`${scene.act}-${scene.node}`} exiting={sceneCgExiting} onDismiss={dismissSceneCg} title={scene.title} /> : null}
       </section>
     </main>
   );

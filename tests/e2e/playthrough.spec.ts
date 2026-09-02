@@ -1,5 +1,8 @@
 import { expect, test as base, type Locator, type Page } from "@playwright/test";
 
+import { chooseRole } from "../../lib/xue-gu-yin/game";
+import { createSaveSlot } from "../../lib/xue-gu-yin/save";
+
 type BrowserDiagnostics = {
   failures: string[];
 };
@@ -7,6 +10,8 @@ type BrowserDiagnostics = {
 type Fixtures = {
   browserDiagnostics: BrowserDiagnostics;
 };
+
+const saveStorageKey = "xue-gu-yin-save-slots-v2";
 
 const test = base.extend<Fixtures>({
   browserDiagnostics: async ({ page }, runFixture) => {
@@ -74,6 +79,40 @@ async function advanceUntilVisible(page: Page, target: Locator, label: string, l
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 1366, height: 768 });
+});
+
+test("七个剧情 CG 显示对应章节标题并可返回无人背景", async ({ page, browserDiagnostics }) => {
+  void browserDiagnostics;
+  const cases = [
+    { sceneId: "gate", route: null, asset: "cg.scene.gate", chapter: "1-1", title: "夜雨墓门", background: "background.gate-empty" },
+    { sceneId: "bloodThreshold", route: null, asset: "cg.scene.bloodThreshold", chapter: "1-3", title: "血门将合", background: "background.blood-threshold-empty" },
+    { sceneId: "fog", route: null, asset: "cg.scene.fog", chapter: "2-7", title: "大雾迷踪", background: "background.fog-junction-empty" },
+    { sceneId: "zhaoAwakening", route: "zhao", asset: "cg.scene.zhaoAwakening", chapter: "4-3", title: "五转蛊醒", background: "background.blood-awakening-empty" },
+    { sceneId: "jiDestroyGu", route: "ji", asset: "cg.scene.jiDestroyGu", chapter: "4-6", title: "破蛊断脉", background: "background.shattered-gu-empty" },
+    { sceneId: "suCoffin", route: "su", asset: "cg.scene.suCoffin", chapter: "4-3", title: "空棺遗文", background: "background.empty-coffin" },
+    { sceneId: "traitorBloodTaken", route: "traitor", asset: "cg.scene.traitorBloodTaken", chapter: "4-6", title: "血蛊易主", background: "background.blood-transfer-empty" },
+  ] as const;
+
+  await page.goto("/");
+  for (const item of cases) {
+    const baseGame = chooseRole("swordsman");
+    const game = { ...baseGame, sceneId: item.sceneId, route: item.route, routeLocked: item.route !== null };
+    const slot = createSaveSlot({ game, narrative: { sceneId: item.sceneId, page: 0 }, now: new Date("2026-09-02T00:00:00.000Z") });
+    await page.evaluate(({ key, value }) => {
+      window.localStorage.setItem(key, value);
+    }, { key: saveStorageKey, value: JSON.stringify([slot, null, null, null, null, null]) });
+    await page.reload();
+    await page.getByRole("button", { name: /^读取存档/ }).click();
+    await page.locator(".save-archive .save-slot").first().getByRole("button", { name: "读取", exact: true }).click();
+
+    const cg = page.locator(`.vn-scene-cg[data-asset-key="${item.asset}"]`);
+    await expect(cg).toBeVisible();
+    await expect(cg.locator(".vn-scene-cg-title small")).toHaveText(`Chapter ${item.chapter}`);
+    await expect(cg.locator(".vn-scene-cg-title strong")).toHaveText(item.title);
+    await cg.click();
+    await expect(cg).toBeHidden();
+    await expect(page.locator(`.vn-stage[data-asset-key="${item.background}"]`)).toBeVisible();
+  }
 });
 
 test("主菜单到读档工具链均经过玩家公开操作", async ({ page, browserDiagnostics }) => {

@@ -201,6 +201,7 @@ test("七个剧情 CG 使用独立全屏层并在淡出后回到无人背景", (
   const game = readFileSync(path.join(process.cwd(), "features", "xue-gu-yin", "XueGuYinGame.tsx"), "utf8");
   assert.match(game, /function SceneCgOverlay/);
   assert.match(game, /className={`vn-scene-cg/);
+  assert.match(game, /Chapter \{chapter\}/);
   assert.match(game, /dismissSceneCg/);
 });
 

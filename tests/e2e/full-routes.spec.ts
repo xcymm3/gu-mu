@@ -263,6 +263,8 @@ class BrowserPlaythrough {
     if (cgAsset) {
       const cgOverlay = this.page.locator(`.vn-scene-cg[data-asset-key="${cgAsset}"]`);
       await expect(cgOverlay).toBeVisible();
+      await expect(cgOverlay.locator(".vn-scene-cg-title small")).toHaveText(`Chapter ${scene.act}-${scene.node}`);
+      await expect(cgOverlay.locator(".vn-scene-cg-title strong")).toHaveText(scene.title);
       await this.captureCgRuntimeState(cgAsset, "scene", scene.id, cgOverlay);
       await cgOverlay.click();
       await expect(cgOverlay).toBeHidden();

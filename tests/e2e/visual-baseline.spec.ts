@@ -262,7 +262,9 @@ class VisualPlaythrough {
     await this.page.getByRole("button", { name: /^开始游戏/ }).click();
     await this.page.getByRole("button", { name: /流浪剑修/ }).click();
     await expect(this.stage).toHaveAttribute("data-scene-id", this.game.sceneId);
-    await expect(this.page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]')).toBeVisible();
+    const openingCg = this.page.locator('.vn-scene-cg[data-asset-key="cg.scene.gate"]');
+    await expect(openingCg).toBeVisible();
+    await expect(openingCg.locator(".vn-scene-cg-title")).toHaveText("Chapter 1-1夜雨墓门");
   }
 
   async dismissCurrentSceneCg() {

@@ -18,11 +18,12 @@ import {
   type GameState,
   type GuAction,
 } from "../../lib/xue-gu-yin/game";
+import { resolveVisualBaselineDirectory } from "./artifact-output";
 
 type BrowserDiagnostics = { failures: string[] };
 type Fixtures = { browserDiagnostics: BrowserDiagnostics };
 
-const baselineDirectory = join(process.cwd(), "tests", "e2e", "visual-baselines");
+const baselineDirectory = resolveVisualBaselineDirectory();
 const desktopViewport = { width: 1366, height: 768 };
 const trappedRouteChoices = [
   "gate-power",

@@ -15,10 +15,11 @@ import {
   type RoleId,
 } from "../../lib/xue-gu-yin/game";
 import { createSaveSlot } from "../../lib/xue-gu-yin/save";
+import { resolveProofRawRoot } from "./artifact-output";
 
 const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const taskId = "visual-art-expansion-v1";
-const proofRawRoot = path.resolve(process.cwd(), ".agent", "tasks", taskId, "raw");
+const proofRawRoot = resolveProofRawRoot(taskId);
 const layoutScreenshotRoot = path.join(proofRawRoot, "screenshots", "layout");
 const saveCombatScreenshotRoot = path.join(proofRawRoot, "screenshots", "save-and-combat");
 const uiRuntimeEntries: Array<Record<string, unknown>> = [];

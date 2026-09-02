@@ -24,6 +24,7 @@ import {
   formalVisualAssetManifest,
   type FormalCharacterAssetKey,
 } from "../../lib/xue-gu-yin/assets";
+import { resolveProofRawRoot } from "./artifact-output";
 
 type BrowserDiagnostics = { failures: string[] };
 type Fixtures = { browserDiagnostics: BrowserDiagnostics };
@@ -51,7 +52,7 @@ const test = base.extend<Fixtures>({
 });
 
 const taskId = "visual-art-expansion-v1";
-const proofRawRoot = path.resolve(process.cwd(), ".agent", "tasks", taskId, "raw");
+const proofRawRoot = resolveProofRawRoot(taskId);
 const routeScreenshotRoot = path.join(proofRawRoot, "screenshots", "routes-and-endings");
 const saveCombatScreenshotRoot = path.join(proofRawRoot, "screenshots", "save-and-combat");
 const characterRuntimeEntries = new Map<string, Record<string, unknown>>();

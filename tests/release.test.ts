@@ -358,18 +358,29 @@ test("手机端可点按高速快进全部剧情且立绘避开顶部安全区",
   assert.match(css, /\.vn-character-slot,[\s\S]*?height:\s*min\(76dvh, calc\(100dvh - var\(--vn-character-top-clearance\)\)\)/);
 });
 
-test("Android 外壳锁定横屏并仅通过 HTTPS 加载游戏", () => {
+test("Android 离线版锁定横屏并从 APK 加载完整游戏", () => {
   const manifest = readFileSync(path.join(process.cwd(), "android", "app", "src", "main", "AndroidManifest.xml"), "utf8");
   const activity = readFileSync(path.join(process.cwd(), "android", "app", "src", "main", "java", "top", "xcymm3", "adv", "MainActivity.java"), "utf8");
   const gradle = readFileSync(path.join(process.cwd(), "android", "app", "build.gradle.kts"), "utf8");
 
-  assert.match(manifest, /android\.permission\.INTERNET/);
+  const assets = readFileSync(path.join(process.cwd(), "android", "app", "src", "main", "java", "top", "xcymm3", "adv", "OfflineGameAssets.java"), "utf8");
+  assert.doesNotMatch(manifest, /android\.permission\.INTERNET/);
   assert.match(manifest, /android:screenOrientation="sensorLandscape"/);
   assert.match(manifest, /android:usesCleartextTraffic="false"/);
-  assert.match(activity, /HOME_URL = "https:\/\/adv\.xcymm3\.top\/"/);
+  assert.match(activity, /HOME_URL = OfflineGameAssets\.HOME_URL/);
+  assert.match(assets, /HOME_HOST = "adv\.xcymm3\.top"/);
+  assert.match(assets, /new WebViewAssetLoader\.Builder/);
+  assert.match(assets, /response == null \? error\(404, "Not Found"\) : response/);
+  assert.match(activity, /setBlockNetworkLoads\(true\)/);
+  assert.match(activity, /setAllowFileAccess\(false\)/);
+  assert.match(activity, /setAllowContentAccess\(false\)/);
+  assert.doesNotMatch(activity, /startActivity\(new Intent/);
   assert.match(activity, /setDomStorageEnabled\(true\)/);
   assert.match(activity, /WindowInsetsController\.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE/);
   assert.match(activity, /getOnBackPressedDispatcher\(\)\.addCallback/);
   assert.doesNotMatch(activity, /public void onBackPressed\(\)/);
   assert.match(gradle, /targetSdk = 36/);
+  assert.match(gradle, /assets\.directories\.add\(rootProject\.file\("\.\.\/out"\)\.path\)/);
+  assert.match(gradle, /dependsOn\(verifyWebExport\)/);
+  assert.doesNotMatch(gradle, /ignoreAssetsPattern = "[^"]*:\!_\*/);
 });

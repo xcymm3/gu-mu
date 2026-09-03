@@ -11,6 +11,8 @@
     "test": "node --experimental-strip-types --test tests/game.test.ts tests/combat-balance.test.ts tests/release.test.ts tests/desktop.test.mjs",
     "desktop:dev": "pnpm build && install-electron && electron desktop",
     "desktop:pack": "pnpm build && install-electron && electron-builder --config electron-builder.json --win portable --x64 --publish never",
+    "android:pack": "pnpm build && gradle -p android :app:testDebugUnitTest :app:lintDebug :app:assembleDebug",
+    "test:android": "playwright test --config=playwright.android.config.ts",
     "test:desktop": "playwright test --config=playwright.desktop.config.ts",
     "install:e2e:browser": "playwright install chromium",
     "test:e2e": "pnpm build && pnpm test:e2e:run",

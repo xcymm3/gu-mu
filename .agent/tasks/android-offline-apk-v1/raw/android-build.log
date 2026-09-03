@@ -1,0 +1,75 @@
+Calculating task graph as configuration cache cannot be reused because a build logic input of type 'FileExistsValueSource' has changed.
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:processDebugJavaRes NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes NO-SOURCE
+> Task :app:verifyWebExport
+> Task :app:preBuild
+> Task :app:preDebugBuild
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:mapDebugSourceSetPaths
+> Task :app:preDebugUnitTestBuild
+> Task :app:generateDebugBuildConfig
+> Task :app:generateDebugResources
+> Task :app:extractDeepLinksDebug
+> Task :app:desugarDebugFileDependencies
+> Task :app:javaPreCompileDebug
+> Task :app:javaPreCompileDebugUnitTest
+> Task :app:processDebugNavigationResources
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:mergeDebugJniLibFolders
+> Task :app:extractProguardFiles
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:compileDebugNavigationResources
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:checkDebugAarMetadata
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:checkDebugDuplicateClasses
+> Task :app:packageDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:mergeLibDexDebug
+> Task :app:processDebugManifestForPackage
+> Task :app:parseDebugLocalResources
+> Task :app:mergeDebugAssets
+> Task :app:generateDebugRFile
+> Task :app:compressDebugAssets
+> Task :app:generateDebugGlobalSynthetics
+> Task :app:mergeDebugJavaResource
+> Task :app:mergeDebugResources
+
+> Task :app:compileDebugJavaWithJavac
+注: D:\mydoc\React\gu-mu-wu-xiu\android\app\src\main\java\top\xcymm3\adv\MainActivity.java使用或覆盖了已过时的 API。
+注: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。
+
+> Task :app:generateDebugLintReportModel
+> Task :app:mergeExtDexDebug
+> Task :app:processDebugResources
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :app:dexBuilderDebug
+> Task :app:mergeProjectDexDebug
+> Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:compileDebugUnitTestJavaWithJavac
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :app:packageDebug
+> Task :app:assembleDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:lintAnalyzeDebug
+
+> Task :app:lintReportDebug
+Wrote HTML report to file:///D:/mydoc/React/gu-mu-wu-xiu/android/app/build/reports/lint-results-debug.html
+Wrote SARIF report to file:///D:/mydoc/React/gu-mu-wu-xiu/android/app/build/reports/lint-results-debug.sarif
+
+> Task :app:lintDebug
+> Task :app:testDebugUnitTest
+
+[Incubating] Problems report is available at: file:///D:/mydoc/React/gu-mu-wu-xiu/android/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 20s
+49 actionable tasks: 49 executed
+Configuration cache entry stored.

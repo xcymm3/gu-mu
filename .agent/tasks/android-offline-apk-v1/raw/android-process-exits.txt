@@ -1,0 +1,68 @@
+ACTIVITY MANAGER PROCESS EXIT INFO (dumpsys activity exit-info)
+Last Timestamp of Persistence Into Persistent Storage: 1970-01-01 00:00:00.000
+  package: top.xcymm3.adv
+    Historical Process Exit for uid=10148
+        ApplicationExitInfo #0:
+          timestamp=2026-09-03 02:24:24.255 pid=3483 realUid=99008 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=13 (OTHER KILLS BY SYSTEM) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #1:
+          timestamp=2026-09-03 02:24:24.182 pid=3458 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 3554 state=empty trace=null
+        ApplicationExitInfo #2:
+          timestamp=2026-09-03 02:24:01.263 pid=3358 realUid=99007 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=1 (EXIT_SELF) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #3:
+          timestamp=2026-09-03 02:24:01.142 pid=3333 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 3441 state=empty trace=null
+        ApplicationExitInfo #4:
+          timestamp=2026-09-03 02:22:37.458 pid=3132 realUid=99006 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=1 (EXIT_SELF) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #5:
+          timestamp=2026-09-03 02:22:37.346 pid=3101 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 3194 state=empty trace=null
+        ApplicationExitInfo #6:
+          timestamp=2026-09-03 02:22:19.631 pid=3006 realUid=99005 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=13 (OTHER KILLS BY SYSTEM) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #7:
+          timestamp=2026-09-03 02:22:19.518 pid=2977 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 3088 state=empty trace=null
+        ApplicationExitInfo #8:
+          timestamp=2026-09-03 02:21:12.550 pid=2859 realUid=99004 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=13 (OTHER KILLS BY SYSTEM) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #9:
+          timestamp=2026-09-03 02:21:12.383 pid=2836 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 2926 state=empty trace=null
+        ApplicationExitInfo #10:
+          timestamp=2026-09-03 02:20:51.780 pid=2750 realUid=99003 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=13 (OTHER KILLS BY SYSTEM) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #11:
+          timestamp=2026-09-03 02:20:51.688 pid=2722 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 2817 state=empty trace=null
+        ApplicationExitInfo #12:
+          timestamp=2026-09-03 02:18:55.978 pid=2611 realUid=99002 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=1 (EXIT_SELF) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #13:
+          timestamp=2026-09-03 02:18:55.939 pid=2576 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 2669 state=empty trace=null
+        ApplicationExitInfo #14:
+          timestamp=2026-09-03 02:18:12.712 pid=2495 realUid=99001 packageUid=10148 definingUid=10112 user=0
+          process=com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0 reason=13 (OTHER KILLS BY SYSTEM) subreason=17 (ISOLATED NOT NEEDED) status=0
+          importance=300 pss=0.00 rss=0.00 description=isolated not needed state=empty trace=null
+        ApplicationExitInfo #15:
+          timestamp=2026-09-03 02:18:12.639 pid=2460 realUid=10148 packageUid=10148 definingUid=10148 user=0
+          process=top.xcymm3.adv reason=10 (USER REQUESTED) subreason=21 (FORCE STOP) status=0
+          importance=100 pss=0.00 rss=0.00 description=stop top.xcymm3.adv due to from pid 2560 state=empty trace=null

@@ -1,0 +1,131 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\mydoc\\React\\gu-mu-wu-xiu\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config=playwright.android.config.ts"
+    ],
+    "configFile": "D:\\mydoc\\React\\gu-mu-wu-xiu\\playwright.android.config.ts",
+    "rootDir": "D:/mydoc/React/gu-mu-wu-xiu/tests/android",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/mydoc/React/gu-mu-wu-xiu/test-results/android",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/mydoc/React/gu-mu-wu-xiu/tests/android",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/android/report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "offline.spec.ts",
+      "file": "offline.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Android APK 在断网环境启动，显示 CG 并持久化存档",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 55621,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-03T02:23:29.708Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "android-layout",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzZWxlY3RvciI6ICIuc2NlbmUiLAogICAgInJlY3QiOiB7CiAgICAgICJ4IjogNTAsCiAgICAgICJ5IjogMTYwLjEzNjM2Nzc5Nzg1MTU2LAogICAgICAid2lkdGgiOiA3ODkuMjcyNzY2MTEzMjgxMiwKICAgICAgImhlaWdodCI6IDE3Mi45NTQ1NDQwNjczODI4LAogICAgICAidG9wIjogMTYwLjEzNjM2Nzc5Nzg1MTU2LAogICAgICAicmlnaHQiOiA4MzkuMjcyNzY2MTEzMjgxMiwKICAgICAgImJvdHRvbSI6IDMzMy4wOTA5MTE4NjUyMzQ0LAogICAgICAibGVmdCI6IDUwCiAgICB9LAogICAgInBvc2l0aW9uIjogImFic29sdXRlIiwKICAgICJkaXNwbGF5IjogImdyaWQiLAogICAgInRvcCI6ICIxNjAuMTM2cHgiLAogICAgImJvdHRvbSI6ICI2MHB4IiwKICAgICJtYXJnaW4iOiAiMHB4IiwKICAgICJwYWRkaW5nIjogIjE2cHggMjRweCAyMHB4IiwKICAgICJ0cmFuc2Zvcm0iOiAibm9uZSIsCiAgICAiZ3JpZFJvd3MiOiAiNjQuNTc5NXB4IDcwLjkyMDVweCIsCiAgICAiZ3JpZFJvdyI6ICJhdXRvIiwKICAgICJzcGFjZTEiOiAiLjI1cmVtIiwKICAgICJjbGVhcmFuY2UiOiAibWF4KGNhbGMoMi41cmVtICsgMS4yNXJlbSksIGNhbGMoMHB4ICsgMi41cmVtICsgMXJlbSkpIgogIH0sCiAgewogICAgInNlbGVjdG9yIjogIi5zY2VuZS1jb3B5IiwKICAgICJyZWN0IjogewogICAgICAieCI6IDc0LjcyNzI3MjAzMzY5MTQsCiAgICAgICJ5IjogMTgwLjg2MzY0NzQ2MDkzNzUsCiAgICAgICJ3aWR0aCI6IDczOS44MTgxNzYyNjk1MzEyLAogICAgICAiaGVpZ2h0IjogNjAuNTc5NTQ3ODgyMDgwMDgsCiAgICAgICJ0b3AiOiAxODAuODYzNjQ3NDYwOTM3NSwKICAgICAgInJpZ2h0IjogODE0LjU0NTQ0ODMwMzIyMjcsCiAgICAgICJib3R0b20iOiAyNDEuNDQzMTk1MzQzMDE3NTgsCiAgICAgICJsZWZ0IjogNzQuNzI3MjcyMDMzNjkxNAogICAgfSwKICAgICJwb3NpdGlvbiI6ICJzdGF0aWMiLAogICAgImRpc3BsYXkiOiAiZ3JpZCIsCiAgICAidG9wIjogImF1dG8iLAogICAgImJvdHRvbSI6ICJhdXRvIiwKICAgICJtYXJnaW4iOiAiNHB4IDBweCAwcHgiLAogICAgInBhZGRpbmciOiAiMHB4IDhweCA0cHggMHB4IiwKICAgICJ0cmFuc2Zvcm0iOiAibWF0cml4KDEsIDAsIDAsIDEsIDAsIDApIiwKICAgICJncmlkUm93cyI6ICIyMi4yODk4cHggMjIuMjg5OHB4IiwKICAgICJncmlkUm93IjogImF1dG8iLAogICAgInNwYWNlMSI6ICIuMjVyZW0iLAogICAgImNsZWFyYW5jZSI6ICJtYXgoY2FsYygyLjVyZW0gKyAxLjI1cmVtKSwgY2FsYygwcHggKyAyLjVyZW0gKyAxcmVtKSkiCiAgfSwKICB7CiAgICAic2VsZWN0b3IiOiAiLnNjZW5lLWNvcHkgcCIsCiAgICAicmVjdCI6IHsKICAgICAgIngiOiA3NC43MjcyNzIwMzM2OTE0LAogICAgICAieSI6IDE4MC44NjM2NDc0NjA5Mzc1LAogICAgICAid2lkdGgiOiA3MzEuODE4MTc2MjY5NTMxMiwKICAgICAgImhlaWdodCI6IDIyLjI4OTc3Mzk0MTA0MDA0LAogICAgICAidG9wIjogMTgwLjg2MzY0NzQ2MDkzNzUsCiAgICAgICJyaWdodCI6IDgwNi41NDU0NDgzMDMyMjI3LAogICAgICAiYm90dG9tIjogMjAzLjE1MzQyMTQwMTk3NzU0LAogICAgICAibGVmdCI6IDc0LjcyNzI3MjAzMzY5MTQKICAgIH0sCiAgICAicG9zaXRpb24iOiAic3RhdGljIiwKICAgICJkaXNwbGF5IjogImJsb2NrIiwKICAgICJ0b3AiOiAiYXV0byIsCiAgICAiYm90dG9tIjogImF1dG8iLAogICAgIm1hcmdpbiI6ICIwcHgiLAogICAgInBhZGRpbmciOiAiMHB4IiwKICAgICJ0cmFuc2Zvcm0iOiAibm9uZSIsCiAgICAiZ3JpZFJvd3MiOiAibm9uZSIsCiAgICAiZ3JpZFJvdyI6ICJhdXRvIiwKICAgICJzcGFjZTEiOiAiLjI1cmVtIiwKICAgICJjbGVhcmFuY2UiOiAibWF4KGNhbGMoMi41cmVtICsgMS4yNXJlbSksIGNhbGMoMHB4ICsgMi41cmVtICsgMXJlbSkpIgogIH0sCiAgewogICAgInNlbGVjdG9yIjogIi52bi1zcGVha2VyIiwKICAgICJyZWN0IjogewogICAgICAieCI6IDY2LjcyNzI3MjAzMzY5MTQsCiAgICAgICJ5IjogMTQ0Ljg2MzY0NzQ2MDkzNzUsCiAgICAgICJ3aWR0aCI6IDk2LAogICAgICAiaGVpZ2h0IjogMjYuNzM4NjM3OTI0MTk0MzM2LAogICAgICAidG9wIjogMTQ0Ljg2MzY0NzQ2MDkzNzUsCiAgICAgICJyaWdodCI6IDE2Mi43MjcyNzIwMzM2OTE0LAogICAgICAiYm90dG9tIjogMTcxLjYwMjI4NTM4NTEzMTg0LAogICAgICAibGVmdCI6IDY2LjcyNzI3MjAzMzY5MTQKICAgIH0sCiAgICAicG9zaXRpb24iOiAiYWJzb2x1dGUiLAogICAgImRpc3BsYXkiOiAiYmxvY2siLAogICAgInRvcCI6ICItMTZweCIsCiAgICAiYm90dG9tIjogIjE2MC43NjFweCIsCiAgICAibWFyZ2luIjogIjBweCIsCiAgICAicGFkZGluZyI6ICI0cHggMTZweCIsCiAgICAidHJhbnNmb3JtIjogIm5vbmUiLAogICAgImdyaWRSb3dzIjogIm5vbmUiLAogICAgImdyaWRSb3ciOiAiYXV0byIsCiAgICAic3BhY2UxIjogIi4yNXJlbSIsCiAgICAiY2xlYXJhbmNlIjogIm1heChjYWxjKDIuNXJlbSArIDEuMjVyZW0pLCBjYWxjKDBweCArIDIuNXJlbSArIDFyZW0pKSIKICB9LAogIHsKICAgICJzZWxlY3RvciI6ICIudm4tcXVpY2stbWVudSIsCiAgICAicmVjdCI6IHsKICAgICAgIngiOiA1NzQuNjI1LAogICAgICAieSI6IDMzOC44NDA5MTE4NjUyMzQ0LAogICAgICAid2lkdGgiOiAyNzAuMjUsCiAgICAgICJoZWlnaHQiOiA1MC4yNSwKICAgICAgInRvcCI6IDMzOC44NDA5MTE4NjUyMzQ0LAogICAgICAicmlnaHQiOiA4NDQuODc1LAogICAgICAiYm90dG9tIjogMzg5LjA5MDkxMTg2NTIzNDQsCiAgICAgICJsZWZ0IjogNTc0LjYyNQogICAgfSwKICAgICJwb3NpdGlvbiI6ICJhYnNvbHV0ZSIsCiAgICAiZGlzcGxheSI6ICJmbGV4IiwKICAgICJ0b3AiOiAiMzM4Ljg0MXB4IiwKICAgICJib3R0b20iOiAiNHB4IiwKICAgICJtYXJnaW4iOiAiMHB4IiwKICAgICJwYWRkaW5nIjogIjIuNHB4IiwKICAgICJ0cmFuc2Zvcm0iOiAibm9uZSIsCiAgICAiZ3JpZFJvd3MiOiAibm9uZSIsCiAgICAiZ3JpZFJvdyI6ICJhdXRvIiwKICAgICJzcGFjZTEiOiAiLjI1cmVtIiwKICAgICJjbGVhcmFuY2UiOiAibWF4KGNhbGMoMi41cmVtICsgMS4yNXJlbSksIGNhbGMoMHB4ICsgMi41cmVtICsgMXJlbSkpIgogIH0KXQ=="
+                    },
+                    {
+                      "name": "android-runtime",
+                      "contentType": "application/json",
+                      "body": "ewogICJzZXJpYWwiOiAiZW11bGF0b3ItNTU1NCIsCiAgInVzZXJBZ2VudCI6ICJNb3ppbGxhLzUuMCAoTGludXg7IEFuZHJvaWQgMTU7IEFuZHJvaWQgU0RLIGJ1aWx0IGZvciB4ODZfNjQgQnVpbGQvQUUzQS4yNDA4MDYuMDE5OyB3dikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgVmVyc2lvbi80LjAgQ2hyb21lLzEyNC4wLjYzNjcuMjE5IE1vYmlsZSBTYWZhcmkvNTM3LjM2IFh1ZUd1WWluQW5kcm9pZC8yLjAtT2ZmbGluZSIsCiAgImF1ZGlvIjogewogICAgInN0YXR1cyI6IDIwMCwKICAgICJ0eXBlIjogImF1ZGlvL3dhdiIsCiAgICAiZHVyYXRpb24iOiAxMAogIH0sCiAgInNhdmVkIjogIlt7XCJ2ZXJzaW9uXCI6NixcInNhdmVkQXRcIjpcIjIwMjYtMDktMDNUMDI6MjM6NTIuMTI4WlwiLFwiZ2FtZVwiOntcInJvbGVJZFwiOlwic3dvcmRzbWFuXCIsXCJzY2VuZUlkXCI6XCJnYXRlXCIsXCJyb3V0ZVwiOm51bGwsXCJyb3V0ZUxvY2tlZFwiOmZhbHNlLFwicGVyc29uYWxpdHlcIjp7XCJwb3dlclwiOjAsXCJjb21wYXNzaW9uXCI6MCxcImluc2lnaHRcIjowLFwic2NoZW1lXCI6MH0sXCJoZWFsdGhcIjoxNSxcIm1heEhlYWx0aFwiOjE1LFwiZXNzZW5jZVwiOjEwLFwibWF4RXNzZW5jZVwiOjEwLFwidGltZVwiOjAsXCJmbGFnc1wiOltdLFwiYmF0dGxlXCI6bnVsbCxcImVuZGluZ0lkXCI6bnVsbH0sXCJuYXJyYXRpdmVcIjp7XCJzY2VuZUlkXCI6XCJnYXRlXCIsXCJwYWdlXCI6MH19LG51bGwsbnVsbCxudWxsLG51bGwsbnVsbF0iLAogICJmYWlsdXJlcyI6IFtdCn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "586fc5283fd8ec7c7982-1eb2ee72c35ad642cfef",
+          "file": "offline.spec.ts",
+          "line": 7,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-03T02:23:27.996Z",
+    "duration": 57512.463,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

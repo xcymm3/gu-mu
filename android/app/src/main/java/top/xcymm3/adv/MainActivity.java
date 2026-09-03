@@ -1,8 +1,6 @@
 package top.xcymm3.adv;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,19 +26,18 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedCallback;
 
 public final class MainActivity extends ComponentActivity {
-    private static final String HOME_HOST = "adv.xcymm3.top";
-    private static final String HOME_URL = "https://adv.xcymm3.top/";
+    private static final String HOME_URL = OfflineGameAssets.HOME_URL;
 
     private FrameLayout root;
     private WebView webView;
     private LinearLayout errorView;
     private boolean pageFailed;
+    private OfflineGameAssets offlineAssets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,11 +151,11 @@ public final class MainActivity extends ComponentActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void configureWebView() {
-        WebView.setWebContentsDebuggingEnabled(false);
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        offlineAssets = new OfflineGameAssets(this);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(true);
         settings.setLoadsImagesAutomatically(true);
         settings.setMediaPlaybackRequiresUserGesture(true);
         settings.setSupportMultipleWindows(false);
@@ -169,12 +166,13 @@ public final class MainActivity extends ComponentActivity {
         settings.setDisplayZoomControls(false);
         settings.setSupportZoom(false);
         settings.setTextZoom(100);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setBlockNetworkLoads(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             settings.setSafeBrowsingEnabled(true);
         }
-        settings.setUserAgentString(settings.getUserAgentString() + " XueGuYinAndroid/1.0");
+        settings.setUserAgentString(settings.getUserAgentString() + " XueGuYinAndroid/2.0-Offline");
 
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
@@ -259,27 +257,7 @@ public final class MainActivity extends ComponentActivity {
     }
 
     private boolean handleUri(Uri uri) {
-        String scheme = uri.getScheme();
-        String host = uri.getHost();
-        if ("https".equalsIgnoreCase(scheme) && HOME_HOST.equalsIgnoreCase(host)) {
-            return false;
-        }
-        if ("http".equalsIgnoreCase(scheme) && HOME_HOST.equalsIgnoreCase(host)) {
-            loadHome();
-            return true;
-        }
-        if (!"https".equalsIgnoreCase(scheme)
-                && !"http".equalsIgnoreCase(scheme)
-                && !"mailto".equalsIgnoreCase(scheme)
-                && !"tel".equalsIgnoreCase(scheme)) {
-            return true;
-        }
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        } catch (ActivityNotFoundException exception) {
-            Toast.makeText(this, R.string.no_external_app, Toast.LENGTH_SHORT).show();
-        }
-        return true;
+        return !OfflineGameAssets.isLocal(uri);
     }
 
     private int dp(int value) {
@@ -287,6 +265,11 @@ public final class MainActivity extends ComponentActivity {
     }
 
     private class GameWebViewClient extends WebViewClient {
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            return offlineAssets.intercept(request.getUrl(), request.getMethod());
+        }
+
         @Override
         public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
             pageFailed = false;

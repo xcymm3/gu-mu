@@ -1,0 +1,11 @@
+{
+  "task_id": "android-offline-apk-v1",
+  "pass": 2,
+  "status": "PASS",
+  "criteria": { "AC1": "PASS", "AC2": "PASS", "AC3": "PASS", "AC4": "PASS", "AC5": "PASS" },
+  "gaps": [],
+  "blocking_problem_count": 0,
+  "nonblocking_android_lint_warnings": 11,
+  "evidence": "evidence.json",
+  "limitations": "See evidence.md: debug signing, emulator-only runtime coverage and platform compatibility warnings"
+}

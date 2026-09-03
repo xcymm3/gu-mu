@@ -1,0 +1,38 @@
+{
+  "task_id": "android-offline-apk-v1",
+  "status": "PASS",
+  "criteria": {
+    "AC1": { "status": "PASS", "evidence": ["raw/apk-integrity.json"] },
+    "AC2": { "status": "PASS", "evidence": ["raw/apk-integrity.json", "raw/android-runtime-report.json"] },
+    "AC3": { "status": "PASS", "evidence": ["raw/android-runtime.log", "raw/android-runtime-report.json", "raw/android-home.png", "raw/android-cg.png", "raw/android-game.png", "raw/android-restored.png"] },
+    "AC4": { "status": "PASS", "evidence": ["raw/final-web-verification.log", "raw/typescript.log", "raw/lint.log", "raw/android-build.log", "raw/android-unit-tests.xml", "raw/android-lint.txt", "raw/web-smoke.log"] },
+    "AC5": { "status": "PASS", "evidence": ["spec.md", "evidence.md", "verdict.json", "problems.md"], "delivery_record": "Task-scoped Git commit and push history" }
+  },
+  "artifact": {
+    "path": "dist/android/XueGuYin-0.2.0-rc.2-android-offline.apk",
+    "bytes": 15467531,
+    "sha256": "fe377ee0e977f6b9ed00b5045a256b0923b967def91e9d3887c743670a651655",
+    "signature": "Android debug; verified",
+    "packaged_game_assets": 130,
+    "internet_permission": false
+  },
+  "runtime": {
+    "device": "Dedicated xueguyin-offline-test AVD, Pixel 5",
+    "android_api": 35,
+    "webview": "124.0.6367.219",
+    "wifi_enabled": false,
+    "mobile_data_enabled": false,
+    "native_screenshot_resolution": "2340x1080",
+    "tests_passed": 1,
+    "duration_seconds": 57.5,
+    "physical_device_tested": false
+  },
+  "checks": { "node_tests_passed": 103, "java_tests_passed": 3, "web_smoke_passed": 2, "android_lint_errors": 0, "android_lint_warnings": 11 },
+  "gaps": [],
+  "limitations": [
+    "Debug signing, not store release signing; do not uninstall an old app blindly on signature conflict",
+    "No physical-device, API 23 WebView, Android 16 large-screen or exhaustive Android route/ending playthrough certification",
+    "Eleven nonblocking Android lint warnings retained in the raw report",
+    "Complete offline content uses Android System WebView; content updates require rebuilding the APK"
+  ]
+}

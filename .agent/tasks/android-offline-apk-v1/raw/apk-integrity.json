@@ -1,0 +1,813 @@
+{
+  "status": "PASS",
+  "apk": "D:\\mydoc\\React\\gu-mu-wu-xiu\\dist\\android\\XueGuYin-0.2.0-rc.2-android-offline.apk",
+  "bytes": 15467531,
+  "sha256": "fe377ee0e977f6b9ed00b5045a256b0923b967def91e9d3887c743670a651655",
+  "assetCount": 130,
+  "assetBytes": 13443697.0,
+  "manifest": [
+    "package: name='top.xcymm3.adv' versionCode='2' versionName='0.2.0-rc.2-offline' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+    "sdkVersion:'23'",
+    "targetSdkVersion:'36'",
+    "uses-permission: name='top.xcymm3.adv.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'",
+    "application-label:'血蛊引'",
+    "application-label-af:'血蛊引'",
+    "application-label-am:'血蛊引'",
+    "application-label-ar:'血蛊引'",
+    "application-label-as:'血蛊引'",
+    "application-label-az:'血蛊引'",
+    "application-label-be:'血蛊引'",
+    "application-label-bg:'血蛊引'",
+    "application-label-bn:'血蛊引'",
+    "application-label-bs:'血蛊引'",
+    "application-label-ca:'血蛊引'",
+    "application-label-cs:'血蛊引'",
+    "application-label-da:'血蛊引'",
+    "application-label-de:'血蛊引'",
+    "application-label-el:'血蛊引'",
+    "application-label-en-AU:'血蛊引'",
+    "application-label-en-CA:'血蛊引'",
+    "application-label-en-GB:'血蛊引'",
+    "application-label-en-IN:'血蛊引'",
+    "application-label-en-XC:'血蛊引'",
+    "application-label-es:'血蛊引'",
+    "application-label-es-US:'血蛊引'",
+    "application-label-et:'血蛊引'",
+    "application-label-eu:'血蛊引'",
+    "application-label-fa:'血蛊引'",
+    "application-label-fi:'血蛊引'",
+    "application-label-fr:'血蛊引'",
+    "application-label-fr-CA:'血蛊引'",
+    "application-label-gl:'血蛊引'",
+    "application-label-gu:'血蛊引'",
+    "application-label-hi:'血蛊引'",
+    "application-label-hr:'血蛊引'",
+    "application-label-hu:'血蛊引'",
+    "application-label-hy:'血蛊引'",
+    "application-label-in:'血蛊引'",
+    "application-label-is:'血蛊引'",
+    "application-label-it:'血蛊引'",
+    "application-label-iw:'血蛊引'",
+    "application-label-ja:'血蛊引'",
+    "application-label-ka:'血蛊引'",
+    "application-label-kk:'血蛊引'",
+    "application-label-km:'血蛊引'",
+    "application-label-kn:'血蛊引'",
+    "application-label-ko:'血蛊引'",
+    "application-label-ky:'血蛊引'",
+    "application-label-lo:'血蛊引'",
+    "application-label-lt:'血蛊引'",
+    "application-label-lv:'血蛊引'",
+    "application-label-mk:'血蛊引'",
+    "application-label-ml:'血蛊引'",
+    "application-label-mn:'血蛊引'",
+    "application-label-mr:'血蛊引'",
+    "application-label-ms:'血蛊引'",
+    "application-label-my:'血蛊引'",
+    "application-label-nb:'血蛊引'",
+    "application-label-ne:'血蛊引'",
+    "application-label-nl:'血蛊引'",
+    "application-label-or:'血蛊引'",
+    "application-label-pa:'血蛊引'",
+    "application-label-pl:'血蛊引'",
+    "application-label-pt:'血蛊引'",
+    "application-label-pt-BR:'血蛊引'",
+    "application-label-pt-PT:'血蛊引'",
+    "application-label-ro:'血蛊引'",
+    "application-label-ru:'血蛊引'",
+    "application-label-si:'血蛊引'",
+    "application-label-sk:'血蛊引'",
+    "application-label-sl:'血蛊引'",
+    "application-label-sq:'血蛊引'",
+    "application-label-sr:'血蛊引'",
+    "application-label-sr-Latn:'血蛊引'",
+    "application-label-sv:'血蛊引'",
+    "application-label-sw:'血蛊引'",
+    "application-label-ta:'血蛊引'",
+    "application-label-te:'血蛊引'",
+    "application-label-th:'血蛊引'",
+    "application-label-tl:'血蛊引'",
+    "application-label-tr:'血蛊引'",
+    "application-label-uk:'血蛊引'",
+    "application-label-ur:'血蛊引'",
+    "application-label-uz:'血蛊引'",
+    "application-label-vi:'血蛊引'",
+    "application-label-zh-CN:'血蛊引'",
+    "application-label-zh-HK:'血蛊引'",
+    "application-label-zh-TW:'血蛊引'",
+    "application-label-zu:'血蛊引'",
+    "application-icon-160:'res/mipmap-anydpi-v33/ic_launcher.xml'",
+    "application-icon-240:'res/mipmap-anydpi-v33/ic_launcher.xml'",
+    "application-icon-320:'res/mipmap-anydpi-v33/ic_launcher.xml'",
+    "application-icon-65534:'res/mipmap-anydpi-v33/ic_launcher.xml'",
+    "application: label='血蛊引' icon='res/mipmap-anydpi-v33/ic_launcher.xml'",
+    "application-debuggable",
+    "launchable-activity: name='top.xcymm3.adv.MainActivity'  label='' icon=''",
+    "feature-group: label=''",
+    "  uses-feature: name='android.hardware.screen.landscape'",
+    "  uses-feature: name='android.hardware.faketouch'",
+    "  uses-implied-feature: name='android.hardware.faketouch' reason='default feature for all apps'",
+    "main",
+    "other-receivers",
+    "supports-screens: 'small' 'normal' 'large' 'xlarge'",
+    "supports-any-density: 'true'",
+    "locales: '--_--' 'af' 'am' 'ar' 'as' 'az' 'be' 'bg' 'bn' 'bs' 'ca' 'cs' 'da' 'de' 'el' 'en-AU' 'en-CA' 'en-GB' 'en-IN' 'en-XC' 'es' 'es-US' 'et' 'eu' 'fa' 'fi' 'fr' 'fr-CA' 'gl' 'gu' 'hi' 'hr' 'hu' 'hy' 'in' 'is' 'it' 'iw' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'ky' 'lo' 'lt' 'lv' 'mk' 'ml' 'mn' 'mr' 'ms' 'my' 'nb' 'ne' 'nl' 'or' 'pa' 'pl' 'pt' 'pt-BR' 'pt-PT' 'ro' 'ru' 'si' 'sk' 'sl' 'sq' 'sr' 'sr-Latn' 'sv' 'sw' 'ta' 'te' 'th' 'tl' 'tr' 'uk' 'ur' 'uz' 'vi' 'zh-CN' 'zh-HK' 'zh-TW' 'zu'",
+    "densities: '160' '240' '320' '65534'"
+  ],
+  "signature": [
+    "Verifies",
+    "Verified using v1 scheme (JAR signing): true",
+    "Verified using v2 scheme (APK Signature Scheme v2): true",
+    "Verified using v3 scheme (APK Signature Scheme v3): false",
+    "Verified using v3.1 scheme (APK Signature Scheme v3.1): false",
+    "Verified using v4 scheme (APK Signature Scheme v4): false",
+    "Verified for SourceStamp: false",
+    "Number of signers: 1",
+    "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug",
+    "Signer #1 certificate SHA-256 digest: b8ed4f6922f6ad156cdf8096e1544efc8146ad5e79d524ae6ec5611356c68695",
+    "Signer #1 certificate SHA-1 digest: 322e94c183a36860b03d9f8a59a5e2006263b101",
+    "Signer #1 certificate MD5 digest: 5d9cbb41e46f85a1d490907f8ed8f51e",
+    "Signer #1 key algorithm: RSA",
+    "Signer #1 key size (bits): 2048",
+    "Signer #1 public key SHA-256 digest: 29cf3a2c7a146d3d8436f7259394c69a36240cb23372da4c0159102b01624c20",
+    "Signer #1 public key SHA-1 digest: 645d939b138b54a777b8f8ef668c3bfa389a3eba",
+    "Signer #1 public key MD5 digest: ec2ea379f1210a27aaa5b3038297b476",
+    "WARNING: META-INF/com/android/build/gradle/app-metadata.properties not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.activity_activity.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.annotation_annotation-experimental.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.arch.core_core-runtime.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.compose.runtime_runtime-annotation.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.core_core-ktx.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.core_core-viewtree.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.core_core.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.interpolator_interpolator.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.lifecycle_lifecycle-livedata-core.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.lifecycle_lifecycle-runtime.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.lifecycle_lifecycle-viewmodel-savedstate.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.lifecycle_lifecycle-viewmodel.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.navigationevent_navigationevent.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.profileinstaller_profileinstaller.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.savedstate_savedstate.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.startup_startup-runtime.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.tracing_tracing.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.versionedparcelable_versionedparcelable.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx.webkit_webkit.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/androidx/annotation/annotation/LICENSE.txt not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/kotlinx_coroutines_android.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/kotlinx_coroutines_core.version not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/services/kotlinx.coroutines.CoroutineExceptionHandler not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/.",
+    "WARNING: META-INF/services/kotlinx.coroutines.internal.MainDispatcherFactory not protected by signature. Unauthorized modifications to this JAR entry will not be detected. Delete or move the entry outside of META-INF/."
+  ],
+  "assets": [
+    {
+      "path": "__next.__PAGE__.txt",
+      "bytes": 4176,
+      "sha256": "11695ef5531d09ede4df63fee81fe1d39ca63a02e84a5b87a180ce14fadb28df"
+    },
+    {
+      "path": "__next._full.txt",
+      "bytes": 5107,
+      "sha256": "f3064d11c9e786ddb46ccbfbe08e651166270302cdf4d334a86fc72221f6da97"
+    },
+    {
+      "path": "__next._tree.txt",
+      "bytes": 531,
+      "sha256": "7fb71bf9b957e319ea7fb25b9636a9caee69e4270c5f4996e6939c59cd61cbec"
+    },
+    {
+      "path": "404.html",
+      "bytes": 8887,
+      "sha256": "9b63984b4ddf991a78e4550f783bd1dfad3ada637d669b1eb37e545dffd01c86"
+    },
+    {
+      "path": "icon.svg",
+      "bytes": 626,
+      "sha256": "8b69827dcedf6bbbb7db711e3916fa55c1fd6815fc992d050076258c129a5809"
+    },
+    {
+      "path": "index.html",
+      "bytes": 10312,
+      "sha256": "f54b662f123c8236992936d3995ab37c554f1b36c9f7e8a4998a39b611cffc39"
+    },
+    {
+      "path": "index.txt",
+      "bytes": 5107,
+      "sha256": "f3064d11c9e786ddb46ccbfbe08e651166270302cdf4d334a86fc72221f6da97"
+    },
+    {
+      "path": "release.json",
+      "bytes": 71,
+      "sha256": "a77ed33610ecce601cf1119ce43587a5b2128a9f8048fd75413d30cd401c18b0"
+    },
+    {
+      "path": "404/index.html",
+      "bytes": 8887,
+      "sha256": "9b63984b4ddf991a78e4550f783bd1dfad3ada637d669b1eb37e545dffd01c86"
+    },
+    {
+      "path": "audio/amb-blood-pulse-v1.wav",
+      "bytes": 352844,
+      "sha256": "90264e1399ce553a40da56b9bfc38bb3d51cc5510e2f7b83b93c28e4ac413dc4"
+    },
+    {
+      "path": "audio/amb-rain-gate-v1.wav",
+      "bytes": 352844,
+      "sha256": "830264a4622cf2a645bb36de87288c92825c296b9f5f33dec6e23fb404982d1a"
+    },
+    {
+      "path": "audio/amb-tomb-wind-v1.wav",
+      "bytes": 352844,
+      "sha256": "458391d19d71b386a94916c84604afde9801ab6484da08c46aaf552347f5963e"
+    },
+    {
+      "path": "audio/bgm-blood-awakening-v1.wav",
+      "bytes": 441044,
+      "sha256": "62c4ea7017eb96af3ea2784dcba1d8a1c6924382ee449f748d8f4f86344db4cb"
+    },
+    {
+      "path": "audio/bgm-fog-oath-v1.wav",
+      "bytes": 441044,
+      "sha256": "693a0d433d423bbbf00ff9d3effae2c0ebb3869f2efaa217c31d96c624318077"
+    },
+    {
+      "path": "audio/bgm-tomb-depths-v1.wav",
+      "bytes": 441044,
+      "sha256": "ce7882d320c8891c9451f32c2ec80444022b08f4cae9cdf881e434abc049d924"
+    },
+    {
+      "path": "audio/sfx-battle-danger-v1.wav",
+      "bytes": 21212,
+      "sha256": "8e5f5ed39838e74f48277b04d485a7488806a14db7c367191c8f8e04ebfc9f93"
+    },
+    {
+      "path": "audio/sfx-battle-guard-v1.wav",
+      "bytes": 8864,
+      "sha256": "d1258d957cea47ac1c1407d2d2812a77a682adcd481ec5ad2559c13f43329c05"
+    },
+    {
+      "path": "audio/sfx-battle-heal-v1.wav",
+      "bytes": 17684,
+      "sha256": "bec451b9d68756df49581e730d453728c102725893797aca588a093e81f943e8"
+    },
+    {
+      "path": "audio/sfx-battle-hit-v1.wav",
+      "bytes": 9746,
+      "sha256": "a8ba8c2cf445d0c485694604e4f1d97217b71a849ecbf62915f98134e60c4bbe"
+    },
+    {
+      "path": "audio/sfx-scene-flash-v1.wav",
+      "bytes": 10628,
+      "sha256": "6d7df755ba0341a911e4ff98f2bf84bec912b490edb3e774f3f1191789a8200d"
+    },
+    {
+      "path": "audio/sfx-ui-back-v1.wav",
+      "bytes": 6660,
+      "sha256": "561179e014b50c5542cb2e46a9f99b355802edb4b4053cbe5c9bbf6f79dc83a0"
+    },
+    {
+      "path": "audio/sfx-ui-confirm-v1.wav",
+      "bytes": 5778,
+      "sha256": "e999511677d6b87966a751d1280b8c1738555f8ed56257bbbff678893eb8fcc8"
+    },
+    {
+      "path": "backgrounds/blood-awakening-empty-v1.webp",
+      "bytes": 157306,
+      "sha256": "86c883b2b0ba844ef42a86b018ddbc1e1f6b31befbd53cb9d2986128779a6729"
+    },
+    {
+      "path": "backgrounds/blood-chamber-v1.webp",
+      "bytes": 217116,
+      "sha256": "40887493a5152047176e9a92bc599b6cbea8900982bb708e0f89b95f841ec27d"
+    },
+    {
+      "path": "backgrounds/blood-ruin-v1.webp",
+      "bytes": 156732,
+      "sha256": "c5b3c1c10e53e714103643b790c0762168eb4c55f5306ac880b4aa721f70cfe2"
+    },
+    {
+      "path": "backgrounds/blood-threshold-empty-v1.webp",
+      "bytes": 176404,
+      "sha256": "8d0c72589d3e1c907e5e1ff9934ca5b85be5994a3d5f8b6a6e05d928ef2664c6"
+    },
+    {
+      "path": "backgrounds/blood-transfer-empty-v1.webp",
+      "bytes": 138934,
+      "sha256": "07cd8a509b6968d5e7dc76e5d19a8271c5483126b74b0120a45e6bd1c04ddd86"
+    },
+    {
+      "path": "backgrounds/control-room-v1.webp",
+      "bytes": 126588,
+      "sha256": "8a9fcbeeae11954d394ac9d70eb93ee782619d926e9014ad0f03c688234e5495"
+    },
+    {
+      "path": "backgrounds/dawn-exit-v1.webp",
+      "bytes": 182168,
+      "sha256": "f7de3077e4a15514e6da4c5761c7f5a0151fb02c984d4be0ade787a76067e487"
+    },
+    {
+      "path": "backgrounds/empty-coffin-v1.webp",
+      "bytes": 133314,
+      "sha256": "6a52f18dfdc01ce7f1e8a4dcf18dbe083d35cf5f1a0a29ceaab5233846105576"
+    },
+    {
+      "path": "backgrounds/fog-junction-empty-v1.webp",
+      "bytes": 109338,
+      "sha256": "b5083b3767a87f45f2516c167d5d34b928e76b01c5372aae8cbecf1d623cfbcf"
+    },
+    {
+      "path": "backgrounds/fog-passage-v1.webp",
+      "bytes": 144500,
+      "sha256": "392ba202c59dd870ba03ae5a1f122f824d3b8bf68350726d77e9334608361bdb"
+    },
+    {
+      "path": "backgrounds/gate-empty-v1.webp",
+      "bytes": 126208,
+      "sha256": "a6f541affd97d7e7246a37212fa52d5fade9497215a44c01dfa1c11c6e083564"
+    },
+    {
+      "path": "backgrounds/shattered-gu-empty-v1.webp",
+      "bytes": 213472,
+      "sha256": "56190fc85cb963bc575a62c76186b178f72205fb9470fadfd9aa58b1b222f941"
+    },
+    {
+      "path": "backgrounds/tomb-corridor-v1.webp",
+      "bytes": 58252,
+      "sha256": "5b88aa7f6790aeccdb6d9686e5fd5826a98a7c3f1d9411f06f49fec0da177593"
+    },
+    {
+      "path": "backgrounds/tomb-gate-v1.webp",
+      "bytes": 85918,
+      "sha256": "18bf1d0f74493ada12cb84b6cd12a2903651bc28e38b42668acafa79dcbcb4bb"
+    },
+    {
+      "path": "backgrounds/trap-passage-v1.webp",
+      "bytes": 137306,
+      "sha256": "c11da7dcad3275eeeed820b435caeebe50d4432c6817e0b898b65278bc5b35d3"
+    },
+    {
+      "path": "cg/endings/deathByBloodGuard-v1.webp",
+      "bytes": 81974,
+      "sha256": "9ab7e6caf0fd156bacf266fccb5e90973b963bafec895beb36b8712ec5a7f440"
+    },
+    {
+      "path": "cg/endings/deathByMaster-v1.webp",
+      "bytes": 133066,
+      "sha256": "6bd76a1ac882a8d4361210512d884c63ffab2e30a9a4d4c50c53c458b6912fe3"
+    },
+    {
+      "path": "cg/endings/deathByQiao-v1.webp",
+      "bytes": 87654,
+      "sha256": "3a52a2b7252756ba664824b8c1d6947265895545b001049048bc8f101971bb70"
+    },
+    {
+      "path": "cg/endings/deathByZhao-v1.webp",
+      "bytes": 100706,
+      "sha256": "db28a08cb47e945b5a8afe8800794516dc34f2fec2013f1b2ce2890c4905224c"
+    },
+    {
+      "path": "cg/endings/demon-v1.webp",
+      "bytes": 97198,
+      "sha256": "249179ce7cac01144a8cbb99679bec3febc41c95a318a9aaa79b143d604cba08"
+    },
+    {
+      "path": "cg/endings/severed-v1.webp",
+      "bytes": 95298,
+      "sha256": "37146df99a9c3f256d163a3bdd260f5723069b1e3a31801faf6d94a3dcd165e4"
+    },
+    {
+      "path": "cg/endings/traitor-v1.webp",
+      "bytes": 73584,
+      "sha256": "08bb42bd1e04daaad33a72e1ef9c8f5dde3d58529d252ef24427ef7cdf7b301c"
+    },
+    {
+      "path": "cg/endings/trapped-v1.webp",
+      "bytes": 76006,
+      "sha256": "ced3cda6990a3687b98db77576db81742726ed6051effdf65babce9e66ae42f2"
+    },
+    {
+      "path": "cg/endings/true-v1.webp",
+      "bytes": 126880,
+      "sha256": "db845d92d1804f33149dab977443740d70585833282690615451cf620f7a8abd"
+    },
+    {
+      "path": "cg/scenes/bloodThreshold-v1.webp",
+      "bytes": 161958,
+      "sha256": "129a707cca03ef4a2521315e427cf6c19463066fd35f0074623008608588f71e"
+    },
+    {
+      "path": "cg/scenes/fog-v1.webp",
+      "bytes": 102856,
+      "sha256": "33164d1c446a90e0307118f1ab51f69ce4a177102b0e37b38b3e16e19c40f516"
+    },
+    {
+      "path": "cg/scenes/gate-v1.webp",
+      "bytes": 108992,
+      "sha256": "302569a0f01a334bda1a26cfb1e02840f94abeae59943029aad4bf0e841fb6d9"
+    },
+    {
+      "path": "cg/scenes/jiDestroyGu-v1.webp",
+      "bytes": 141624,
+      "sha256": "0e64bc80355479b5512883658edbcad612d17087e3595e9865ce2e2953c90805"
+    },
+    {
+      "path": "cg/scenes/suCoffin-v1.webp",
+      "bytes": 94328,
+      "sha256": "abe5f95850b243da7dfb2334daf33679f181dffec15d1d5b8117681c08470640"
+    },
+    {
+      "path": "cg/scenes/traitorBloodTaken-v1.webp",
+      "bytes": 101166,
+      "sha256": "233d5ffbab9f48e23bb6960499101e8fe738930488d412f41a3bb50291de99ad"
+    },
+    {
+      "path": "cg/scenes/zhaoAwakening-v1.webp",
+      "bytes": 135220,
+      "sha256": "c01a2765bd00891e03e4e797693136b254efd271c3daf9a080ac6716134699c5"
+    },
+    {
+      "path": "characters/ji-qinghan-alert-v1.webp",
+      "bytes": 94724,
+      "sha256": "8c4f2817b3a55ca1e567aaf0e027bcc4494eac06b04ccc1f8cc2a0f1a0cfccf5"
+    },
+    {
+      "path": "characters/ji-qinghan-battle-v1.webp",
+      "bytes": 95834,
+      "sha256": "1b2a10a6e53590e906541c54bb4796ad7dbc994bc4ac1ea1ff0d8f8cd9b91a2f"
+    },
+    {
+      "path": "characters/ji-qinghan-injured-v1.webp",
+      "bytes": 74404,
+      "sha256": "8322b1bff2ddbea03a6ed5284dd1b49b8636f378b7b4a194c0d4a5f93d1697d7"
+    },
+    {
+      "path": "characters/ji-qinghan-neutral-v1.webp",
+      "bytes": 82958,
+      "sha256": "c7b033fd70f483861705346ffe6cc2460daaefa6b75c6b954df4d3040c55f53b"
+    },
+    {
+      "path": "characters/ji-qinghan-softened-v1.webp",
+      "bytes": 78792,
+      "sha256": "3e79f13fac19024675fb5eb5ea6222146e669a11dc5cd73072a485da12a5f687"
+    },
+    {
+      "path": "characters/ji-qinghan-v1.webp",
+      "bytes": 365012,
+      "sha256": "191a19b857c86b966012802a1e823772b846a29f243988e0369e5d33d5fe6a93"
+    },
+    {
+      "path": "characters/qiao-wujiu-battle-v1.webp",
+      "bytes": 72296,
+      "sha256": "8e92e15009157748f8c55e756ad398e7621dba7f55b597d6f079c71b74e12158"
+    },
+    {
+      "path": "characters/qiao-wujiu-calm-v1.webp",
+      "bytes": 57156,
+      "sha256": "b994973477a8eb03797e0eb6642ec1c0dfe29d6b0a5789f5d7592a6e3dab3087"
+    },
+    {
+      "path": "characters/qiao-wujiu-injured-v1.webp",
+      "bytes": 58246,
+      "sha256": "6f86f4db577eb0f45cf29824d6ce1fae65b7ca7225cf6b4e7ea535abc630f6a5"
+    },
+    {
+      "path": "characters/qiao-wujiu-neutral-v1.webp",
+      "bytes": 51014,
+      "sha256": "c781d335e2d0e1a045ff0224ae8b461a107af008c9ee4ee99b6bf2069b90aa45"
+    },
+    {
+      "path": "characters/qiao-wujiu-smug-v1.webp",
+      "bytes": 64038,
+      "sha256": "0dedc26c8b152d83b46eb2c4885d64316903e31cf3a598440de18dbb1b834d45"
+    },
+    {
+      "path": "characters/qiao-wujiu-v1.webp",
+      "bytes": 276522,
+      "sha256": "ceb8aa5e8cca5bc02f6edafd0fccd9199156a494def090bc53d10243d1f71db6"
+    },
+    {
+      "path": "characters/su-yan-awakened-v1.webp",
+      "bytes": 93126,
+      "sha256": "4f7e2a36ab3518033a0211ccce83ef764fc54c0a22e8432fea0aa600e3b914a5"
+    },
+    {
+      "path": "characters/su-yan-battle-v1.webp",
+      "bytes": 95026,
+      "sha256": "2387c8b5b67c2947c4a12edb52ba6f3859dede64c9731d90ef37ac133b9e36ce"
+    },
+    {
+      "path": "characters/su-yan-injured-v1.webp",
+      "bytes": 92282,
+      "sha256": "c21952b34a410f6a33fc485a935bb772f3d42cfc1b3a0660bab19b497ffec8cc"
+    },
+    {
+      "path": "characters/su-yan-neutral-v1.webp",
+      "bytes": 76658,
+      "sha256": "6a97f3fa740ad459b816a3be9e811ddb5fff8b7c6d1618445a302c8b8536c8e9"
+    },
+    {
+      "path": "characters/su-yan-v1.webp",
+      "bytes": 321722,
+      "sha256": "a205ea00839d4222805d39d711fcdc8f3ae20411ae9558a17a8860103b993c05"
+    },
+    {
+      "path": "characters/su-ying-battle-v1.webp",
+      "bytes": 83678,
+      "sha256": "f5216141cdb76004752a82ccf57bb6f89c0cfbc6672114d0f1140c73aa82717c"
+    },
+    {
+      "path": "characters/su-ying-injured-v1.webp",
+      "bytes": 60120,
+      "sha256": "5cfd7b517fd97fe924ff796c3cce58eeba46eceb2aa9e5576ad6dad003cb9d65"
+    },
+    {
+      "path": "characters/su-ying-neutral-v1.webp",
+      "bytes": 61598,
+      "sha256": "141972c76d4d8e117711448c4a22992582a1054e6c633846c5c040796f3cca96"
+    },
+    {
+      "path": "characters/su-ying-sad-v1.webp",
+      "bytes": 58764,
+      "sha256": "8ce7ba2d68d93e8e84c9705427b8a912fa40cc1b8159b8586d31f6a4c9253f56"
+    },
+    {
+      "path": "characters/su-ying-v1.webp",
+      "bytes": 262406,
+      "sha256": "70e2acac154bfce57f72c77bfee759d1a77faf286e942a48510624d08d963698"
+    },
+    {
+      "path": "characters/su-ying-wary-v1.webp",
+      "bytes": 64960,
+      "sha256": "880402e7da7e7b2a3a97c7ab4f874333fbf33320b6e24339da6c08d2a7735ae8"
+    },
+    {
+      "path": "characters/tong-pi-kui-lei-v1.webp",
+      "bytes": 279106,
+      "sha256": "d765420db99edb53a44e6f4b386d1d132f9ee4f111e6d7d7e51490a5399b0d6e"
+    },
+    {
+      "path": "characters/xue-feng-battle-v1.webp",
+      "bytes": 96498,
+      "sha256": "89321b40ce63ed609ee94eee6387ea6760e6525a5688871d881ec049a7137b5d"
+    },
+    {
+      "path": "characters/xue-feng-greedy-v1.webp",
+      "bytes": 96704,
+      "sha256": "98ff469772076f74acb1ad082a659479e07cbc53af70f15a5c92e6f376028ba4"
+    },
+    {
+      "path": "characters/xue-feng-injured-v1.webp",
+      "bytes": 93170,
+      "sha256": "d8efc0bf49863ec50184f6a55859070e79416604f9c0d3a0fbef34409b9edc72"
+    },
+    {
+      "path": "characters/xue-feng-neutral-v1.webp",
+      "bytes": 77372,
+      "sha256": "d6b1af7c5d6c52068882a546e0fdde9500e8f2d6861eb8d20a62850fae32b651"
+    },
+    {
+      "path": "characters/xue-feng-panicked-v1.webp",
+      "bytes": 84460,
+      "sha256": "08fab05664d485b3225f93d68e9bc129fc3f29a05b018009fcc134a66d84f04d"
+    },
+    {
+      "path": "characters/xue-feng-smiling-v1.webp",
+      "bytes": 76078,
+      "sha256": "4204d843e5c74c6b401ca78c708c062f1348b3019c5cb7526c7c3457035ce9f9"
+    },
+    {
+      "path": "characters/xue-feng-v1.webp",
+      "bytes": 273528,
+      "sha256": "5aec755abbeb5ffed16f80a82c2444debf5b8d49765e9289cf7d30b1c93898bd"
+    },
+    {
+      "path": "characters/xue-kui-lei-v1.webp",
+      "bytes": 351690,
+      "sha256": "5312811d04904a46bc937fe6eacddc7b6820248375c9da4705f7c19f339f3473"
+    },
+    {
+      "path": "characters/zhao-li-amused-v1.webp",
+      "bytes": 69640,
+      "sha256": "14522a7864592df0819b0b0c63dd0df66b02e490c7be3e623d50274fa54005c8"
+    },
+    {
+      "path": "characters/zhao-li-battle-v1.webp",
+      "bytes": 83818,
+      "sha256": "72edb99d0c1215d79aeda204dee974b31a8c972faf1743b618353a1d5cb2ff8c"
+    },
+    {
+      "path": "characters/zhao-li-injured-v1.webp",
+      "bytes": 79484,
+      "sha256": "5af64240fd54be2eb464f6d9fd52cca187e6a7344b7f30df2c8f512624493b10"
+    },
+    {
+      "path": "characters/zhao-li-neutral-v1.webp",
+      "bytes": 68196,
+      "sha256": "6a94efc3b5bd4309070c5eca8c6c9b3d719f5bffb57c9d665b4e714444e26330"
+    },
+    {
+      "path": "characters/zhao-li-v1.webp",
+      "bytes": 296678,
+      "sha256": "8e145dc11877ec4d6ee64efa34b41a8b277a9bd3dca974ded072b7458f1aa6c4"
+    },
+    {
+      "path": "characters/zhao-li-wary-v1.webp",
+      "bytes": 73386,
+      "sha256": "a1115ff7b5396cfc3aee726c3c791880853c11a9139f842923f04c83e38f5ff8"
+    },
+    {
+      "path": "effects/enemy-attack-v1.webp",
+      "bytes": 187696,
+      "sha256": "dce57c0661a2686f262eb5c8934dd8564d840670bc97525a165adef74d04235d"
+    },
+    {
+      "path": "effects/player-armor-guard-v1.webp",
+      "bytes": 136940,
+      "sha256": "65317367435f24a9ddc0d512b166a091c79dc40d8f09acdccf16dca0e33fd440"
+    },
+    {
+      "path": "effects/player-blood-attack-v1.webp",
+      "bytes": 109356,
+      "sha256": "71b9f86bfeb43388511ab0de9beb75d1d39a031dcec783eccb1ee57937990251"
+    },
+    {
+      "path": "effects/player-blooddemon-gu-v1.webp",
+      "bytes": 138884,
+      "sha256": "3651c9afe0f4d1b31f49c382a4d71e49623dba58ab568689781ef26a3adacae2"
+    },
+    {
+      "path": "effects/player-charm-gu-v1.webp",
+      "bytes": 161342,
+      "sha256": "8f544ec59129c42f5553098ec85ce3b5618fda0f035bc5543085f776e15868e4"
+    },
+    {
+      "path": "effects/player-heal-gu-v1.webp",
+      "bytes": 137006,
+      "sha256": "a0601a8b4be7017058e468273689a6d354436839ed5a179d63620eb288028d7c"
+    },
+    {
+      "path": "effects/player-sword-gu-v1.webp",
+      "bytes": 107332,
+      "sha256": "70e1f23644898be19390cc2c598c91e568d0f6ffc518b49e87366644bdcc02d0"
+    },
+    {
+      "path": "ui/main-menu-v1.webp",
+      "bytes": 33040,
+      "sha256": "47e9555651e8584a1b7bccad1fbeb54ae60a886898dc67857caf1991c4af1200"
+    },
+    {
+      "path": "ui/saves-v1.webp",
+      "bytes": 64568,
+      "sha256": "911adc175d81e5b77974df7c80f595bb3c285a5706cfbe99e80f4d11eaa103fa"
+    },
+    {
+      "path": "ui/settings-v1.webp",
+      "bytes": 55968,
+      "sha256": "933048db9147acd85a7d3cd527ce301bc62e6750462098839b2b12673c5ebd17"
+    },
+    {
+      "path": "_next/static/chunks/0cz1d0mv5g_q7.js",
+      "bytes": 112594,
+      "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683"
+    },
+    {
+      "path": "_next/static/chunks/0izuvt0j0sglo.js",
+      "bytes": 313906,
+      "sha256": "6e2238bb89c39163be220dd01900da3949b1bb8a96697739e1ceb2ba60c3fe50"
+    },
+    {
+      "path": "_next/static/chunks/0nu1b_rtwrqk1.js",
+      "bytes": 176096,
+      "sha256": "49489533ee50dca990e7c54c9e1d9d9d6a3b8cca46e946077523a09217b2bcc0"
+    },
+    {
+      "path": "_next/static/chunks/233p45nuh4m5b.css",
+      "bytes": 3713,
+      "sha256": "76a98b8405ea6f300c2e1019eb4ec9a70d1d5b1957ffe712a8023185899d5600"
+    },
+    {
+      "path": "_next/static/chunks/2cflb7_wkb3cb.js",
+      "bytes": 14381,
+      "sha256": "b33442a1474b9c36f8fcf64663656bf90c4a1209c4356ff3dd62fc9496d3269a"
+    },
+    {
+      "path": "_next/static/chunks/2opyvl7nve4xw.js",
+      "bytes": 228837,
+      "sha256": "3f50d497b13c24c2d3d35ac2121bcb52f398a5bfe35e2d5f78e53a1c10e77cdc"
+    },
+    {
+      "path": "_next/static/chunks/2zanflpj9tr9y.js",
+      "bytes": 22218,
+      "sha256": "bfee8c9a079467274fdd443c8c94b4b92f4c9053c0039036c51d0c46fc891f02"
+    },
+    {
+      "path": "_next/static/chunks/3joxrmhs-qroq.css",
+      "bytes": 128164,
+      "sha256": "b3784d1743f9a54604110ddca17fff300492bcb50a1ba682acc4a18139d33cd8"
+    },
+    {
+      "path": "_next/static/chunks/turbopack-2ajd46e8ngs4s.js",
+      "bytes": 9619,
+      "sha256": "ae55e4b09dcabf3ccce0f528a2409f086fedc7412fd7fafa8d6490075dd91150"
+    },
+    {
+      "path": "_next/static/media/4fa387ec64143e14-s.2tuy5pz7dlieh.woff2",
+      "bytes": 12872,
+      "sha256": "75b3bedbebc35f347c0ae3b416aa871941555357e7b0f83767eb5987875589ed"
+    },
+    {
+      "path": "_next/static/media/53b9e256198e5412-s.390ncx5urfkfu.woff2",
+      "bytes": 7968,
+      "sha256": "f689f638f29fff460a2d5749edb5d5c38d7bef0389f32032d871f23fc6ebb008"
+    },
+    {
+      "path": "_next/static/media/5ce348bf30bf5439-s.31988l_ccedte.woff2",
+      "bytes": 6204,
+      "sha256": "e27f657e38d52887baa3b6b2f812bef93dfdd356f0810e40edd4ee284cc7e9f6"
+    },
+    {
+      "path": "_next/static/media/6306c77e7c8268e4-s.2dbetqa9o8jxf.woff2",
+      "bytes": 5892,
+      "sha256": "d67e4a94ba498635f764ddca7d1ec4271f5642f032eb24b426764480f66f8497"
+    },
+    {
+      "path": "_next/static/media/7178b3e590c64307-s.21jp631_3pja2.woff2",
+      "bytes": 16540,
+      "sha256": "58a6b173d5ca1dec92166ea3c6cb1a84a4144556d10928ac14e8e6b40e4787bd"
+    },
+    {
+      "path": "_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2",
+      "bytes": 23108,
+      "sha256": "5f3d6ad60f29d6cb708414ec6887163d63bf197377ef5417d2483ff31ace6c3b"
+    },
+    {
+      "path": "_next/static/media/7d817b4c03b0c5f1-s.1uyisp29ctx0d.woff2",
+      "bytes": 7728,
+      "sha256": "16e1d48b6dd29eb240aec5db36184eb182933c082cd43de7f35af686d58087d2"
+    },
+    {
+      "path": "_next/static/media/8a480f0b521d4e75-s.1qq4vpdcun5oj.woff2",
+      "bytes": 14900,
+      "sha256": "6129fc8571c3e0cb0a4c41f5160c974a843b055009dc4ad8858bd808e18a2d86"
+    },
+    {
+      "path": "_next/static/media/bbc41e54d2fcbd21-s.1rgnod-3esatf.woff2",
+      "bytes": 14712,
+      "sha256": "745994b5cd950ec201b66526375f057d540847cccfc70f4f24f5f571d26d3923"
+    },
+    {
+      "path": "_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2",
+      "bytes": 29288,
+      "sha256": "9b6f5ff45b278c744b5f379a2c4ecbaf858a842b8eaf82ac8d21b699ca16c608"
+    },
+    {
+      "path": "_next/static/media/fef07dbb0973bf53-s.3p2_lha1f2xer.woff2",
+      "bytes": 7252,
+      "sha256": "b7a545bbb08256bd809f11cfe66d88da3e22d169ea4407737b1ef0ec1ed3d791"
+    },
+    {
+      "path": "_next/static/media/icon.3f5oyvzlw-nkr.svg",
+      "bytes": 626,
+      "sha256": "8b69827dcedf6bbbb7db711e3916fa55c1fd6815fc992d050076258c129a5809"
+    },
+    {
+      "path": "_next/static/qIhOVEL-eQtAlwjpv-c4X/_buildManifest.js",
+      "bytes": 219,
+      "sha256": "9476e0afd3f9da68a64e6ec58631191fd3eaca62c9f5a377e7517fe9a89e59ea"
+    },
+    {
+      "path": "_next/static/qIhOVEL-eQtAlwjpv-c4X/_clientMiddlewareManifest.js",
+      "bytes": 96,
+      "sha256": "5483e3295dc35dfe29ea932efc85341c916f10ff78ff5b0e965e003710893a4a"
+    },
+    {
+      "path": "_next/static/qIhOVEL-eQtAlwjpv-c4X/_ssgManifest.js",
+      "bytes": 80,
+      "sha256": "678f6ce2cb80b1fe72fc67e7412be6e2ab6ada083111b64f7c40d35e3cba5e00"
+    },
+    {
+      "path": "_not-found/__next._full.txt",
+      "bytes": 5744,
+      "sha256": "a95e3f404a5ef106a31320c316156cd3df0aac2c143b6060fdab6d1c846ff7f6"
+    },
+    {
+      "path": "_not-found/__next._tree.txt",
+      "bytes": 381,
+      "sha256": "191016b9adcd0118649ad40e1caba0e9737cd2e21f5f3bd202c381d00df871b5"
+    },
+    {
+      "path": "_not-found/index.html",
+      "bytes": 8887,
+      "sha256": "9b63984b4ddf991a78e4550f783bd1dfad3ada637d669b1eb37e545dffd01c86"
+    },
+    {
+      "path": "_not-found/index.txt",
+      "bytes": 5744,
+      "sha256": "a95e3f404a5ef106a31320c316156cd3df0aac2c143b6060fdab6d1c846ff7f6"
+    },
+    {
+      "path": "_not-found/__next._not-found/__PAGE__.txt",
+      "bytes": 4646,
+      "sha256": "01664d07f2792e8e1c8957d810230a3136f1b9c2b5fd5717358a3afe20f0e10c"
+    }
+  ]
+}

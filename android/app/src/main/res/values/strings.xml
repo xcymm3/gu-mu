@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">血蛊引</string>
     <string name="connection_error_title">暂时无法进入蛊墓</string>
-    <string name="connection_error_message">请检查网络连接，然后重新尝试。</string>
-    <string name="retry">重新连接</string>
-    <string name="no_external_app">没有可用的应用打开该链接</string>
+    <string name="connection_error_message">本地游戏资源加载失败，请重试。若仍然失败，请重新安装完整 APK；请勿清除应用数据，以免丢失存档。</string>
+    <string name="retry">重新加载</string>
 </resources>

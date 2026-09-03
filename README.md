@@ -46,7 +46,7 @@ pnpm install:e2e:browser
 
 ## Android 应用
 
-`android/` 目录包含锁定横屏、沉浸式全屏的原生 WebView 外壳，启动后直接加载 [https://adv.xcymm3.top](https://adv.xcymm3.top)。详细的 APK 下载、Android Studio 构建与发布签名说明见 [android/README.md](android/README.md)。
+`android/` 目录包含锁定横屏、沉浸式全屏的离线应用。完整剧情、立绘、背景、CG、字体和音频都随 APK 打包，不需要联网或另行下载资源；仍使用 Android 系统 WebView 渲染。执行 `pnpm android:pack` 构建，环境、存档及签名说明见 [android/README.md](android/README.md)。
 
 ## Windows 便携版
 

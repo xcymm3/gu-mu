@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { XueGuYinMark } from "@/components/XueGuYinMark";
+import { NarrativePage } from "./NarrativeText";
+import { useDialoguePagination } from "./useDialoguePagination";
+import { frameAtAnchor, pageAtOffset, type TextPage } from "@/lib/xue-gu-yin/pagination";
 import { useVisualNovelAudio, type VisualNovelAudioEngine } from "@/features/xue-gu-yin/audio/VisualNovelAudio";
 import {
   battleCharacterStateAssets,
@@ -21,7 +24,7 @@ import { defaultAudioSettings, sanitizeAudioSettings, sceneAudioProfile, type Au
 import { actionCost } from "@/lib/xue-gu-yin/combat";
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey, type BacklogEntry } from "@/lib/xue-gu-yin/reading";
 import { releaseMeta } from "@/lib/xue-gu-yin/release";
-import { createSaveSlot, emptySaveSlots, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT, type SaveSlot, type SaveSlots } from "@/lib/xue-gu-yin/save";
+import { createSaveSlot, emptySaveSlots, isSaveSlot, normalizeSaveSlots, restoreSaveSlot, SAVE_SLOT_COUNT, type NarrativePosition, type SaveSlot, type SaveSlots } from "@/lib/xue-gu-yin/save";
 import {
   applyChoice,
   canChoose,
@@ -61,14 +64,13 @@ function signatureGuAction(roleId: RoleId): { id: GuAction; name: string; descri
     case "heir": return { id: "charm" as const, name: "惑心蛊", description: "迷乱敌手心智，令其一击落空。" };
   }
 }
-const names = new Set(storyPresentation.names);
-const criticalTerms = new Set(storyPresentation.criticalTerms);
 const endingStorageKey = "xue-gu-yin-unlocked-endings-v1";
 const motionStorageKey = "xue-gu-yin-reduce-motion";
 const themeStorageKey = "xue-gu-yin-theme";
 const saveStorageKey = "xue-gu-yin-save-slots-v2";
 const readStorageKey = "xue-gu-yin-read-frames-v1";
-const quickSaveStorageKey = "xue-gu-yin-quick-save-v1";
+// Read-only compatibility: removing quick actions must not delete a player's save.
+const legacySaveStorageKey = "xue-gu-yin-quick-save-v1";
 const audioStorageKey = "xue-gu-yin-audio-settings-v1";
 type HomeView = "menu" | "roles" | "archive" | "saves" | "settings";
 type ThemePreference = "system" | "light" | "dark";
@@ -150,7 +152,12 @@ function readSaveSlots(): SaveSlots {
 function saveSlotLabel(slot: SaveSlot) {
   const role = getRole(slot.game.roleId);
   const scene = scenes[slot.game.sceneId];
-  return { role: role?.name ?? "无名修士", scene: scene ? `${scene.chapter} · ${scene.title}` : "墓道深处" };
+  const ending = slot.game.sceneId === "ending" ? endings[resolveEnding(slot.game)] : null;
+  return {
+    role: role?.name ?? "无名修士",
+    chapter: scene ? `Chapter ${scene.act}-${scene.node} · ${scene.chapter}` : ending ? "终章 · 结局" : "章节不明",
+    scene: scene?.title ?? ending?.name ?? "墓道深处",
+  };
 }
 
 function formatSaveTime(savedAt: string) {
@@ -158,84 +165,12 @@ function formatSaveTime(savedAt: string) {
   return Number.isNaN(time.valueOf()) ? "时间不明" : time.toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
 }
 
-function splitParagraphs(text: string) {
-  const blocks = text.split(/\n{2,}/).flatMap((block) => {
-    const sentences = block.trim().match(/[^。！？；]+[。！？；]?/g) ?? [block.trim()];
-    const parts: string[] = [];
-    let current = "";
-    for (const sentence of sentences) {
-      if (current.length >= 110 && current.length + sentence.length > 170) {
-        parts.push(current);
-        current = sentence;
-      } else current += sentence;
-    }
-    if (current) parts.push(current);
-    return parts;
-  });
-  return blocks.filter(Boolean);
-}
-
-function splitForViewport(text: string, limit: number) {
-  const blocks = text.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
-  const units = blocks.flatMap((block, blockIndex) => {
-    const clauses = block.match(/[^。！？；，]+[。！？；，]?/g) ?? [block];
-    return blockIndex === blocks.length - 1 ? clauses : [...clauses, "\n\n"];
-  });
-  const pages: string[] = [];
-  let current = "";
-  for (const unit of units) {
-    if (unit === "\n\n") {
-      if (current && !current.endsWith("\n\n")) current += unit;
-      continue;
-    }
-    const visibleLength = current.replace(/\s/g, "").length;
-    if (current.trim() && visibleLength + unit.length > limit) {
-      pages.push(current.trim());
-      current = unit;
-    } else {
-      current += unit;
-    }
-  }
-  if (current.trim()) pages.push(current.trim());
-  return pages;
-}
-
 function readAudioSettings(): AudioSettings {
   try { return sanitizeAudioSettings(JSON.parse(window.localStorage.getItem(audioStorageKey) ?? "null")); }
   catch { return defaultAudioSettings; }
 }
 
-type NarrativeFrame = SceneBeat & { text: string; beatIndex: number };
-
-function framesForPresentation(beats: SceneBeat[], limit: number): NarrativeFrame[] {
-  return beats.flatMap((beat, beatIndex) => splitForViewport(beat.text, limit).map((text) => ({ ...beat, text, beatIndex })));
-}
-
-function useNarrativeLimit() {
-  const [limit, setLimit] = useState(128);
-
-  useEffect(() => {
-    function fitToViewport() {
-      const { innerHeight: height, innerWidth: width } = window;
-      const isCompactLandscape = width < 960 && width > height;
-      if (isCompactLandscape) {
-        setLimit(height >= 480 ? 84 : height >= 390 ? 64 : 52);
-        return;
-      }
-      if (width >= 960) {
-        setLimit(height >= 980 ? 148 : height >= 820 ? 112 : height >= 700 ? 76 : 68);
-        return;
-      }
-      setLimit(height >= 820 ? 112 : height >= 680 ? 88 : 68);
-    }
-
-    fitToViewport();
-    window.addEventListener("resize", fitToViewport);
-    return () => window.removeEventListener("resize", fitToViewport);
-  }, []);
-
-  return limit;
-}
+type NarrativeFrame = SceneBeat & TextPage & { beatIndex: number };
 
 function inferSpeaker(text: string) {
   const firstQuote = text.search(/[“「『]/);
@@ -245,18 +180,18 @@ function inferSpeaker(text: string) {
   return candidates.at(-1) ?? "旁白";
 }
 
-function NarrativePage({ text }: { text: string }) {
-  return <>{splitParagraphs(text).map((paragraph, paragraphIndex) => {
-    const pieces = paragraph.split(/(赵黎|纪清寒|薛逢|苏莹|乔无咎|苏衍|血魔蛊|月光蛊|血刃蛊|血甲蛊|五转|血祭|祖传旧玉)/g);
-    return <p key={paragraphIndex}>{pieces.map((piece, pieceIndex) => names.has(piece) ? <strong className="story-name" key={pieceIndex}>{piece}</strong> : criticalTerms.has(piece) ? <span className="story-critical" key={pieceIndex}>{piece}</span> : piece)}</p>;
-  })}</>;
-}
-
 function VisualNovelRail({ act, node, roleName }: { act: Scene["act"]; node: number; roleName: string }) {
   return <aside className="vn-rail" aria-label="篇章信息">
     <div className="vn-rail-brand"><XueGuYinMark className="xue-gu-yin-mark" /><div><strong>{storyMeta.title}</strong><span>Chapter {act}-{node}</span></div></div>
     <p className="vn-rail-role">行走之人 <strong>{roleName}</strong></p>
   </aside>;
+}
+
+function readLegacySave(): SaveSlot | null {
+  try {
+    const value: unknown = JSON.parse(window.localStorage.getItem(legacySaveStorageKey) ?? "null");
+    return isSaveSlot(value) ? value : null;
+  } catch { return null; }
 }
 
 const characterLabels: Record<PresentedCharacter["id"], string> = {
@@ -642,22 +577,23 @@ export function XueGuYinGame() {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [themePreference, setThemePreference] = useState<ThemePreference>("system");
   const [audioSettings, setAudioSettings] = useState<AudioSettings>(defaultAudioSettings);
-  const [narrative, setNarrative] = useState({ sceneId: "gate", page: 0 });
+  const [narrative, setNarrative] = useState<NarrativePosition>({ sceneId: "gate", page: 0 });
   const [pendingBattleState, setPendingBattleState] = useState<GameState | null>(null);
   const [battleFeedback, setBattleFeedback] = useState<BattleFeedback | null>(null);
   const [pendingChoice, setPendingChoice] = useState<Choice | null>(null);
   const [pendingLinearChoice, setPendingLinearChoice] = useState(false);
   const [battleResult, setBattleResult] = useState<{ won: boolean; text: string } | null>(null);
-  const [transientPage, setTransientPage] = useState(0);
+  const [transientOffset, setTransientOffset] = useState(0);
   const [showGameMenu, setShowGameMenu] = useState(false);
+  const [showSaveArchive, setShowSaveArchive] = useState(false);
   const [showBacklog, setShowBacklog] = useState(false);
   const [autoMode, setAutoMode] = useState(false);
   const [skipMode, setSkipMode] = useState(false);
   const [uiHidden, setUiHidden] = useState(false);
   const [readFrames, setReadFrames] = useState<string[]>([]);
   const [backlog, setBacklog] = useState<BacklogEntry[]>([]);
-  const [quickSave, setQuickSave] = useState<SaveSlot | null>(null);
-  const [quickNotice, setQuickNotice] = useState("");
+  const [legacySave, setLegacySave] = useState<SaveSlot | null>(null);
+  const [saveNotice, setSaveNotice] = useState("");
   const [combatEffect, setCombatEffect] = useState<{ id: number; effect: "flash" | "shake" | "darken"; tone: "neutral" | "danger" } | null>(null);
   const [combatArtEffect, setCombatArtEffect] = useState<CombatArtEffect | null>(null);
   const [dismissedSceneCgs, setDismissedSceneCgs] = useState<string[]>([]);
@@ -667,25 +603,36 @@ export function XueGuYinGame() {
   const combatSequenceRef = useRef(0);
   const combatTimersRef = useRef<number[]>([]);
   const sceneCgTimerRef = useRef<number | null>(null);
-  const narrativeLimit = useNarrativeLimit();
   const role = getRole(game.roleId);
   const scene = scenes[game.sceneId];
   const audio = useVisualNovelAudio(audioSettings);
+  const presentation = useMemo(() => scene ? resolveScenePresentation(game, scene) : null, [game, scene]);
+  const transientSource = battleResult?.text ?? pendingChoice?.result ?? null;
+  const pageTexts = useMemo(() => [...(presentation?.beats.map((beat) => beat.text) ?? []), ...(transientSource ? [transientSource] : [])], [presentation, transientSource]);
+  const measuredPages = useDialoguePagination(pageTexts, copyRef, `${Boolean(role)}:${game.endingId}:${Boolean(game.battle)}:${narrative.sceneId}:${narrative.anchor?.beatIndex}:${narrative.anchor?.offset}:${pendingChoice?.id}:${Boolean(battleResult)}:${transientOffset}:${uiHidden}:${showSaveArchive}`);
+  const narrativeFrames: NarrativeFrame[] = (presentation?.beats ?? []).flatMap((beat, beatIndex) => (measuredPages[beatIndex] ?? []).map((page) => ({ ...beat, ...page, beatIndex })));
+  const pageCount = Math.max(1, narrativeFrames.length);
+  const pageIndex = frameAtAnchor(narrativeFrames, narrative.sceneId === scene?.id ? narrative.anchor : undefined);
+  const activeFrame = narrativeFrames[pageIndex];
+  const positionToSave: NarrativePosition = activeFrame && scene
+    ? { sceneId: scene.id, page: pageIndex, anchor: { beatIndex: activeFrame.beatIndex, offset: activeFrame.start } }
+    : narrative;
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
+      setSaveSlots(readSaveSlots());
+      setLegacySave(readLegacySave());
       try {
         const storedEndings = JSON.parse(window.localStorage.getItem(endingStorageKey) ?? "[]") as unknown;
         if (Array.isArray(storedEndings)) setSeenEndings(storedEndings.filter((id): id is string => typeof id === "string" && id in endings));
-        setSaveSlots(readSaveSlots());
         setReduceMotion(window.localStorage.getItem(motionStorageKey) === "true");
         const storedTheme = window.localStorage.getItem(themeStorageKey);
         if (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system") setThemePreference(storedTheme);
         const storedRead = JSON.parse(window.localStorage.getItem(readStorageKey) ?? "[]") as unknown;
         if (Array.isArray(storedRead)) setReadFrames(storedRead.filter((key): key is string => typeof key === "string"));
-        const storedQuickSave = JSON.parse(window.localStorage.getItem(quickSaveStorageKey) ?? "null") as unknown;
-        if (isSaveSlot(storedQuickSave)) setQuickSave(storedQuickSave);
         setAudioSettings(readAudioSettings());
+      } catch {
+        // Unavailable storage or malformed preferences must not prevent playing or loading saves.
       } finally {
         storageLoadedRef.current = true;
       }
@@ -695,11 +642,15 @@ export function XueGuYinGame() {
 
   useEffect(() => {
     if (!storageLoadedRef.current) return;
-    window.localStorage.setItem(endingStorageKey, JSON.stringify(seenEndings));
-    window.localStorage.setItem(motionStorageKey, String(reduceMotion));
-    window.localStorage.setItem(themeStorageKey, themePreference);
-    window.localStorage.setItem(readStorageKey, JSON.stringify(readFrames));
-    window.localStorage.setItem(audioStorageKey, JSON.stringify(audioSettings));
+    try {
+      window.localStorage.setItem(endingStorageKey, JSON.stringify(seenEndings));
+      window.localStorage.setItem(motionStorageKey, String(reduceMotion));
+      window.localStorage.setItem(themeStorageKey, themePreference);
+      window.localStorage.setItem(readStorageKey, JSON.stringify(readFrames));
+      window.localStorage.setItem(audioStorageKey, JSON.stringify(audioSettings));
+    } catch {
+      // Keep the current session playable; explicit saves report storage failures in the archive.
+    }
     document.documentElement.dataset.reduceMotion = String(reduceMotion);
     document.documentElement.dataset.theme = themePreference;
   }, [audioSettings, readFrames, reduceMotion, seenEndings, themePreference]);
@@ -735,7 +686,7 @@ export function XueGuYinGame() {
 
   useEffect(() => {
     if (copyRef.current) copyRef.current.scrollTop = 0;
-  }, [battleResult?.text, game.sceneId, narrative.page, pendingChoice?.id, transientPage]);
+  }, [battleResult?.text, game.sceneId, narrative.page, pendingChoice?.id, transientOffset]);
 
   function loadScene(sceneId: string) { setNarrative({ sceneId, page: 0 }); }
 
@@ -754,8 +705,9 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setPendingLinearChoice(false);
     setBattleResult(null);
-    setTransientPage(0);
+    setTransientOffset(0);
     setShowGameMenu(false);
+    setShowSaveArchive(false);
     setShowBacklog(false);
     setAutoMode(false);
     setSkipMode(false);
@@ -764,27 +716,40 @@ export function XueGuYinGame() {
     setGame(chooseRole(id));
   }
 
-  function persistSaveSlots(nextSlots: SaveSlots) {
-    setSaveSlots(nextSlots);
-    window.localStorage.setItem(saveStorageKey, JSON.stringify(nextSlots));
-  }
-
   function saveToSlot(index: number) {
+    if (!role || combatArtEffect || index < 0 || index >= SAVE_SLOT_COUNT) return false;
     const nextSlots = [...saveSlots];
-    nextSlots[index] = createSaveSlot({ game, narrative, pendingGame: pendingBattleState });
-    persistSaveSlots(nextSlots);
+    nextSlots[index] = createSaveSlot({ game, narrative: positionToSave, pendingGame: pendingBattleState });
+    try {
+      window.localStorage.setItem(saveStorageKey, JSON.stringify(nextSlots));
+      setSaveSlots(nextSlots);
+      setSaveNotice(`已保存至存档 ${index + 1}`);
+      return true;
+    } catch {
+      setSaveNotice("保存失败：本地存储不可用或空间不足，原存档未被覆盖。请勿关闭游戏。");
+      return false;
+    }
   }
 
   function loadFromSlot(slot: SaveSlot) {
     const restored = restoreSaveSlot(slot);
+    // A save made during defeat feedback already contains the terminal game state.
+    // Recompute its ending instead of trying to render a nonexistent "ending" scene.
+    if (restored.game.sceneId === "ending") {
+      const endingId = resolveEnding(restored.game);
+      restored.game = { ...restored.game, endingId };
+      setSeenEndings((seen) => seen.includes(endingId) ? seen : [...seen, endingId]);
+    }
     resetSceneCgs();
     setPendingBattleState(null);
     setBattleFeedback(null);
     setPendingChoice(null);
     setPendingLinearChoice(false);
     setBattleResult(null);
-    setTransientPage(0);
+    setTransientOffset(0);
     setShowGameMenu(false);
+    setShowSaveArchive(false);
+    setSaveNotice("");
     setShowBacklog(false);
     setAutoMode(false);
     setSkipMode(false);
@@ -800,8 +765,10 @@ export function XueGuYinGame() {
     setPendingChoice(null);
     setPendingLinearChoice(false);
     setBattleResult(null);
-    setTransientPage(0);
+    setTransientOffset(0);
     setShowGameMenu(false);
+    setShowSaveArchive(false);
+    setSaveNotice("");
     setShowBacklog(false);
     setAutoMode(false);
     setSkipMode(false);
@@ -825,7 +792,7 @@ export function XueGuYinGame() {
     if (choice.result) {
       setPendingLinearChoice(false);
       setPendingChoice(choice);
-      setTransientPage(0);
+      setTransientOffset(0);
       return;
     }
     applyAndAdvance(choice);
@@ -835,7 +802,7 @@ export function XueGuYinGame() {
     const choice = pendingChoice;
     setPendingChoice(null);
     setPendingLinearChoice(false);
-    setTransientPage(0);
+    setTransientOffset(0);
     applyAndAdvance(choice);
   }
 
@@ -867,7 +834,7 @@ export function XueGuYinGame() {
         const won = Boolean(battle.victoryFlag && next.flags.includes(battle.victoryFlag));
         setPendingBattleState(next);
         setBattleResult({ won, text: buildBattleResultText(game, won) });
-        setTransientPage(0);
+        setTransientOffset(0);
         setBattleFeedback(null);
         return;
       }
@@ -912,37 +879,31 @@ export function XueGuYinGame() {
   function confirmBattleResult() {
     if (!battleResult) return;
     setBattleResult(null);
-    setTransientPage(0);
+    setTransientOffset(0);
     continueBattle();
   }
 
 
   if (!role) {
     if (homeView === "archive") return <EndingArchive onBack={() => setHomeView("menu")} seenEndings={seenEndings} />;
-    if (homeView === "saves") return <SaveArchive onBack={() => setHomeView("menu")} onLoad={loadFromSlot} saveSlots={saveSlots} />;
+    if (homeView === "saves") return <SaveArchive legacySave={legacySave} onBack={() => setHomeView("menu")} onLoad={loadFromSlot} saveSlots={saveSlots} />;
     if (homeView === "settings") return <GameSettings audioSettings={audioSettings} onAudioChange={setAudioSettings} onBack={() => setHomeView("menu")} onClearEndings={() => setSeenEndings([])} reduceMotion={reduceMotion} onThemeChange={setThemePreference} onToggleReduceMotion={() => setReduceMotion((current) => !current)} themePreference={themePreference} />;
     if (homeView === "menu") return <MainMenu onArchive={() => setHomeView("archive")} onSaves={() => setHomeView("saves")} onSettings={() => setHomeView("settings")} onStart={() => setHomeView("roles")} saveSlots={saveSlots} unlockedCount={seenEndings.length} />;
     return <RoleSelect onBack={() => setHomeView("menu")} onSelect={selectRole} />;
   }
   if (game.endingId) return <EndingScreen game={game} seenEndings={seenEndings} onReplay={() => selectRole(role.id)} onChangeRole={() => { setGame(initialGame()); setHomeView("roles"); }} onMenu={() => { setGame(initialGame()); setHomeView("menu"); }} />;
-  if (!scene) return null;
+  if (!scene || !presentation) return null;
+  if (showSaveArchive) return <SaveArchive legacySave={legacySave} notice={saveNotice} onBack={() => setShowSaveArchive(false)} onLoad={loadFromSlot} onSave={saveToSlot} saveSlots={saveSlots} />;
 
   const battle = game.battle;
-  const presentation = resolveScenePresentation(game, scene);
   const sourceText = presentation.text;
-  const narrativeFrames = framesForPresentation(presentation.beats, narrativeLimit);
-  const pageCount = Math.max(1, narrativeFrames.length);
-  const narrativePage = narrative.sceneId === scene.id ? narrative.page : 0;
-  const pageIndex = Math.min(narrativePage, pageCount - 1);
   const isLastNarrativePage = pageIndex === pageCount - 1;
-  const activeFrame = narrativeFrames[pageIndex] ?? presentation.beats[0];
   const narrativeParts: string[] = [activeFrame?.text ?? sourceText];
   const visibleChoices = presentation.choices.filter((choice) => canChoose(game, choice));
   const linearRouteChoice = game.routeLocked && visibleChoices.length === 1 ? visibleChoices[0] : null;
-  const transientSource = battleResult?.text ?? pendingChoice?.result ?? null;
-  const transientPages = transientSource ? splitForViewport(transientSource, narrativeLimit) : [];
-  const transientPageIndex = Math.min(transientPage, Math.max(0, transientPages.length - 1));
-  const presentedText = transientPages[transientPageIndex] ?? narrativeParts[0] ?? sourceText;
+  const transientPages = transientSource ? measuredPages[presentation.beats.length] ?? [] : [];
+  const transientPageIndex = pageAtOffset(transientPages, transientOffset);
+  const presentedText = transientPages[transientPageIndex]?.text ?? narrativeParts[0] ?? sourceText;
   const speaker = battleResult ? "旁白" : pendingChoice ? inferSpeaker(presentedText) : activeFrame?.displayName ?? inferSpeaker(presentedText);
   const stageBackground = activeFrame?.background ?? presentation.background;
   const stageCharacters = activeFrame?.characters ?? presentation.characters;
@@ -990,11 +951,13 @@ export function XueGuYinGame() {
       if (choice.result) {
         setPendingLinearChoice(true);
         setPendingChoice(choice);
-        setTransientPage(0);
+        setTransientOffset(0);
       } else applyAndAdvance(choice);
       return;
     }
-    setNarrative({ sceneId: scene.id, page: Math.min(pageIndex + 1, pageCount - 1) });
+    const nextIndex = Math.min(pageIndex + 1, pageCount - 1);
+    const next = narrativeFrames[nextIndex];
+    setNarrative({ sceneId: scene.id, page: nextIndex, anchor: { beatIndex: next.beatIndex, offset: next.start } });
   }
 
   function advanceInteraction() {
@@ -1003,13 +966,13 @@ export function XueGuYinGame() {
     if (showGameMenu || showBacklog) return;
     if (battleResult) {
       rememberCurrentFrame();
-      if (transientPageIndex < transientPages.length - 1) setTransientPage((current) => current + 1);
+      if (transientPageIndex < transientPages.length - 1) setTransientOffset(transientPages[transientPageIndex + 1].start);
       else confirmBattleResult();
       return;
     }
     if (pendingChoice) {
       rememberCurrentFrame();
-      if (transientPageIndex < transientPages.length - 1) setTransientPage((current) => current + 1);
+      if (transientPageIndex < transientPages.length - 1) setTransientOffset(transientPages[transientPageIndex + 1].start);
       else confirmChoice();
       return;
     }
@@ -1038,17 +1001,15 @@ export function XueGuYinGame() {
     setShowBacklog(true);
   }
 
-  function createQuickSave() {
-    const slot = createSaveSlot({ game, narrative, pendingGame: pendingBattleState });
-    setQuickSave(slot);
-    window.localStorage.setItem(quickSaveStorageKey, JSON.stringify(slot));
-    setQuickNotice("快速存档完成");
-  }
-
-  function loadQuickSave() {
-    if (!quickSave) { setQuickNotice("尚无快速存档"); return; }
-    loadFromSlot(quickSave);
-    setQuickNotice("已读取快速存档");
+  function openSaveArchive() {
+    if (combatArtEffect || sceneCgActive) return;
+    setAutoMode(false);
+    setSkipMode(false);
+    setShowGameMenu(false);
+    setShowBacklog(false);
+    setUiHidden(false);
+    setSaveNotice("");
+    setShowSaveArchive(true);
   }
 
   const readingModeAllowed = canRunReadingMode({
@@ -1072,8 +1033,7 @@ export function XueGuYinGame() {
           if (showBacklog) setShowBacklog(false);
           else setShowGameMenu((current) => !current);
         }}
-        onQuickLoad={loadQuickSave}
-        onQuickSave={createQuickSave}
+        onSaves={openSaveArchive}
         onSkip={setSkipMode}
         skipMode={skipMode}
         text={presentedText}
@@ -1082,6 +1042,10 @@ export function XueGuYinGame() {
         className={`game-frame story-frame${battle && !battleResult ? " is-battling" : ""}${uiHidden ? " is-ui-hidden" : ""}${sceneCgActive ? " is-showing-cg" : ""}${stageEffectClasses}`}
         aria-label="血蛊引游戏界面"
         data-narrative-page={`${pageIndex + 1}/${pageCount}`}
+        data-reading-beat={activeFrame?.beatIndex}
+        data-reading-kind={battleResult ? "battle-result" : pendingChoice ? "choice-result" : "story"}
+        data-reading-offset={transientSource ? transientPages[transientPageIndex]?.start : activeFrame?.start}
+        data-page-forced={String(transientSource ? transientPages[transientPageIndex]?.forced ?? false : activeFrame?.forced ?? false)}
         data-scene-id={scene.id}
         onClick={(event) => {
           if ((event.target as HTMLElement).closest("button, a, input, select, textarea")) return;
@@ -1125,7 +1089,7 @@ export function XueGuYinGame() {
           </header>
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">旁白</p><p className="eyebrow">战斗结束</p>
-            <div className="scene-copy vn-text-reveal" key={`battle-result-${transientPageIndex}-${presentedText}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
+            <div className="scene-copy vn-text-reveal" key={`battle-result-${transientOffset}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
             <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
         </> : battle ? <BattleScene battleFeedback={battleFeedback} busy={Boolean(combatArtEffect)} game={game} onAction={handleBattle} onOpenMenu={() => setShowGameMenu(true)} /> : <>
@@ -1137,13 +1101,13 @@ export function XueGuYinGame() {
           {pendingChoice ? <>
           <section className="scene" aria-live="polite">
             <p className="vn-speaker">{speaker}</p><p className="eyebrow">{pendingLinearChoice ? "剧情推进" : "抉择已定"}</p>
-            <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}-${transientPageIndex}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
+            <div className="scene-copy vn-text-reveal" key={`choice-result-${pendingChoice.id}-${transientOffset}`} ref={copyRef}><NarrativePage text={presentedText} /></div>
             <span className="vn-continue-indicator" aria-hidden="true">⌄</span>
           </section>
           </> : <>
-          <section className="scene" aria-live="polite">
+          <section className={`scene${presentation.battle ? " has-battle-action" : ""}`} aria-live="polite">
             <p className="vn-speaker">{speaker}</p>
-            <div className={`scene-copy vn-text-reveal${activeFrame?.transition === "fade" ? " is-scene-fade" : ""}`} key={`${scene.id}-${activeFrame?.beatIndex ?? 0}-${pageIndex}-${narrativeLimit}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
+            <div className={`scene-copy vn-text-reveal${activeFrame?.transition === "fade" ? " is-scene-fade" : ""}`} key={`${scene.id}-${narrative.anchor?.beatIndex ?? 0}-${narrative.anchor?.offset ?? 0}`} ref={copyRef}>{narrativeParts.map((paragraph) => <NarrativePage key={paragraph} text={paragraph} />)}</div>
             {!isLastNarrativePage || linearRouteChoice ? <span className="vn-continue-indicator" aria-hidden="true">⌄</span> : null}
           </section>
           {isLastNarrativePage && presentation.battle ? <div className="choice-panel"><button className="primary-button" onClick={beginBattle}>放出本命蛊</button></div> : null}
@@ -1156,9 +1120,8 @@ export function XueGuYinGame() {
         </>}
         </div>
         </div>
-        <QuickMenu autoMode={autoMode} canQuickLoad={Boolean(quickSave)} disabled={!readingModeAllowed} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onQuickLoad={loadQuickSave} onQuickSave={createQuickSave} onSkip={() => setSkipMode((current) => !current)} skipMode={skipMode} />
-        {quickNotice ? <p className="vn-quick-notice" aria-live="polite" onAnimationEnd={() => setQuickNotice("")}>{quickNotice}</p> : null}
-        {showGameMenu ? <GameMenu onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
+        <QuickMenu autoMode={autoMode} disabled={!readingModeAllowed} savesDisabled={Boolean(combatArtEffect)} onAuto={() => setAutoMode((current) => !current)} onBacklog={openBacklog} onHide={() => setUiHidden(true)} onSaves={openSaveArchive} onSkip={() => setSkipMode((current) => !current)} skipMode={skipMode} />
+        {showGameMenu ? <GameMenu notice={saveNotice} onClose={() => setShowGameMenu(false)} onLoad={loadFromSlot} onMenu={returnToMainMenu} onSave={saveToSlot} saveSlots={saveSlots} /> : null}
         {showBacklog ? <BacklogOverlay entries={backlog} onClose={() => setShowBacklog(false)} /> : null}
         {presentation.sceneCg && sceneCgActive ? <SceneCgOverlay assetKey={presentation.sceneCg} chapter={`${scene.act}-${scene.node}`} exiting={sceneCgExiting} onDismiss={dismissSceneCg} title={scene.title} /> : null}
       </section>
@@ -1166,7 +1129,7 @@ export function XueGuYinGame() {
   );
 }
 
-function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip, skipMode, text }: {
+function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, onBacklog, onHide, onMenu, onSaves, onSkip, skipMode, text }: {
   autoMode: boolean;
   canAdvance: boolean;
   locked: boolean;
@@ -1175,8 +1138,7 @@ function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, on
   onBacklog: () => void;
   onHide: () => void;
   onMenu: () => void;
-  onQuickLoad: () => void;
-  onQuickSave: () => void;
+  onSaves: () => void;
   onSkip: (active: boolean) => void;
   skipMode: boolean;
   text: string;
@@ -1202,8 +1164,7 @@ function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, on
       else if (key === "a") onAuto();
       else if (key === "b") onBacklog();
       else if (key === "h") onHide();
-      else if (key === "q") onQuickSave();
-      else if (key === "l") onQuickLoad();
+      else if (key === "s" && !event.ctrlKey && !event.metaKey && !event.altKey) { event.preventDefault(); onSaves(); }
     }
     function keyUp(event: KeyboardEvent) { if (event.key === "Control") onSkip(false); }
     function windowBlur() { onSkip(false); }
@@ -1215,7 +1176,7 @@ function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, on
       window.removeEventListener("keyup", keyUp);
       window.removeEventListener("blur", windowBlur);
     };
-  }, [locked, onAdvance, onAuto, onBacklog, onHide, onMenu, onQuickLoad, onQuickSave, onSkip]);
+  }, [locked, onAdvance, onAuto, onBacklog, onHide, onMenu, onSaves, onSkip]);
 
   useEffect(() => {
     if (!canAdvance || (!autoMode && !skipMode)) return;
@@ -1227,15 +1188,14 @@ function ReadingController({ autoMode, canAdvance, locked, onAdvance, onAuto, on
   return null;
 }
 
-function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide, onQuickLoad, onQuickSave, onSkip, skipMode }: {
+function QuickMenu({ autoMode, disabled, savesDisabled, onAuto, onBacklog, onHide, onSaves, onSkip, skipMode }: {
   autoMode: boolean;
-  canQuickLoad: boolean;
+  savesDisabled: boolean;
   disabled: boolean;
   onAuto: () => void;
   onBacklog: () => void;
   onHide: () => void;
-  onQuickLoad: () => void;
-  onQuickSave: () => void;
+  onSaves: () => void;
   onSkip: () => void;
   skipMode: boolean;
 }) {
@@ -1243,8 +1203,7 @@ function QuickMenu({ autoMode, canQuickLoad, disabled, onAuto, onBacklog, onHide
     <button type="button" onClick={onBacklog}>历史 <kbd>B</kbd></button>
     <button aria-pressed={autoMode} className={autoMode ? "is-active" : ""} disabled={disabled} type="button" onClick={onAuto}>自动 <kbd>A</kbd></button>
     <button aria-pressed={skipMode} className={skipMode ? "is-active" : ""} disabled={disabled} type="button" onClick={onSkip}>快进 <kbd>Ctrl</kbd></button>
-    <button type="button" onClick={onQuickSave}>快存 <kbd>Q</kbd></button>
-    <button disabled={!canQuickLoad} type="button" onClick={onQuickLoad}>快读 <kbd>L</kbd></button>
+    <button disabled={savesDisabled} type="button" onClick={onSaves}>存读档 <kbd>S</kbd></button>
     <button type="button" onClick={onHide}>隐藏 <kbd>H</kbd></button>
   </nav>;
 }
@@ -1278,26 +1237,47 @@ function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlocked
   </section></main>;
 }
 
-function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad: (slot: SaveSlot) => void; saveSlots: SaveSlots }) {
-  return <main className="game-shell archive-shell"><ViewArtwork assetKey="ui.saves" /><section className="game-frame archive-card save-archive" aria-labelledby="save-title">
-    <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">六卷行迹</p><h1 id="save-title">读取存档</h1></div></header>
-    <p className="save-archive-copy">存档保存在当前应用中，不会自动跨设备同步。读取任意一卷，将从该处继续行走。</p>
-    <div className="save-archive-list">{saveSlots.map((slot, index) => {
-      const label = slot ? saveSlotLabel(slot) : null;
-      return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><button className="slot-load-button" type="button" disabled={!slot} onClick={() => slot && onLoad(slot)}>读取</button></article>;
-    })}</div>
+function SaveSlotCard({ slot, index, onLoad, onSave }: { slot: SaveSlot | null; index?: number; onLoad: (slot: SaveSlot) => void; onSave?: () => boolean }) {
+  const [confirmOverwrite, setConfirmOverwrite] = useState(false);
+  const label = slot ? saveSlotLabel(slot) : null;
+  const slotName = index === undefined ? "旧版存档" : `存档 ${index + 1}`;
+  function save() {
+    if (slot && !confirmOverwrite) { setConfirmOverwrite(true); return; }
+    if (onSave?.()) setConfirmOverwrite(false);
+  }
+  return <article className={`save-slot${slot ? " is-occupied" : ""}`} aria-label={slotName}>
+    <div className="save-slot-details">
+      <span className="save-slot-index">{slotName}</span>
+      {label ? <span className="save-slot-chapter">{label.chapter}</span> : null}
+      <strong>{label?.scene ?? "空白卷轴"}</strong>
+      <small className="save-slot-role">{label?.role ?? "尚未留下任何行迹"}</small>
+      {slot ? <time dateTime={slot.savedAt}>{formatSaveTime(slot.savedAt)}</time> : null}
+    </div>
+    {confirmOverwrite ? <p className="save-overwrite-warning" role="alert">覆盖此卷的原有进度？</p> : null}
+    <nav aria-label={`${slotName}操作`}>
+      {onSave ? <button className="slot-save-button" type="button" onClick={save}>{confirmOverwrite ? "确认覆盖" : "存入"}</button> : null}
+      {confirmOverwrite ? <button type="button" onClick={() => setConfirmOverwrite(false)}>取消</button> : <button className="slot-load-button" type="button" disabled={!slot} onClick={() => slot && onLoad(slot)}>读取</button>}
+    </nav>
+  </article>;
+}
+
+function SaveArchive({ legacySave, notice = "", onBack, onLoad, onSave, saveSlots }: { legacySave: SaveSlot | null; notice?: string; onBack: () => void; onLoad: (slot: SaveSlot) => void; onSave?: (index: number) => boolean; saveSlots: SaveSlots }) {
+  const archiveRef = useModalFocus<HTMLElement>(true, onBack);
+  return <main className="game-shell archive-shell"><ViewArtwork assetKey="ui.saves" /><section ref={archiveRef} tabIndex={-1} className="game-frame archive-card save-archive" aria-labelledby="save-title">
+    <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">六卷行迹</p><h1 id="save-title">{onSave ? "存读档" : "读取存档"}</h1></div></header>
+    <p className="save-archive-copy">存档保存在当前浏览器中，不会自动跨设备同步。读取将放弃未保存的进度。{legacySave ? "旧版存档仅供读取，不占用六个存档位。" : ""}<span className="save-status" role="status">{notice}</span></p>
+    <div className="save-archive-list" aria-label="存档列表">{saveSlots.map((slot, index) => <SaveSlotCard key={index} slot={slot} index={index} onLoad={onLoad} onSave={onSave ? () => onSave(index) : undefined} />)}
+      {legacySave ? <SaveSlotCard slot={legacySave} onLoad={onLoad} /> : null}
+    </div>
   </section></main>;
 }
 
-function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () => void; onLoad: (slot: SaveSlot) => void; onMenu: () => void; onSave: (index: number) => void; saveSlots: SaveSlots }) {
+function GameMenu({ notice, onClose, onLoad, onMenu, onSave, saveSlots }: { notice: string; onClose: () => void; onLoad: (slot: SaveSlot) => void; onMenu: () => void; onSave: (index: number) => boolean; saveSlots: SaveSlots }) {
   const dialogRef = useModalFocus<HTMLElement>(true, onClose);
   return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-label="游戏菜单" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
     <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button autoFocus className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
-    <p className="game-menu-copy">存档保存在当前应用中，不会自动跨设备同步。读取存档会放弃当前未保存的进度。</p>
-    <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => {
-      const label = slot ? saveSlotLabel(slot) : null;
-      return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><nav><button className="slot-save-button" type="button" onClick={() => onSave(index)}>存入</button>{slot ? <button className="slot-load-button" type="button" onClick={() => onLoad(slot)}>读取</button> : null}</nav></article>;
-    })}</div>
+    <p className="game-menu-copy">存档保存在当前浏览器中，不会自动跨设备同步。读取存档会放弃当前未保存的进度。<span className="save-status" role="status">{notice}</span></p>
+    <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => <SaveSlotCard key={index} slot={slot} index={index} onLoad={onLoad} onSave={() => onSave(index)} />)}</div>
     <button className="game-menu-home" type="button" onClick={onMenu}>返回主菜单</button>
   </section></div>;
 }

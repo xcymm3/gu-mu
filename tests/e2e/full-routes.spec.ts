@@ -403,14 +403,16 @@ class BrowserPlaythrough {
 
   async saveBattleCheckpoint(slotIndex = 0) {
     await this.advanceUntilVisible(this.page.getByRole("button", { name: "放出本命蛊", exact: true }), `${this.game.sceneId} 存档点`);
-    await this.page.getByRole("button", { name: "打开游戏菜单", exact: true }).click();
-    const menu = this.page.getByRole("dialog", { name: "游戏菜单" });
+    await this.page.getByRole("button", { name: /^存读档/ }).click();
+    const menu = this.page.locator(".save-archive");
     const slot = menu.locator(".save-slot").nth(slotIndex);
     await slot.getByRole("button", { name: "存入", exact: true }).click();
+    const confirm = slot.getByRole("button", { name: "确认覆盖", exact: true });
+    if (await confirm.isVisible()) await confirm.click();
     await expect(slot).toContainText(getRole(this.game.roleId)!.name);
     await this.captureSaveCombatScreenshot("manual-save-slot");
     this.savedGames.set(slotIndex, this.game);
-    await this.page.getByRole("button", { name: "关闭游戏菜单", exact: true }).click();
+    await this.page.getByRole("button", { name: "返回", exact: true }).click();
   }
 
   async loadBattleCheckpoint(slotIndex = 0) {
@@ -473,7 +475,8 @@ test.afterAll(async () => {
 
 test("赵黎路线以真实存档复现三场关键战斗胜败并通关", async ({ page, browserDiagnostics }) => {
   void browserDiagnostics;
-  test.setTimeout(180_000);
+  // Complete-sentence pages intentionally need more player advances than byte-count pages.
+  test.setTimeout(240_000);
   const run = new BrowserPlaythrough(page);
   await run.open();
   await run.runCommon("zhao", "swordsman");
@@ -508,7 +511,7 @@ test("赵黎路线以真实存档复现三场关键战斗胜败并通关", async
 
 test("纪清寒路线由游方蛊医经公开行动通关", async ({ page, browserDiagnostics }) => {
   void browserDiagnostics;
-  test.setTimeout(120_000);
+  test.setTimeout(240_000);
   const run = new BrowserPlaythrough(page);
   await run.open();
   await run.runCommon("ji", "healer");
@@ -517,7 +520,7 @@ test("纪清寒路线由游方蛊医经公开行动通关", async ({ page, brows
 
 test("游方蛊医在苏莹路线无法击败墓主并进入对应结局", async ({ page, browserDiagnostics }) => {
   void browserDiagnostics;
-  test.setTimeout(120_000);
+  test.setTimeout(240_000);
   const run = new BrowserPlaythrough(page);
   await run.open();
   await run.runCommon("su", "healer");
@@ -530,7 +533,7 @@ test("游方蛊医在苏莹路线无法击败墓主并进入对应结局", async
 
 test("世家之子以固定随机结果完成苏莹真结局", async ({ page, browserDiagnostics }) => {
   void browserDiagnostics;
-  test.setTimeout(120_000);
+  test.setTimeout(240_000);
   const run = new BrowserPlaythrough(page);
   await run.open();
   await run.runCommon("su", "heir");
@@ -539,7 +542,7 @@ test("世家之子以固定随机结果完成苏莹真结局", async ({ page, br
 
 test("乔无咎权谋路线无需战斗篡改即可完整通关", async ({ page, browserDiagnostics }) => {
   void browserDiagnostics;
-  test.setTimeout(120_000);
+  test.setTimeout(240_000);
   const run = new BrowserPlaythrough(page);
   await run.open();
   await run.runCommon("traitor", "heir");
@@ -548,7 +551,7 @@ test("乔无咎权谋路线无需战斗篡改即可完整通关", async ({ page,
 
 test("大雾超时选择可由真实页面解锁困墓结局", async ({ page, browserDiagnostics }) => {
   void browserDiagnostics;
-  test.setTimeout(120_000);
+  test.setTimeout(240_000);
   const run = new BrowserPlaythrough(page);
   await run.open();
   await run.runCommon("trapped", "swordsman");

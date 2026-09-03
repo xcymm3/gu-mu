@@ -147,26 +147,30 @@ test("主菜单到读档工具链均经过玩家公开操作", async ({ page, br
   const savedProgress = await stage.getAttribute("data-narrative-page");
   expect(savedProgress).not.toBeNull();
 
-  await page.getByRole("button", { name: /^快存/ }).click();
-  await expect(page.getByText("快速存档完成")).toBeVisible();
-
-  await page.getByRole("button", { name: "打开游戏菜单" }).click();
-  const gameMenu = page.getByRole("dialog", { name: "游戏菜单" });
-  await expect(gameMenu).toBeVisible();
-  const firstSlot = gameMenu.locator(".save-slot").first();
+  await expect(page.getByRole("button", { name: /^快存|^快读/ })).toHaveCount(0);
+  await page.getByRole("button", { name: /^存读档/ }).click();
+  await expect(page.getByRole("heading", { name: "存读档", exact: true })).toBeVisible();
+  const firstSlot = page.locator(".save-archive .save-slot").first();
   await firstSlot.getByRole("button", { name: "存入" }).click();
   await expect(firstSlot).toContainText("流浪剑修");
-  await page.getByRole("button", { name: "关闭游戏菜单" }).click();
+  await expect(firstSlot).toContainText("Chapter 1-1");
+  await expect(firstSlot.locator("strong")).toHaveText("夜雨墓门");
+  await expect(page.getByRole("status")).toHaveText("已保存至存档 1");
+  await page.getByRole("button", { name: "返回", exact: true }).click();
 
   await stage.click({ position: { x: 8, y: 8 } });
   await expect(stage).not.toHaveAttribute("data-narrative-page", savedProgress!);
-  await page.getByRole("button", { name: /^快读/ }).click();
+  await page.getByRole("button", { name: /^存读档/ }).click();
+  await firstSlot.getByRole("button", { name: "读取", exact: true }).click();
+  await page.locator(".vn-scene-cg").click();
+  await expect(page.locator(".vn-scene-cg")).toHaveCount(0);
   await expect(stage).toHaveAttribute("data-narrative-page", savedProgress!);
-  await expect(page.getByText("已读取快速存档")).toBeVisible();
 
   await page.getByLabel("血蛊引游戏界面").click({ position: { x: 8, y: 8 } });
   await page.getByRole("button", { name: "打开游戏菜单" }).click();
-  await firstSlot.getByRole("button", { name: "读取" }).click();
+  await page.getByRole("dialog", { name: "游戏菜单" }).locator(".save-slot").first().getByRole("button", { name: "读取" }).click();
+  await page.locator(".vn-scene-cg").click();
+  await expect(page.locator(".vn-scene-cg")).toHaveCount(0);
   await expect(stage).toHaveAttribute("data-narrative-page", savedProgress!);
 
   await page.getByLabel("血蛊引游戏界面").click({ position: { x: 8, y: 8 } });

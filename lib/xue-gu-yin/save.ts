@@ -1,9 +1,10 @@
 import type { GameState } from "./model.ts";
+import type { ReadingAnchor } from "./pagination.ts";
 
 export const SAVE_SLOT_VERSION = 6 as const;
 export const SAVE_SLOT_COUNT = 6;
 
-export type NarrativePosition = { sceneId: string; page: number };
+export type NarrativePosition = { sceneId: string; page: number; anchor?: ReadingAnchor };
 export type SaveSlot = {
   version: typeof SAVE_SLOT_VERSION;
   savedAt: string;
@@ -21,7 +22,10 @@ function isNarrativePosition(value: unknown): value is NarrativePosition {
   const candidate = value as Partial<NarrativePosition>;
   return typeof candidate.sceneId === "string"
     && Number.isInteger(candidate.page)
-    && (candidate.page ?? -1) >= 0;
+    && (candidate.page ?? -1) >= 0
+    && (candidate.anchor === undefined || (candidate.anchor !== null
+      && Number.isInteger(candidate.anchor.beatIndex) && candidate.anchor.beatIndex >= 0
+      && Number.isInteger(candidate.anchor.offset) && candidate.anchor.offset >= 0));
 }
 
 function isGameState(value: unknown): value is GameState {

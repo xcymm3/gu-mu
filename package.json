@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test tests/game.test.ts tests/combat-balance.test.ts tests/release.test.ts tests/desktop.test.mjs",
+    "test": "node --experimental-strip-types --test tests/game.test.ts tests/combat-balance.test.ts tests/release.test.ts tests/pagination.test.ts tests/desktop.test.mjs",
     "desktop:dev": "pnpm build && install-electron && electron desktop",
     "desktop:pack": "pnpm build && install-electron && electron-builder --config electron-builder.json --win portable --x64 --publish never",
     "android:pack": "pnpm build && gradle -p android :app:testDebugUnitTest :app:lintDebug :app:assembleDebug",

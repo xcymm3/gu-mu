@@ -1539,6 +1539,7 @@ h1 {
   .vn-story-core .scene .eyebrow { display: none; }
   .vn-story-core .scene-copy {
     grid-column: 1 / -1;
+    grid-row: 1 / -1;
     align-content: start;
     max-width: 72ch;
     min-height: 0;
@@ -1547,7 +1548,8 @@ h1 {
     overflow: hidden;
   }
   .vn-story-core .scene-copy p { color: var(--color-vn-dialog-muted); font-size: clamp(.96rem, 1.1vw, 1.08rem); line-height: 1.9; text-align: start; }
-  .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy { padding-inline-end: 11rem; }
+  .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy,
+  .vn-story-core .scene.has-battle-action .scene-copy { padding-inline-end: 11rem; }
   .vn-story-core .choice-panel {
     position: absolute;
     z-index: 7;
@@ -1649,7 +1651,7 @@ h1 {
 .save-archive-list .save-slot > div,
 .save-slot-list .save-slot > div { gap: 0; }
 .save-archive-list .save-slot small,
-.save-slot-list .save-slot small { display: none; }
+.save-slot-list .save-slot small { display: block; }
 
 .save-archive-list .slot-load-button,
 .save-slot-list .save-slot nav,
@@ -2507,8 +2509,22 @@ html[data-reduce-motion="true"] *::after {
 }
 
 .save-archive-list .save-slot small,
-.save-slot-list .save-slot small { display: none; }
+.save-slot-list .save-slot small { display: block; }
 .save-archive-list .slot-load-button { width: 100%; min-height: 2rem; padding: 0 var(--space-2); }
+.save-archive .save-archive-list,
+.game-menu-dialog .save-slot-list { grid-auto-rows: max-content; overflow-y: auto; overscroll-behavior: contain; }
+.save-archive-list .save-slot,
+.save-slot-list .save-slot { height: auto; }
+.save-slot .save-slot-details { gap: .2rem; }
+.save-slot .save-slot-chapter { color: var(--color-muted); line-height: 1.45; overflow-wrap: anywhere; }
+.save-slot .save-slot-details strong { white-space: normal; line-height: 1.45; overflow-wrap: anywhere; }
+.save-slot .save-slot-role { white-space: normal; color: var(--color-muted); }
+.save-slot time { color: var(--color-faint); font-family: var(--font-mono); font-size: .68rem; line-height: 1.4; }
+.save-slot nav { margin-top: auto; }
+.save-archive-list .save-slot nav { display: flex; width: 100%; gap: var(--space-2); }
+.save-archive-list .save-slot nav button { flex: 1; min-width: 0; min-height: 2rem; padding: 0 var(--space-2); }
+.save-status { display: block; min-height: 1.5em; color: var(--color-ink); }
+.save-overwrite-warning { margin: 0; color: var(--color-ink); font-size: var(--text-xs); line-height: 1.5; }
 .save-slot-list .save-slot nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: var(--space-2); }
 .save-slot-list .save-slot nav button { width: 100%; min-height: 2rem; padding: 0 var(--space-2); }
 
@@ -3612,7 +3628,8 @@ html[data-reduce-motion="true"] .vn-continue-indicator { animation: none !import
     line-height: 1.62;
   }
 
-  .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy {
+  .vn-story-core .scene:has(+ .choice-panel:not(:has(.choice-button))) .scene-copy,
+  .vn-story-core .scene.has-battle-action .scene-copy {
     padding-inline-end: 7rem;
   }
 

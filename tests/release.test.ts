@@ -275,7 +275,8 @@ test("手机端使用横屏视觉小说舞台并在竖屏提示旋转", () => {
   assert.match(page, /className="orientation-prompt"/);
   assert.match(page, /请旋转设备/);
   assert.match(layout, /viewportFit:\s*"cover"/);
-  assert.match(game, /isCompactLandscape/);
+  assert.match(game, /useDialoguePagination/);
+  assert.doesNotMatch(game, /useNarrativeLimit|splitForViewport/);
 });
 
 test("主页结局图鉴在固定视口内提供独立纵向滚动", () => {

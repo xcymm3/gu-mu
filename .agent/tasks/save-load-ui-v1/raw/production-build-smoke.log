@@ -1,0 +1,10 @@
+$ playwright test --config=playwright.production.config.ts
+
+Running 1 test using 1 worker
+
+
+(node:31304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/1] tests\e2e\production-smoke.ts:18:1 › 生产站点部署目标提交并完成开始与存读档冒烟
+  1 passed (7.1s)

@@ -1,0 +1,32 @@
+{
+  "task_id": "visual-art-expansion-v1",
+  "generated_by": "tests/e2e/full-routes.spec.ts",
+  "routes": [
+    "zhao",
+    "ji",
+    "su",
+    "traitor"
+  ],
+  "scene_cg_keys": [
+    "cg.scene.gate",
+    "cg.scene.bloodThreshold",
+    "cg.scene.fog",
+    "cg.scene.zhaoAwakening",
+    "cg.scene.jiDestroyGu",
+    "cg.scene.suCoffin",
+    "cg.scene.traitorBloodTaken"
+  ],
+  "ending_cg_keys": [
+    "cg.ending.deathByBloodGuard",
+    "cg.ending.deathByZhao",
+    "cg.ending.deathByQiao",
+    "cg.ending.demon",
+    "cg.ending.severed",
+    "cg.ending.deathByMaster",
+    "cg.ending.true",
+    "cg.ending.traitor",
+    "cg.ending.trapped"
+  ],
+  "screenshots": "raw/screenshots/routes-and-endings/",
+  "missing_keys": []
+}

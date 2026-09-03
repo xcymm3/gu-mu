@@ -1,0 +1,19 @@
+$ playwright test "tests/e2e/save-load.spec.ts"
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 9 tests using 1 worker
+
+
+(node:32788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/9] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 1366x768
+[2/9] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 844x390
+[3/9] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 667x375
+[4/9] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 568x320
+[5/9] tests\e2e\save-load.spec.ts:81:1 › 六个普通槽位满时仍可读取旧版存档且不改动原数据
+[6/9] tests\e2e\save-load.spec.ts:100:1 › 损坏的旧版存档不阻止普通槽位加载
+[7/9] tests\e2e\save-load.spec.ts:114:1 › 存储失败明确提示且不覆盖原档或假报成功
+[8/9] tests\e2e\save-load.spec.ts:137:1 › 浏览器禁用本地存储时仍可游玩并收到存档失败提示
+[9/9] tests\e2e\save-load.spec.ts:152:1 › 战斗稳定回合可从直接入口保存并恢复，特效中禁用入口
+  9 passed (45.9s)

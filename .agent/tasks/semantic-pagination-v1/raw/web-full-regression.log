@@ -1,0 +1,44 @@
+$ playwright test
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 32 tests using 1 worker
+
+
+(node:11984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/32] tests\e2e\full-routes.spec.ts:476:1 › 赵黎路线以真实存档复现三场关键战斗胜败并通关
+[2/32] tests\e2e\full-routes.spec.ts:512:1 › 纪清寒路线由游方蛊医经公开行动通关
+[3/32] tests\e2e\full-routes.spec.ts:521:1 › 游方蛊医在苏莹路线无法击败墓主并进入对应结局
+[4/32] tests\e2e\full-routes.spec.ts:534:1 › 世家之子以固定随机结果完成苏莹真结局
+[5/32] tests\e2e\full-routes.spec.ts:543:1 › 乔无咎权谋路线无需战斗篡改即可完整通关
+[6/32] tests\e2e\full-routes.spec.ts:552:1 › 大雾超时选择可由真实页面解锁困墓结局
+[7/32] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 1366x768
+[8/32] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 1920x1080
+[9/32] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 844x390
+[10/32] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 667x375
+[11/32] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 568x320
+[12/32] tests\e2e\pagination.spec.ts:84:1 › 旋转、字体变化和存读档保持文字位置，旧存档从场景开头重读
+[13/32] tests\e2e\playthrough.spec.ts:84:1 › 七个剧情 CG 显示对应章节标题并可返回无人背景
+[14/32] tests\e2e\playthrough.spec.ts:118:1 › 主菜单到读档工具链均经过玩家公开操作
+[15/32] tests\e2e\playthrough.spec.ts:185:1 › 共通线选择可经真实页面推进到首场战斗
+[16/32] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 1366x768
+[17/32] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 844x390
+[18/32] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 667x375
+[19/32] tests\e2e\save-load.spec.ts:25:3 › 直接存读档显示章节、覆盖确认并恢复阅读 568x320
+[20/32] tests\e2e\save-load.spec.ts:81:1 › 六个普通槽位满时仍可读取旧版存档且不改动原数据
+[21/32] tests\e2e\save-load.spec.ts:100:1 › 损坏的旧版存档不阻止普通槽位加载
+[22/32] tests\e2e\save-load.spec.ts:114:1 › 存储失败明确提示且不覆盖原档或假报成功
+[23/32] tests\e2e\save-load.spec.ts:137:1 › 浏览器禁用本地存储时仍可游玩并收到存档失败提示
+[24/32] tests\e2e\save-load.spec.ts:152:1 › 战斗稳定回合可从直接入口保存并恢复，特效中禁用入口
+[25/32] tests\e2e\visual-art-expansion.spec.ts:267:1 › 全新上下文首页满足图片请求与传输预算
+[26/32] tests\e2e\visual-art-expansion.spec.ts:298:1 › 三页正式主视觉在四个合同视口保持可达且无全局溢出
+[27/32] tests\e2e\visual-art-expansion.spec.ts:342:1 › 六类玩家位图特效均先于敌方反击且回合可继续
+[28/32] tests\e2e\visual-art-expansion.spec.ts:372:1 › 减少动态与特效请求失败均保留文字反馈和下一回合
+[29/32] tests\e2e\visual-art-expansion.spec.ts:407:1 › 版本 6 存档缺少视觉元数据时仍由公开读档入口恢复
+[30/32] tests\e2e\visual-baseline.spec.ts:341:1 › 关键界面生成桌面视觉基线并保持布局安全
+[31/32] tests\e2e\visual-baseline.spec.ts:411:1 › 桌面边界与手机横竖屏生成可复现截图
+[32/32] tests\e2e\visual-baseline.spec.ts:447:1 › 键盘焦点与减少动态可自动验证
+  Slow test file: tests\e2e\full-routes.spec.ts (7.6m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  32 passed (10.9m)

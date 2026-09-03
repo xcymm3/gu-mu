@@ -1,0 +1,12 @@
+$ playwright test "tests/e2e/save-boundaries.spec.ts"
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 2 tests using 1 worker
+
+(node:32832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/2] tests\e2e\save-boundaries.spec.ts:5:1 › 战败结算保存显示终章并恢复结局，不会进入空白场景
+[2/2] tests\e2e\save-boundaries.spec.ts:33:1 › 自动与快进能推进完整句子，打开存档界面后均暂停
+  2 passed (8.9s)

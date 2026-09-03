@@ -1,0 +1,58 @@
+{
+  "task_id": "save-load-ui-v1",
+  "status": "PASS",
+  "criteria": {
+    "AC1": "PASS",
+    "AC2": "PASS",
+    "AC3": "PASS",
+    "AC4": "PASS",
+    "AC5": "PASS"
+  },
+  "gaps": [],
+  "code_commit": "d1bc5c126f1b1947f82e6a9616255bda03a2659d",
+  "remote": "https://github.com/xcymm3/gu-mu.git",
+  "branch": "master",
+  "checks": [
+    {
+      "command": "pnpm verify:fast",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_passed": 109,
+      "evidence": "../semantic-pagination-v1/raw/web-verification.log"
+    },
+    {
+      "command": "pnpm test:e2e:run",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_passed": 32,
+      "evidence": "../semantic-pagination-v1/raw/web-full-regression.log",
+      "note": "Full run before the isolated terminal-save restoration patch. Routes, story, pagination and combat rules unchanged by that patch."
+    },
+    {
+      "command": "pnpm test:e2e:run tests/e2e/save-boundaries.spec.ts tests/e2e/save-load.spec.ts tests/e2e/pagination.spec.ts tests/e2e/playthrough.spec.ts",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_passed": 20,
+      "evidence": "../semantic-pagination-v1/raw/final-targeted-regression.log",
+      "note": "Final source after the terminal-save patch and corrected zero-essence test fixture."
+    },
+    {
+      "command": "pnpm test:e2e:production",
+      "status": "PASS",
+      "exit_code": 0,
+      "tests_passed": 1,
+      "evidence": "raw/production-build-smoke.log",
+      "note": "Final production build served locally, not a remote deployment verification."
+    },
+    {
+      "command": "git push origin master; git rev-list --left-right --count HEAD...origin/master",
+      "status": "PASS",
+      "exit_code": 0,
+      "note": "Code commit pushed successfully; ahead 0, behind 0."
+    }
+  ],
+  "screenshots": [
+    "raw/save-desktop.png",
+    "raw/save-mobile.png"
+  ]
+}

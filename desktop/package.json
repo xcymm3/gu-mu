@@ -1,0 +1,9 @@
+{
+  "name": "xue-gu-yin-desktop",
+  "version": "0.2.0-rc.2",
+  "description": "血蛊引离线便携版",
+  "author": "xcymm3",
+  "private": true,
+  "type": "module",
+  "main": "main.mjs"
+}

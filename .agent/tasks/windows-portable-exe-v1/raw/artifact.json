@@ -1,0 +1,16 @@
+{
+  "executable": "dist\\desktop\\XueGuYin-0.2.0-rc.2-win-x64-portable.exe",
+  "bytes": 111129866,
+  "sha256": "d63864c7acb073bc121474ce8a782c4b605a64c1e76dca7b0b7d41afde085543",
+  "asarBytes": 151564,
+  "asarFiles": [
+    "/assets.mjs",
+    "/icon.ico",
+    "/main.mjs",
+    "/package.json",
+    "/storage.mjs"
+  ],
+  "sourceMatchesPackagedCode": true,
+  "staticFiles": 130,
+  "staticBytes": 13443697
+}

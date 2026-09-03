@@ -1,0 +1,126 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\mydoc\\React\\gu-mu-wu-xiu\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config=playwright.desktop.config.ts"
+    ],
+    "configFile": "D:\\mydoc\\React\\gu-mu-wu-xiu\\playwright.desktop.config.ts",
+    "rootDir": "D:/mydoc/React/gu-mu-wu-xiu/tests/desktop",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/mydoc/React/gu-mu-wu-xiu/test-results/desktop",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "D:/mydoc/React/gu-mu-wu-xiu/tests/desktop",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/desktop/report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "portable.spec.ts",
+      "file": "portable.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "便携 EXE 离线读取资源，重启及移动目录保留玩家存档",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 77329,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-03T01:40:08.769Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "summary",
+                      "contentType": "application/json",
+                      "body": "ewogICJleGVjdXRhYmxlIjogIkQ6XFxteWRvY1xcUmVhY3RcXGd1LW11LXd1LXhpdVxcZGlzdFxcZGVza3RvcFxcWHVlR3VZaW4tMC4yLjAtcmMuMi13aW4teDY0LXBvcnRhYmxlLmV4ZSIsCiAgIm9yaWdpbmFsIjogIkQ6XFxteWRvY1xcUmVhY3RcXGd1LW11LXd1LXhpdVxcdGVzdC1yZXN1bHRzXFxkZXNrdG9wXFxwb3J0YWJsZS3kvr/mkLotRVhFLeemu+e6v+ivu+WPlui1hOa6kO+8jOmHjeWQr+WPiuenu+WKqOebruW9leS/neeVmeeOqeWutuWtmOaho1xccnVuc1xccG9ydGFibGUtaWxPVHFuXFzljp/lp4vnm67lvZUgd2l0aCBzcGFjZXMiLAogICJtb3ZlZCI6ICJEOlxcbXlkb2NcXFJlYWN0XFxndS1tdS13dS14aXVcXHRlc3QtcmVzdWx0c1xcZGVza3RvcFxccG9ydGFibGUt5L6/5pC6LUVYRS3nprvnur/or7vlj5botYTmupDvvIzph43lkK/lj4rnp7vliqjnm67lvZXkv53nlZnnjqnlrrblrZjmoaNcXHJ1bnNcXHBvcnRhYmxlLWlsT1Rxblxc56e75Yqo5ZCO55qE55uu5b2VIiwKICAiYXVkaW8iOiB7CiAgICAic3RhdHVzIjogMjAwLAogICAgInNlY29uZHMiOiAxMAogIH0sCiAgImZhaWx1cmVzIjogW10sCiAgInByb2ZpbGVGaWxlcyI6IFsKICAgICJibG9iX3N0b3JhZ2UiLAogICAgIkNhY2hlIiwKICAgICJDb2RlIENhY2hlIiwKICAgICJEYXduR3JhcGhpdGVDYWNoZSIsCiAgICAiRGF3bldlYkdQVUNhY2hlIiwKICAgICJkZWNsYXJhdGl2ZV9wZXJmb3JtYW5jZV9vYnNlcnZlci5kYiIsCiAgICAiZGVjbGFyYXRpdmVfcGVyZm9ybWFuY2Vfb2JzZXJ2ZXIuZGItam91cm5hbCIsCiAgICAiRGV2VG9vbHNBY3RpdmVQb3J0IiwKICAgICJESVBTIiwKICAgICJHUFVDYWNoZSIsCiAgICAiTG9jYWwgU3RhdGUiLAogICAgIkxvY2FsIFN0b3JhZ2UiLAogICAgIk5ldHdvcmsiLAogICAgIlByZWZlcmVuY2VzIiwKICAgICJTZXNzaW9uIFN0b3JhZ2UiLAogICAgIlNoYXJlZCBEaWN0aW9uYXJ5IgogIF0sCiAgInNhdmVkU2NlbmUiOiAiZ2F0ZSIsCiAgImxhdW5jaGVzIjogMwp9"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c79a3b05e7f67b52c1b1-d4acde9a4b39633a0dc8",
+          "file": "portable.spec.ts",
+          "line": 10,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-03T01:40:07.737Z",
+    "duration": 78460.009,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task_id": "windows-portable-exe-v1",
+  "status": "PASS",
+  "verified_at": "2026-09-03T09:41:50+08:00",
+  "criteria": [
+    { "id": "AC1", "status": "PASS", "evidence": ["raw/desktop-pack.log", "raw/artifact.json"] },
+    { "id": "AC2", "status": "PASS", "evidence": ["raw/desktop-report.json", "raw/portable-home.png", "raw/portable-cg.png", "raw/portable-game.png"] },
+    { "id": "AC3", "status": "PASS", "evidence": ["raw/desktop-report.json", "raw/portable-moved-save.png", "raw/unit-tests.log", "../../../desktop/main.mjs"] },
+    { "id": "AC4", "status": "PASS", "evidence": ["raw/unit-tests.log", "raw/desktop-report.json"] },
+    { "id": "AC5", "status": "PASS", "evidence": ["raw/unit-tests.log", "raw/lint.log", "raw/desktop-pack.log", "raw/desktop-smoke.log", "raw/web-smoke.log", "raw/artifact.json"] }
+  ],
+  "gaps": [],
+  "limitations": ["Windows 10/11 x64 only", "Unsigned executable", "Manual updates", "Browser saves are not automatically imported", "Full route and ending playthroughs were not rerun for this packaging task"]
+}

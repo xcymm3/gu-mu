@@ -1281,7 +1281,7 @@ function MainMenu({ onArchive, onSaves, onSettings, onStart, saveSlots, unlocked
 function SaveArchive({ onBack, onLoad, saveSlots }: { onBack: () => void; onLoad: (slot: SaveSlot) => void; saveSlots: SaveSlots }) {
   return <main className="game-shell archive-shell"><ViewArtwork assetKey="ui.saves" /><section className="game-frame archive-card save-archive" aria-labelledby="save-title">
     <header className="menu-page-header"><button className="back-button" onClick={onBack}>返回</button><div><p className="eyebrow">六卷行迹</p><h1 id="save-title">读取存档</h1></div></header>
-    <p className="save-archive-copy">存档只保存于当前浏览器。读取任意一卷，将从该处继续行走。</p>
+    <p className="save-archive-copy">存档保存在当前应用中，不会自动跨设备同步。读取任意一卷，将从该处继续行走。</p>
     <div className="save-archive-list">{saveSlots.map((slot, index) => {
       const label = slot ? saveSlotLabel(slot) : null;
       return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><button className="slot-load-button" type="button" disabled={!slot} onClick={() => slot && onLoad(slot)}>读取</button></article>;
@@ -1293,7 +1293,7 @@ function GameMenu({ onClose, onLoad, onMenu, onSave, saveSlots }: { onClose: () 
   const dialogRef = useModalFocus<HTMLElement>(true, onClose);
   return <div className="game-menu-backdrop" role="presentation" onClick={onClose}><section className="game-menu-dialog" ref={dialogRef} role="dialog" aria-modal="true" aria-label="游戏菜单" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
     <header><div><p className="eyebrow">行囊卷轴</p><h2>游戏菜单</h2></div><button autoFocus className="game-menu-close" type="button" aria-label="关闭游戏菜单" onClick={onClose}>×</button></header>
-    <p className="game-menu-copy">存档仅保存在此浏览器与此设备中。读取存档会放弃当前未保存的进度。</p>
+    <p className="game-menu-copy">存档保存在当前应用中，不会自动跨设备同步。读取存档会放弃当前未保存的进度。</p>
     <div className="save-slot-list" aria-label="六个存档位">{saveSlots.map((slot, index) => {
       const label = slot ? saveSlotLabel(slot) : null;
       return <article className={`save-slot${slot ? " is-occupied" : ""}`} key={index}><div><span>存档 {index + 1}</span><strong>{label?.role ?? "空白卷轴"}</strong><small>{slot ? `${label?.scene} · ${formatSaveTime(slot.savedAt)}` : "尚未留下任何行迹"}</small></div><nav><button className="slot-save-button" type="button" onClick={() => onSave(index)}>存入</button>{slot ? <button className="slot-load-button" type="button" onClick={() => onLoad(slot)}>读取</button> : null}</nav></article>;

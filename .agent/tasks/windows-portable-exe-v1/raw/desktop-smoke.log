@@ -1,0 +1,10 @@
+$ playwright test --config=playwright.desktop.config.ts
+
+Running 1 test using 1 worker
+
+(node:3508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/1] tests\desktop\portable.spec.ts:10:1 › 便携 EXE 离线读取资源，重启及移动目录保留玩家存档
+  1 passed (1.3m)

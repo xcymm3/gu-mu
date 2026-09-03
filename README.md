@@ -24,7 +24,7 @@ pnpm dev
 - 鼠标右键：隐藏／恢复界面
 - 滚轮向上／向下：历史记录／推进文本
 
-自动播放与快进会在选项、战斗和覆盖层处暂停。快速存档独立于六个手动存档位，所有记录只保存在当前浏览器。
+自动播放与快进会在选项、战斗和覆盖层处暂停。快速存档独立于六个手动存档位；网页版记录保存在当前浏览器，Windows 便携版记录保存在 EXE 同目录的数据文件夹中。
 
 声音会在首次点击后启动。设置页可分别调整总音量、背景音乐、环境声音和界面／战斗音效，也可一键静音。背景音乐、环境声和音效均为仓库内原创本地资源，不依赖外部音频服务；加载或解码失败时会自动降级为轻量合成反馈，不阻断阅读。
 
@@ -47,3 +47,15 @@ pnpm install:e2e:browser
 ## Android 应用
 
 `android/` 目录包含锁定横屏、沉浸式全屏的原生 WebView 外壳，启动后直接加载 [https://adv.xcymm3.top](https://adv.xcymm3.top)。详细的 APK 下载、Android Studio 构建与发布签名说明见 [android/README.md](android/README.md)。
+
+## Windows 便携版
+
+在 Windows x64 上执行：
+
+```bash
+pnpm install
+pnpm desktop:pack
+pnpm test:desktop
+```
+
+生成物为 `dist/desktop/XueGuYin-<版本>-win-x64-portable.exe`。双击即可离线游玩，不需要安装 Node.js、浏览器或 Web 服务。使用、存档备份、构建依赖及测试说明见 [desktop/README.md](desktop/README.md)。

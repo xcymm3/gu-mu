@@ -1,0 +1,46 @@
+$ pnpm build && install-electron && electron-builder --config electron-builder.json --win portable --x64 --publish never
+$ next build
+▲ Next.js 16.3.0 (Turbopack)
+✓ Running next.config.ts took 51ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1098ms
+  Running TypeScript ...
+  Finished TypeScript in 4.3s ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5)
+  Generating static pages using 6 workers (2/5)
+  Generating static pages using 6 workers (3/5)
+✓ Generating static pages using 6 workers (5/5) in 991ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+└ ○ /release.json
+
+
+○  (Static)  prerendered as static content
+
+  • electron-builder  version=26.15.3 os=10.0.26200
+  • loaded configuration  file=D:\mydoc\React\gu-mu-wu-xiu\electron-builder.json
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=win32 arch=x64 electron=44.1.1 appOutDir=dist\desktop\win-unpacked
+  • using custom unpacked Electron distribution  electronDist=node_modules\electron\dist
+  • copying unpacked Electron  source=D:\mydoc\React\gu-mu-wu-xiu\node_modules\electron\dist destination=D:\mydoc\React\gu-mu-wu-xiu\dist\desktop\win-unpacked
+  • searching for node modules  pm=pnpm searchDir=D:\mydoc\React\gu-mu-wu-xiu\desktop
+  • no node modules found in collection, trying next search directory  searchDir=D:\mydoc\React\gu-mu-wu-xiu\desktop attempt=0
+  • searching for node modules  pm=pnpm searchDir=D:\mydoc\React\gu-mu-wu-xiu
+  • searching for node modules  pm=traversal searchDir=D:\mydoc\React\gu-mu-wu-xiu\desktop
+  • using manual traversal of node_modules to build dependency tree
+  • no node modules found in collection, trying next search directory  searchDir=D:\mydoc\React\gu-mu-wu-xiu\desktop attempt=0
+  • searching for node modules  pm=traversal searchDir=D:\mydoc\React\gu-mu-wu-xiu
+  • using manual traversal of node_modules to build dependency tree
+  • missing optional dependencies  dependencies=["@img/sharp-darwin-arm64@0.35.3","@img/sharp-darwin-x64@0.35.3","@img/sharp-freebsd-wasm32@0.35.3","@img/sharp-libvips-darwin-arm64@1.3.2","@img/sharp-libvips-darwin-x64@1.3.2","@img/sharp-libvips-linux-arm@1.3.2","@img/sharp-libvips-linux-arm64@1.3.2","@img/sharp-libvips-linux-ppc64@1.3.2","@img/sharp-libvips-linux-riscv64@1.3.2","@img/sharp-libvips-linux-s390x@1.3.2","@img/sharp-libvips-linux-x64@1.3.2","@img/sharp-libvips-linuxmusl-arm64@1.3.2","@img/sharp-libvips-linuxmusl-x64@1.3.2","@img/sharp-linux-arm@0.35.3","@img/sharp-linux-arm64@0.35.3","@img/sharp-linux-ppc64@0.35.3","@img/sharp-linux-riscv64@0.35.3","@img/sharp-linux-s390x@0.35.3","@img/sharp-linux-x64@0.35.3","@img/sharp-linuxmusl-arm64@0.35.3","@img/sharp-linuxmusl-x64@0.35.3","@img/sharp-webcontainers-wasm32@0.35.3","@img/sharp-win32-arm64@0.35.3","@img/sharp-win32-ia32@0.35.3","@next/swc-darwin-arm64@16.3.0","@next/swc-darwin-x64@16.3.0","@next/swc-linux-arm64-gnu@16.3.0","@next/swc-linux-arm64-musl@16.3.0","@next/swc-linux-x64-gnu@16.3.0","@next/swc-linux-x64-musl@16.3.0","@next/swc-win32-arm64-msvc@16.3.0"]
+  • updating asar integrity executable resource  executablePath=dist\desktop\win-unpacked\XueGuYin.exe
+  • signing with signtool.exe  path=dist\desktop\win-unpacked\XueGuYin.exe
+  • building        target=portable file=dist\desktop\XueGuYin-0.2.0-rc.2-win-x64-portable.exe archs=x64
+  • signing with signtool.exe  path=dist\desktop\win-unpacked\resources\elevate.exe
+  • signing with signtool.exe  path=dist\desktop\XueGuYin-0.2.0-rc.2-win-x64-portable.exe

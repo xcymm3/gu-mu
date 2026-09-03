@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "top.xcymm3.xueguyin",
+  "productName": "血蛊引",
+  "directories": { "app": "desktop", "buildResources": "desktop", "output": "dist/desktop" },
+  "files": ["*.mjs", "icon.ico", "!node_modules/**/*"],
+  "extraResources": [{ "from": "out", "to": "web", "filter": ["**/*"] }],
+  "asar": true,
+  "electronDist": "node_modules/electron/dist",
+  "npmRebuild": false,
+  "compression": "normal",
+  "win": {
+    "target": [{ "target": "portable", "arch": ["x64"] }],
+    "icon": "desktop/icon.ico",
+    "executableName": "XueGuYin",
+    "artifactName": "XueGuYin-${version}-win-${arch}-portable.${ext}"
+  },
+  "portable": { "requestExecutionLevel": "user", "unpackDirName": true }
+}

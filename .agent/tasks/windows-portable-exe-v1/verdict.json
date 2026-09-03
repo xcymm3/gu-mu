@@ -1,0 +1,9 @@
+{
+  "task_id": "windows-portable-exe-v1",
+  "status": "PASS",
+  "verified_at": "2026-09-03T09:41:50+08:00",
+  "verification": "Fresh command reruns and current packaged-source/artifact inspection",
+  "acceptance": { "AC1": "PASS", "AC2": "PASS", "AC3": "PASS", "AC4": "PASS", "AC5": "PASS" },
+  "problems": [],
+  "artifact_sha256": "d63864c7acb073bc121474ce8a782c4b605a64c1e76dca7b0b7d41afde085543"
+}

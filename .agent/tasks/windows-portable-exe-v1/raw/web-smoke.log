@@ -1,0 +1,12 @@
+$ playwright test "tests/e2e/playthrough.spec.ts" "--grep" "七个剧情 CG|主菜单到读档工具链" "--reporter=line"
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 2 tests using 1 worker
+
+(node:25672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/2] tests\e2e\playthrough.spec.ts:84:1 › 七个剧情 CG 显示对应章节标题并可返回无人背景
+[2/2] tests\e2e\playthrough.spec.ts:118:1 › 主菜单到读档工具链均经过玩家公开操作
+  2 passed (20.6s)

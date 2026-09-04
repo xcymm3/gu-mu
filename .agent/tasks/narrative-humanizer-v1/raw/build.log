@@ -1,0 +1,26 @@
+Command: pnpm build
+Exit code: 0
+$ next build
+▲ Next.js 16.3.0 (Turbopack)
+✓ Running next.config.ts took 181ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.6s
+  Running TypeScript ...
+  Finished TypeScript in 7.7s ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/5) ...
+  Generating static pages using 6 workers (1/5)
+  Generating static pages using 6 workers (2/5)
+  Generating static pages using 6 workers (3/5)
+✓ Generating static pages using 6 workers (5/5) in 2.4s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /icon.svg
+└ ○ /release.json
+
+
+○  (Static)  prerendered as static content

@@ -1,0 +1,60 @@
+{
+  "task_id": "narrative-humanizer-v1",
+  "status": "PASS",
+  "baseline": "cd2057f49ce757380d342df2a14a8f243aa49ff5",
+  "criteria": [
+    {
+      "id": "AC1",
+      "status": "PASS",
+      "evidence": [
+        "raw/editorial-review.md",
+        "raw/structure.json"
+      ],
+      "summary": "替换第一幕中、信息差与更静止的表述"
+    },
+    {
+      "id": "AC2",
+      "status": "PASS",
+      "evidence": [
+        "raw/editorial-review.md",
+        "raw/unit.log",
+        "raw/e2e-final.log"
+      ],
+      "summary": "精修共通线并保留线索及脱险方式"
+    },
+    {
+      "id": "AC3",
+      "status": "PASS",
+      "evidence": [
+        "raw/editorial-review.md",
+        "raw/unit.log",
+        "raw/e2e-final.log"
+      ],
+      "summary": "机关限制与因果保留，乔无咎十二节点在两种视口逐页比对通过"
+    },
+    {
+      "id": "AC4",
+      "status": "PASS",
+      "evidence": [
+        "raw/structure.json",
+        "raw/source-hashes.json",
+        "raw/routes-first-build.json"
+      ],
+      "summary": "评判式旁白精修，非文案结构与基线一致"
+    },
+    {
+      "id": "AC5",
+      "status": "PASS",
+      "evidence": [
+        "raw/unit.log",
+        "raw/lint.log",
+        "raw/build.log",
+        "raw/e2e-first-build.log",
+        "raw/e2e-final.log",
+        "raw/package-hashes.json"
+      ],
+      "summary": "111 单测、lint、build、23 项流程回归及最终 8 项逐页回归通过"
+    }
+  ],
+  "gaps": []
+}

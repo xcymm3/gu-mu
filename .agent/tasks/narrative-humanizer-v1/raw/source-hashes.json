@@ -1,0 +1,46 @@
+[
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\features\\xue-gu-yin\\XueGuYinGame.tsx",
+    "Hash": "957F13FFD9E701F3EC7CFEFFB86D33086BA275507743F3551F924937F0FA85F4"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\lib\\xue-gu-yin\\story\\common\\choices.ts",
+    "Hash": "51245B37402AD7B7F23A29E95CD23C722BAFF0ED5CAF2D95CFAF4104B1D89A01"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\lib\\xue-gu-yin\\story\\events\\act1.ts",
+    "Hash": "9224B529E2CC3EA54C5F39C2CB33298E983224AB1E223629CE83DCEAC1F8744B"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\lib\\xue-gu-yin\\story\\events\\act2.ts",
+    "Hash": "AFED36E93A69DA6F7D06C38335A650751B6E39E07662BDE36BF7071579C4360C"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\lib\\xue-gu-yin\\story\\routes\\ji.ts",
+    "Hash": "DBADF2B10780D963C27D656EA99410069B9189A3944C2F877B195F6A568845FA"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\lib\\xue-gu-yin\\story\\routes\\traitor.ts",
+    "Hash": "04C7425018036668C793CE4F9B3EE3B82D13C98DD7FFD87DDF84E724340ADA2C"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\lib\\xue-gu-yin\\story\\routes\\zhao.ts",
+    "Hash": "D688D44ED78A9D92606E64AEFA6C12F219E763AF5E6CA03FB5B1D1F0B7F1B877"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\tests\\game.test.ts",
+    "Hash": "AE2EB673D31892C0D911B18E98E2E728970AE2F203BCEBA73C0A3B6B4D7D4B0D"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\tests\\pagination.test.ts",
+    "Hash": "E50FE6160C7070FCBEB0B5D01A1B5D5E5027EFB7938D3D8D32E7B04BB9370E3C"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\tests\\e2e\\pagination.spec.ts",
+    "Hash": "85B6347ECC2618A9F144CED1D7CF6274EE684453C1C7A27AC6F0AF6E7C141E43"
+  },
+  {
+    "Path": "D:\\mydoc\\React\\gu-mu-wu-xiu\\tests\\e2e\\narrative-copy.spec.ts",
+    "Hash": "5AD838A8493718AA51AF9C3B9719BEE085B778211AE28635EBF25771BCBDE009"
+  }
+]

@@ -1,0 +1,91 @@
+Command: pnpm test:e2e:run tests/e2e/narrative-copy.spec.ts tests/e2e/pagination.spec.ts --workers=2
+Cause: new harness expected a choice panel on single-choice locked routes; corrected to stop after the complete final source beat.
+[3/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 1920x1080
+  1) tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 1366x768 ──────────────────────────────
+
+    Error: traitorKnife: duplicate 6:0
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      49 |         });
+      50 |         const key = `${frame.beat}:${frame.offset}`;
+    > 51 |         expect(seen.has(key), `${sceneId}: duplicate ${key}`).toBe(false);
+         |                                                               ^
+      52 |         seen.add(key);
+      53 |         expect(frame.scrollHeight, sceneId).toBeLessThanOrEqual(frame.height + 1);
+      54 |         expect(frame.scrollWidth, sceneId).toBeLessThanOrEqual(frame.width + 1);
+        at D:\mydoc\React\gu-mu-wu-xiu\tests\e2e\narrative-copy.spec.ts:51:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-1366x768\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-1366x768\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-1366x768\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-1366x768\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-1366x768\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:10168) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/8] tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 844x390
+[5/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 844x390
+[6/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 667x375
+[7/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 568x320
+  2) tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 844x390 ───────────────────────────────
+
+    Error: traitorKnife: duplicate 6:0
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      49 |         });
+      50 |         const key = `${frame.beat}:${frame.offset}`;
+    > 51 |         expect(seen.has(key), `${sceneId}: duplicate ${key}`).toBe(false);
+         |                                                               ^
+      52 |         seen.add(key);
+      53 |         expect(frame.scrollHeight, sceneId).toBeLessThanOrEqual(frame.height + 1);
+      54 |         expect(frame.scrollWidth, sceneId).toBeLessThanOrEqual(frame.width + 1);
+        at D:\mydoc\React\gu-mu-wu-xiu\tests\e2e\narrative-copy.spec.ts:51:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-844x390\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-844x390\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-844x390\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-844x390\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\playwright\narrative-copy-精修门槛与乔无咎全线正文逐页无损-844x390\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[8/8] tests\e2e\pagination.spec.ts:84:1 › 旋转、字体变化和存读档保持文字位置，旧存档从场景开头重读
+  2 failed
+    tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 1366x768 ───────────────────────────────
+    tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 844x390 ────────────────────────────────
+  6 passed (59.3s)
+[ELIFECYCLE] Command failed with exit code 1.

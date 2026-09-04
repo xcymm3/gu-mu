@@ -64,7 +64,7 @@ for (const viewport of [{ width: 1366, height: 768 }, { width: 1920, height: 108
     for (const [index, beat] of gate.beats.entries()) {
       expect(compact(frames.filter((frame) => frame.beat === index).map((frame) => frame.text).join(""))).toBe(compact(beat.text));
     }
-    expect(frames.some((frame) => frame.text.includes("古老阴森的石门前，稀稀落落站着六名气息各异的散修。"))).toBe(true);
+    expect(frames.some((frame) => frame.text.includes("古老的石门前，六名散修各自站定，气息强弱不一。"))).toBe(true);
     // Choice feedback uses the exact same semantic/layout paginator.
     await page.getByRole("navigation", { name: "剧情选项" }).getByRole("button").first().click();
     const result = [];

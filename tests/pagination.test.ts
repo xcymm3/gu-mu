@@ -20,8 +20,8 @@ test("保留作者段落并且一页最多两个句子，允许留白", () => {
   assert.ok(event.type === "narration");
   const text = event.text;
   const pages = paginateNarrative(text, (text) => text.length <= 52);
-  assert.equal(pages[0].text, "黑风呼啸，暴雨倾盆。荒原上的蛊市早已散尽，空气中弥漫着刺骨的寒意与微弱的腥臭。");
-  assert.ok(pages.some((page) => page.text.includes("古老阴森的石门前，稀稀落落站着六名气息各异的散修。")));
+  assert.equal(pages[0].text, "黑风呼啸，暴雨倾盆。荒原上的蛊市早已散尽，冷风里带着淡淡腥臭。");
+  assert.ok(pages.some((page) => page.text.includes("古老的石门前，六名散修各自站定，气息强弱不一。")));
   assert.ok(pages.every((page) => !page.text.endsWith("，")));
 });
 

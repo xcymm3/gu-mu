@@ -1,0 +1,29 @@
+{
+  "task_id": "narrative-humanizer-v1",
+  "status": "PASS",
+  "verification": "当前源文人工复核、非文案结构对比及最终命令结果；初轮 23 项流程回归与末轮 8 项补充检查分开记录",
+  "criteria": [
+    {
+      "id": "AC1",
+      "status": "PASS"
+    },
+    {
+      "id": "AC2",
+      "status": "PASS"
+    },
+    {
+      "id": "AC3",
+      "status": "PASS"
+    },
+    {
+      "id": "AC4",
+      "status": "PASS"
+    },
+    {
+      "id": "AC5",
+      "status": "PASS"
+    }
+  ],
+  "problems": [],
+  "scope": "仅网页剧情文案与相关回归测试，安装包不变"
+}

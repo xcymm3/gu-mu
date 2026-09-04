@@ -1,0 +1,48 @@
+{
+  "baseline": "cd2057f49ce757380d342df2a14a8f243aa49ff5",
+  "status": "PASS",
+  "results": [
+    {
+      "file": "lib/xue-gu-yin/story/events/act1.ts",
+      "status": "PASS",
+      "beforeCharacters": 5940,
+      "afterCharacters": 5037
+    },
+    {
+      "file": "lib/xue-gu-yin/story/events/act2.ts",
+      "status": "PASS",
+      "beforeCharacters": 16527,
+      "afterCharacters": 15800
+    },
+    {
+      "file": "lib/xue-gu-yin/story/common/choices.ts",
+      "status": "PASS",
+      "beforeCharacters": 11276,
+      "afterCharacters": 9681
+    },
+    {
+      "file": "lib/xue-gu-yin/story/routes/traitor.ts",
+      "status": "PASS",
+      "beforeCharacters": 19140,
+      "afterCharacters": 18043
+    },
+    {
+      "file": "lib/xue-gu-yin/story/routes/ji.ts",
+      "status": "PASS",
+      "beforeCharacters": 18493,
+      "afterCharacters": 18495
+    },
+    {
+      "file": "lib/xue-gu-yin/story/routes/zhao.ts",
+      "status": "PASS",
+      "beforeCharacters": 15668,
+      "afterCharacters": 15584
+    },
+    {
+      "file": "features/xue-gu-yin/XueGuYinGame.tsx",
+      "status": "PASS",
+      "beforeCharacters": 75563,
+      "afterCharacters": 75561
+    }
+  ]
+}

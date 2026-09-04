@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "command": "Get-FileHash -Algorithm SHA256",
+  "results": [
+    {
+      "file": "dist/android/XueGuYin-0.2.0-rc.2-android-offline-pagination-v1.apk",
+      "beforeSha256": "E758E1357887411516E4EA2381C9E80EE6D8FF7FF6DFC3CC9C5E1A034C5D41D8",
+      "afterSha256": "E758E1357887411516E4EA2381C9E80EE6D8FF7FF6DFC3CC9C5E1A034C5D41D8",
+      "status": "PASS"
+    },
+    {
+      "file": "dist/desktop-pagination-v1/XueGuYin-0.2.0-rc.2-win-x64-pagination-v1-portable.exe",
+      "beforeSha256": "60CAD999CBCE3C0A87FBAEDC829B3FCE492B8ED91A0B96089FD5B34D8B89F6A7",
+      "afterSha256": "60CAD999CBCE3C0A87FBAEDC829B3FCE492B8ED91A0B96089FD5B34D8B89F6A7",
+      "status": "PASS"
+    },
+    {
+      "file": "dist/desktop/XueGuYin-0.2.0-rc.2-win-x64-portable.exe",
+      "beforeSha256": "D63864C7ACB073BC121474CE8A782C4B605A64C1E76DCA7B0B7D41AFDE085543",
+      "afterSha256": "D63864C7ACB073BC121474CE8A782C4B605A64C1E76DCA7B0B7D41AFDE085543",
+      "status": "PASS"
+    },
+    {
+      "file": "dist/android/XueGuYin-0.2.0-rc.2-android-offline.apk",
+      "beforeSha256": "FE377EE0E977F6B9ED00B5045A256B0923B967DEF91E9D3887C743670A651655",
+      "afterSha256": "FE377EE0E977F6B9ED00B5045A256B0923B967DEF91E9D3887C743670A651655",
+      "status": "PASS"
+    }
+  ]
+}

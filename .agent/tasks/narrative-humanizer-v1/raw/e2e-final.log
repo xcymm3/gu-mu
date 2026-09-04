@@ -1,0 +1,25 @@
+Command: pnpm test:e2e:run tests/e2e/narrative-copy.spec.ts tests/e2e/pagination.spec.ts --workers=2
+Build: final editorial copy
+Exit code: 0
+$ playwright test "tests/e2e/narrative-copy.spec.ts" "tests/e2e/pagination.spec.ts" "--workers=2"
+Serving Next.js static export at http://127.0.0.1:4173
+
+Running 8 tests using 2 workers
+
+(node:31836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:34864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 1366x768
+[2/8] tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 1366x768
+[3/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 1920x1080
+[4/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 844x390
+[5/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 667x375
+[6/8] tests\e2e\narrative-copy.spec.ts:9:3 › 精修门槛与乔无咎全线正文逐页无损 844x390
+[7/8] tests\e2e\pagination.spec.ts:44:3 › 完整句子分页与开局全文无损 568x320
+[8/8] tests\e2e\pagination.spec.ts:84:1 › 旋转、字体变化和存读档保持文字位置，旧存档从场景开头重读
+  8 passed (1.0m)

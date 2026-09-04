@@ -7,6 +7,33 @@ import { applyChoice, canChoose, chooseRole, endingAccess, endings, getEnemyCond
 import { appendBacklog, autoAdvanceDelay, canRunReadingMode, readingFrameKey } from "../lib/xue-gu-yin/reading.ts";
 import { actFiveRouteSceneIds, actFourRouteSceneIds, actThreeRouteSceneIds } from "../lib/xue-gu-yin/story/routes/contract.ts";
 
+test("文案精修保留门槛脱险与幻境观察的关键线索", () => {
+  const state = chooseRole();
+  const threshold = resolveScenePresentation(state, scenes.bloodThreshold);
+  assert.match(threshold.text, /四条.*毒蛊.*三条毒蛊.*第四条.*手腕与剑柄.*倒钩.*门框石孔/s);
+  assert.match(threshold.choices[0].result ?? "", /双掌向上托去.*纪清寒.*绞碎毒蛊.*斩断.*倒钩.*向门内滚去/s);
+  assert.match(threshold.choices[1].result ?? "", /真元点向.*毒蛊.*制动齿轮.*越过门槛时拔回长剑/s);
+  const observation = resolveScenePresentation(state, scenes.illusion).choices.find((choice) => choice.id === "illusion-scheme")!.result!;
+  assert.match(observation, /赵黎.*护住血纹蛊.*薛逢.*清点财物.*苏莹.*音节.*驱退噬魂蛊/s);
+  assert.doesNotMatch(observation, /信息差|比言语更难伪装/);
+  assert.doesNotMatch(resolveScenePresentation(state, scenes.jiArrayTruth).text, /第一幕中/);
+});
+
+test("乔无咎线精修保留主副台限制与逃生失败的因果", () => {
+  const state = chooseRole();
+  const text = (id: string) => resolveScenePresentation(state, scenes[id]).text;
+  assert.match(text("traitorBargain"), /落脚轻重与所在路段.*声音和景象却传不过来/s);
+  assert.match(text("traitorBargain"), /守着主台开内门.*同时拨动副台.*一个人顾不过来/s);
+  assert.match(text("traitorOath"), /主印一退.*引路线就会锁死.*副台逆转.*内门也会卡住.*互锁便会解除/s);
+  assert.match(text("traitorControlRoom"), /传声孔.*回声廊.*亲自对着孔口说话/s);
+  assert.match(text("traitorTrapJi"), /外门归副台控制.*内门则连着乔无咎的主印.*两边同时动作/s);
+  assert.match(text("traitorSacrificeSu"), /旁枢凹槽空着.*手掌完好.*抽不出来.*苏氏石环仍不受你们操纵/s);
+  assert.match(text("traitorZhaoArrives"), /检修道.*旧路.*从未接入主副台/s);
+  assert.match(text("traitorBloodTaken"), /血魔蛊还没认主.*止在祭阵外环/s);
+  assert.match(text("traitorDiscarded"), /薛逢临死前也没交代次序.*不知该从哪处开始/s);
+  assert.match(text("traitorDeath"), /找不到副印槽和暗扣.*机括都在墙外/s);
+});
+
 test("阅读帧键稳定且正文变化会生成新键", () => {
   const first = readingFrameKey("gate", 0, 0, "夜雨落在墓门前。");
   assert.equal(first, readingFrameKey("gate", 0, 0, "夜雨落在墓门前。"));
@@ -139,7 +166,7 @@ test("第一幕三个节点均使用原生阅读事件", () => {
   }
   const gate = resolveScenePresentation(chooseRole(), scenes.gate);
   assert.equal(storyMeta.subtitle, "夜雨蛊市 · 六人入墓");
-  assert.ok(gate.text.includes("站着六名气息各异的散修"));
+  assert.match(gate.text, /石门前，六名散修/);
   assert.ok(gate.text.includes("黑风呼啸，暴雨倾盆"));
   assert.ok(gate.text.includes("老夫耗费数载方才查实"));
   assert.ok(!gate.text.includes("**"));
@@ -148,19 +175,19 @@ test("第一幕三个节点均使用原生阅读事件", () => {
     "按紧发烫的旧玉，静待墓门蛊纹下一次微光闪烁",
   ]);
   const [gatePowerResult, gateInsightResult] = gate.choices.map((choice) => choice.result ?? "");
-  assert.match(gatePowerResult, /少年模样的血修.*本命蛊能压过他一头/s);
-  assert.match(gateInsightResult, /苏莹也在同一时刻察觉到了蛊纹的变化.*眼下还无法判断/s);
+  assert.match(gatePowerResult, /少年模样的血修.*本命蛊能否压过他一头/s);
+  assert.match(gateInsightResult, /与旧玉的律动恰好相合.*苏莹的指尖也在这时停住.*苏莹没有开口，你也暂不追问/s);
   assert.doesNotMatch(`${gatePowerResult}${gateInsightResult}`, /赵黎指间的血纹蛊只显露了片刻威势|你没有声张，只把两处异常一并记在心里/);
   const rainMark = resolveScenePresentation(chooseRole(), scenes.rainMark);
-  assert.ok(rainMark.text.includes("跨过那道幽暗如墨的石门后"));
+  assert.match(rainMark.text, /跨过石门.*石阶.*暗红纹路.*针眼大小的细孔/s);
   assert.ok(!rainMark.text.includes("远超同阶"));
   assert.deepEqual(rainMark.choices.map((choice) => choice.label), [
     "突然出声喊住薛逢，指明蛊纹下隐藏的剧毒针孔，劝众人贴着石壁边缘绕行",
     "佯装不知，冷眼旁观薛逢踩中机关，借此探明这暗器禁制的具体威力与范围",
   ]);
   const bloodThreshold = resolveScenePresentation(chooseRole(), scenes.bloodThreshold);
-  assert.ok(bloodThreshold.text.includes("这道沉闷湿冷的狭长石阶延伸了约莫三四十丈深"));
-  assert.ok(bloodThreshold.text.includes("圆脸汉子薛逢以及少女苏莹"));
+  assert.match(bloodThreshold.text, /石阶盘旋向下.*三四十丈/s);
+  assert.match(bloodThreshold.text, /乔无咎、赵黎、薛逢和苏莹已经先后入内/);
   assert.doesNotMatch(bloodThreshold.text, /受伤的剑腕|虎口旧伤|嗅到血气|侵蚀着她的气血脉络|瞬间脱轨/);
   assert.deepEqual(bloodThreshold.choices.map((choice) => choice.label), [
     "运转真元，催动本命蛊托住坠落的石闸",
@@ -376,7 +403,7 @@ test("每条个人线固定包含两个只改变对话的二选一节点", () =>
 
 test("第三幕四条路线保持各自的人物主旨", () => {
   const expectations = [
-    ["zhao", "zhaoLesson", "赵黎", "力量"],
+    ["zhao", "zhaoLesson", "赵黎", "压制旧血中的死气"],
     ["ji", "jiPromise", "纪清寒", "至亲"],
     ["su", "suInscription", "苏莹", "蛊不可祭"],
     ["traitor", "traitorKnife", "薛逢", "本命蛊"],
